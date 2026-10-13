@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>三种角色 · 真实战斗帧</title><link rel="icon" href="../favicon.svg"><style>
+*{box-sizing:border-box}body{margin:0;padding:24px;background:#0c1016;color:#e9edf5;font:14px 'Segoe UI','Microsoft YaHei',sans-serif}header,.grid,details{max-width:1240px;margin:auto}h1{font-size:24px;margin:0 0 8px}header p{color:#8b9bb0;margin:0 0 24px;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}article{background:#151d28;border:1px solid #303d51;border-radius:9px;overflow:hidden}h2{font-size:15px;margin:14px 15px 5px}article p{font-size:11px;color:#9aabc2;margin:0 15px 12px;line-height:1.6;min-height:36px}canvas{display:block;width:100%;aspect-ratio:18/17}pre{white-space:pre-wrap;color:#a2d19c;font:11px Consolas,monospace}details{margin-top:18px}@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:440px){.grid{grid-template-columns:1fr}}
+</style></head><body><header><h1>腐蚀循环 · 动能突击 · 弧刃连携</h1><p>六张画面来自实际种子对局，步进到对应机制触发后暂停。小球常驻光晕已移除，原有拖尾保留；技能触发时仍有独立反馈。</p></header><div class="grid" id="grid"></div><details><summary>查看验证数据</summary><pre id="results">正在捕获…</pre></details>
+<script src="../js/config.js?v=20261013-ricochet5"></script><script src="../js/physics.js?v=20261013-ricochet5"></script><script src="../js/skills.js?v=20261013-ricochet5"></script><script src="../js/world.js?v=20261013-ricochet5"></script><script src="../js/characters.js?v=20261013-ricochet5"></script><script src="../js/awakening.js?v=20261013-ricochet5"></script><script src="../js/engine.js?v=20261013-ricochet5"></script><script src="../js/spectacle.js?v=20261013-ricochet5"></script><script src="../js/renderer.js?v=20261013-ricochet5"></script><script>
+'use strict';const G=window.OrbDuel,report=[];
+const phases=[
+ ['venom','fullPoison','腐蚀叠层','碰撞与毒池共同叠层；三个毒点表示已满层。',e=>e.balls[1].poison?.owner===0&&e.balls[1].poison.stacks===3],
+ ['venom','toxinBurst','满毒引爆','满层消耗后爆裂，回到铺毒循环；护盾和无敌仍有效。',e=>e.effects.some(f=>f.kind==='role'&&f.style==='toxinBurst')],
+ ['accelerator','kinetic','高速强撞','沿接触法向推开敌人，留下短暂失衡窗口。',e=>e.effects.some(f=>f.kind==='role'&&f.style==='kinetic')],
+ ['accelerator','wallSlam','撞墙追击','敌人在失衡窗口内撞墙，裂纹与重音标记二段伤害。',e=>e.effects.some(f=>f.kind==='role'&&f.style==='wallSlam')],
+ ['boomerang','outgoing','弧线投刃','飞刃沿弧线飞出，武器在外时近战减弱，飞刃不会撞墙反弹。',e=>e.projectiles.some(p=>p.owner===0&&p.mode==='boomerang'&&!p.returning&&e.time-p.curve.started>.4)],
+ ['boomerang','markedReturn','回刃斩印','去程留下刃印，回程消耗印记增强斩击；收回后才能接刃重击。',e=>e.balls[0].stats.bladeFinishers>0&&e.effects.some(f=>f.kind==='role'&&f.style==='bladeCut')]
+];
+for(const [type,phase,title,description,reached] of phases){
+ let engine=null;
+ for(let seed=0;seed<40&&!engine;seed++){
+  const candidate=new G.Engine([type,'normal'],'character-gallery-'+seed);candidate.start();
+  while(candidate.state==='running'&&candidate.time<100){candidate.step();if(reached(candidate)){engine=candidate;break;}}
+ }
+ if(!engine){report.push({type,phase,error:'phase not reached'});continue;}
+ if(phase!=='fullPoison'&&phase!=='outgoing')for(let i=0;i<12&&engine.state==='running';i++)engine.step();
+ engine.pause();const ball=engine.balls[0],article=document.createElement('article'),h=document.createElement('h2'),p=document.createElement('p'),canvas=document.createElement('canvas');h.textContent=title;h.style.color=ball.def.color;p.textContent=description+' '+engine.time.toFixed(2)+'s · '+engine.seed;article.append(h,p,canvas);document.querySelector('#grid').append(article);new G.Renderer(canvas).draw(engine);
+ report.push({type,phase,seed:engine.seed,time:engine.time,stats:ball.stats,rendered:true,canvasAnnouncement:engine.effects.some(f=>f.kind==='awakening')});
+}
+document.querySelector('#results').textContent=JSON.stringify({passed:report.length===6&&report.every(r=>r.rendered&&!r.canvasAnnouncement),report},null,2);
+</script></body></html>

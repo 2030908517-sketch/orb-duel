@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "report": [
+    {
+      "type": "normal",
+      "cue": "awakenHit",
+      "seed": "feedback-0",
+      "time": 17.7,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "accelerator",
+      "cue": "thunderHit",
+      "seed": "feedback-0",
+      "time": 8.729166666666666,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "shield",
+      "cue": "fortressBlast",
+      "seed": "feedback-1",
+      "time": 41.325,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "ranger",
+      "cue": "volley",
+      "seed": "feedback-0",
+      "time": 15.075,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "trapper",
+      "cue": "magnetBlast",
+      "seed": "feedback-0",
+      "time": 14.483333333333333,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "reflector",
+      "cue": "revengeHit",
+      "seed": "feedback-0",
+      "time": 23.429166666666667,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "vampire",
+      "cue": "bloodPulse",
+      "seed": "feedback-0",
+      "time": 15.075,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "boomerang",
+      "cue": "moonCut",
+      "seed": "feedback-0",
+      "time": 11.979166666666666,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "laser",
+      "cue": "beamAwake",
+      "seed": "feedback-0",
+      "time": 17.125,
+      "rendered": true,
+      "canvasAnnouncement": false
+    },
+    {
+      "type": "venom",
+      "cue": "corrosion",
+      "seed": "feedback-0",
+      "time": 16.216666666666665,
+      "rendered": true,
+      "canvasAnnouncement": false
+    }
+  ]
+}

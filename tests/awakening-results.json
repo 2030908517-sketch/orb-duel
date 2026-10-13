@@ -1,0 +1,17 @@
+{
+  "checks": 99,
+  "passed": true,
+  "trigger": "15s or <=50% HP",
+  "skills": [
+    "normal",
+    "vampire",
+    "accelerator",
+    "reflector",
+    "shield",
+    "ranger",
+    "trapper",
+    "boomerang",
+    "laser",
+    "venom"
+  ]
+}

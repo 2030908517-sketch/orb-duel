@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": 63,
+  "coverage": [
+    "toxic contact / layers / expiry / pool clock / detonation cooldown / absorption",
+    "elastic momentum / inertia / strong-hit conditions / one wall follow-up",
+    "curved outgoing / bounded owner return / mark reservation / catch economy",
+    "fixed HUD / pause reset / halo removed / original ball trails"
+  ]
+}

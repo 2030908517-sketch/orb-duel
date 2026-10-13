@@ -1,0 +1,30 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>状态栏与觉醒布局稳定性</title><style>body{background:#0c1016;color:#d0fa8b;font:13px/1.7 monospace;padding:16px}button{padding:12px;background:#d0fa8b;border:0;border-radius:5px}pre{white-space:pre-wrap}iframe{display:block;border:1px solid #354235;height:860px;margin:20px 0}#desktop{width:960px}#mobile{width:320px}</style><h1>中毒进入 / 结束、觉醒、护盾状态的实际布局检查</h1><button id="run">开始验证</button><pre id="report">待运行</pre><iframe id="desktop" title="桌面布局" src="../index.html?v=20261013-ricochet5"></iframe><iframe id="mobile" title="320px 布局" src="../index.html?v=20261013-ricochet5"></iframe><script>
+const wait=ms=>new Promise(r=>setTimeout(r,ms)),report=document.querySelector('#report');
+document.querySelector('#run').onclick=async()=>{
+ const frames=[document.querySelector('#desktop'),document.querySelector('#mobile')],records=[],checks=[];let samples=0;
+ const check=(v,name)=>{if(!v)throw Error(name);checks.push(name);};
+ try{
+  for(const frame of frames){
+   const d=frame.contentDocument,w=frame.contentWindow,$=id=>d.getElementById(id),change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event('change',{bubbles:true}));};
+   const y=id=>$(id).getBoundingClientRect().top+w.scrollY;
+   const height=()=>[0,1].map(i=>$('fighter-meta-'+i).getBoundingClientRect().height);
+   for(const type of [...$('type-0').options].map(o=>o.value)){change('type-0',type);check($('status-slot-0').textContent==='状态正常',frame.id+' always reserves status '+type);check($('fighter-meta-0').querySelectorAll('.stats-skills .stat-chip').length===6,frame.id+' six ability slots '+type);}
+   change('type-0','normal');change('type-1','venom');change('seed','role-layout-0');d.querySelector('[data-speed="4"]').click();
+   const base={arena:y('arena'),bar0:y('bar-0'),bar1:y('bar-1'),heights:height()};records.push({id:frame.id,d,w,$,y,height,base,transitions:[],lastPoison:false,seenAwake:false});$('toggle').click();
+  }
+  // Background browser tabs may throttle requestAnimationFrame; allow the real
+  // game enough wall time to reach its 15-second simulation awakening.
+  report.textContent='正在实战采样';const deadline=performance.now()+60000;
+  while(performance.now()<deadline){
+   for(const r of records){
+    const now={arena:r.y('arena'),bar0:r.y('bar-0'),bar1:r.y('bar-1'),heights:r.height()};
+    if(Math.abs(now.arena-r.base.arena)>.5||Math.abs(now.bar0-r.base.bar0)>.5||Math.abs(now.bar1-r.base.bar1)>.5||JSON.stringify(now.heights)!==JSON.stringify(r.base.heights))throw Error(r.id+' layout moved '+JSON.stringify({base:r.base,now}));
+    const poison=r.$('status-slot-0').textContent.includes('中毒');if(poison!==r.lastPoison){r.transitions.push({timer:r.$('timer').textContent,poison});r.lastPoison=poison;}r.seenAwake ||= r.$('fighter-0').classList.contains('awakened');
+   }
+   samples++;if(records.every(r=>r.transitions.some(t=>!t.poison)&&r.seenAwake))break;await wait(35);
+  }
+  for(const r of records){check(r.transitions.some(t=>t.poison),r.id+' poison enters');check(r.transitions.some(t=>!t.poison),r.id+' poison ends');check(r.seenAwake,r.id+' awakening checked');check(r.d.documentElement.scrollWidth<=r.w.innerWidth,r.id+' no horizontal overflow');check(r.$('status-slot-0').getBoundingClientRect().height>0,r.id+' status always visible');if(r.$('state-badge').textContent==='对战进行中')r.$('toggle').click();}
+  report.dataset.result='passed';report.textContent=JSON.stringify({passed:true,samples,checks,records:records.map(r=>({viewport:r.w.innerWidth,position:r.base,transitions:r.transitions,seenAwake:r.seenAwake})),arenaShift:0},null,2);
+ }catch(e){report.dataset.result='failed';report.textContent=JSON.stringify({passed:false,samples,checks,error:e.message,records:records.map(r=>({id:r.id,transitions:r.transitions,timer:r.$('timer').textContent,status:r.$('status-slot-0').textContent,seenAwake:r.seenAwake}))},null,2);}
+};</script></html>
+

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checks": [
+    "start",
+    "configuration locked",
+    "pause freezes timers",
+    "pause stops voices",
+    "awakening notice appears",
+    "awakening notice stays outside arena",
+    "real skill audio triggered",
+    "audio context unlocked by UI",
+    "audio voice cap",
+    "paused announcement freezes",
+    "mute",
+    "muted game has no voices",
+    "restart",
+    "reset health and time",
+    "reset awakening notice",
+    "reset stops voices"
+  ],
+  "announcementOutsideArena": true,
+  "skillCues": 15
+}

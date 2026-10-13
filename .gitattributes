@@ -1,0 +1,3 @@
+# Preserve exact source bytes and recorded simulation fingerprints.
+* -text
+*.png binary

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": 46,
+  "coverage": [
+    "stance windows / damage storage / capped nonrecursive counter",
+    "heavy hit charge and absorption",
+    "bullet and mine sweep priority / ricochet",
+    "boomerang one hit per leg / catch",
+    "laser locked aim / miss / disarm",
+    "poison no overlap stacking / expiry",
+    "blood chain range / pause / reset"
+  ]
+}

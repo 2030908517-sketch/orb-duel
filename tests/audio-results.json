@@ -1,0 +1,380 @@
+{
+  "result": "通过",
+  "passed": true,
+  "profiles": 44,
+  "cues": {
+    "wall": {
+      "rms": 0.015120750328382516,
+      "peak": 0.33306410908699036,
+      "earlyFrequency": 680,
+      "tailEnergy": 0
+    },
+    "ball": {
+      "rms": 0.03462557828580242,
+      "peak": 0.5045249462127686,
+      "earlyFrequency": 180,
+      "tailEnergy": 0
+    },
+    "heavy": {
+      "rms": 0.04101510944340708,
+      "peak": 0.5324815511703491,
+      "earlyFrequency": 140,
+      "tailEnergy": 0
+    },
+    "shot": {
+      "rms": 0.017912741688905862,
+      "peak": 0.4094744324684143,
+      "earlyFrequency": 1160,
+      "tailEnergy": 0
+    },
+    "shotHit": {
+      "rms": 0.024846104803278028,
+      "peak": 0.4913117587566376,
+      "earlyFrequency": 620,
+      "tailEnergy": 0
+    },
+    "trap": {
+      "rms": 0.014712422405152841,
+      "peak": 0.23161469399929047,
+      "earlyFrequency": 300,
+      "tailEnergy": 0
+    },
+    "explosion": {
+      "rms": 0.027597425104445614,
+      "peak": 0.43306922912597656,
+      "earlyFrequency": 460,
+      "tailEnergy": 0
+    },
+    "chain": {
+      "rms": 0.02881485795992874,
+      "peak": 0.24251826107501984,
+      "earlyFrequency": 320,
+      "tailEnergy": 0
+    },
+    "heal": {
+      "rms": 0.017641767184243522,
+      "peak": 0.20187342166900635,
+      "earlyFrequency": 680,
+      "tailEnergy": 0
+    },
+    "shield": {
+      "rms": 0.02468397320016598,
+      "peak": 0.31917843222618103,
+      "earlyFrequency": 1360,
+      "tailEnergy": 0
+    },
+    "break": {
+      "rms": 0.02963753506105594,
+      "peak": 0.44587740302085876,
+      "earlyFrequency": 1560,
+      "tailEnergy": 0
+    },
+    "reflect": {
+      "rms": 0.01584014143458014,
+      "peak": 0.31262511014938354,
+      "earlyFrequency": 1120,
+      "tailEnergy": 0
+    },
+    "charge": {
+      "rms": 0.02496674857026059,
+      "peak": 0.21493558585643768,
+      "earlyFrequency": 200,
+      "tailEnergy": 0
+    },
+    "dash": {
+      "rms": 0.02652802321394767,
+      "peak": 0.4147999584674835,
+      "earlyFrequency": 420,
+      "tailEnergy": 0
+    },
+    "ready": {
+      "rms": 0.0132995349444187,
+      "peak": 0.17771591246128082,
+      "earlyFrequency": 740,
+      "tailEnergy": 0
+    },
+    "stance": {
+      "rms": 0.017684534571952105,
+      "peak": 0.23169225454330444,
+      "earlyFrequency": 720,
+      "tailEnergy": 0
+    },
+    "counter": {
+      "rms": 0.02407518052845734,
+      "peak": 0.39747390151023865,
+      "earlyFrequency": 1120,
+      "tailEnergy": 0
+    },
+    "counterHit": {
+      "rms": 0.028151507727677192,
+      "peak": 0.4542745351791382,
+      "earlyFrequency": 660,
+      "tailEnergy": 0
+    },
+    "shieldHit": {
+      "rms": 0.01516644221086553,
+      "peak": 0.2876157760620117,
+      "earlyFrequency": 1140,
+      "tailEnergy": 0
+    },
+    "ricochet": {
+      "rms": 0.007652573609362591,
+      "peak": 0.1506468504667282,
+      "earlyFrequency": 1460,
+      "tailEnergy": 0
+    },
+    "disarm": {
+      "rms": 0.016246357647119528,
+      "peak": 0.289713591337204,
+      "earlyFrequency": 1500,
+      "tailEnergy": 0
+    },
+    "combo": {
+      "rms": 0.03825994675687885,
+      "peak": 0.49549102783203125,
+      "earlyFrequency": 200,
+      "tailEnergy": 0
+    },
+    "throw": {
+      "rms": 0.010312309800057939,
+      "peak": 0.1612846702337265,
+      "earlyFrequency": 860,
+      "tailEnergy": 0
+    },
+    "return": {
+      "rms": 0.009596750775453397,
+      "peak": 0.14114519953727722,
+      "earlyFrequency": 480,
+      "tailEnergy": 0
+    },
+    "returnHit": {
+      "rms": 0.02343040843940913,
+      "peak": 0.4325317442417145,
+      "earlyFrequency": 400,
+      "tailEnergy": 0
+    },
+    "laser": {
+      "rms": 0.02236952192123216,
+      "peak": 0.3334183096885681,
+      "earlyFrequency": 640,
+      "tailEnergy": 0
+    },
+    "laserHit": {
+      "rms": 0.029800824618124087,
+      "peak": 0.4831089675426483,
+      "earlyFrequency": 400,
+      "tailEnergy": 0
+    },
+    "poison": {
+      "rms": 0.01312488710178349,
+      "peak": 0.15125371515750885,
+      "earlyFrequency": 340,
+      "tailEnergy": 0
+    },
+    "poisonHit": {
+      "rms": 0.006901565817173139,
+      "peak": 0.11435583978891373,
+      "earlyFrequency": 460,
+      "tailEnergy": 0
+    },
+    "awakenHit": {
+      "rms": 0.04256057257525619,
+      "peak": 0.5201406478881836,
+      "earlyFrequency": 180,
+      "tailEnergy": 0
+    },
+    "bloodPulse": {
+      "rms": 0.028074504003825648,
+      "peak": 0.3595685362815857,
+      "earlyFrequency": 200,
+      "tailEnergy": 0
+    },
+    "thunderHit": {
+      "rms": 0.03457080840951638,
+      "peak": 0.46404147148132324,
+      "earlyFrequency": 280,
+      "tailEnergy": 0
+    },
+    "revengeHit": {
+      "rms": 0.03572002392702255,
+      "peak": 0.4876651167869568,
+      "earlyFrequency": 540,
+      "tailEnergy": 0
+    },
+    "fortressBlast": {
+      "rms": 0.032442517743204,
+      "peak": 0.4374423623085022,
+      "earlyFrequency": 380,
+      "tailEnergy": 0
+    },
+    "volley": {
+      "rms": 0.022199365726957392,
+      "peak": 0.40004831552505493,
+      "earlyFrequency": 1280,
+      "tailEnergy": 0
+    },
+    "magnetBlast": {
+      "rms": 0.0243525797373775,
+      "peak": 0.3840809464454651,
+      "earlyFrequency": 1120,
+      "tailEnergy": 0
+    },
+    "moonCut": {
+      "rms": 0.020887664442295447,
+      "peak": 0.32802313566207886,
+      "earlyFrequency": 740,
+      "tailEnergy": 0
+    },
+    "beamAwake": {
+      "rms": 0.04035795848119531,
+      "peak": 0.4401263892650604,
+      "earlyFrequency": 380,
+      "tailEnergy": 0
+    },
+    "corrosion": {
+      "rms": 0.013492326620297711,
+      "peak": 0.20331266522407532,
+      "earlyFrequency": 260,
+      "tailEnergy": 0
+    },
+    "awakening": {
+      "rms": 0.03329414578994025,
+      "peak": 0.195799320936203,
+      "earlyFrequency": 440,
+      "tailEnergy": 0
+    },
+    "toxinBurst": {
+      "rms": 0.029906542907749713,
+      "peak": 0.38246026635169983,
+      "earlyFrequency": 300,
+      "tailEnergy": 0
+    },
+    "wallSlam": {
+      "rms": 0.03205945489319559,
+      "peak": 0.393218070268631,
+      "earlyFrequency": 160,
+      "tailEnergy": 0
+    },
+    "bladeCatch": {
+      "rms": 0.015827408273885027,
+      "peak": 0.2463388442993164,
+      "earlyFrequency": 1280,
+      "tailEnergy": 0
+    },
+    "victory": {
+      "rms": 0.03502513439918686,
+      "peak": 0.20094755291938782,
+      "earlyFrequency": 520,
+      "tailEnergy": 0
+    }
+  },
+  "stress": {
+    "passed": true,
+    "dense": {
+      "enabled": true,
+      "available": true,
+      "contextState": "running",
+      "activeVoices": 8,
+      "played": {
+        "wall": 0,
+        "ball": 0,
+        "heavy": 1,
+        "shot": 0,
+        "shotHit": 0,
+        "trap": 0,
+        "explosion": 1,
+        "chain": 0,
+        "heal": 0,
+        "shield": 0,
+        "break": 0,
+        "reflect": 0,
+        "charge": 0,
+        "dash": 0,
+        "ready": 0,
+        "stance": 0,
+        "counter": 0,
+        "counterHit": 1,
+        "shieldHit": 0,
+        "ricochet": 0,
+        "disarm": 0,
+        "combo": 1,
+        "throw": 0,
+        "return": 0,
+        "returnHit": 0,
+        "laser": 0,
+        "laserHit": 0,
+        "poison": 0,
+        "poisonHit": 0,
+        "awakenHit": 0,
+        "bloodPulse": 0,
+        "thunderHit": 0,
+        "revengeHit": 0,
+        "fortressBlast": 0,
+        "volley": 0,
+        "magnetBlast": 0,
+        "moonCut": 0,
+        "beamAwake": 1,
+        "corrosion": 0,
+        "awakening": 1,
+        "toxinBurst": 0,
+        "wallSlam": 1,
+        "bladeCatch": 0,
+        "victory": 1
+      },
+      "lastCue": "counterHit"
+    },
+    "muted": {
+      "enabled": false,
+      "available": true,
+      "contextState": "running",
+      "activeVoices": 0,
+      "played": {
+        "wall": 0,
+        "ball": 0,
+        "heavy": 1,
+        "shot": 0,
+        "shotHit": 0,
+        "trap": 0,
+        "explosion": 1,
+        "chain": 0,
+        "heal": 0,
+        "shield": 0,
+        "break": 0,
+        "reflect": 0,
+        "charge": 0,
+        "dash": 0,
+        "ready": 0,
+        "stance": 0,
+        "counter": 0,
+        "counterHit": 1,
+        "shieldHit": 0,
+        "ricochet": 0,
+        "disarm": 0,
+        "combo": 1,
+        "throw": 0,
+        "return": 0,
+        "returnHit": 0,
+        "laser": 0,
+        "laserHit": 0,
+        "poison": 0,
+        "poisonHit": 0,
+        "awakenHit": 0,
+        "bloodPulse": 0,
+        "thunderHit": 0,
+        "revengeHit": 0,
+        "fortressBlast": 0,
+        "volley": 0,
+        "magnetBlast": 0,
+        "moonCut": 0,
+        "beamAwake": 1,
+        "corrosion": 0,
+        "awakening": 1,
+        "toxinBurst": 0,
+        "wallSlam": 1,
+        "bladeCatch": 0,
+        "victory": 1
+      },
+      "lastCue": "counterHit"
+    }
+  }
+}

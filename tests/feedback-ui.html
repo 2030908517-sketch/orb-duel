@@ -1,0 +1,31 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>对战反馈界面验证</title><link rel="icon" href="../favicon.svg"><style>body{background:#0c1016;color:#d0fa8b;font:14px/1.7 monospace;padding:16px}iframe{width:100%;height:780px;border:1px solid #354235}pre{white-space:pre-wrap}button{padding:12px 20px;background:#d0fa8b;color:#0c1016;border:0;border-radius:6px;cursor:pointer}</style><h1>真实界面 · 反馈回归</h1><button id="run">开始界面验证</button><pre id="report">待运行：开始、暂停、倍速、技能音效、场外觉醒提示、静音、重开。</pre><iframe id="game" src="../index.html?v=20261013-ricochet5" title="实际游戏界面"></iframe><script>
+const frame=document.querySelector('#game'),report=document.querySelector('#report');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+document.querySelector('#run').onclick=async()=>{
+ const checks=[];const check=(v,name)=>{if(!v)throw Error(name);checks.push(name);};
+ const d=frame.contentDocument,$=id=>d.getElementById(id),click=id=>$(id).click();
+ const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event('change',{bubbles:true}));};
+ try{
+  change('type-0','shield');change('type-1','ranger');change('seed','feedback-2');d.querySelector('[data-speed="4"]').click();click('toggle');
+  await wait(500);check($('state-badge').textContent==='对战进行中','start');
+  check($('type-0').disabled && $('seed').disabled,'configuration locked');
+  click('toggle');const timer=$('timer').textContent,meta=$('fighter-meta-0').textContent;
+  await wait(180);check($('timer').textContent===timer && $('fighter-meta-0').textContent===meta,'pause freezes timers');check(+$('sound-toggle').dataset.activeVoices===0,'pause stops voices');
+  click('toggle');
+  const deadline=performance.now()+60000;let awakening=false;
+  while(performance.now()<deadline && $('state-badge').textContent==='对战进行中'){
+   await wait(20);if($('awake-notice-0').textContent==='✦ 觉醒！'){awakening=true;break;}
+  }
+  check(awakening,'awakening notice appears');
+  const notice=$('awake-notice-0').getBoundingClientRect(),canvas=$('arena').getBoundingClientRect();
+  check(notice.bottom<=canvas.top || notice.top>=canvas.bottom || notice.right<=canvas.left || notice.left>=canvas.right,'awakening notice stays outside arena');
+  check(+$('sound-toggle').dataset.skillCount>0,'real skill audio triggered');
+  check($('sound-toggle').dataset.audioState==='running','audio context unlocked by UI');
+  check(+$('sound-toggle').dataset.activeVoices<=8,'audio voice cap');
+  click('toggle');const announcement=$('awake-notice-0').textContent;await wait(150);check($('awake-notice-0').textContent===announcement,'paused announcement freezes');
+  click('sound-toggle');check($('sound-toggle').getAttribute('aria-pressed')==='false','mute');click('toggle');await wait(200);check(+$('sound-toggle').dataset.activeVoices===0,'muted game has no voices');click('toggle');
+  click('restart');check($('state-badge').textContent==='准备就绪','restart');check($('timer').textContent==='00:00.0' && $('health-0').textContent.includes('114'),'reset health and time');check(!$('awake-notice-0').textContent,'reset awakening notice');check(+$('sound-toggle').dataset.activeVoices===0,'reset stops voices');
+  report.dataset.result='passed';report.textContent=JSON.stringify({passed:true,checks,announcementOutsideArena:true,skillCues:+$('sound-toggle').dataset.skillCount},null,2);
+ }catch(e){report.dataset.result='failed';report.textContent=JSON.stringify({passed:false,checks,error:e.message},null,2);}
+};
+</script></html>

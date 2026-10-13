@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "samples": 101,
+  "checks": [
+    "desktop always reserves status normal",
+    "desktop six ability slots normal",
+    "desktop always reserves status vampire",
+    "desktop six ability slots vampire",
+    "desktop always reserves status accelerator",
+    "desktop six ability slots accelerator",
+    "desktop always reserves status reflector",
+    "desktop six ability slots reflector",
+    "desktop always reserves status shield",
+    "desktop six ability slots shield",
+    "desktop always reserves status ranger",
+    "desktop six ability slots ranger",
+    "desktop always reserves status trapper",
+    "desktop six ability slots trapper",
+    "desktop always reserves status boomerang",
+    "desktop six ability slots boomerang",
+    "desktop always reserves status laser",
+    "desktop six ability slots laser",
+    "desktop always reserves status venom",
+    "desktop six ability slots venom",
+    "mobile always reserves status normal",
+    "mobile six ability slots normal",
+    "mobile always reserves status vampire",
+    "mobile six ability slots vampire",
+    "mobile always reserves status accelerator",
+    "mobile six ability slots accelerator",
+    "mobile always reserves status reflector",
+    "mobile six ability slots reflector",
+    "mobile always reserves status shield",
+    "mobile six ability slots shield",
+    "mobile always reserves status ranger",
+    "mobile six ability slots ranger",
+    "mobile always reserves status trapper",
+    "mobile six ability slots trapper",
+    "mobile always reserves status boomerang",
+    "mobile six ability slots boomerang",
+    "mobile always reserves status laser",
+    "mobile six ability slots laser",
+    "mobile always reserves status venom",
+    "mobile six ability slots venom",
+    "desktop poison enters",
+    "desktop poison ends",
+    "desktop awakening checked",
+    "desktop no horizontal overflow",
+    "desktop status always visible",
+    "mobile poison enters",
+    "mobile poison ends",
+    "mobile awakening checked",
+    "mobile no horizontal overflow",
+    "mobile status always visible"
+  ],
+  "records": [
+    {
+      "viewport": 960,
+      "position": {
+        "arena": 250.11111450195312,
+        "bar0": 225.3333282470703,
+        "bar1": 225.3333282470703,
+        "heights": [
+          60,
+          60
+        ]
+      },
+      "transitions": [
+        {
+          "timer": "00:04.7",
+          "poison": true
+        },
+        {
+          "timer": "00:06.6",
+          "poison": false
+        },
+        {
+          "timer": "00:06.8",
+          "poison": true
+        },
+        {
+          "timer": "00:09.7",
+          "poison": false
+        },
+        {
+          "timer": "00:11.3",
+          "poison": true
+        },
+        {
+          "timer": "00:12.9",
+          "poison": false
+        },
+        {
+          "timer": "00:13.1",
+          "poison": true
+        }
+      ],
+      "seenAwake": true
+    },
+    {
+      "viewport": 320,
+      "position": {
+        "arena": 318,
+        "bar0": 293.22222900390625,
+        "bar1": 293.22222900390625,
+        "heights": [
+          111,
+          111
+        ]
+      },
+      "transitions": [
+        {
+          "timer": "00:04.7",
+          "poison": true
+        },
+        {
+          "timer": "00:06.5",
+          "poison": false
+        },
+        {
+          "timer": "00:06.7",
+          "poison": true
+        },
+        {
+          "timer": "00:09.6",
+          "poison": false
+        },
+        {
+          "timer": "00:11.3",
+          "poison": true
+        },
+        {
+          "timer": "00:12.9",
+          "poison": false
+        },
+        {
+          "timer": "00:13.1",
+          "poison": true
+        }
+      ],
+      "seenAwake": true
+    }
+  ],
+  "arenaShift": 0
+}

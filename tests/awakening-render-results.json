@@ -1,0 +1,157 @@
+{
+  "passed": true,
+  "report": [
+    {
+      "type": "normal",
+      "seed": "visual-awakening-0",
+      "time": 13.995833333333334,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "破限重击"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "vampire",
+      "seed": "visual-awakening-0",
+      "time": 21.5,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "血月锁链"
+        },
+        {
+          "label": "血链",
+          "value": "2.4s"
+        },
+        {
+          "label": "汲取",
+          "value": "4.0/s"
+        },
+        {
+          "label": "链距",
+          "value": 240
+        },
+        {
+          "label": "返还CD",
+          "value": "1.5s"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "accelerator",
+      "seed": "visual-awakening-4",
+      "time": 24.108333333333334,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "闪电突袭"
+        },
+        {
+          "label": "无敌",
+          "value": "0.2s"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "reflector",
+      "seed": "visual-awakening-0",
+      "time": 20.7875,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "蓄能返还"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "shield",
+      "seed": "visual-awakening-0",
+      "time": 15,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "堡垒脉冲"
+        },
+        {
+          "label": "破盾波",
+          "value": "4.0"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "ranger",
+      "seed": "visual-awakening-0",
+      "time": 15,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "交叉齐射"
+        },
+        {
+          "label": "齐射",
+          "value": "3 发"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "trapper",
+      "seed": "visual-awakening-1",
+      "time": 21.433333333333334,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "磁暴雷区"
+        },
+        {
+          "label": "连锁",
+          "value": "90 范围"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "boomerang",
+      "seed": "visual-awakening-0",
+      "time": 13.820833333333333,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "双刃回环"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "laser",
+      "seed": "visual-awakening-0",
+      "time": 17.05,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "聚焦贯穿"
+        }
+      ],
+      "rendered": true
+    },
+    {
+      "type": "venom",
+      "seed": "visual-awakening-0",
+      "time": 15,
+      "phase": [
+        {
+          "label": "觉醒",
+          "value": "剧毒扩散"
+        }
+      ],
+      "rendered": true
+    }
+  ]
+}

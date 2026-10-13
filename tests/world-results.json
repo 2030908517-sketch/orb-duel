@@ -1,0 +1,10 @@
+{
+  "checks": 26,
+  "passed": true,
+  "coverage": [
+    "projectile sweep / owner immunity / wall bounce / lifetime",
+    "trap arm / single use / capacity / lifetime",
+    "shield / reflection / same-tick draw",
+    "pause / full reset / dynamic attack display"
+  ]
+}

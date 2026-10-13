@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": 945,
+  "coverage": [
+    "continuous decay / repeated wall mirrors / full-phase immunity / bounded exhaustion",
+    "speed damage / mass momentum / immediate enemy stop / impact-tick reflection",
+    "energy-based wall damage / one hit / immediate wall / shield / both dashers",
+    "contact cooldown / no miss refund on contact / pause reset"
+  ]
+}

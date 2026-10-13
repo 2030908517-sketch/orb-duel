@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1016">
+  <title>小球对决 · ORB DUEL</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css?v=20261013-ricochet5">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a class="brand" href="index.html" aria-label="小球对决首页"><span class="brand-mark"><i></i><i></i></span><span>小球对决<small>ORB DUEL</small></span></a>
+      <div class="header-meta"><span class="live-dot"></span>自动对战<span class="separator">/</span><span>1 V 1</span></div>
+      <button class="text-button" id="rules-button" aria-haspopup="dialog">对战规则 <span>↗</span></button>
+    </header>
+    <main class="layout">
+      <section class="battle" aria-label="对战竞技场">
+        <div class="section-heading"><div><span class="eyebrow">THE ARENA</span><h1>让碰撞决定胜负<span class="title-dot">.</span></h1></div><span id="state-badge" class="status-badge">准备就绪</span></div>
+        <div class="battle-stage">
+          <div class="fighters">
+            <aside class="combat-rail rail-left" aria-label="左方状态与对战配置">
+<article class="fighter" id="fighter-0"><div class="fighter-top"><span class="team-label">01 / 左方</span><span class="awake-notice" id="awake-notice-0" role="status"></span></div><div class="fighter-name"><span class="orb-dot" id="orb-dot-0"></span><h2 id="name-0">普通球</h2><span class="health-number" id="health-0">120 <small>/ 120</small></span></div><div class="fighter-stats" id="fighter-meta-0" aria-label="当前攻击与技能数值"></div><div class="health-track" role="progressbar" id="bar-0" aria-label="左方生命值"><div id="fill-0"></div></div></article>
+<section class="setup panel"><div class="panel-heading"><h2>对战配置</h2><span class="eyebrow">MATCH SETUP</span></div><p class="panel-intro" id="config-note">选择球种，观察能力如何相互作用。</p>
+          <div class="selection-block" id="selection-0"><label for="type-0"><span class="team-label">01 / 左方小球</span><span class="mini-orb" id="mini-orb-0"></span></label><select id="type-0"></select><details class="skill-details"><summary><strong id="skill-title-0"></strong><span>能力详情</span></summary><div class="skill-copy"><p id="skill-description-0"></p></div><div class="attributes" id="attributes-0"></div></details></div>
+          <div class="selection-block" id="selection-1"><label for="type-1"><span class="team-label">02 / 右方小球</span><span class="mini-orb" id="mini-orb-1"></span></label><select id="type-1"></select><details class="skill-details"><summary><strong id="skill-title-1"></strong><span>能力详情</span></summary><div class="skill-copy"><p id="skill-description-1"></p></div><div class="attributes" id="attributes-1"></div></details></div>
+          <div class="seed-block"><label class="team-label" for="seed">随机种子 <span>同种子可复现</span></label><div class="seed-input"><input id="seed" maxlength="32" autocomplete="off" spellcheck="false" aria-label="随机种子"><button id="random-seed" title="生成新种子" aria-label="生成新随机种子">⤨</button></div><button class="new-match" id="new-match">新种子，再来一局 <span>↗</span></button></div>
+        </section>
+            </aside>
+            <aside class="combat-rail rail-right" aria-label="右方状态与战斗记录">
+<article class="fighter" id="fighter-1"><div class="fighter-top"><span class="team-label">02 / 右方</span><span class="awake-notice" id="awake-notice-1" role="status"></span></div><div class="fighter-name"><span class="orb-dot" id="orb-dot-1"></span><h2 id="name-1">吸血球</h2><span class="health-number" id="health-1">108 <small>/ 108</small></span></div><div class="fighter-stats" id="fighter-meta-1" aria-label="当前攻击与技能数值"></div><div class="health-track" role="progressbar" id="bar-1" aria-label="右方生命值"><div id="fill-1"></div></div></article>
+<section class="activity panel"><div class="panel-heading"><h2>碰撞纪事</h2><span class="event-light"></span></div><ol id="event-log" aria-label="最近对战事件"><li class="empty-log">每一次碰撞，都有迹可循。<small>开场后记录伤害与技能。</small></li></ol></section>
+<div class="result-summary" id="result-summary" hidden aria-live="polite"></div>
+            </aside>
+          </div>
+          <div class="arena-column">
+        <div class="arena-wrap">
+          <canvas id="arena" width="360" height="340" aria-label="自动小球对决动画：左方与右方在紧凑的近方形场地中运动" role="img"></canvas>
+          <div class="arena-top"><span><i class="live-dot"></i><span id="arena-status">等待开场</span></span><span id="round-seed">SEED —</span></div>
+          <div class="center-overlay" id="overlay"><span class="overlay-kicker" id="overlay-kicker">READY TO COLLIDE</span><h2 id="overlay-title">一场碰撞，无限可能</h2><p id="overlay-description">选好双方球种，开始一场自动对决。</p><button id="overlay-start" class="primary-button">开始对战 <span>▶</span></button></div>
+          <div class="arena-bottom"><span id="phase-label">360 × 340 · 动量碰撞 · 墙面反弹</span><span id="collision-count">0 次碰撞</span></div>
+        </div>
+        <div class="transport">
+          <div class="transport-buttons"><button id="toggle" class="primary-button"><span id="toggle-icon">▶</span><span id="toggle-label">开始对战</span></button><button id="restart" class="icon-button" title="按当前球种与种子重开" aria-label="重新开始">↺</button><button id="sound-toggle" class="icon-button sound-button" title="音效开启：碰撞、技能与觉醒使用不同声音" aria-label="关闭对战音效" aria-pressed="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4V4Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-slash" d="m15 9 6 6m0-6-6 6"/></svg></button></div>
+          <div class="clock"><span class="eyebrow">对战时间</span><strong id="timer">00:00.0</strong></div>
+          <div class="speed-switch" role="group" aria-label="模拟速度"><button data-speed="1" class="active" aria-pressed="true">1×</button><button data-speed="2" aria-pressed="false">2×</button><button data-speed="4" aria-pressed="false">4×</button></div>
+        </div>
+<div class="arena-note"><span>全自动模拟<span class="note-dot">·</span>无需操控小球</span><span>空格 暂停 / 继续<span class="note-dot">·</span>R 重开</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer><span>ORB DUEL <b>/</b> 01</span><span>不同能力，同一片竞技场。</span><span>本地运行 <i class="live-dot"></i></span></footer>
+  </div>
+  <dialog id="rules-dialog"><div class="dialog-heading"><span class="eyebrow">HOW IT WORKS</span><button id="close-rules" class="icon-button" aria-label="关闭对战规则">×</button></div><h2>每次碰撞，都有规则。</h2><div class="rules-body"><p><b>运动</b>固定场地 360 × 340，半径 23，固定步长 1/240 秒。墙面按法线镜面反弹；球间沿中心连线法向按质量交换动量，切向速度保留。碰撞后的惯性约 0.8 秒逐渐回到巡航速度，短时速度上限 800；冲撞初速 900。常规运动保持直线，无随机轨迹扰动；觉醒加速球只在冲撞发动时转向已预警的方向，冲撞中不追踪转弯。</p><p><b>攻击</b>接触后分开才能再次攻击，且碰撞冷却 0.22 秒。每次双方同时攻击，伤害随机波动 ±20%；加速球巡航积速最高增加 40%；觉醒冲撞伤害另外随瞬时速度平方变化，倍率 0.65 + 0.85×(速度/900)²。</p><p><b>技能结算</b>先护盾、再生命伤害；反伤球仅在荆棘姿态中返还实际扣血；预警 0.45 秒、姿态 3 秒、周期 6.5 秒，姿态外不反伤，反伤也可被护盾抵消。最后存活的吸血球按实际攻击伤害回血，不能超上限，也不能复活。</p><p><b>远程与陷阱</b>射手球每 3 秒预判射出一发子弹，基础伤害 6.5，最多反弹一次，存活 1.6 秒；陷阱球每 3.6 秒原地布置陷阱，0.55 秒后布防，基础伤害 9，存活 10 秒，最多 3 个。只攻击对手，命中即消失；伤害在发射或布置时确定。同一物理步内的所有攻击同时结算，支持双方阵亡。</p><p><b>新能力与互动</b>普通球每三次实际扣血积满重击，下次有效碰撞 +35%。普通 / 加速 / 护盾球长期未造成伤害时积攒有限的碰撞增伤，实际造成伤害后清空。子弹撞墙一次增伤 15%，子弹或光束可拆除敌方已布防陷阱；拆除不引爆。激光球锁定预判方向蓄力发射。觉醒反伤球在姿态中把实际扣血的 25% 蓄能，最多 8 点，姿态结束释放反击弹；该弹不触发二次反伤或蓄能。</p><p><b>角色机制</b>毒液球碰撞实伤上毒 3 秒，毒池每 0.9 秒增加一层，最多 3 层；每 0.5 秒每层伤害 0.9，觉醒 1.05，不刷新跳伤计时。满毒再碰撞消耗毒层引爆 5.5 伤害，冷却 2.5 秒；觉醒后毒池也能引爆，共用冷却。加速球强撞需法向接近速度 ≥430、自身迎撞速度 ≥250 且实际扣血，击退并使对手失衡 0.7 秒；首次以法向速度 ≥160 撞墙时，按 0.5×质量×法向速度²/18000 追加伤害，加热前上限 12，普通撞墙不扣血。巡航强撞消耗 20 速度、恢复 0.8 秒；觉醒冲撞从 900 开始按 900×exp(−0.95×经过秒数) 衰减，可多次墙反弹，最多 1.5 秒，全程无敌，撞敌立即结束并恢复巡航，消耗 12 巡航速度、恢复 0.6 秒。动量交换保留被撞者 1.1 秒惯性 / 撞墙窗口，即使护盾吸收接触伤害也会传递动量；无敌目标不获得撞墙追击标记。回旋球每 4.6 秒投出弧线刃，基础伤害 4.1，0.72 秒后弧线返程并追随主人，不撞墙弹跳；去回程各限一次命中，去程实伤留印，回程斩印 ×1.5。武器在外近战 80%，完整接回获得一次 3 秒内可用的 +40% 近战。觉醒每 4.2 秒投双刃、每刃伤害 2.8，两刃全收回才获得强化；同一步同一刃印限强化一刃。</p><p><b>实时数值</b>血条上方的攻击是当前碰撞攻击，包含加速增伤、武器状态、觉醒和加热倍率，实际伤害还有 ±20% 波动。弹伤和陷阱伤害表示下一次发射或布置的基准伤害；速度显示实际运动速度，击退时可暂时超过巡航速限；层数、引爆冷却、武器状态、接刃强化也在上方显示。装填、布置、充能倒计时随模拟时间走，暂停完全冻结。蓄力表示久未命中的额外碰撞增伤；返还 CD 为本局累计返还秒数。所有属性和状态槽固定占位。</p><p><b>觉醒</b>每球在满 15 秒或生命 ≤50% 时觉醒一次，持续本局。各球的觉醒能力见配置卡；上方显示觉醒状态、蓄力、无敌与冷却。血链每 0.3 秒固定汲取 1.2 伤害（计入加热，无随机浮动），实际扣血 100% 治疗；血链同样受护盾、无敌、反伤影响。衰减冲撞最多 1.5 秒，在速度降至 max(275，发动时巡航速度+20) 或撞到敌人时结束；整个阶段免疫碰撞、子弹、陷阱、血链、毒伤、光束、飞刃、反击弹和反伤，决胜阶段流血仍生效。范围技能按球轮廓与范围相交判定，陷阱只连锁引爆已布防的己方强化陷阱；觉醒前放出的子弹和陷阱保留原伤害。同一步的觉醒攻击和普通攻击统一结算，不能复活。</p><p><b>机会补偿</b>血链按缺失连接时长返还最多 1.5 秒冷却，完整连接不返还。冲撞耗尽时全程未碰到敌人返还 1 秒，碰到盾不返还。激光连续两次既未命中也未拆雷，返还 0.6 秒；飞刃成功回收每次投掷最多返还 0.35 秒。陷阱未触发自然到期返还 0.4 秒，毒池全程未接触敌人自然到期返还 0.35 秒；主动替换和被拆除不返还。返还后至少还需等待 0.2 秒。射手子弹正常落空，无冷却返还；反伤和护盾的防御空窗也不返还。</p><p><b>收束</b>紧凑场地宽约 8 个球直径，提高自然碰撞频率，不改变运动轨迹。60 秒起伤害渐增，上限 2.5 倍。150 秒起双方每秒流失 3 点生命，穿过护盾，不能吸血或反伤。</p><p><b>复现</b>相同球种、左右顺序与种子，结果相同。1× / 2× / 4× 只改变模拟时间流速。暂停冻结运动、技能、粒子和计时；切后台自动暂停。</p><p><b>音效</b>点击开始后启用音效。撞墙为轻脆短音，球间碰撞为低沉撞击；吸血、冲刺、射击、护盾、反击弹、飞刃、光束、毒液、爆炸、觉醒与胜利有独立音色。喇叭按钮可静音。倍速下限制声音触发密度，暂停和重开立即停止声音。</p><p><b>操作</b>开场后配置锁定。结束或重新开始后可调整球种；“重新开始”还原同一种子至待开场状态，“新种子，再来一局”直接开场。</p></div><button id="rules-done" class="primary-button">知道了</button></dialog>
+  <script src="js/config.js?v=20261013-ricochet5"></script><script src="js/physics.js?v=20261013-ricochet5"></script><script src="js/skills.js?v=20261013-ricochet5"></script><script src="js/world.js?v=20261013-ricochet5"></script><script src="js/characters.js?v=20261013-ricochet5"></script><script src="js/awakening.js?v=20261013-ricochet5"></script><script src="js/engine.js?v=20261013-ricochet5"></script><script src="js/audio.js?v=20261013-ricochet5"></script><script src="js/spectacle.js?v=20261013-ricochet5"></script><script src="js/renderer.js?v=20261013-ricochet5"></script><script src="js/app.js?v=20261013-ricochet5"></script>
+</body>
+</html>
+
+
+

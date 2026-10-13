@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>一屏战斗布局验证</title><style>body{margin:20px;background:#0c1016;color:#d0fa8b;font:13px/1.7 monospace}button{padding:12px;background:#d0fa8b;border:0;border-radius:6px}iframe{display:block;border:1px solid #354235;margin:15px 0}pre{white-space:pre-wrap}</style><h1>紧凑属性、完整战斗区与固定状态行</h1><button id="run">开始验证</button><pre id="report">等待页面加载</pre><div id="frames"></div><script>
+const sizes=[[1280,720],[1366,768],[960,720],[320,720],[1600,900],[1280,600]],frames=[];
+for(const [width,height]of sizes){const f=document.createElement('iframe');f.src='../index.html';f.title=width+'×'+height;f.style.width=width+'px';f.style.height=height+'px';document.querySelector('#frames').append(f);frames.push(f);}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));document.querySelector('#run').onclick=async()=>{
+ const checks=[],records=[],report=document.querySelector('#report'),check=(v,m)=>{if(!v)throw Error(m);checks.push(m);};
+ try{
+  for(const f of frames){const d=f.contentDocument,w=f.contentWindow,$=id=>d.getElementById(id),change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event('change',{bubbles:true}));},viewport=w.innerWidth+'×'+w.innerHeight;
+   await wait(60);let baseline=null,maxClip=0;
+   for(const type of [...$('type-0').options].map(o=>o.value)){change('type-0',type);change('type-1',type);await wait(10);const arena=$('arena').getBoundingClientRect(),control=d.querySelector('.transport').getBoundingClientRect(),height=$('fighter-meta-0').getBoundingClientRect().height;
+    check(control.bottom<=w.innerHeight-3,viewport+' '+type+' controls fit');check(arena.top>=0&&arena.bottom<control.bottom,viewport+' '+type+' whole arena visible');check(d.documentElement.scrollWidth<=w.innerWidth,viewport+' '+type+' no overflow');
+    check($('status-slot-0').textContent==='状态正常',viewport+' '+type+' normal slot');check($('bar-0').getBoundingClientRect().top===$('bar-1').getBoundingClientRect().top,viewport+' '+type+' aligned health');
+    const geometry={top:arena.top,width:arena.width,height,bar:$('bar-0').getBoundingClientRect().top};if(baseline)check(JSON.stringify(geometry)===JSON.stringify(baseline),viewport+' species switching stays fixed');else baseline=geometry;
+    for(const value of d.querySelectorAll('.stats-skills .stat-chip:not(.empty-slot) b'))maxClip=Math.max(maxClip,value.scrollWidth-value.clientWidth);
+   }
+   check(maxClip<=1,viewport+' ready values fully readable');
+   const before=$('arena').getBoundingClientRect().top;d.querySelector('.skill-details summary').click();await wait(30);check($('arena').getBoundingClientRect().top===before,viewport+' open details does not move battle');d.querySelector('.skill-details summary').click();
+   records.push({viewport,arenaTop:baseline.top,arenaWidth:baseline.width,hudHeight:baseline.height,controlsBottom:d.querySelector('.transport').getBoundingClientRect().bottom});
+  }
+  report.dataset.result='passed';report.textContent=JSON.stringify({passed:true,checks:checks.length,sizes:records},null,2);
+ }catch(e){report.dataset.result='failed';report.textContent=JSON.stringify({passed:false,checks:checks.length,error:e.message},null,2);}
+};
+</script></html>

@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "matches": 300,
+  "combatIndependentOfSpectacle": true,
+  "species": [
+    "normal",
+    "vampire",
+    "accelerator",
+    "reflector",
+    "shield",
+    "ranger",
+    "trapper",
+    "boomerang",
+    "laser",
+    "venom"
+  ],
+  "newCues": 10,
+  "totalAudioProfiles": 44,
+  "peakEffects": 128,
+  "pauseResetEndPassed": true
+}

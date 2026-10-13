@@ -1,0 +1,31 @@
+# Local historical previews and reports; current reports remain tracked.
+/preview-awakening.png
+/preview-feedback.png
+/preview-glory.png
+/preview-in-app.png
+/preview-match-characters.png
+/preview-mechanics.png
+/preview-opportunity.png
+/preview-status.png
+/preview-tuning.png
+/preview.png
+/tests/audio-ui-results.json
+/tests/awakening-ui-results.json
+/tests/balance-results.json
+/tests/browser-results.json
+/tests/characters-ui-results.json
+/tests/collision-frequency.json
+/tests/feedback-main-results.json
+/tests/mechanics-ui-results.json
+/tests/new-ui-results.json
+/tests/responsive-results.json
+/tests/spectacle-reference.json
+/tests/tuning-ui-results.json
+
+# Local machine files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+.env
+.env.*

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": 111,
+  "coverage": [
+    "bounded contact drought damage / simultaneous consumption",
+    "blood-chain duration refund / pulse count / absorption",
+    "dash collision vs immunity",
+    "consecutive beam misses / disarm",
+    "one refund per dual-blade recall",
+    "natural expiry only / no replacement or disarm farming",
+    "basic attacks unchanged / cooldown floor",
+    "all-species pause reset and HUD capacity"
+  ]
+}

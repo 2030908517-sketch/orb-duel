@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "checks": 366,
+  "sizes": [
+    {
+      "viewport": "1280×720",
+      "arenaTop": 103.33333587646484,
+      "arenaWidth": 543.2222290039062,
+      "hudHeight": 111,
+      "controlsBottom": 683.263916015625
+    },
+    {
+      "viewport": "1366×768",
+      "arenaTop": 103.33333587646484,
+      "arenaWidth": 594.2222290039062,
+      "hudHeight": 111,
+      "controlsBottom": 731.4305419921875
+    },
+    {
+      "viewport": "960×720",
+      "arenaTop": 250.11111450195312,
+      "arenaWidth": 388.22222900390625,
+      "hudHeight": 60,
+      "controlsBottom": 683.6527709960938
+    },
+    {
+      "viewport": "320×720",
+      "arenaTop": 318,
+      "arenaWidth": 279.22222900390625,
+      "hudHeight": 111,
+      "controlsBottom": 673.7083435058594
+    },
+    {
+      "viewport": "1600×900",
+      "arenaTop": 103.33333587646484,
+      "arenaWidth": 734.2222290039062,
+      "hudHeight": 111,
+      "controlsBottom": 863.6527709960938
+    },
+    {
+      "viewport": "1280×600",
+      "arenaTop": 103.33333587646484,
+      "arenaWidth": 366.22222900390625,
+      "hudHeight": 111,
+      "controlsBottom": 563.8750076293945
+    }
+  ]
+}

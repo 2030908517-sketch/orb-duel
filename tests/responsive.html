@@ -1,0 +1,17 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>窄屏数值布局验证</title><style>body{background:#0c1016;color:#d0fa8b;font:14px/1.7 monospace;padding:20px}iframe{display:block;width:320px;height:740px;border:0;margin:auto}pre{white-space:pre-wrap}button{padding:12px;background:#d0fa8b;border:0;border-radius:5px}</style><h1>320px 实际页面布局</h1><button id="run">验证新球种数值布局</button><pre id="report">等待验证</pre><iframe id="game" src="../index.html?v=20261013-ricochet5" title="320px 游戏"></iframe><script>
+const frame=document.querySelector('#game'),report=document.querySelector('#report');
+document.querySelector('#run').onclick=async()=>{
+ const d=frame.contentDocument,w=frame.contentWindow,$=id=>d.getElementById(id),checks=[];
+ const check=(v,name)=>{if(!v)throw Error(name);checks.push(name);};
+ const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event('change',{bubbles:true}));};
+ const layout=name=>{check(w.innerWidth===320,'real iframe viewport 320 '+name);check(d.documentElement.scrollWidth<=320,'no horizontal overflow '+name);check(Math.abs($('bar-0').getBoundingClientRect().top-$('bar-1').getBoundingClientRect().top)<1,'health bars align '+name);check($('fighter-meta-0').getBoundingClientRect().width>0,'stats visible '+name);};
+ try{
+  for(const type of ['reflector','boomerang','laser','venom']){change('type-0',type);change('type-1','venom');layout(type);}
+  change('type-0','reflector');change('seed','responsive-new-0');d.querySelector('[data-speed="4"]').click();$('toggle').click();
+  const deadline=performance.now()+12000;
+  while(performance.now()<deadline && !$('fighter-0').classList.contains('awakened') && $('state-badge').textContent==='对战进行中')await new Promise(r=>setTimeout(r,40));
+  check($('fighter-0').classList.contains('awakened'),'reflector awakens');if($('state-badge').textContent==='对战进行中')$('toggle').click();layout('awakened');
+  check($('awake-notice-0').getBoundingClientRect().bottom<=$('arena').getBoundingClientRect().top,'notice stays outside arena');
+  report.textContent=JSON.stringify({passed:true,checks,stats:[$('fighter-meta-0').textContent,$('fighter-meta-1').textContent]},null,2);report.dataset.result='passed';
+ }catch(e){report.textContent=JSON.stringify({passed:false,checks,error:e.message},null,2);report.dataset.result='failed';}
+};</script></html>
