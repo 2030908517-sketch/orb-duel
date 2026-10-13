@@ -6,7 +6,7 @@
     wall:{duration:.065,cooldown:.065,priority:0,layers:[['triangle',780,440,.5]]},
     ball:{duration:.16,cooldown:.1,priority:2,layers:[['sine',210,65,.65],['triangle',420,140,.22]]},
     heavy:{duration:.23,cooldown:.12,priority:5,layers:[['sine',160,42,.65],['triangle',720,90,.25]]},
-    shot:{duration:.10,cooldown:.16,priority:2,layers:[['triangle',1400,450,.40],['sine',720,260,.22]]},
+    shot:{duration:.11,cooldown:.09,priority:3,noise:{gain:.22,decay:.025,cutoff:2600},layers:[['triangle',1250,230,.22],['sine',180,85,.18]]},
     shotHit:{duration:.13,cooldown:.12,priority:3,layers:[['triangle',920,180,.4],['sine',220,70,.4]]},
     trap:{duration:.12,cooldown:.22,priority:1,layers:[['triangle',280,480,.34],['sine',960,960,.18,.05]]},
     explosion:{duration:.30,cooldown:.15,priority:5,layers:[['sawtooth',110,28,.4],['triangle',520,60,.30]]},
@@ -46,6 +46,21 @@
     toxinBurst:{duration:.30,cooldown:.15,priority:5,layers:[['sawtooth',680,85,.22],['sine',160,45,.4]]},
     wallSlam:{duration:.30,cooldown:.16,priority:6,layers:[['triangle',95,26,.55],['sawtooth',540,70,.2]]},
     bladeCatch:{duration:.20,cooldown:.12,priority:3,layers:[['triangle',1400,480,.25],['sine',820,1100,.14]]},
+    fistRelease:{duration:.18,cooldown:.16,priority:4,noise:{gain:.18,decay:.05,cutoff:1200},layers:[['sine',170,70,.28]]},
+    fistHit:{duration:.28,cooldown:.16,priority:6,noise:{gain:.22,decay:.035,cutoff:1800},layers:[['sine',135,35,.48],['triangle',650,95,.18]]},
+    bloodCharge:{duration:.25,cooldown:.3,priority:3,layers:[['sine',120,75,.28],['sine',320,620,.14,.07]]},
+    bloodFinish:{duration:.32,cooldown:.3,priority:5,noise:{gain:.12,decay:.08,cutoff:1000},layers:[['sine',160,45,.34],['triangle',420,1200,.17,.06]]},
+    shieldBash:{duration:.26,cooldown:.17,priority:5,noise:{gain:.16,decay:.045,cutoff:1600},layers:[['sine',180,42,.42],['triangle',920,260,.18]]},
+    pressureRelease:{duration:.34,cooldown:.2,priority:5,noise:{gain:.22,decay:.10,cutoff:1100},layers:[['sine',145,34,.38],['triangle',580,100,.15]]},
+    reload:{duration:.34,cooldown:.3,priority:2,noise:{gain:.07,decay:.025,cutoff:3000},layers:[['triangle',1300,760,.13],['triangle',940,1250,.12,.19]]},
+    heavyShot:{duration:.25,cooldown:.2,priority:5,noise:{gain:.30,decay:.04,cutoff:2200},layers:[['sine',160,42,.4],['triangle',1100,180,.18]]},
+    laserLock:{duration:.14,cooldown:.2,priority:3,layers:[['sine',920,920,.18],['sine',1380,1380,.12,.04]]},
+    cannon:{duration:.43,cooldown:.3,priority:6,noise:{gain:.22,decay:.12,cutoff:2100},layers:[['sawtooth',1600,220,.17],['sine',155,33,.42]]},
+    mirrorCatch:{duration:.16,cooldown:.15,priority:4,noise:{gain:.12,decay:.018,cutoff:3100},layers:[['sine',1900,1150,.16],['triangle',1200,620,.15]]},
+    mirrorRelease:{duration:.30,cooldown:.25,priority:5,noise:{gain:.17,decay:.035,cutoff:2700},layers:[['triangle',1600,380,.2],['sine',210,70,.24]]},
+    netArm:{duration:.12,cooldown:.25,priority:1,layers:[['triangle',630,1100,.10]]},
+    netTrigger:{duration:.18,cooldown:.18,priority:4,layers:[['triangle',1300,290,.18],['sine',180,60,.24]]},
+    chainBlast:{duration:.32,cooldown:.08,priority:5,noise:{gain:.25,decay:.09,cutoff:1200},layers:[['sine',155,32,.4],['triangle',680,100,.15]]},
     victory:{duration:.56,cooldown:.6,priority:7,layers:[['sine',523,523,.25],['sine',659,659,.24,.12],['triangle',784,1047,.22,.24]]}
   };
   G.Audio = class Audio {
@@ -79,7 +94,7 @@
       for(const event of ordered){
         const kind=event.kind,now=this.context.currentTime;
         if(started>=3)break;
-        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake'].includes(e.kind))))continue;
+        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake','fistHit','shieldBash','cannon','heavyShot','chainBlast'].includes(e.kind))))continue;
         if(now-(this.lastPlayed[kind]??-Infinity)<profiles[kind].cooldown)continue;
         if(this.voices.size>=8){
           const quietest=[...this.voices].sort((a,b)=>profiles[a.kind].priority-profiles[b.kind].priority)[0];
@@ -97,14 +112,21 @@
       const spec=profiles[kind];if(!spec)throw new Error('Unknown audio cue: '+kind);
       const panner=context.createStereoPanner();panner.pan.value=Math.max(-1,Math.min(1,pan));panner.connect(destination);
       const filter=context.createBiquadFilter();filter.type='lowpass';filter.frequency.value=kind==='explosion'?1200:kind==='wall'?2400:3200;filter.connect(panner);
-      const voice={oscillators:[],nodes:[filter,panner]};let remaining=spec.layers.length;
+      const voice={oscillators:[],nodes:[filter,panner]};let remaining=spec.layers.length+(spec.noise?1:0);
+      const ended=()=>{if(--remaining===0){for(const node of voice.nodes)node.disconnect();onEnded();}};
+      if(spec.noise){
+        const n=spec.noise,buffer=context.createBuffer(1,Math.ceil(context.sampleRate*spec.duration),context.sampleRate),data=buffer.getChannelData(0);
+        let seed=2166136261;for(const ch of kind)seed=Math.imul(seed^ch.charCodeAt(0),16777619);
+        for(let i=0;i<data.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;data[i]=(seed/4294967296*2-1)*Math.min(1,i/(context.sampleRate*.002))*Math.exp(-i/context.sampleRate/n.decay);}
+        const source=context.createBufferSource(),band=context.createBiquadFilter(),gain=context.createGain();source.buffer=buffer;band.type='lowpass';band.frequency.value=n.cutoff;gain.gain.value=n.gain;source.connect(band);band.connect(gain);gain.connect(filter);source.start(when);source.stop(when+spec.duration+.008);source.onended=ended;voice.oscillators.push(source);voice.nodes.push(source,band,gain);
+      }
       for(const [type,from,to,gain,delay=0] of spec.layers){
         const start=when+delay,end=when+spec.duration,osc=context.createOscillator(),envelope=context.createGain();
         osc.type=type;osc.frequency.setValueAtTime(from,start);osc.frequency.exponentialRampToValueAtTime(to,end);
         envelope.gain.setValueAtTime(0,start);envelope.gain.linearRampToValueAtTime(gain,start+.004);envelope.gain.exponentialRampToValueAtTime(.0001,end);
         osc.connect(envelope);envelope.connect(filter);osc.start(start);osc.stop(end+.008);
         voice.oscillators.push(osc);voice.nodes.push(osc,envelope);
-        osc.onended=()=>{if(--remaining===0){for(const node of voice.nodes)node.disconnect();onEnded();}};
+        osc.onended=ended;
       }
       return voice;
     }

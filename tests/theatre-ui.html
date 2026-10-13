@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>竞技场尺寸与结束状态回归</title><style>body{background:#0c1016;color:#d0fa8b;font:13px/1.7 monospace;padding:16px}iframe{display:block;border:1px solid #354235;margin:20px 0}button{padding:12px;background:#d0fa8b;border:0;border-radius:5px}pre{white-space:pre-wrap}</style><h1>侧栏布局、同比例放大、结束不缩场</h1><button id="run">开始验证</button><pre id="report">等待运行</pre><div id="frames"></div><script>
 const sizes=[[1920,1080],[2048,998],[1366,768],[1280,720],[1100,720],[960,720],[320,720],[1280,600],[1200,640],[1330,700],[600,720]],frames=[],wait=ms=>new Promise(r=>setTimeout(r,ms));
-for(const [width,height] of sizes){const f=document.createElement('iframe');f.width=width;f.height=height;f.title=width+'×'+height;f.src='../index.html?v=20261013-ricochet5';document.querySelector('#frames').append(f);frames.push(f);}
+for(const [width,height] of sizes){const f=document.createElement('iframe');f.width=width;f.height=height;f.title=width+'×'+height;f.src='../index.html?v=20261013-roster1';document.querySelector('#frames').append(f);frames.push(f);}
 document.querySelector('#run').onclick=async()=>{
  const checks=[],records=[],report=document.querySelector('#report');let samples=0;const check=(v,m)=>{if(!v)throw Error(m);checks.push(m);};
  try{

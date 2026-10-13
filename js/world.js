@@ -13,17 +13,17 @@
     fire(ball,engine,options={}){
       const target=this.targetFor(ball,engine);if(!target)return;
       const mode=options.mode||'shot';if(mode==='boomerang')return G.Characters.throwBlade(ball,engine,options);const speed=options.speed||ball.def.shotSpeed;
-      const radius=options.radius||ball.def.shotRadius,angle=this.aim(ball,target,speed)+(options.angleOffset||0),distance=ball.radius+radius+2;
-      const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:mode==='counter'?0:1,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false};
+      const radius=options.radius||ball.def.shotRadius,angle=options.angle??(this.aim(ball,target,speed)+(options.angleOffset||0)),distance=ball.radius+radius+2;
+      const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:mode==='counter'?0:1,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy};
       if(G.Physics.constrain(shot)){shot.bounces++;this.ricochet(shot,engine);}
-      engine.projectiles.push(shot);if(mode!=='counter')G.Spectacle?.emit(engine,ball,mode==='boomerang'?'moon':'volley',{angle,life:.3});if(mode!=='counter')ball.stats.shotsFired++;
+      engine.projectiles.push(shot);if(mode!=='counter')G.Spectacle?.emit(engine,ball,mode==='boomerang'?'moon':'volley',{angle,life:.3,sound:false});if(mode!=='counter')ball.stats.shotsFired++;
       engine.burst(shot.x,shot.y,ball.def.color,5);engine.log(engine.label(ball)+(mode==='boomerang'?'投出飞刃':mode==='counter'?'释放蓄能反击弹':'发射子弹'));
     },
     ricochet(shot,engine){
       if((shot.mode||'shot')==='shot' && !shot.charged){shot.charged=true;shot.raw*=1.15;engine.sound('ricochet',shot.x);engine.ring(shot.x,shot.y,'#fff0a4',20);}
     },
-    counter(ball,engine,damage){
-      this.fire(ball,engine,{mode:'counter',raw:damage,speed:440,radius:5,life:1.4});ball.stats.countersFired++;G.Spectacle?.emit(engine,ball,'counter',{angle:Math.atan2(engine.projectiles.at(-1)?.vy||0,engine.projectiles.at(-1)?.vx||1),life:.42});engine.signal(ball,'返还蓄能 '+damage.toFixed(1),'counter');
+    counter(ball,engine,damage,angle){
+      this.fire(ball,engine,{mode:'counter',angle,raw:damage,speed:440,radius:5,life:1.4});ball.stats.countersFired++;G.Spectacle?.emit(engine,ball,'counter',{angle:Math.atan2(engine.projectiles.at(-1)?.vy||0,engine.projectiles.at(-1)?.vx||1),life:.42,sound:false});engine.signal(ball,'镜裂返还 '+damage.toFixed(1),'mirrorRelease');
     },
     placeTrap(ball,engine){
       const spec=G.Awakening.trapOptions(ball),owned=engine.traps.filter(t=>t.owner===ball.id);
@@ -49,15 +49,7 @@
       return Math.hypot(target.x-ray.x-dx*u,target.y-ray.y-dy*u);
     },
     laser(ball,engine){
-      const ray=this.ray(ball,ball.laser.angle),awake=G.Awakening.active(ball),width=awake?7:ball.def.laserWidth;
-      const raw=G.Combat.rollAttack(ball,engine,awake?18:ball.def.laserDamage);ball.stats.lasersFired++;
-      let hit=false;
-      for(const target of engine.balls)if(target.id!==ball.id && target.hp>0 && this.distanceToRay(ray,target)<=target.radius+width){engine.pendingAttacks.push({source:ball,target,raw,kind:'laser'});hit=true;}
-      const cleared=engine.traps.filter(t=>t.owner!==ball.id && t.armedAt<=engine.time && t.expires>=engine.time && this.distanceToRay(ray,t)<=t.radius+width);
-      for(const trap of cleared)this.clearTrap(trap,ball,engine);
-      G.Spectacle?.emit(engine,ball,'beam',{ray,life:.38});engine.effects.push({kind:'beam',...ray,color:ball.def.color,width,age:0,life:.24});engine.sound('laser',ball.x);
-      if(hit||cleared.length)ball.laserMisses=0;
-      else{ball.laserMisses++;if(ball.laserMisses>=2){ball.laserMisses=0;G.Recovery.refund(ball,engine,'nextLaser',.6,'连续落空');}else engine.signal(ball,'光束落空 1/2','miss');}
+      return G.Roles.laserFire(ball,engine);
     },
     clearTrap(trap,ball,engine){
       engine.traps=engine.traps.filter(t=>t.id!==trap.id);ball.stats.trapsCleared++;
@@ -95,7 +87,8 @@
         const first=candidates[0];
         if(first?.trap){this.clearTrap(first.trap,owner,engine);continue;}
         if(first?.target){
-          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,kind:mode,noReflect:mode==='counter'});
+          const reflected=G.Roles.intercept(shot,first.target,engine);if(reflected){nextShots.push(reflected);continue;}
+          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,kind:mode,noReflect:mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx)});
           engine.ring(shot.x,shot.y,shot.color,22);
           if(mode!=='boomerang')continue;
           shot.hitIds.push(first.key);
@@ -104,7 +97,7 @@
         nextShots.push(shot);
       }
       engine.projectiles=nextShots;
-      this.updateTraps(engine);
+      G.Roles.updateWaves(engine,dt);G.Roles.updateBeams(engine);this.updateTraps(engine);
       engine.pools=engine.pools.filter(pool=>{const owner=engine.balls.find(b=>b.id===pool.owner&&b.hp>0);if(!owner)return false;if(pool.expires<engine.time){if(!pool.touched)G.Recovery.refund(owner,engine,'nextPool',.35,'毒池未接触');return false;}return true;});
       for(const pool of engine.pools)if(engine.time+1e-9>=pool.armedAt){
         for(const target of engine.balls)if(target.id!==pool.owner && target.hp>0 && Math.hypot(target.x-pool.x,target.y-pool.y)<=pool.radius+target.radius*.55){
@@ -120,22 +113,7 @@
       }
     },
     updateTraps(engine){
-      const nextTraps=[],removed=new Set();
-      for(const trap of engine.traps){
-        if(removed.has(trap.id))continue;
-        const owner=engine.balls.find(b=>b.id===trap.owner);if(!owner || owner.hp<=0)continue;if(engine.time>trap.expires){G.Recovery.refund(owner,engine,'nextTrap',.4,'陷阱未触发');continue;}
-        const target=engine.time+1e-9>=trap.armedAt?engine.balls.find(b=>b.id!==trap.owner && b.hp>0 && Math.hypot(b.x-trap.x,b.y-trap.y)<=b.radius+trap.radius):null;
-        if(!target){nextTraps.push(trap);continue;}
-        const queue=[trap];removed.add(trap.id);
-        for(let i=0;i<queue.length;i++){
-          const mine=queue[i];
-          for(const enemy of engine.balls)if(enemy.id!==owner.id && enemy.hp>0 && Math.hypot(enemy.x-mine.x,enemy.y-mine.y)<=enemy.radius+(mine.blastRadius||mine.radius))engine.pendingAttacks.push({source:owner,target:enemy,raw:mine.raw,kind:'trap'});
-          G.Spectacle?.emit(engine,owner,'detonate',{point:mine,radius:mine.blastRadius||54,life:.5,cooldown:0});engine.ring(mine.x,mine.y,mine.color,mine.blastRadius||54);engine.burst(mine.x,mine.y,mine.color,16);engine.sound('explosion',mine.x);engine.impact(mine.x,mine.y,mine.color,1.7);
-          if(mine.chainRange)for(const other of engine.traps)if(other.owner===owner.id && other.chainRange && !removed.has(other.id) && engine.time+1e-9>=other.armedAt && engine.time<=other.expires && Math.hypot(other.x-mine.x,other.y-mine.y)<=mine.chainRange){removed.add(other.id);queue.push(other);engine.effects.push({kind:'arc',x:mine.x,y:mine.y,endX:other.x,endY:other.y,color:mine.color,age:0,life:.35});}
-        }
-        if(queue.length>1)engine.signal(owner,'连锁引爆 ×'+queue.length,'combo');
-      }
-      engine.traps=nextTraps.filter(t=>!removed.has(t.id));
+      G.Roles.updateTraps(engine);
     }
   };
 })(typeof window!=='undefined'?window:globalThis);

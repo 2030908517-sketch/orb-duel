@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path');
-for(const file of ['config','physics','skills','world','characters','awakening','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
+for(const file of ['config','physics','skills','world','characters','roles','awakening','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
 const G=globalThis.OrbDuel;let checks=0;
 function ok(v,message){assert.ok(v,message);checks++;}
 function setup(types=['ranger','normal']){
@@ -34,7 +34,7 @@ for(const kind of ['shot','trap']){
  const shield=setup(['ranger','shield']);G.Combat.resolveBatch([{source:shield.balls[0],target:shield.balls[1],raw:8,kind}],shield);
  ok(shield.balls[1].hp===shield.balls[1].maxHp && shield.balls[1].shield===6,'shield absorbs '+kind);
  const reflect=setup(['ranger','reflector']);G.Combat.resolveBatch([{source:reflect.balls[0],target:reflect.balls[1],raw:10,kind}],(reflect.balls[1].stance.phase='active',reflect));
- ok(reflect.balls[1].hp===110 && reflect.balls[0].hp===reflect.balls[0].maxHp-7.5 && reflect.balls[1].stats.reflected===7.5,'reflects '+kind+' once');
+ ok(reflect.balls[1].hp===reflect.balls[1].maxHp-10 && reflect.balls[0].hp===reflect.balls[0].maxHp-7.5 && reflect.balls[1].stats.reflected===7.5,'reflects '+kind+' once');
 }
 // Opposing projectiles kill on the same step, regardless of packet ordering.
 for(const reverse of [false,true]){
@@ -44,6 +44,6 @@ for(const reverse of [false,true]){
 }
 const frozen=setup(['ranger','trapper']);G.World.fire(frozen.balls[0],frozen);G.World.placeTrap(frozen.balls[1],frozen);frozen.pause();const state=JSON.stringify(frozen.snapshot());for(let i=0;i<1000;i++)frozen.step();ok(state===JSON.stringify(frozen.snapshot()),'pause freezes entities and skill timers');
 frozen.reset(['ranger','trapper'],'world-test');ok(frozen.projectiles.length===0 && frozen.traps.length===0 && frozen.nextWorldId===0 && frozen.balls.every(b=>b.stats.shotsFired===0 && b.stats.trapsPlaced===0),'complete world reset');
-const boost=new G.Engine(['accelerator','normal'],'boost');boost.balls[0].speed=365;boost.heatMultiplier=2.5;ok(Math.abs(G.Combat.attackValue(boost.balls[0],boost)-10*1.4*2.5)<1e-10,'UI attack includes both multipliers');
+const boost=new G.Engine(['accelerator','normal'],'boost');boost.balls[0].speed=365;boost.heatMultiplier=2.5;ok(Math.abs(G.Combat.attackValue(boost.balls[0],boost)-9.6*1.4*2.5)<1e-10,'UI attack includes both multipliers');
 const results={checks,passed:true,coverage:['projectile sweep / owner immunity / wall bounce / lifetime','trap arm / single use / capacity / lifetime','shield / reflection / same-tick draw','pause / full reset / dynamic attack display']};
 require('node:fs').writeFileSync(path.join(__dirname,'world-results.json'),JSON.stringify(results,null,2));console.log(results);

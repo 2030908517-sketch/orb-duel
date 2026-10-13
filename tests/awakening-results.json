@@ -1,5 +1,5 @@
 {
-  "checks": 99,
+  "checks": 94,
   "passed": true,
   "trigger": "15s or <=50% HP",
   "skills": [

@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const base = path.resolve(__dirname, '..');
-for (const file of ['config', 'physics', 'skills', 'world', 'characters', 'awakening', 'engine', 'spectacle']) require(path.join(base, 'js', file + '.js'));
+for (const file of ['config', 'physics', 'skills', 'world', 'characters', 'roles', 'awakening', 'engine', 'spectacle']) require(path.join(base, 'js', file + '.js'));
 const G = globalThis.OrbDuel, C = G.Constants;
 let checks = 0;
 function ok(value, message) { assert.ok(value, message); checks++; }
@@ -44,7 +44,7 @@ function paced(fps, speed, types) {
   }
   return e.snapshot();
 }
-for(const types of [['accelerator','shield'],['ranger','trapper'],['ranger','reflector'],['boomerang','laser'],['venom','reflector']]) { const baseline=paced(60,1,types);for(const fps of [30,60,144])for(const speed of [1,2,4])assert.deepEqual(paced(fps,speed,types),baseline,'frame-rate/speed determinism'); }
+for(const types of [['accelerator','shield'],['ranger','trapper'],['ranger','reflector'],['boomerang','laser'],['venom','reflector'],['normal','vampire'],['shield','normal']]) { const baseline=paced(60,1,types);for(const fps of [30,60,144])for(const speed of [1,2,4])assert.deepEqual(paced(fps,speed,types),baseline,'frame-rate/speed determinism'); }
 const paceEngine = new G.Engine(), paceClock = new G.Clock(paceEngine); paceEngine.start();
 paceClock.advance(1 / 60); assert.equal(paceEngine.tick, 4); paceClock.speed = 4; paceClock.advance(1 / 60); assert.equal(paceEngine.tick, 20);
 // Coincident balls, wall corners, high-speed opposing balls.

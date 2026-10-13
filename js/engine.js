@@ -10,7 +10,7 @@
       this.tick = 0; this.time = 0; this.state = 'ready'; this.winner = null;
       this.collisions = 0; this.lastContactTime = 0; this.pairs = new Map();
       this.fxCooldowns = Object.create(null); this.effects = []; this.events = []; this.soundEvents = []; this.heatMultiplier = 1;
-      this.projectiles=[];this.traps=[];this.pools=[];this.pendingAttacks=[];this.contactPairs=[];this.nextWorldId=0;
+      this.trapChains=[];this.waves=[];this.beams=[];this.projectiles=[];this.traps=[];this.pools=[];this.pendingAttacks=[];this.contactPairs=[];this.nextWorldId=0;
       this.heatAnnounced = false; this.decayAnnounced = false;
       for (const ball of this.balls) { G.Skills[ball.type]?.update?.(ball, 0, this); }
     }
@@ -49,7 +49,7 @@
       for (const ball of this.balls) {
         ball.flash = Math.max(0, ball.flash - dt);
         if(ball.hitVisual)ball.hitVisual.age+=dt;
-        G.Characters.update(ball,this);G.Recovery.pressure(ball,this);G.Awakening.update(ball,dt,this);
+        G.Characters.update(ball,this);G.Roles.update(ball,this);G.Recovery.pressure(ball,this);G.Awakening.update(ball,dt,this);
         G.Skills[ball.type]?.update?.(ball, dt, this);
       }
       for (const ball of this.balls) {
@@ -104,7 +104,7 @@
       }
     }
     snapshot() {
-      return { seed: this.seed, tick: this.tick, time: this.time, state: this.state, winner: this.winner, collisions: this.collisions, pools:this.pools.map(p=>({...p})),projectiles:this.projectiles.map(p=>({...p,hitIds:p.hitIds?[...p.hitIds]:undefined,history:p.history?p.history.map(v=>({...v})):undefined,curve:p.curve?{...p.curve,start:{...p.curve.start},control:{...p.curve.control},end:{...p.curve.end}}:undefined})),traps:this.traps.map(t=>({...t})),balls: this.balls.map(b => ({ id: b.id, type: b.type, x: b.x, y: b.y, vx: b.vx, vy: b.vy, hp: b.hp, shield: b.shield, speed: b.speed, motionSpeed:b.motionSpeed,inertia:b.inertia,stagger:b.stagger?{...b.stagger}:null,bladeMark:b.bladeMark?{...b.bladeMark}:null,character:{...b.character},charges:b.charges,pressure:{...b.pressure},laserMisses:b.laserMisses,bladeCastId:b.bladeCastId,lastRecallCast:b.lastRecallCast,stance:{...b.stance},nextLaser:b.nextLaser,laser:b.laser?{...b.laser,origin:{...b.laser.origin}}:null,nextPool:b.nextPool,poison:b.poison?{...b.poison}:null,awakening:{...b.awakening},nextShot:b.nextShot,nextTrap:b.nextTrap,stats: { ...b.stats } })) };
+      return { seed: this.seed, tick: this.tick, time: this.time, state: this.state, winner: this.winner, collisions: this.collisions, trapChains:this.trapChains.map(c=>({...c,hitCounts:{...c.hitCounts}})),waves:this.waves.map(w=>({...w,hitIds:[...w.hitIds]})),beams:this.beams.map(b=>({...b,hitCounts:{...b.hitCounts}})),pools:this.pools.map(p=>({...p})),projectiles:this.projectiles.map(p=>({...p,hitIds:p.hitIds?[...p.hitIds]:undefined,history:p.history?p.history.map(v=>({...v})):undefined,curve:p.curve?{...p.curve,start:{...p.curve.start},control:{...p.curve.control},end:{...p.curve.end}}:undefined})),traps:this.traps.map(t=>({...t})),balls: this.balls.map(b => ({ id: b.id, type: b.type, x: b.x, y: b.y, vx: b.vx, vy: b.vy, hp: b.hp, shield: b.shield, speed: b.speed, motionSpeed:b.motionSpeed,inertia:b.inertia,stagger:b.stagger?{...b.stagger}:null,bladeMark:b.bladeMark?{...b.bladeMark}:null,character:{...b.character},role:{...b.role,bloodMark:b.role.bloodMark?{...b.role.bloodMark}:null},charges:b.charges,pressure:{...b.pressure},laserMisses:b.laserMisses,bladeCastId:b.bladeCastId,lastRecallCast:b.lastRecallCast,stance:{...b.stance},nextLaser:b.nextLaser,laser:b.laser?{...b.laser,origin:{...b.laser.origin}}:null,nextPool:b.nextPool,poison:b.poison?{...b.poison}:null,awakening:{...b.awakening},nextShot:b.nextShot,nextTrap:b.nextTrap,stats: { ...b.stats } })) };
     }
   };
   // The accumulator owns wall-clock conversion; the engine only sees fixed steps.

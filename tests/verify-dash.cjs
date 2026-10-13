@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-for(const n of ['config','physics','skills','world','characters','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','characters','roles','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-7,m);
 function make(enemy='normal'){const e=new G.Engine(['accelerator',enemy],'decay-boundary');e.start();G.Awakening.activate(e.balls[0],e);e.balls[0].awakening.nextCast=99;return e;}

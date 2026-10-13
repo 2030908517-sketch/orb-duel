@@ -2,15 +2,15 @@
   'use strict';
   const G=root.OrbDuel;
   const defs={
-    normal:{name:'破限重击',description:'觉醒时恢复 8 生命，碰撞攻击永久提升 35%。'},
-    vampire:{name:'血月锁链',description:'8 秒周期、连接 2.4 秒，链距 240，每 0.3 秒汲取 1.2 伤害并按实际扣血治疗。未连接时返还 1.5 秒 CD，提前断链按缺失连接时长比例返还；完整连接不返还，盾和无敌仍有效。'},
+    normal:{name:'破阵重拳',description:'觉醒恢复最多 8 生命，碰撞攻击 +25%；满拳势重拳释放一次伤害 3.5 的短程定向拳劲。'},
+    vampire:{name:'血契收束',description:'血能至少 1、敌人在 220 范围内时预警 0.25 秒连链；8.5 秒周期，持续 2.1 秒，7 次脉冲各消耗 0.25 血能、伤害 1.05 并治疗 85%。完整连接消血印收束 2.6 伤害并治疗。断链最多返还 1.2 秒。'},
     accelerator:{name:'闪电突袭',description:'周期 8.5 秒、预警 0.7 秒；900 速度起冲，速度持续衰减，最多 1.5 秒，可多次墙面反弹，全程无敌。撞敌立即结束冲撞，速度越快伤害越高；动量传给对手，首次撞墙按法向动能追加伤害。未接触敌人返还 1 秒 CD，撞盾不返还。'},
-    reflector:{name:'蓄能返还',description:'反击姿态延长至 3.4 秒、返还提升到 90%；姿态中实际扣血的 25% 积为反击弹，最多 8 点（随加热增长）。姿态结束时射出，不触发二次反伤。'},
-    shield:{name:'堡垒脉冲',description:'护盾升级为每 8 秒获得 20 点、持续 3.6 秒；护盾被打破后，下一步向半径 90 内敌人反击 4 伤害。'},
-    ranger:{name:'交叉齐射',description:'每 2.4 秒向预判方向发射扇形三发子弹，每发基础伤害 3.7，仍最多反弹一次。'},
-    trapper:{name:'磁暴雷区',description:'每 3.2 秒布置强化陷阱：伤害 11、0.4 秒布防、持续 12 秒、最多 4 枚；触发后爆炸半径 65，连锁引爆 90 范围内已布防的己方强化陷阱。'}
+    reflector:{name:'镜裂回敬',description:'姿态延长至 3.2 秒、2 次镜片截获；即时反伤 60%，实际扣血的 25% 蓄能，上限 8（随加热增长），姿态结束沿最近来袭方向射出。截获弹以 55% 原伤折返，不能再次反射或蓄能。'},
+    shield:{name:'堡垒释放',description:'19 盾 / 8.8 秒 / 持续 3.1 秒；盾被打破或到期，将剩余压力的 90% 沿运动方向释放为短程宽波。碰撞盾击与释放共用压力，不重复兑现。'},
+    ranger:{name:'过载弹匣',description:'三发弹匣，每发 4.6 伤害，间隔 0.32 秒，装填 3.8 秒。满 2 校准时下一次装填消耗校准，末发重弹 8.4，过载装填 5.1 秒。子弹不追踪、落空不返还。'},
+    trapper:{name:'雷网起爆',description:'强化节点 10.2 伤害、周期 3.4 秒、布防 0.4 秒、持续 11 秒、最多 4 枚，120 范围内生成最多 3 条感应线。爆炸半径 60，90 内节点每跳延迟 0.09 秒传播。同轮同目标最多两次，第二次为 55%；可拆节点断链。'}
     ,boomerang:{name:'双刃回环',description:'每 4.2 秒投出左右双弧刃，每次基础伤害 2.8，回程斩印 ×1.5；同一步同一刃印只强化一刃。两刃完整接回才获得近战强化，冷却返还每次投掷限一次。'},
-    laser:{name:'聚焦贯穿',description:'光束基础伤害提升到 18、宽度增大，周期缩短至 4.8 秒，预警 0.55 秒；释放后仍有空窗。'},
+    laser:{name:'贯穿重炮',description:'3.6 秒充能，瞄准 0.18 秒后锁线预警 0.55 秒。释放 0.18 秒宽炮，最多三次脉冲，总基础伤害 22.2，伤害预算按 50% / 25% / 25% 分配，命中有有限推力；散热 1.45 秒。'},
     venom:{name:'剧毒扩散',description:'毒池扩大至 36、持续 5.5 秒，每层毒伤提升到 1.05；满毒敌人踩池也可引爆，与碰撞共享 2.5 秒引爆冷却。仍最多 2 池，不额外叠加毒层上限。'}
   };
   G.Awakening={
@@ -25,7 +25,7 @@
     activate(ball,engine){
       const a=ball.awakening;if(a.active || ball.hp<=0)return;a.active=true;a.activatedAt=engine.time;a.nextCast=engine.time;a.casts=0;
       engine.log(engine.label(ball)+'觉醒 · '+defs[ball.type].name);
-      engine.sound('awakening',ball.x);G.Spectacle?.emit(engine,ball,'awaken',{sound:false,radius:72,life:.65});
+      G.Roles.activate(ball,engine);engine.sound('awakening',ball.x);G.Spectacle?.emit(engine,ball,'awaken',{sound:false,radius:72,life:.65});
       engine.ring(ball.x,ball.y,ball.def.color,95);engine.burst(ball.x,ball.y,ball.def.color,22);
       if(ball.type==='normal'){const heal=Math.min(8,ball.maxHp-ball.hp);ball.hp+=heal;ball.stats.healing+=heal;if(heal)engine.float(ball.x,ball.y,'+'+heal.toFixed(1),ball.def.color);}
       if(ball.type==='shield'){const spec=this.shieldOptions(ball);ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration;ball.nextShield=engine.time+spec.period;}
@@ -37,17 +37,7 @@
       const a=ball.awakening,t=engine.time,target=G.World.targetFor(ball,engine);
       if(!a.active && (t+1e-9>=this.time || ball.hp<=ball.maxHp*this.healthRatio))this.activate(ball,engine);
       if(!a.active || !target)return;
-      if(ball.type==='vampire'){
-        if(!a.chainActive && t+1e-9>=a.nextCast){a.chainActive=true;a.chainStartedAt=t;a.chainConnected=0;a.chainRefund=0;a.chainUntil=t+2.4;a.nextPulse=t+.3;a.nextCast=t+8;a.casts++;engine.sound('chain',ball.x);G.Spectacle?.emit(engine,ball,'ritual',{radius:56,life:.65});engine.log(engine.label(ball)+'释放血月锁链');}
-        if(a.chainActive){
-          a.chainConnected=Math.min(2.4,Math.max(0,t-a.chainStartedAt));
-          if(Math.hypot(target.x-ball.x,target.y-ball.y)>240)this.finishChain(ball,engine);
-          else{
-            if(t<=a.chainUntil+1e-9 && t+1e-9>=a.nextPulse){a.nextPulse+=.3;engine.pendingAttacks.push({source:ball,target,raw:1.2*engine.heatMultiplier,kind:'chain',healRatio:1});}
-            if(t+1e-9>=a.chainUntil)this.finishChain(ball,engine);
-          }
-        }
-      }
+      if(ball.type==='vampire')G.Roles.vampireUpdate(ball,dt,engine);
       if(ball.type==='accelerator'){
         if(ball.motionSpeed){
           if(t+1e-9>=a.dashUntil)this.finishDash(ball,engine);
@@ -66,14 +56,14 @@
           a.chargeUntil=t+.7;a.nextCast=t+8.5;engine.sound('charge',ball.x);engine.log(engine.label(ball)+'锁定冲撞方向 · 蓄力 0.7s');
         }
       }
-      if(ball.type==='shield' && a.pendingBurst){a.pendingBurst=false;a.casts++;this.area(ball,engine,90,4,'barrier');}
+
     },
     area(ball,engine,radius,damage,kind){
       for(const target of engine.balls)if(target.id!==ball.id && target.hp>0 && Math.hypot(target.x-ball.x,target.y-ball.y)<=radius+target.radius)engine.pendingAttacks.push({source:ball,target,raw:G.Combat.rollAttack(ball,engine,damage,kind),kind});
       engine.ring(ball.x,ball.y,ball.def.color,radius);engine.burst(ball.x,ball.y,ball.def.color,16);engine.sound('break',ball.x);G.Spectacle?.emit(engine,ball,'barrier',{radius,life:.48});engine.impact(ball.x,ball.y,ball.def.color,1.6);
       engine.log(engine.label(ball)+'释放破盾反击');
     },
-    finishChain(ball,engine){const a=ball.awakening;if(!a.chainActive)return;a.chainActive=false;a.chainUntil=0;a.nextPulse=Infinity;const refund=1.5*Math.max(0,1-a.chainConnected/2.4);a.chainRefund=G.Recovery.refund(ball,engine,'nextCast',refund,a.chainConnected<1e-8?'血链未连接':'血链提前断开',a);},
+    finishChain(ball,engine){G.Roles.finishChain(ball,engine);},
     finishDash(ball,engine){
       const a=ball.awakening;if(!ball.motionSpeed)return;
       ball.motionSpeed=0;a.dashUntil=engine.time;a.stopAfterContact=false;ball.inertia=0;
@@ -83,19 +73,15 @@
       if(a.dashHit&&!a.dashSuccess)engine.signal(ball,'冲撞被抵消','miss');
     },
     dashMultiplier(speed){return .65+.85*Math.min(1,speed/900)**2;},
-    attackMultiplier(ball){return this.active(ball) && ball.type==='normal'?1.35:ball.motionSpeed && !ball.awakening.dashHit?this.dashMultiplier(ball.motionSpeed):1;},
-    shotDamage(ball){return this.active(ball)?3.7:ball.def.shotDamage;},
-    shotPeriod(ball){return this.active(ball)?2.4:ball.def.shotPeriod;},
-    trapOptions(ball){return this.active(ball)?{damage:11,period:3.2,radius:16,armDelay:.4,life:12,cap:4,blastRadius:65,chainRange:90}:{damage:ball.def.trapDamage,period:ball.def.trapPeriod,radius:ball.def.trapRadius,armDelay:ball.def.trapArmDelay,life:ball.def.trapLife,cap:ball.def.maxTraps,blastRadius:0,chainRange:0};},
-    shieldOptions(ball){return this.active(ball)?{amount:20,period:8,duration:3.6}:{amount:ball.def.shieldAmount,period:ball.def.shieldPeriod,duration:ball.def.shieldDuration};},
+    attackMultiplier(ball){return this.active(ball) && ball.type==='normal'?1.25:ball.motionSpeed && !ball.awakening.dashHit?this.dashMultiplier(ball.motionSpeed):1;},
+    shotDamage(ball){return G.Roles.rangerDamage(ball);},
+    shotPeriod(ball){return this.active(ball)?.32:.42;},
+    trapOptions(ball){return this.active(ball)?{damage:10.2,period:3.4,radius:15,armDelay:.4,life:11,cap:4,blastRadius:60,chainRange:90}:{damage:ball.def.trapDamage,period:ball.def.trapPeriod,radius:ball.def.trapRadius,armDelay:ball.def.trapArmDelay,life:ball.def.trapLife,cap:ball.def.maxTraps,blastRadius:45,chainRange:0};},
+    shieldOptions(ball){return this.active(ball)?{amount:19,period:8.8,duration:3.1}:{amount:ball.def.shieldAmount,period:ball.def.shieldPeriod,duration:ball.def.shieldDuration};},
     status(ball,engine){
       const a=ball.awakening,t=engine.time;if(!a.active)return [{label:'觉醒',value:Math.max(0,this.time-t).toFixed(1)+'s / ≤'+Math.round(this.healthRatio*100)+'%'}];
-      const stats=[{label:'觉醒',value:defs[ball.type].name}];
-      if(ball.type==='vampire')stats.push({label:a.chainActive?'血链':'链冷却',value:Math.max(0,(a.chainActive?a.chainUntil:a.nextCast)-t).toFixed(1)+'s'},{label:'汲取',value:(4*engine.heatMultiplier).toFixed(1)+'/s'},{label:'链距',value:240},...G.Recovery.refundStatus(ball));
+      const stats=[{label:'觉醒',value:defs[ball.type].name}];if(['normal','vampire','shield','ranger','laser','reflector','trapper'].includes(ball.type))return stats;
       if(ball.type==='accelerator')stats.push({label:this.dashing(ball,engine)?'无敌':a.chargeUntil>t?'蓄力':'冲刺冷却',value:Math.max(0,(this.dashing(ball,engine)?a.dashUntil:a.chargeUntil>t?a.chargeUntil:a.nextCast)-t).toFixed(1)+'s'});
-      if(ball.type==='shield')stats.push({label:'破盾波',value:(4*engine.heatMultiplier).toFixed(1)});
-      if(ball.type==='ranger')stats.push({label:'齐射',value:'3 发'});
-      if(ball.type==='trapper')stats.push({label:'连锁',value:'90 范围'});
       return stats;
     }
   };

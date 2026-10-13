@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-for(const n of ['config','physics','skills','world','characters','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','characters','roles','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel;let checks=0;const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-7,m);
 function make(types){const e=new G.Engine(types,'role-boundary');e.start();e.balls.forEach((b,i)=>{b.x=80+i*160;b.y=170;b.vx=b.vy=0;b.previousX=b.x;b.previousY=b.y;});return e;}
 function hit(e,source,target,kind='contact',extra={}){G.Combat.resolveBatch([{source,target,raw:2,kind,...extra}],e);}

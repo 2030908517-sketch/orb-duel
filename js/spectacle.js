@@ -19,7 +19,7 @@
       const ball=hit.source;
       if(!G.Awakening.active(ball))return;
       if(hit.actual<=0){if(hit.blocked>0)this.emit(engine,hit.target,'guard',{point:hit.target,sound:false,radius:36,life:.2});return;}
-      const heavy=hit.kind==='laser'||hit.kind==='counter'||hit.dash||(ball.type==='normal'&&hit.kind==='contact');
+      const heavy=hit.kind==='laser'||hit.kind==='counter'||hit.dash||(ball.type==='normal'&&hit.heavyContact);
       if(hit.kind==='contact'&&!heavy&&ball.type!=='boomerang')return;
       const angle=Math.atan2(hit.target.y-ball.y,hit.target.x-ball.x);
       const style=hit.kind==='chain'?'drain':hit.kind==='poison'?'corrode':hit.kind==='boomerang'?'cut':heavy?'strike':'spark';

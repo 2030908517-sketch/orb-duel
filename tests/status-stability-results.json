@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "samples": 101,
+  "samples": 104,
   "checks": [
     "desktop always reserves status normal",
     "desktop six ability slots normal",

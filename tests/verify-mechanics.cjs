@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const n of ['config','physics','skills','world','characters','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','characters','roles','awakening','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-8,m);
 function make(types){const e=new G.Engine(types,'mechanics-test');e.start();for(const [i,b]of e.balls.entries()){b.x=80+i*160;b.y=170;b.vx=0;b.vy=0;b.previousX=b.x;b.previousY=b.y;}return e;}
@@ -22,8 +22,8 @@ const absorbed=make(['reflector','normal']);G.Awakening.activate(absorbed.balls[
 // Three actual contacts arm a heavy strike; immune and shielded targets preserve the charge.
 const n=make(['normal','shield']),[normal,shield]=n.balls;shield.shield=0;
 for(let i=0;i<3;i++)hit(n,normal,shield,1);
-ok(normal.charges===3,'three hits arm heavy');near(G.Combat.attackValue(normal,n),11.5*1.35,'heavy multiplier displayed');
-shield.shield=20;hit(n,normal,shield,10);ok(normal.charges===3,'fully absorbed hit preserves charge');shield.shield=0;hit(n,normal,shield,1);ok(normal.charges===0 && normal.stats.heavyHits===1,'heavy consumes once');
+ok(normal.charges===3,'three hits arm heavy');near(G.Combat.attackValue(normal,n),11.8*1.3,'heavy multiplier displayed');
+shield.shield=20;hit(n,normal,shield,10);ok(normal.charges===0&&normal.stats.heavyHits===1,'shield contact consumes heavy once');shield.shield=0;hit(n,normal,shield,1);ok(normal.charges===1&&normal.stats.heavyHits===1,'next contact rebuilds fist');
 // Chronological collision priority: a nearer mine consumes the bullet, no explosion.
 function projectile(e,x,y,mode='shot'){return {id:90,mode,owner:0,x,y,vx:440,vy:0,speed:440,radius:4,bounces:0,maxBounces:1,expires:10,raw:7,color:'#fff'};}
 const clear=make(['ranger','trapper']);clear.balls[1].x=250;clear.balls[1].previousX=250;clear.traps=[{id:8,owner:1,x:170,y:170,radius:12,armedAt:0,expires:10,raw:9}];clear.projectiles=[projectile(clear,100,170)];G.World.update(clear,.35);
@@ -37,8 +37,8 @@ G.World.update(b,0);ok(b.pendingAttacks.length===1,'outgoing blade hits');drain(
 b.time=1;G.World.update(b,0);ok(blade.returning && b.pendingAttacks.length===1,'return leg can hit again');drain(b);G.World.update(b,0);ok(!b.pendingAttacks.length,'same return leg cannot hit twice');
 blade.x=b.balls[0].x;blade.y=170;blade.curve={start:{x:blade.x,y:170},control:{x:blade.x,y:170},end:{x:blade.x,y:170},started:b.time,duration:1};G.World.update(b,0);ok(!b.projectiles.length && b.balls[0].hp===b.balls[0].maxHp,'owner catches without injury');
 // Laser prediction locks direction; firing checks geometry and clears only armed enemy traps.
-const l=make(['laser','normal']);l.time=5.5;G.Skills.laser.update(l.balls[0],0,l);const locked=l.balls[0].laser.angle;l.balls[1].y=50;l.time=5.8;G.Skills.laser.update(l.balls[0],0,l);near(l.balls[0].laser.angle,locked,'laser direction locked through charge');
-l.time=6.15;G.Skills.laser.update(l.balls[0],0,l);ok(!l.pendingAttacks.length && l.balls[0].notice.text.startsWith('光束落空'),'locked beam can miss');
+const l=make(['laser','normal']);l.balls[0].role.capacitor=1;G.Skills.laser.update(l.balls[0],0,l);l.time=.18;G.Skills.laser.update(l.balls[0],0,l);const locked=l.balls[0].laser.angle;l.balls[1].y=50;l.time=.3;G.Skills.laser.update(l.balls[0],0,l);near(l.balls[0].laser.angle,locked,'laser direction locked through charge');
+l.time=.83;G.Skills.laser.update(l.balls[0],0,l);ok(!l.pendingAttacks.length&&l.balls[0].laserMisses===1,'locked beam can miss');
 l.balls[1].y=170;l.balls[0].laser={angle:0,fireAt:6.15};l.traps=[{id:1,owner:1,x:140,y:170,radius:12,armedAt:0,expires:20},{id:2,owner:1,x:200,y:170,radius:12,armedAt:20,expires:25},{id:3,owner:0,x:250,y:170,radius:12,armedAt:0,expires:25}];G.World.laser(l.balls[0],l);
 ok(l.pendingAttacks.length===1 && l.traps.length===2,'beam hits enemy and clears armed enemy mine');drain(l);ok(l.balls[0].hp===105 && l.balls[0].stats.lasersHit===1,'laser owner immune');
 // Poison overlap refreshes duration, does not multiply or restart the pulse clock.
