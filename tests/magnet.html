@@ -1,0 +1,25 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>磁力与时间侵蚀 · 实际机制画面</title>
+<style>body{background:#0c1016;color:#e3e9f3;font:15px/1.6 "Segoe UI","Microsoft YaHei",sans-serif;max-width:1440px;margin:24px auto;padding:20px}h1{margin:0 0 5px}p{color:#9aa9bb}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#131b26;padding:14px;border:1px solid #293548;border-radius:12px}canvas{width:100%;aspect-ratio:360/340}output{display:block;min-height:28px;color:#c2b6ff}h2{font-size:17px;margin:0 0 8px}pre{white-space:pre-wrap}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.grid{grid-template-columns:1fr}}</style>
+<h1>磁力球 · 极性坍缩 / 时间球 · 侵蚀领域</h1><p>正式物理与技能模块驱动：真实迎撞、真实墙撞、实体飞行物偏转；激光不受磁力。按控制场景步进到机制帧。</p><div class="grid" id="grid"></div><details><summary>查看机制数据</summary><pre id="results"></pre></details>
+<script src="../js/config.js"></script><script src="../js/physics.js"></script><script src="../js/skills.js"></script><script src="../js/world.js"></script><script src="../js/aim.js?v=20261014-tactics1"></script><script src="../js/flyers.js?v=20261014-tactics1"></script><script src="../js/mines.js?v=20261014-tactics1"></script><script src="../js/pursuit.js?v=20261014-tactics1"></script><script src="../js/characters.js"></script><script src="../js/roles.js"></script><script src="../js/ranger.js?v=20261014-salvo1"></script><script src="../js/awakening.js"></script><script src="../js/temporal.js"></script><script src="../js/magnet.js"></script><script src="../js/ghost.js"></script><script src="../js/holy.js?v=20261014-holy4"></script><script src="../js/cosmic.js?v=20261014-cosmic1"></script><script src="../js/charge.js"></script><script src="../js/stellar.js"></script><script src="../js/arcana.js"></script><script src="../js/engine.js"></script><script src="../js/audio.js"></script><script src="../js/spectacle.js"></script><script src="../js/renderer.js"></script><script src="../js/cosmic-render.js?v=20261014-cosmic1"></script><script src="../js/holy-render.js?v=20261014-holy4"></script><script src="../js/tactics-render.js?v=20261014-tactics1"></script><script src="../js/ranger-render.js?v=20261014-salvo1"></script>
+<script>
+const G=OrbDuel,scenes=[],reports=[];
+for(const [phase,title] of [['pull','远距离强吸引 · 迎撞动能伤害'],['push','近距离强排斥 · 一次动能墙撞'],['bullet','实体子弹 · 反向偏转'],['blade','回旋刃 · 受力偏航后收刀'],['clock','飞行时钟 · 磁极改变方向'],['capture','觉醒 · 锚定与极性坍缩'],['reverse','觉醒 · 极性反转 / 猛烈弹射'],['erode','时间领域 · 减速 80% / 持续侵蚀']]){
+ const card=document.createElement('article');card.className='card';card.innerHTML='<h2>'+title+'</h2><canvas></canvas><output></output>';document.querySelector('#grid').append(card);
+ const type=phase==='blade'?'boomerang':phase==='bullet'?'ranger':phase==='clock'?'time':phase==='erode'?'laser':'normal',e=new G.Engine([phase==='erode'?'time':'magnet',type],'magnet-frame-'+phase);e.start();const [b,t]=e.balls;b.x=90;b.y=175;b.speed=30;b.vx=0;b.vy=30;t.x=260;t.y=175;t.speed=25;t.vx=0;t.vy=-25;b.magnetic.nextPulse=Infinity;
+ if(phase==='pull'){b.magnetic.nextPulse=0;}
+ if(phase==='push'){b.x=170;t.x=245;b.magnetic.nextPulse=0;}
+ if(['bullet','blade','clock'].includes(phase)){
+   if(phase==='bullet'){G.World.fire(t,e,{angle:Math.PI});e.projectiles[0].x=190;e.projectiles[0].y=155;}
+   if(phase==='blade'){const p=G.Characters.throwBlade(t,e,{castId:1});p.x=190;p.y=155;p.vx=-340;p.vy=0;t.nextShot=99;}
+   if(phase==='clock'){t.temporal.nextDomain=Infinity;e.timeClocks.push({id:1,owner:1,x:190,y:155,angle:Math.PI,speed:330,radius:9,range:250,travel:0,raw:14,color:t.def.color,started:0});}
+   G.Magnet.pulse(b,e,'push',780);
+ }
+ if(['capture','reverse'].includes(phase)){t.x=230;G.Awakening.activate(b,e);b.magnetic.nextOverload=0;}
+ if(phase==='erode'){b.temporal.nextDomain=0;t.x=235;t.role.capacitor=0;}
+ let found=false;for(let i=0;i<2400&&e.state==='running';i++){e.step();found=phase==='pull'?b.stats.magneticPullHits>0:phase==='push'?b.stats.magneticWallHits>0:['bullet','blade','clock'].includes(phase)?e.time>.075:phase==='capture'?b.magnetic.anchored&&b.magnetic.until-e.time<.2:phase==='reverse'?e.effects.some(f=>f.kind==='magnetPulse'&&f.mode==='push'&&f.age>.07):b.stats.domainDamage>0&&e.time>.82;if(found)break;}
+ e.pause();const renderer=new G.Renderer(card.querySelector('canvas'));renderer.draw(e);card.querySelector('output').textContent=phase==='erode'?'敌方时速 '+Math.round(t.temporal.rate*100)+'% · 已侵蚀 '+b.stats.domainDamage.toFixed(1):'牵引命中 '+b.stats.magneticPullHits+' · 墙撞 '+b.stats.magneticWallHits+' · 飞行物偏转 '+b.stats.flyersBent;
+ scenes.push({e,renderer});reports.push({phase,found,time:e.time,damage:b.stats.damage,pullHits:b.stats.magneticPullHits,wallHits:b.stats.magneticWallHits,flyers:b.stats.flyersBent,enemyRate:t.temporal.rate,erosion:b.stats.domainDamage});
+}
+window.magnetDemo={scenes,reports};document.querySelector('#results').textContent=JSON.stringify({passed:reports.every(r=>r.found),reports},null,2);window.addEventListener('resize',()=>scenes.forEach(s=>s.renderer.draw(s.e)));
+</script></html>

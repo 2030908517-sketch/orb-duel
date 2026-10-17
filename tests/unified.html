@@ -1,0 +1,43 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>十角色机制与强命中检查</title>
+<style>body{margin:24px;background:#0c1016;color:#e9edf5;font:14px/1.6 "Segoe UI","Microsoft YaHei",sans-serif}h1{font-size:24px;margin:0}p{color:#93a3b7}.controls{display:flex;gap:10px;margin:16px 0}button{border:1px solid #354235;background:#17212e;color:#d0fa8b;padding:9px 16px;border-radius:5px;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:1440px}.card{border:1px solid #293446;border-radius:10px;overflow:hidden;background:#111720}.card h2{font-size:16px;padding:12px 16px;margin:0}.card small{display:block;color:#8f9caf;padding:0 16px 8px;min-height:40px}.card canvas{display:block;width:100%;aspect-ratio:18/17}.card output{display:block;padding:10px 16px;color:#c6e997;font-variant-numeric:tabular-nums}@media(max-width:600px){.grid{grid-template-columns:1fr}body{margin:12px}}</style>
+<h1>十角色机制与强命中检查</h1><p>实际物理与伤害模块驱动。展示展开、命中、击退和顿帧，不用于比较角色强度。</p>
+<div class="controls"><button id="toggle">暂停</button><button id="restart">重新演示</button><button id="sound">开启声音</button><button id="speed">1×</button></div><div class="grid" id="cards"></div>
+<script src="../js/config.js"></script><script src="../js/physics.js"></script><script src="../js/skills.js"></script><script src="../js/world.js"></script><script src="../js/aim.js?v=20261014-tactics1"></script><script src="../js/flyers.js?v=20261014-tactics1"></script><script src="../js/mines.js?v=20261014-tactics1"></script><script src="../js/pursuit.js?v=20261014-tactics1"></script><script src="../js/characters.js"></script><script src="../js/roles.js"></script><script src="../js/ranger.js?v=20261014-salvo1"></script><script src="../js/awakening.js"></script><script src="../js/temporal.js"></script><script src="../js/magnet.js"></script><script src="../js/ghost.js"></script><script src="../js/holy.js?v=20261014-holy4"></script><script src="../js/cosmic.js?v=20261014-cosmic1"></script><script src="../js/charge.js"></script><script src="../js/stellar.js"></script><script src="../js/arcana.js"></script><script src="../js/engine.js"></script><script src="../js/audio.js"></script><script src="../js/spectacle.js"></script><script src="../js/renderer.js"></script><script src="../js/cosmic-render.js?v=20261014-cosmic1"></script><script src="../js/holy-render.js?v=20261014-holy4"></script><script src="../js/tactics-render.js?v=20261014-tactics1"></script><script src="../js/ranger-render.js?v=20261014-salvo1"></script>
+<script>
+const G=OrbDuel,defs=[
+['normal','普通 · 破阵重拳','压缩顿帧、击退与追上敌人的拳劲'],
+['ranger','射手 · 后坐突击','每轮预瞄、可靠中心弹、扇形覆盖与终结重弹'],
+['laser','激光 · 主炮与扫射','精准首炮承担主伤害，余波扫射持续推动'],
+['shield','护盾 · 堡垒震荡','传播时间预瞄、收盾、扩张压力波'],
+['vampire','吸血 · 血契收束','距离宽限、血印保留、汲取后的强收束'],
+['accelerator','加速 · 动能追击','蓄力更新预瞄、衰减反弹、传递动能与墙伤'],
+['reflector','反伤 · 镜裂回敬','有限姿态、反击刃重新预瞄与碎镜命中'],
+['trapper','陷阱 · 雷网连锁','路线投放、感应线、延迟爆破与收尾推动'],
+['boomerang','回旋 · 接刃重斩','接回飞刃后的近身重击、定向斩切与推动'],
+['venom','毒液 · 腐蚀共鸣','引爆保留毒层、折现毒伤与毒池共鸣'],
+['bigDamage','通用 · 大伤害命中','没有专属重击也能触发：单次实伤达到 15']
+],scenes=[];
+for(const [type,title,copy] of defs){const card=document.createElement('section');card.className='card';card.innerHTML='<h2>'+title+'</h2><small>'+copy+'</small><canvas width="360" height="340"></canvas><output></output>';document.querySelector('#cards').append(card);const e=new G.Engine([type==='bigDamage'?'normal':type,'normal'],'power-demo-'+type),renderer=new G.Renderer(card.querySelector('canvas')),clock=new G.Clock(e);scenes.push({type,e,renderer,clock,output:card.querySelector('output')});}
+function reset(scene){const {e,type,clock}=scene;e.reset([type==='bigDamage'?'normal':type,'normal'],'power-demo-'+type);e.start();const [b,t]=e.balls;b.x=80;b.y=170;t.x=220;t.y=170;b.vx=55;b.vy=225;t.vx=-80;t.vy=205;G.Awakening.activate(b,e);b.awakening.activatedAt=-3;e.effects=[];e.soundEvents=[];
+ if(type==='normal'){b.x=130;t.x=176;b.vx=235;b.vy=0;t.vx=-235;t.vy=0;b.charges=3;}
+ if(type==='ranger'){b.role.calibration=2;b.role.calibrationUntil=100;b.role.reloadUntil=.01;b.nextShot=99;}
+ if(type==='laser'){b.role.capacitor=1;b.vx=90;b.vy=190;t.x=150;t.vx=0;t.vy=-235;}
+ if(type==='shield'){b.role.pressure=8;b.shield=0;G.Roles.shieldEnd(b,e);}
+ if(type==='vampire'){b.x=90;t.x=200;b.speed=t.speed=45;b.vx=0;b.vy=45;t.vx=0;t.vy=45;b.hp=70;G.Combat.resolveBatch([{source:b,target:t,raw:5,kind:'contact'}],e);b.role.blood=6;}
+ if(type==='accelerator'){b.x=180;t.x=295;b.y=t.y=170;t.speed=45;t.vx=0;t.vy=45;}
+ if(type==='reflector'){b.speed=t.speed=70;b.vx=0;b.vy=70;t.vx=0;t.vy=-70;b.stance.phase='active';b.stance.until=.1;b.stance.next=6.2;G.Combat.resolveBatch([{source:t,target:b,raw:32,kind:'shot',incomingAngle:0}],e);e.effects=[];e.soundEvents=[];}
+ if(type==='trapper'){for(const x of [140,205,265]){G.World.placeTrap(b,e);e.traps.at(-1).x=x;e.traps.at(-1).y=170;e.traps.at(-1).armedAt=.2;}b.x=80;t.x=120;b.speed=t.speed=80;b.vx=0;b.vy=80;t.vx=80;t.vy=0;}
+ if(type==='boomerang'){b.x=130;t.x=176;b.vx=220;b.vy=0;t.vx=-235;t.vy=0;b.character.catchUntil=8;b.character.catchPower=1.4;b.nextShot=10;}
+ if(type==='venom'){b.x=90;t.x=138;b.speed=t.speed=80;b.vx=80;b.vy=0;t.vx=-80;t.vy=0;G.World.pool(b,e);e.pools[0].armedAt=0;for(let i=0;i<3;i++)G.Characters.poison(b,t,e,1.05);}
+ if(type==='bigDamage'){e.tick=20*240;e.time=20;b.x=130;t.x=176;b.vx=235;b.vy=0;t.vx=-235;t.vy=0;b.charges=0;b.pressure.lastHit=0;b.pressure.bonus=.3;}
+
+ clock.reset();scene.renderer.draw(e);
+}
+scenes.forEach(reset);const sound=new G.Audio();sound.setEnabled(false);let paused=false,previous=performance.now(),speed=1;
+document.querySelector('#toggle').onclick=()=>{paused=!paused;document.querySelector('#toggle').textContent=paused?'继续':'暂停';for(const s of scenes)paused?s.e.pause():s.e.resume();sound.stop();};
+document.querySelector('#restart').onclick=()=>{paused=false;document.querySelector('#toggle').textContent='暂停';sound.stop();scenes.forEach(reset);};
+document.querySelector('#sound').onclick=async()=>{sound.setEnabled(!sound.enabled);if(sound.enabled)await sound.unlock();document.querySelector('#sound').textContent=sound.enabled?'关闭声音':'开启声音';};
+document.querySelector('#speed').onclick=()=>{speed=speed===4?1:speed*2;for(const s of scenes)s.clock.speed=speed;document.querySelector('#speed').textContent=speed+'×';};
+function frame(now){const dt=(now-previous)/1000;previous=now;for(const s of scenes){s.clock.advance(dt);if(!paused&&s.e.time>(s.type==='bigDamage'?27:7))reset(s);sound.consume(s.e.soundEvents.splice(0));s.renderer.draw(s.e);s.output.textContent='时间 '+s.e.time.toFixed(2)+'s · 对手生命 '+s.e.balls[1].hp.toFixed(1)+' · 速度 '+Math.round(Math.hypot(s.e.balls[1].vx,s.e.balls[1].vy))+(s.clock.stopRemaining>0?' · 强命中顿帧':'');}requestAnimationFrame(frame);}requestAnimationFrame(frame);
+window.unifiedDemo={scenes,reset,pause(){if(!paused)document.querySelector('#toggle').click();}};
+</script></html>

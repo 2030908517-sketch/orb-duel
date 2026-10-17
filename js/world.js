@@ -2,45 +2,52 @@
   'use strict';
   const G=root.OrbDuel,C=G.Constants;
   G.World={
-    targetFor(ball,engine){return engine.balls.find(other=>other.id!==ball.id && other.hp>0);},
-    aim(ball,target,speed){
-      const dx=target.x-ball.x,dy=target.y-ball.y;
-      const a=target.vx*target.vx+target.vy*target.vy-speed*speed,b=2*(dx*target.vx+dy*target.vy),c=dx*dx+dy*dy;
-      const disc=b*b-4*a*c;let lead=0;
-      if(disc>=0 && Math.abs(a)>1e-8){const ts=[(-b-Math.sqrt(disc))/(2*a),(-b+Math.sqrt(disc))/(2*a)].filter(t=>t>0);if(ts.length)lead=Math.min(1,Math.min(...ts));}
-      return Math.atan2(dy+target.vy*lead,dx+target.vx*lead);
+    enemy(a,b,engine){const x=typeof a==='number'?engine.balls.find(v=>v.id===a):a,y=typeof b==='number'?engine.balls.find(v=>v.id===b):b;return !!x&&!!y&&x.id!==y.id&&(engine.mode!=='2v2'||x.team!==y.team);},
+    // Absence removes the actor from target selection and contact, without changing allegiance.
+    absent(ball,engine){return !!ball&&!!G.VampireArcana?.hidden(ball,engine);},
+    targetable(ball,engine){return !!ball&&ball.hp>0&&!this.absent(ball,engine);},
+    targetFor(ball,engine){if(engine.mode==='2v2')return G.Team.targetFor(ball,engine);return engine.balls.find(other=>other.id!==ball.id && this.targetable(other,engine));},
+    aim(ball,target,speed,delay=0){
+      // Estimate from observed velocity only, with a finite prediction horizon.
+      const horizon=G.Aim?.horizon(ball,speed)??.5;
+      const origin=G.Awakening.predict(ball,delay);if(!Number.isFinite(speed)){const p=G.Awakening.predict(target,Math.min(horizon,delay));return Math.atan2(p.y-origin.y,p.x-origin.x);}
+      const offset=ball.radius+(ball.def.shotRadius||4)+2;
+      const f=t=>{const p=G.Awakening.predict(target,Math.min(horizon,delay+t));return Math.hypot(p.x-origin.x,p.y-origin.y)-offset-speed*t;};
+      let lo=0,hi=0,previous=f(0);
+      if(previous>0)for(let i=1;i<=180;i++){const t=i/120,value=f(t);if(value<=0){lo=(i-1)/120;hi=t;break;}previous=value;}
+      if(hi)for(let i=0;i<12;i++){const mid=(lo+hi)/2;if(f(mid)>0)lo=mid;else hi=mid;}
+      const point=G.Awakening.predict(target,Math.min(horizon,delay+(hi||0)));return Math.atan2(point.y-origin.y,point.x-origin.x);
     },
     fire(ball,engine,options={}){
       const target=this.targetFor(ball,engine);if(!target)return;
       const mode=options.mode||'shot';if(mode==='boomerang')return G.Characters.throwBlade(ball,engine,options);const speed=options.speed||ball.def.shotSpeed;
       const radius=options.radius||ball.def.shotRadius,angle=options.angle??(this.aim(ball,target,speed)+(options.angleOffset||0)),distance=ball.radius+radius+2;
-      const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:mode==='counter'?0:1,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy};
+      const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:options.maxBounces??(mode==='counter'?0:1),sniper:!!options.sniper,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy,storedCounter:!!options.storedCounter};
+      if(ball.combatBounds)shot.combatBounds={...ball.combatBounds};
       if(G.Physics.constrain(shot)){shot.bounces++;this.ricochet(shot,engine);}
       engine.projectiles.push(shot);if(mode!=='counter')G.Spectacle?.emit(engine,ball,mode==='boomerang'?'moon':'volley',{angle,life:.3,sound:false});if(mode!=='counter')ball.stats.shotsFired++;
-      engine.burst(shot.x,shot.y,ball.def.color,5);engine.log(engine.label(ball)+(mode==='boomerang'?'投出飞刃':mode==='counter'?'释放蓄能反击弹':'发射子弹'));
+      engine.burst(shot.x,shot.y,ball.def.color,5);engine.log(engine.label(ball)+(mode==='boomerang'?'投出飞刃':mode==='counter'?'释放蓄能反击弹':'发射子弹'));return shot;
     },
     ricochet(shot,engine){
-      if((shot.mode||'shot')==='shot' && !shot.charged){shot.charged=true;shot.raw*=1.15;engine.sound('ricochet',shot.x);engine.ring(shot.x,shot.y,'#fff0a4',20);}
+      if((shot.mode||'shot')==='shot' && !shot.charged && !shot.sniper){shot.charged=true;shot.raw*=1.15;engine.sound('ricochet',shot.x);engine.ring(shot.x,shot.y,'#fff0a4',20);}
     },
     counter(ball,engine,damage,angle){
-      this.fire(ball,engine,{mode:'counter',angle,raw:damage,speed:440,radius:5,life:1.4});ball.stats.countersFired++;G.Spectacle?.emit(engine,ball,'counter',{angle:Math.atan2(engine.projectiles.at(-1)?.vy||0,engine.projectiles.at(-1)?.vx||1),life:.42,sound:false});engine.signal(ball,'镜裂返还 '+damage.toFixed(1),'mirrorRelease');
+      this.fire(ball,engine,{mode:'counter',angle,raw:damage,storedCounter:true,speed:440,radius:5,life:1.4});ball.stats.countersFired++;G.Spectacle?.emit(engine,ball,'counter',{angle:Math.atan2(engine.projectiles.at(-1)?.vy||0,engine.projectiles.at(-1)?.vx||1),life:.42,sound:false});engine.signal(ball,'镜裂返还 '+damage.toFixed(1),'mirrorRelease');
     },
     placeTrap(ball,engine){
-      const spec=G.Awakening.trapOptions(ball),owned=engine.traps.filter(t=>t.owner===ball.id);
-      if(owned.length>=spec.cap)engine.traps=engine.traps.filter(t=>t!==owned[0]);
-      engine.traps.push({id:engine.nextWorldId++,owner:ball.id,x:ball.x,y:ball.y,radius:spec.radius,blastRadius:spec.blastRadius,chainRange:spec.chainRange,armedAt:engine.time+spec.armDelay,expires:engine.time+spec.life,color:ball.def.color,raw:G.Combat.rollAttack(ball,engine,spec.damage,'trap')});
-      ball.stats.trapsPlaced++;engine.sound('trap',ball.x);engine.ring(ball.x,ball.y,ball.def.color,22);engine.log(engine.label(ball)+'布置陷阱 · '+spec.armDelay+'s 后生效');
+      const spec=G.Awakening.trapOptions(ball),position=G.Trapper?G.Trapper.placement(ball,engine,spec.radius):G.Roles.trapPosition(ball,engine);if(!position)return false;const owned=engine.traps.filter(t=>t.owner===ball.id);
+      if(owned.length>=spec.cap){const oldest=owned.reduce((a,n)=>n.id<a.id?n:a);engine.traps=engine.traps.filter(t=>t!==oldest);}
+      engine.traps.push({id:engine.nextWorldId++,owner:ball.id,x:position.x,y:position.y,radius:spec.radius,blastRadius:spec.blastRadius,chainRange:spec.chainRange,armedAt:engine.time+spec.armDelay,expires:engine.time+spec.life,color:ball.def.color,raw:G.Combat.rollAttack(ball,engine,spec.damage,'trap')});
+      if(Math.hypot(position.x-ball.x,position.y-ball.y)>10)engine.effects.push({kind:'roster',style:'mineDeploy',owner:ball.id,x:ball.x,y:ball.y,endX:position.x,endY:position.y,color:ball.def.color,angle:0,age:0,life:spec.armDelay});ball.stats.trapsPlaced++;engine.sound('trap',ball.x);engine.ring(ball.x,ball.y,ball.def.color,22);engine.log(engine.label(ball)+'布置陷阱 · '+spec.armDelay+'s 后生效');return engine.traps.at(-1);
     },
-    pool(ball,engine){
-      const awake=G.Awakening.active(ball),owned=engine.pools.filter(p=>p.owner===ball.id);
-      if(owned.length>=ball.def.poolCap)engine.pools=engine.pools.filter(p=>p!==owned[0]);
-      engine.pools.push({id:engine.nextWorldId++,owner:ball.id,x:ball.x,y:ball.y,radius:awake?36:ball.def.poolRadius,color:ball.def.color,armedAt:engine.time+.5,expires:engine.time+(awake?5.5:ball.def.poolLife),nextPulse:engine.time+.5,raw:G.Combat.attackValue(ball,engine,awake?ball.def.awakePoolDamage:ball.def.poolDamage)});
-      ball.stats.poolsPlaced++;G.Spectacle?.emit(engine,ball,'toxic',{radius:36,life:.55});engine.sound('poison',ball.x);engine.log(engine.label(ball)+'留下毒池');
+    pool(ball,engine,point=null,options={}){
+      return G.Venom.pool(ball,engine,point,options);
     },
     ray(ball,angle){
       const dx=Math.cos(angle),dy=Math.sin(angle),x=ball.x,y=ball.y;
-      const tx=dx>1e-9?(C.width-x)/dx:dx< -1e-9?-x/dx:Infinity;
-      const ty=dy>1e-9?(C.height-y)/dy:dy< -1e-9?-y/dy:Infinity;
+      const bounds=ball.combatBounds;
+      const tx=dx>1e-9?((bounds?.right??C.width)-x)/dx:dx< -1e-9?((bounds?.left||0)-x)/dx:Infinity;
+      const ty=dy>1e-9?((bounds?.bottom??C.height)-y)/dy:dy< -1e-9?((bounds?.top||0)-y)/dy:Infinity;
       const length=Math.max(0,Math.min(tx,ty));return {x,y,endX:x+dx*length,endY:y+dy*length};
     },
     distanceToRay(ray,target){
@@ -57,6 +64,7 @@
     },
     // Entry time along relative swept paths, rather than just proximity at the end.
     sweep(shot,oldX,oldY,target){
+      if(this.absent(target))return Infinity;
       const ax=oldX-(target.previousX??target.x),ay=oldY-(target.previousY??target.y);
       const dx=shot.x-target.x-ax,dy=shot.y-target.y-ay,r=shot.radius+target.radius;
       const c=ax*ax+ay*ay-r*r;if(c<=0)return 0;
@@ -69,48 +77,42 @@
       const nextShots=[];
       for(const shot of engine.projectiles){
         const owner=engine.balls.find(b=>b.id===shot.owner),mode=shot.mode||'shot';
-        if(!owner || owner.hp<=0 || engine.time>shot.expires){if(mode==='boomerang')G.Characters.bladeRemoved(shot,owner,engine,false);continue;}
-        const oldX=shot.x,oldY=shot.y;
+        if(mode==='arcPierce'){const next=G.RangerArcana?.projectile(shot,engine,dt);if(next)nextShots.push(next);continue;}
+        if(mode==='arcBlood'){const next=G.Arcana?.projectile(shot,engine,dt);if(next)nextShots.push(next);continue;}
+        if(mode==='comet'){const next=G.Stellar?.projectile(shot,engine,dt);if(next)nextShots.push(next);continue;}
+        if(!owner || owner.hp<=0 || engine.time>shot.expires){G.Aim?.result(shot,engine,false);if(mode==='boomerang')G.Characters.bladeRemoved(shot,owner,engine,false);continue;}
+        const oldX=shot.x,oldY=shot.y;let ended=false;
         if(mode==='boomerang')G.Characters.moveBlade(shot,owner,engine,dt);
-        else if(G.Physics.integrate(shot,dt)){shot.bounces++;this.ricochet(shot,engine);engine.burst(shot.x,shot.y,shot.color,2);}
-        if(shot.bounces>(shot.maxBounces??1))continue;
+        else if(['venom','shard','blade','satellite'].includes(mode))ended=G.Flyers.move(shot,engine,dt).ended;
+        else if(G.ArenaWalls?G.ArenaWalls.integrate(shot,engine,dt):G.Physics.integrate(shot,dt)){shot.bounces++;this.ricochet(shot,engine);engine.burst(shot.x,shot.y,shot.color,2);}
+        if(shot.bounces>(shot.maxBounces??1)){G.Aim?.result(shot,engine,false);continue;}
         const candidates=[];
-        for(const target of engine.balls)if(target.id!==shot.owner && target.hp>0){
+        for(const target of engine.balls)if(this.enemy(shot.owner,target,engine) && target.hp>0&&!G.Ghost.phased(target)){
           const key=(shot.returning?'back:':'out:')+target.id;
           if(mode==='boomerang' && shot.hitIds.includes(key))continue;
           const t=this.sweep(shot,oldX,oldY,target);if(t!==Infinity)candidates.push({target,t,key});
         }
-        if(mode==='shot')for(const trap of engine.traps)if(trap.owner!==shot.owner && engine.time>=trap.armedAt && engine.time<=trap.expires){
+        if(mode==='shot')for(const trap of engine.traps)if(this.enemy(shot.owner,trap.owner,engine) && engine.time>=trap.armedAt && engine.time<=trap.expires){
           const t=this.sweep(shot,oldX,oldY,trap);if(t!==Infinity)candidates.push({trap,t});
         }
         candidates.sort((a,b)=>a.t-b.t || (a.trap?1:0)-(b.trap?1:0));
         const first=candidates[0];
-        if(first?.trap){this.clearTrap(first.trap,owner,engine);continue;}
+        if(first?.trap){G.Aim?.result(shot,engine,false);this.clearTrap(first.trap,owner,engine);continue;}
         if(first?.target){
-          const reflected=G.Roles.intercept(shot,first.target,engine);if(reflected){nextShots.push(reflected);continue;}
-          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,kind:mode,noReflect:mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx)});
+          const reflected=G.Roles.intercept(shot,first.target,engine);if(reflected){if(!reflected.absorbed)nextShots.push(reflected);continue;}
+          G.Aim?.result(shot,engine,true);
+          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,adaptiveId:shot.adaptiveId,kind:mode==='venom'?'poisonShot':mode==='blade'?'boomerang':shot.noMirror&&mode==='shot'?'counter':mode,noReflect:!!shot.noReflect||mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx),angle:Math.atan2(shot.vy,shot.vx),heavyShot:!!shot.heavy,sniperShot:!!shot.sniper,storedCounter:!!shot.storedCounter,calibrationShot:shot.calibrationEligible?shot:null,calibrationIgnored:!!shot.calibrationIgnored,poisonUnit:shot.poisonUnit,poisonLife:shot.poisonLife,mirrorReturn:!!shot.noMirror});
           engine.ring(shot.x,shot.y,shot.color,22);
           if(mode!=='boomerang')continue;
           shot.hitIds.push(first.key);
         }
         if(mode==='boomerang' && shot.returning && this.intersects(shot,oldX,oldY,owner)){G.Characters.bladeRemoved(shot,owner,engine,true);continue;}
+        if(ended){if(mode==='venom')G.Flyers.spill(shot,owner,engine);continue;}
         nextShots.push(shot);
       }
       engine.projectiles=nextShots;
       G.Roles.updateWaves(engine,dt);G.Roles.updateBeams(engine);this.updateTraps(engine);
-      engine.pools=engine.pools.filter(pool=>{const owner=engine.balls.find(b=>b.id===pool.owner&&b.hp>0);if(!owner)return false;if(pool.expires<engine.time){if(!pool.touched)G.Recovery.refund(owner,engine,'nextPool',.35,'毒池未接触');return false;}return true;});
-      for(const pool of engine.pools)if(engine.time+1e-9>=pool.armedAt){
-        for(const target of engine.balls)if(target.id!==pool.owner && target.hp>0 && Math.hypot(target.x-pool.x,target.y-pool.y)<=pool.radius+target.radius*.55){
-          pool.touched=true;const owner=engine.balls.find(b=>b.id===pool.owner);if(owner)G.Characters.poison(owner,target,engine,pool.raw,true);
-        }
-      }
-      for(const target of engine.balls){const poison=target.poison;if(!poison)continue;
-        if(engine.time+1e-9>=poison.nextPulse && engine.time<=poison.until+1e-9){
-          poison.nextPulse+=.5;const owner=engine.balls.find(b=>b.id===poison.owner && b.hp>0);
-          if(owner && target.hp>0)engine.pendingAttacks.push({source:owner,target,raw:poison.raw,kind:'poison'});
-        }
-        if(engine.time>poison.until+1e-9)target.poison=null;
-      }
+      G.Venom.world(engine);
     },
     updateTraps(engine){
       G.Roles.updateTraps(engine);

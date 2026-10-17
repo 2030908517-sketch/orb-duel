@@ -2,7 +2,7 @@
   'use strict';
   const G=root.OrbDuel,TAU=Math.PI*2;
   // Presentation only: no attacks, combat RNG, movement changes or extra simulation time.
-  const cues={normal:'awakenHit',vampire:'bloodPulse',accelerator:'thunderHit',reflector:'revengeHit',shield:'fortressBlast',ranger:'volley',trapper:'magnetBlast',boomerang:'moonCut',laser:'beamAwake',venom:'corrosion'};
+  const cues={demon:'demonExecute',normal:'awakenHit',vampire:'bloodPulse',accelerator:'thunderHit',reflector:'revengeHit',shield:'fortressBlast',ranger:'volley',trapper:'magnetBlast',boomerang:'moonCut',laser:'beamAwake',holy:'holyHit',ghost:'soulBurst',magnet:'magnetReverse',time:'clockBlast',venom:'corrosion'};
   G.Spectacle={
     emit(engine,ball,style,options={}){
       if(!G.Awakening.active(ball))return;
@@ -13,17 +13,18 @@
       const point=options.point||ball;
       const angle=options.angle??Math.atan2(ball.vy,ball.vx);
       engine.effects.push({kind:'signature',style,owner:ball.id,color:ball.def.color,x:point.x,y:point.y,angle,radius:options.radius||55,ray:options.ray,age:0,life:options.life||.42,follow:!!options.follow});
-      if(options.sound!==false)engine.sound(style==='awaken'?'awakening':cues[ball.type],point.x);
+      const audioCue=options.audioCue||(style==='awaken'?'awakening':cues[ball.type]);if(options.sound!==false&&audioCue)engine.sound(audioCue,point.x);
     },
     hit(engine,hit){
       const ball=hit.source;
+      if(hit.beamId!==undefined||hit.heavyShot||hit.kind==='timeBlast'||hit.kind==='timeErode'||hit.kind==='fear'||hit.kind==='shard'||hit.kind==='poisonShot'||['holyWater','holyLight','holyJudgement','holyTouch','holyBurn'].includes(hit.kind))return;
       if(!G.Awakening.active(ball))return;
       if(hit.actual<=0){if(hit.blocked>0)this.emit(engine,hit.target,'guard',{point:hit.target,sound:false,radius:36,life:.2});return;}
-      const heavy=hit.kind==='laser'||hit.kind==='counter'||hit.dash||(ball.type==='normal'&&hit.heavyContact);
+      const heavy=(hit.kind==='laser'&&hit.beamId===undefined)||hit.kind==='counter'||hit.heavyShot||hit.dash||(ball.type==='normal'&&hit.heavyContact);
       if(hit.kind==='contact'&&!heavy&&ball.type!=='boomerang')return;
       const angle=Math.atan2(hit.target.y-ball.y,hit.target.x-ball.x);
       const style=hit.kind==='chain'?'drain':hit.kind==='poison'?'corrode':hit.kind==='boomerang'?'cut':heavy?'strike':'spark';
-      this.emit(engine,ball,style,{point:hit.target,angle,radius:heavy?65:36,life:heavy?.42:.3,cooldown:hit.kind==='poison'?.45:hit.kind==='chain'?.27:.12});
+      this.emit(engine,ball,style,{point:hit.target,angle,radius:heavy?65:36,life:heavy?.42:.3,cooldown:hit.kind==='poison'?.45:hit.kind==='chain'?.27:.12,sound:!['poison','orbitTouch'].includes(hit.kind)});
       if(heavy){engine.impact(hit.target.x,hit.target.y,ball.def.color,2);hit.target.hitVisual={age:0,life:.22,angle,power:1.8};}
     },
     polygon(c,x,y,r,sides,rotation=0){c.beginPath();for(let i=0;i<=sides;i++){const a=rotation+i*TAU/sides;c.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}c.closePath();},
@@ -76,12 +77,8 @@
         }
         c.restore();
       }
-      for(const pool of engine.pools){const b=engine.balls.find(b=>b.id===pool.owner);if(!b?.awakening.active)continue;
-        const armed=t>=pool.armedAt;c.globalAlpha=armed?.65:.28;
-        for(let i=0;i<3;i++){c.beginPath();c.ellipse(pool.x,pool.y,pool.radius*(.45+i*.22),pool.radius*(.25+i*.15),t*(i%2?-.6:.6)+i,0,Math.PI*1.5);c.strokeStyle=pool.color;c.lineWidth=1.2;c.stroke();}
-      }
       c.globalAlpha=1;
-      for(const shot of engine.projectiles){const b=engine.balls.find(b=>b.id===shot.owner);if(!b?.awakening.active)continue;
+      for(const shot of engine.projectiles){if(engine.mode==='arcana'&&['arcBlood','arcPierce'].includes(shot.mode))continue;const b=engine.balls.find(b=>b.id===shot.owner);if(!b?.awakening.active)continue;
         const angle=Math.atan2(shot.vy,shot.vx);c.save();c.translate(shot.x,shot.y);c.rotate(angle);c.shadowColor=shot.color;c.shadowBlur=10;
         if(shot.mode==='boomerang'){c.rotate(t*18);c.beginPath();c.arc(0,0,10,-2.5,1.2);c.strokeStyle=shot.returning?'#fffbd9':'#b7f4ff';c.lineWidth=3;c.stroke();c.beginPath();c.arc(0,0,15,-2.4,-.2);c.strokeStyle=shot.color+'70';c.lineWidth=2;c.stroke();}
         else {c.beginPath();c.moveTo(9,0);c.lineTo(-13,-4);c.lineTo(-8,0);c.lineTo(-13,4);c.closePath();c.fillStyle=shot.mode==='counter'?'#e7dfff':'#fff1d3';c.fill();this.line(c,-10,0,-40,0,shot.color+'80',shot.mode==='counter'?4:2);}

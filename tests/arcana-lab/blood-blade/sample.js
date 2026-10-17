@@ -1,0 +1,59 @@
+(async function(){
+ 'use strict';const $=id=>document.getElementById(id),canvas=$('arena'),ctx=canvas.getContext('2d'),surface=document.createElement('canvas'),gl=surface.getContext('webgl',{alpha:true,premultipliedAlpha:false,preserveDrawingBuffer:true});
+ if(!gl)throw Error('当前浏览器无法启用 WebGL；可直接查看原始透明素材。');
+ const vertex=`attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}`;
+ const fragment=`precision highp float;
+ uniform vec2 resolution,center,size;uniform float time,portrait,angle,flight;uniform sampler2D blade;
+ float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+ float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}
+ void main(){vec2 pixel=vec2(gl_FragCoord.x,resolution.y-gl_FragCoord.y);vec2 q=pixel-center;float cs=cos(angle),sn=sin(angle);q=vec2(cs*q.x+sn*q.y,-sn*q.x+cs*q.y);vec2 uv=q/size+.5;
+  float tail=1.-smoothstep(.28,.83,uv.x);float motion=1.-portrait;
+  uv.y+=motion*tail*(.006*sin(uv.x*19.-time*7.)+.004*sin(uv.x*7.+uv.y*12.-time*4.));
+  uv.x+=motion*tail*flight*.025;
+  if(uv.x<0.||uv.x>1.||uv.y<0.||uv.y>1.){gl_FragColor=vec4(0.);return;}
+  vec4 s=texture2D(blade,uv);float lum=max(max(s.r,s.g),s.b),n=noise(uv*vec2(16.,11.))*.7+noise(uv*vec2(41.,29.))*.3;
+  float form=smoothstep(.08,.76,time),threshold=mix(.95,-.05,form);
+  float score=uv.x*.66+lum*.22+n*.12;
+  float reveal=smoothstep(threshold-.035,threshold+.035,score);
+  float d=smoothstep(1.50,2.28,time),keep=smoothstep(d*1.25-.10,d*1.25+.055,n*.6+uv.x*.4);
+  float opacity=mix(reveal*keep,1.,portrait);
+  // Preserve dark blood folds as well as the selective bright rim.
+  s.a*=opacity;
+  gl_FragColor=vec4(s.rgb,s.a);
+ }`;
+ function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+ const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+ const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+ const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+ const image=new Image();image.src=window.bloodBladeAsset.src;await image.decode();gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);
+ const uniforms=Object.fromEntries(['resolution','center','size','time','portrait','angle','flight','blade'].map(k=>[k,gl.getUniformLocation(program,k)]));gl.uniform1i(uniforms.blade,0);
+ const duration=2.6,trace=[],captures=[],urls=[],costs=[];let time=.86,playing=false,portrait=true,small=false,light=false,last=performance.now(),recorder=null,stream=null,timer=null,stopPromise=null,recordingDuration=0;
+ const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),ease=v=>v*v*(3-2*v),hash=i=>{const x=Math.sin(i*127.1+43.8)*43758.5453;return x-Math.floor(x);};
+ const phase=t=>t<.14?'蓄流':t<.45?'刃锋显形':t<.86?'血体凝聚':t<.98?'刃形保持':t<1.5?'加速挥出':t<2.28?'撕散消退':'余迹结束';
+ function geometry(){const f=ease(clamp((time-.98)/.48)),width=small?235:canvas.width*.58,centerX=portrait?canvas.width*.5:canvas.width*(.34+.25*f);return {f,width,height:width*2/3,x:centerX,y:canvas.height*(portrait?.5:.5-.035*Math.sin(f*Math.PI)),angle:portrait?0:(-.06+.14*f)};}
+ function draw(){const start=performance.now(),dpr=Math.min(devicePixelRatio||1,1.5),w=Math.round(canvas.clientWidth*dpr),h=Math.round(w*620/1100);if(canvas.width!==w){canvas.width=surface.width=w;canvas.height=surface.height=h;gl.viewport(0,0,w,h);}const g=geometry();
+  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=light?'#b8bec8':'#0b1220';ctx.fillRect(0,0,w,h);
+  if(!light){const vignette=ctx.createRadialGradient(w*.5,h*.48,15,w*.5,h*.5,w*.7);vignette.addColorStop(0,'#111c2c');vignette.addColorStop(1,'#080c14');ctx.fillStyle=vignette;ctx.fillRect(0,0,w,h);}
+  if(small){ctx.save();ctx.strokeStyle=light?'#83909f':'#27364a';ctx.lineWidth=1;ctx.strokeRect(w*.06,h*.1,w*.88,h*.8);for(const [x,color]of [[w*.2,'#eb8eae'],[w*.78,'#78b6eb']]){ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,h*.5,20*dpr,0,Math.PI*2);ctx.fill();ctx.fillStyle='#152133';ctx.beginPath();ctx.arc(x,h*.5,6*dpr,0,Math.PI*2);ctx.fill();}ctx.restore();}
+  if(!portrait&&time<.88&&time>.05){
+   ctx.save();ctx.translate(g.x,g.y);ctx.rotate(g.angle);const p=clamp((time-.06)/.78);for(let i=0;i<26;i++){const born=hash(i)*.5,age=clamp((p-born)/.5),alpha=Math.sin(age*Math.PI)*.65;if(alpha<=.01)continue;const targetY=(hash(i+60)-.5)*g.height*.72,targetX=g.width*(.33+.1*hash(i+8)),startX=-g.width*(.2+.4*hash(i+2)),startY=targetY+(hash(i+9)-.5)*g.height*.8,x=startX+(targetX-startX)*ease(age),y=startY+(targetY-startY)*ease(age);ctx.globalAlpha=alpha;ctx.strokeStyle=i%4?'#a91936':'#f74860';ctx.lineWidth=(i%5===0?1.3:.65)*dpr;ctx.beginPath();ctx.moveTo(x-(8+age*18)*dpr,y+(startY-targetY)*.04);ctx.quadraticCurveTo(x-3*dpr,y+4*dpr,x,y);ctx.stroke();}ctx.restore();
+  }
+  gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(program);gl.uniform2f(uniforms.resolution,w,h);gl.uniform2f(uniforms.center,g.x,g.y);gl.uniform2f(uniforms.size,g.width,g.height);gl.uniform1f(uniforms.time,time);gl.uniform1f(uniforms.portrait,portrait?1:0);gl.uniform1f(uniforms.angle,g.angle);gl.uniform1f(uniforms.flight,g.f);gl.drawArrays(gl.TRIANGLES,0,6);ctx.drawImage(surface,0,0);
+  if(!portrait&&time>.98&&time<2.35){ctx.save();ctx.translate(g.x,g.y);ctx.rotate(g.angle);const life=clamp((time-.98)/1.3);for(let i=0;i<30;i++){const age=clamp(life-hash(i)*.28,0,1),x=(-.04-age*.48-hash(i+32)*.15)*g.width,y=(hash(i+20)-.5)*g.height*.68+Math.sin(age*4+hash(i+4)*6)*g.height*.05;ctx.globalAlpha=Math.sin(clamp(age*3)*Math.PI)*.55;ctx.fillStyle=i%5?'#94172d':'#e84b5e';ctx.beginPath();ctx.ellipse(x,y,(1.5+hash(i+7)*2.5)*dpr,.6*dpr,-.12,0,Math.PI*2);ctx.fill();}ctx.restore();}
+  ctx.globalAlpha=1;$('phase').textContent=portrait?'完整造型 / 单体素材':phase(time);$('clock').textContent=time.toFixed(3)+' s';$('seek').value=time*1000;$('play').textContent=playing?'Ⅱ 暂停':'▶ 播放动作';costs.push(performance.now()-start);if(costs.length>900)costs.shift();
+ }
+ function note(kind){trace.push({kind,time,phase:phase(time),wallMs:performance.now()});if(trace.length>100)trace.shift();$('events').textContent=JSON.stringify(trace,null,2);}
+ function pause(){playing=false;draw();}
+ function play(){if(portrait||time>=duration){time=0;portrait=false;}playing=true;last=performance.now();note('play');draw();}
+ function reset(){playing=false;portrait=false;time=0;trace.length=0;note('reset');draw();}
+ function seek(t){playing=false;portrait=false;time=clamp(t,0,duration);draw();}
+ let lastPhase='';function frame(now){if(playing){const dt=Math.min(.05,(now-last)/1000)*Number($('speed').value);time+=dt;if(phase(time)!==lastPhase){lastPhase=phase(time);note('phase');}if(time>=duration){if($('loop').checked){time=0;note('loop');}else{time=duration;playing=false;}}draw();}last=now;requestAnimationFrame(frame);}
+ function output(blob,name){const url=URL.createObjectURL(blob);urls.push(url);const a=document.createElement('a');a.href=url;a.download=name;a.textContent=name;$('downloads').append(a);if(urls.length>10){URL.revokeObjectURL(urls.shift());$('downloads').firstChild?.remove();}}
+ function report(){return {schema:1,study:'blood-blade-single-02',time,portrait,small,light,duration,phases:[{time:0,name:'蓄流'},{time:.14,name:'刃锋显形'},{time:.45,name:'血体凝聚'},{time:.86,name:'刃形保持'},{time:.98,name:'加速挥出'},{time:1.5,name:'撕散消退'},{time:2.28,name:'余迹结束'}],asset:{file:'blood-blade-v1.png',width:image.width,height:image.height,origin:'built-in imagegen'},animation:{wholeSpriteScaleChanges:false,formation:'texture-guided local alpha reveal',secondaryMotion:'local tail UV warp',dissipation:'directional noisy erosion'},trace,note:'Visual-only sample. No battle engine, no hitboxes, no sound.'};}
+ function lock(v){for(const id of ['scale','background','portrait','speed','loop','record','seek','reset'])$(id).disabled=v;}
+ async function record(){if(recorder)throw Error('正在录制');if(!window.MediaRecorder||!canvas.captureStream)throw Error('此浏览器不支持录屏');reset();$('loop').checked=false;stream=canvas.captureStream(60);const mime=['video/webm;codecs=vp8','video/webm'].find(m=>MediaRecorder.isTypeSupported(m)),chunks=[];recorder=new MediaRecorder(stream,mime?{mimeType:mime}:{});recordingDuration=performance.now();stopPromise=new Promise(resolve=>{recorder.onstop=()=>{clearTimeout(timer);const blob=new Blob(chunks,{type:recorder.mimeType}),item={blob,bytes:blob.size,mime:recorder.mimeType,seconds:(performance.now()-recordingDuration)/1000};captures.push(item);if(captures.length>4)captures.shift();output(blob,'blood-blade-'+Date.now()+'.webm');stream.getTracks().forEach(t=>t.stop());recorder=stream=null;lock(false);$('status').textContent='短片已录制；仅画面，无音效。';resolve({bytes:blob.size});};});recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.start(100);lock(true);$('status').textContent='正在录制形成 → 挥出 → 破散；仅画面。';timer=setTimeout(()=>stopRecord(),4000);play();}
+ async function stopRecord(){if(!recorder||recorder.state!=='recording')return;recorder.stop();return stopPromise;}
+ function error(e){$('status').textContent=e.message;console.error(e);}
+ $('play').onclick=()=>playing?pause():play();$('reset').onclick=reset;$('portrait').onclick=()=>{playing=false;portrait=true;time=.86;draw();};$('scale').onclick=()=>{small=!small;$('scale').textContent=small?'放大审看':'小球比例';draw();};$('background').onclick=()=>{light=!light;$('background').textContent=light?'深色场地':'浅色底检查';draw();};$('seek').oninput=()=>seek(Number($('seek').value)/1000);$('png').onclick=()=>canvas.toBlob(b=>output(b,'blood-blade-'+time.toFixed(3)+'.png'));$('json').onclick=()=>output(new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),'blood-blade-timeline.json');$('record').onclick=()=>record().catch(error);$('stop').onclick=()=>stopRecord().catch(error);window.addEventListener('resize',draw);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;if(e.code==='Space'){e.preventDefault();$('play').click();}if(e.key==='r'&&!recorder)reset();});window.addEventListener('beforeunload',()=>{stream?.getTracks().forEach(t=>t.stop());urls.forEach(u=>URL.revokeObjectURL(u));});
+ window.bloodBlade=Object.freeze({ready:true,play,pause,reset,seek,draw,report,record,stopRecord,portrait(){playing=false;portrait=true;time=.86;draw();},recordings:()=>captures.map(({blob,...info})=>info),recordData:i=>new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve(r.result.slice(r.result.lastIndexOf(',')+1));r.readAsDataURL(captures[i].blob);}),performance(){const s=[...costs].sort((a,b)=>a-b);return {samples:s.length,p50:s[Math.floor(s.length*.5)]||0,p95:s[Math.floor(s.length*.95)]||0,note:'Draw-call cost only; not sustained FPS'};}});draw();requestAnimationFrame(frame);
+})().catch(e=>{document.getElementById('status').textContent='小样载入失败：'+e.message;console.error(e);});

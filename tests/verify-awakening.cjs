@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path');
-for(const file of ['config','physics','skills','world','characters','roles','awakening','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
+for(const file of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;
 function ok(v,m){assert.ok(v,m);checks++;}function near(a,b,m){ok(Math.abs(a-b)<1e-8,m);}
 function make(types){const e=new G.Engine(types,'awaken-test');e.start();return e;}
@@ -13,9 +13,9 @@ for(const type of Object.keys(G.Types)){
  const fresh=JSON.stringify(new G.Engine([type,'normal'],'awaken-test').snapshot());e.pause();const saved=JSON.stringify(e.snapshot());for(let i=0;i<100;i++)e.step();ok(JSON.stringify(e.snapshot())===saved,'pause '+type);
  e.reset([type,'normal'],'awaken-test');ok(JSON.stringify(e.snapshot())===fresh,'reset '+type);
 }
-const normal=make(['normal','normal']);normal.balls[0].hp=50;awaken(normal,0);near(normal.balls[0].hp,58,'once-only heal');near(G.Combat.attackValue(normal.balls[0],normal),14.75,'normal damage boost');normal.step();near(normal.balls[0].hp,58,'no reactivation heal');
+const normal=make(['normal','normal']);normal.balls[0].hp=50;awaken(normal,0);near(normal.balls[0].hp,58,'once-only heal');near(G.Combat.attackValue(normal.balls[0],normal),normal.balls[0].def.damage*1.25,'normal damage boost');normal.step();near(normal.balls[0].hp,58,'no reactivation heal');
 // Blood chain does not heal absorbed / evaded damage, does not resurrect, reflects once.
-const chain=make(['vampire','normal']);chain.balls[0].hp=50;awaken(chain,0);G.Awakening.update(chain.balls[0],C.dt,chain);chain.time=.25;G.Awakening.update(chain.balls[0],C.dt,chain);chain.time=.55;G.Awakening.update(chain.balls[0],C.dt,chain);resolve(chain);near(chain.balls[1].hp,118.95,'chain pulse');near(chain.balls[0].hp,50.8925,'chain heals only actual pulse damage');
+const chain=make(['vampire','normal']);chain.balls[0].hp=50;awaken(chain,0);G.Awakening.update(chain.balls[0],C.dt,chain);chain.time=.25;G.Awakening.update(chain.balls[0],C.dt,chain);chain.time=.55;G.Awakening.update(chain.balls[0],C.dt,chain);resolve(chain);near(chain.balls[1].hp,chain.balls[1].maxHp-1.05,'chain pulse');near(chain.balls[0].hp,50.8925,'chain heals only actual pulse damage');
 const shieldChain=make(['vampire','shield']);shieldChain.balls[0].hp=50;G.Combat.resolveBatch([{source:shieldChain.balls[0],target:shieldChain.balls[1],raw:1.2,kind:'chain',healRatio:1}],shieldChain);near(shieldChain.balls[0].hp,50,'no shield drain heal');
 const reflectedChain=make(['vampire','reflector']);reflectedChain.balls[0].hp=50;G.Combat.resolveBatch([{source:reflectedChain.balls[0],target:reflectedChain.balls[1],raw:5,kind:'chain',healRatio:1}],(reflectedChain.balls[1].stance.phase='active',reflectedChain));near(reflectedChain.balls[0].hp,51.25,'chain heal after one reflection');
 const dead=make(['vampire','normal']);dead.balls[0].hp=1;G.Combat.resolveBatch([{source:dead.balls[0],target:dead.balls[1],raw:5,kind:'chain',healRatio:1},{source:dead.balls[1],target:dead.balls[0],raw:5,kind:'contact'}],dead);near(dead.balls[0].hp,0,'chain cannot resurrect');

@@ -1,0 +1,25 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{pathToFileURL}=require('node:url');
+const pw=require(path.join(process.env.USERPROFILE,'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/arcana-lab/evidence/'+(process.argv[2]||'ranger4'));fs.mkdirSync(out,{recursive:true});
+(async()=>{const browser=await pw.chromium.launch({channel:'msedge',headless:true}),errors=[],report={scenes:[]};try{
+ const p=await browser.newPage({viewport:{width:1440,height:1050}});p.on('pageerror',e=>errors.push(e.message));await p.goto(pathToFileURL(path.join(root,'tests/arcana-lab/index.html')).href);await p.waitForFunction(()=>window.arcanaLab?.ready);
+ for(const [role,scene] of [['ranger','cornerEvade'],['ranger','bladeEvade'],...['normal','accelerator','vampire','ranger'].map(r=>[r,'lethal'])]){
+  await p.selectOption('#scene','hit');await p.evaluate(r=>arcanaLab.choose(r),role);await p.selectOption('#scene',scene);
+  const data=await p.evaluate(()=>{const c=arcanaLab.clip(),frames=c.frames.map(f=>({rawTime:f.rawTime,time:f.simTime,phase:f.phase,state:f.source.state,ending:f.source.ending,balls:f.source.balls.map(b=>({id:b.id,x:b.x,y:b.y,hp:b.hp,vx:b.vx,vy:b.vy}))}));return{events:c.events,frames};});
+  const hit=data.events.find(e=>e.kind==='hit'&&e.actual>0)?.rawTime;assert(hit,'real hit '+role+'/'+scene);
+  if(scene==='lethal'){
+   const start=data.frames.find(f=>f.ending&&f.state==='running'),end=data.frames.find(f=>f.state==='ended');assert(start&&end,'visible running recovery then end');assert(end.time>start.time+.25);assert(start.balls.some(b=>b.hp===0),'recovery begins at zero HP');assert.deepEqual(end.balls.map(b=>b.hp),start.balls.map(b=>b.hp),'HP stays fixed through recovery');
+   assert(data.frames.filter(f=>f.time>=end.time).every(f=>JSON.stringify(f.balls)===JSON.stringify(end.balls)),'actors stop at end');
+   report.scenes.push({role,scene,hit,lethal:start.time,ended:end.time,duration:end.time-start.time,finalHP:end.balls.map(b=>b.hp)});
+  }else{assert(data.frames.filter(f=>f.phase==='counterStep').every(f=>f.balls[0].hp===56),'invulnerable crossing preserves HP during dodge');report.scenes.push({role,scene,hit});}
+  const times=scene==='lethal'?[hit-.05,hit+.03,hit+.15,hit+.30,hit+.55,hit+1]:[.015,.06,.10,.15,.23,.6];
+  const png=await p.evaluate(times=>{const c=document.createElement('canvas');c.width=1080;c.height=730;const x=c.getContext('2d');x.fillStyle='#111721';x.fillRect(0,0,1080,730);times.forEach((t,i)=>{arcanaLab.seek(t);x.drawImage(document.querySelector('#arena'),i%3*360,Math.floor(i/3)*365,360,340);x.fillStyle='#cad7e8';x.font='13px system-ui';x.fillText(t.toFixed(3)+'s',i%3*360+8,Math.floor(i/3)*365+358);});return c.toDataURL();},times);fs.writeFileSync(path.join(out,role+'-'+scene+'-strip.png'),Buffer.from(png.split(',')[1],'base64'));fs.writeFileSync(path.join(out,role+'-'+scene+'-timeline.json'),JSON.stringify(data,null,2));
+ }
+ await p.locator('#loop').uncheck();await p.evaluate(()=>arcanaLab.reset());await p.click('#record');await p.click('#play');await p.waitForTimeout(5150);await p.click('#stop-record');await p.waitForFunction(()=>arcanaLab.recordings().length===1);const bytes=await p.evaluate(()=>arcanaLab.recordData(0));fs.writeFileSync(path.join(out,'ranger-lethal.webm'),Buffer.from(bytes,'base64'));
+ // Sample an actual full match through the public UI, including the result delay.
+ await p.goto('http://127.0.0.1:8799/arcana.html?v=20261016-ranger4');await p.waitForFunction(()=>window.orbDuel);await p.selectOption('#type-0','ranger');await p.selectOption('#type-1','normal');await p.locator('#seed').fill('ranger-hp-0');await p.locator('#seed').press('Tab');
+ await p.evaluate(()=>{window.endingTrace=[];const sample=()=>{const s=orbDuel.snapshot();if(s.ending)endingTrace.push({time:s.time,state:s.state,ending:s.ending,hp:s.balls.map(b=>b.hp),overlayHidden:document.querySelector('#overlay').hidden});if(s.state!=='ended')requestAnimationFrame(sample);};requestAnimationFrame(sample);});
+ await p.click('#overlay-start');await p.click('[data-speed="4"]');await p.waitForFunction(()=>orbDuel.snapshot().state==='ended',{}, {timeout:45000});await p.waitForTimeout(100);
+ const trace=await p.evaluate(()=>endingTrace);assert(trace.some(f=>f.state==='running'&&f.ending&&f.overlayHidden),'formal UI keeps arena visible while recovering');assert.equal(await p.locator('#state-badge').innerText(),'对战结束');await p.screenshot({path:path.join(out,'live-ended.png')});report.formalEnding={samples:trace.length,recoveryVisible:trace.some(f=>f.state==='running'&&f.overlayHidden),final:trace.at(-1)};
+ assert.deepEqual(errors,[]);report.errors=errors;report.audioAuditioned=false;fs.writeFileSync(path.join(out,'defense-browser.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({passed:true,scenes:report.scenes,formalEnding:report.formalEnding}));
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,13 @@
+/* Reserve two lines in every state. Overflow remains reachable, never ellipsized away. */
+.fighter-stats{grid-template-rows:repeat(5,24px) 48px;height:183px;min-height:183px;flex-basis:183px}
+.status-slot,.team-status{display:flex;align-items:flex-start;gap:6px;height:48px;min-height:48px;line-height:20px;white-space:normal;overflow:visible;text-overflow:clip;min-width:0}
+.status-heading{flex:none;font-size:14px;line-height:20px;color:#b4c3d6}
+.status-items{display:flex;flex-wrap:wrap;align-content:flex-start;gap:3px 5px;flex:1;min-width:0;height:39px;overflow-x:hidden;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain;scrollbar-color:#687a91 #17202b}
+.status-tag{box-sizing:border-box;display:inline-block;flex:none;max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:16px;font-weight:550;line-height:18px;padding:0 4px;border-radius:3px;color:#d7e1ed;background:#243143}
+.affected .status-tag{color:#edcf9f;background:#392f25}
+.status-items:focus-visible{outline:1px solid #9bb9da;outline-offset:1px}
+@media(max-width:560px){.fighter-stats{grid-template-rows:repeat(8,22px) 44px;height:244px;min-height:244px;flex-basis:244px}.status-slot,.team-status{height:44px;min-height:44px}.status-items{height:41px}.status-heading{font-size:12px}.status-tag{font-size:13px;line-height:18px}}
+
+.team-mode .status-tag{font-size:17px;line-height:20px}
+.team-mode .status-items{height:43px}
+@media(max-width:760px){.team-mode .status-tag{font-size:16px}}

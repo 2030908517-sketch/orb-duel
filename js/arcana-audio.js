@@ -1,0 +1,48 @@
+(function(root){
+  'use strict';
+  // Arcana-only tone definitions; shared AudioMix handles loudness and priorities in every mode.
+  const G=root.OrbDuel;
+  Object.assign(G.Audio.profiles,{
+    arcSeaBreak:{duration:.65,body:.03,cooldown:.4,priority:8,cutoff:1700,noise:{gain:.24,decay:.16,cutoff:1300},layers:[['sine',130,38,.31,0,.48],['triangle',340,85,.11,0,.19],['sine',68,34,.13,.16,.42]]},
+    arcSeaRise:{duration:.34,attack:.08,cooldown:.18,priority:6,cutoff:1100,noise:{gain:.12,attack:.05,decay:.25,cutoff:950},layers:[['sine',65,130,.14],['triangle',160,280,.035]]},
+    arcSeaLaunch:{duration:.58,attack:.025,cooldown:.24,priority:7,cutoff:1800,noise:{gain:.23,attack:.015,decay:.33,cutoff:1500},layers:[['sine',145,55,.19,0,.45],['triangle',340,110,.055,0,.28]]},
+    arcSeaHit:{duration:.56,body:.025,cooldown:.12,priority:8,cutoff:2100,noise:{gain:.28,decay:.07,cutoff:1700},layers:[['sine',150,36,.28,0,.4],['triangle',630,150,.085,0,.11],['sine',76,38,.075,.07,.4]]},
+    arcSeaReverse:{duration:.9,attack:.16,cooldown:.5,priority:8,cutoff:1300,noise:{gain:.14,attack:.12,decay:.65,cutoff:1100},layers:[['sine',65,180,.16,0,.7],['triangle',155,480,.05,.1,.64],['sine',92,47,.14,.68,.16]]},
+    arcSeaRebirth:{duration:1.15,body:.05,cooldown:.5,priority:9,cutoff:2300,reverb:{seconds:.28,gain:.1},noise:{gain:.29,attack:.02,decay:.2,cutoff:1700},layers:[['sine',145,32,.36,0,.65],['triangle',340,85,.1,0,.25],['sine',95,42,.20,.44,.25],['sine',83,37,.15,.72,.27]]},
+    arcRoyalRise:{duration:.82,attack:.004,cooldown:.6,priority:8,cutoff:2400,noise:{gain:.16,decay:.07,cutoff:1900},layers:[['sine',96,42,.25,0,.4],['triangle',640,190,.09,.12,.12],['triangle',730,210,.08,.28,.12],['sine',82,38,.19,.42,.34]]},
+    arcRoyalSlide:{duration:1.2,attack:.08,cooldown:1,priority:7,cutoff:1400,noise:{gain:.13,attack:.08,decay:.8,cutoff:950},layers:[['sine',54,86,.11],['triangle',180,240,.035],['sine',94,49,.11,.9,.25]]},
+    arcRoyalLock:{duration:.73,attack:.002,body:.035,cooldown:.5,priority:9,reverb:{seconds:.24,gain:.08},noise:{gain:.25,decay:.025,cutoff:2100},layers:[['triangle',620,140,.13,0,.08],['sine',125,33,.32,0,.45],['triangle',930,310,.07,.07,.1],['sine',60,35,.09,.06,.58]]},
+    arcRoyalOpen:{duration:.74,attack:.02,cooldown:.6,priority:8,noise:{gain:.17,attack:.02,decay:.22,cutoff:1700},layers:[['triangle',480,180,.075,0,.13],['sine',75,125,.14],['triangle',240,450,.045,.07,.56]]},
+    arcRoyalReturn:{duration:.65,attack:.02,cooldown:.5,priority:7,noise:{gain:.065,decay:.12,cutoff:1500},layers:[['triangle',520,310,.055,0,.22],['triangle',780,390,.035,.11,.22],['sine',120,68,.10,.12,.45]]},
+    arcDebtWake:{duration:.9,attack:.008,cooldown:.7,priority:8,cutoff:1100,noise:{gain:.045,attack:.05,decay:.6,cutoff:700},layers:[['sine',76,34,.24,0,.19],['sine',92,39,.18,.19,.15],['triangle',145,310,.045,.23,.61],['sine',63,110,.07,.42,.4]]},
+    arcDebtRelease:{duration:.5,attack:.009,cooldown:.4,priority:8,noise:{gain:.23,attack:.006,decay:.095,cutoff:2400},layers:[['triangle',1100,145,.11,0,.14],['sine',138,44,.23,0,.37]]},
+    arcDebtHit:{duration:.8,attack:.002,body:.035,cooldown:.3,priority:9,reverb:{seconds:.26,gain:.10},noise:{gain:.3,decay:.03,cutoff:2450},layers:[['triangle',1250,140,.13,0,.1],['sine',146,32,.32,0,.44],['sine',64,36,.10,.11,.56]]},
+    arcDebtCatch:{duration:.36,attack:.003,cooldown:.3,priority:8,noise:{gain:.11,decay:.02,cutoff:2300},layers:[['triangle',850,250,.12,0,.1],['sine',140,55,.18,0,.28]]},
+    arcPrisonSeal:{duration:.65,attack:.009,cooldown:.4,priority:8,cutoff:1600,noise:{gain:.15,attack:.008,decay:.12,cutoff:1250},layers:[['sine',95,40,.23,0,.4],['triangle',420,130,.08,0,.18],['triangle',370,110,.07,.11,.18]]},
+    arcPrisonCut:{duration:.32,attack:.009,cooldown:.16,priority:8,noise:{gain:.26,attack:.008,decay:.11,cutoff:2100},layers:[['triangle',950,150,.09,0,.15],['sine',170,67,.16,0,.26]]},
+    arcPrisonHeavy:{duration:.53,attack:.015,cooldown:.25,priority:8,noise:{gain:.29,attack:.01,decay:.17,cutoff:1600},layers:[['triangle',680,105,.11,0,.23],['sine',142,39,.28,0,.45]]},
+    arcPrisonHeavyHit:{duration:.64,body:.025,cooldown:.15,priority:9,cutoff:2100,noise:{gain:.26,decay:.035,cutoff:2000},layers:[['triangle',890,140,.12,0,.1],['sine',134,34,.28,0,.43]]},
+    arcBloodMist:{duration:.4,attack:.015,cooldown:.3,priority:8,cutoff:1500,noise:{gain:.20,attack:.008,decay:.19,cutoff:1400},layers:[['sine',210,70,.13,0,.3],['triangle',410,120,.065,0,.24]]},
+    arcBloodInhale:{duration:.25,attack:.06,cooldown:.25,priority:8,cutoff:1100,noise:{gain:.15,attack:.05,decay:.2,cutoff:1000},layers:[['sine',65,140,.14],['triangle',180,420,.045]]},
+    arcBloodGather:{duration:.42,attack:.08,cooldown:.3,priority:8,cutoff:1300,noise:{gain:.12,attack:.08,decay:.28,cutoff:900},layers:[['sine',62,120,.14],['triangle',145,300,.06]]},
+    arcBloodBite:{duration:1.04,body:.045,cooldown:.25,priority:9,cutoff:2600,reverb:{seconds:.24,gain:.1},noise:{gain:.34,decay:.055,cutoff:2200},layers:[['triangle',1250,120,.19,0,.12],['sine',145,30,.39,.009,.65],['triangle',330,80,.12,.025,.25],['sine',64,32,.15,.11,.86]]},
+    arcBloodReflux:{duration:1.7,attack:.1,cooldown:.35,priority:8,cutoff:1200,noise:{gain:.11,attack:.12,decay:.8,cutoff:1000},layers:[['sine',65,170,.13,0,.9],['triangle',130,340,.05,.1,.8],['sine',100,38,.24,.94,.22],['sine',87,34,.19,1.2,.25]]},
+    arcBloodDry:{duration:.28,attack:.02,cooldown:.2,priority:6,noise:{gain:.11,attack:.015,decay:.18,cutoff:1200},layers:[['sine',110,55,.08]]},
+    arcRangerEvade:{duration:.25,attack:.006,cooldown:.3,priority:8,noise:{gain:.20,decay:.075,cutoff:2100},layers:[['triangle',1100,260,.07,0,.12],['sine',160,76,.12,0,.19]]},
+    arcRangerBreech:{duration:.4,attack:.003,cooldown:.5,priority:7,noise:{gain:.14,decay:.018,cutoff:2800},layers:[['triangle',510,160,.12,0,.06],['triangle',730,260,.14,.18,.07],['sine',135,65,.13,.19,.16]]},
+    arcRangerCharge:{duration:.98,attack:.2,cooldown:.7,priority:7,cutoff:1700,noise:{gain:.055,attack:.2,decay:.9,cutoff:1500},layers:[['sine',55,125,.10],['triangle',180,620,.045,0,.92]]},
+    arcRangerLock:{duration:.14,attack:.003,cooldown:.12,priority:8,layers:[['triangle',1450,760,.10,0,.06],['sine',125,85,.10]]},
+    arcRangerShot:{duration:1.05,body:.035,attack:.002,cooldown:.4,priority:9,cutoff:4200,reverb:{seconds:.32,gain:.12},noise:{gain:.42,decay:.045,cutoff:3900},layers:[['triangle',2100,220,.14,0,.07],['sine',168,39,.36,0,.48],['sine',79,37,.14,.02,.8]]},
+    arcRangerHit:{duration:.72,attack:.002,body:.025,cooldown:.15,priority:9,reverb:{seconds:.2,gain:.08},noise:{gain:.32,decay:.025,cutoff:3100},layers:[['triangle',1700,240,.15,0,.09],['sine',185,45,.31,0,.4],['sine',78,35,.10,.03,.6]]},
+    arcOrbit:{duration:1.32,attack:.10,cooldown:.8,priority:7,cutoff:1900,noise:{gain:.14,attack:.08,decay:1.15,cutoff:1700},layers:[['sine',64,125,.15],['triangle',170,580,.065,0,1.1]]},
+    arcOrbitPass:{duration:.23,attack:.008,cooldown:.20,priority:8,noise:{gain:.22,decay:.09,cutoff:2500},layers:[['triangle',1250,230,.08,0,.14],['sine',190,80,.11]]},
+    arcSonicRelease:{duration:.85,body:.05,cooldown:.4,priority:9,cutoff:2300,reverb:{seconds:.25,gain:.10},noise:{gain:.32,decay:.10,cutoff:2100},layers:[['triangle',750,95,.14,0,.16],['sine',120,35,.30,0,.55],['sine',72,34,.13,.03,.75]]},
+    arcSonicHit:{duration:.62,body:.035,cooldown:.22,priority:9,reverb:{seconds:.22,gain:.09},noise:{gain:.28,decay:.045,cutoff:2600},layers:[['triangle',1300,170,.12,0,.11],['sine',165,42,.30,0,.42],['sine',93,34,.11,.018,.56]]},
+    arcBloodCharge:{duration:1.05,attack:.006,cooldown:.5,priority:7,cutoff:1100,layers:[['sine',78,37,.24,0,.18],['sine',83,40,.20,.34,.18],['sine',89,43,.22,.68,.20],['triangle',137,170,.035,.15,.83]]},
+    arcBloodRelease:{duration:.42,attack:.025,cooldown:.3,priority:7,cutoff:1600,noise:{gain:.12,attack:.015,decay:.14,cutoff:1000},layers:[['sine',130,67,.18],['triangle',390,150,.065,0,.25]]},
+    arcBloodClose:{duration:.26,attack:.006,cooldown:.10,priority:8,noise:{gain:.26,decay:.065,cutoff:2400},layers:[['triangle',1100,190,.095,0,.12],['sine',210,75,.12,0,.21]]},
+    arcBloodLast:{duration:.36,body:.025,cooldown:.2,priority:8,cutoff:2100,noise:{gain:.29,decay:.09,cutoff:2100},layers:[['triangle',850,135,.12,0,.15],['sine',170,48,.21,0,.30]]},
+    arcBloodHit:{duration:.48,body:.028,cooldown:.08,priority:9,cutoff:2500,reverb:{seconds:.14,gain:.065},noise:{gain:.28,decay:.028,cutoff:2200},layers:[['triangle',1150,180,.14,0,.11],['sine',155,38,.31,.006,.36],['sine',72,34,.08,.025,.42]]},
+    arcBloodReturn:{duration:.55,attack:.055,cooldown:.14,priority:6,cutoff:1100,layers:[['sine',115,165,.065],['sine',172,247,.04,.035,.48]]}
+  });
+})(typeof window!=='undefined'?window:globalThis);

@@ -1,0 +1,10 @@
+(function(root){
+ 'use strict';const G=root.OrbDuel;if(!G.Renderer||!G.Overdrive)return;
+ if(G.Audio?.profiles)Object.assign(G.Audio.profiles,{overdriveUp:{duration:.22,attack:.003,cooldown:.12,priority:6,cutoff:4000,noise:{gain:.10,decay:.09,cutoff:3200},layers:[['triangle',680,1600,.11,0,.13],['sine',1200,2200,.06,.02,.18]]},overdriveDown:{duration:.2,attack:.004,cooldown:.12,priority:5,noise:{gain:.12,decay:.09,cutoff:2200},layers:[['triangle',580,180,.09,0,.16]]}});
+ const draw=G.Renderer.prototype.drawBall;
+ G.Renderer.prototype.drawBall=function(b,e){const s=G.Overdrive.state(b);if(!s?.active||b.hp<=0)return draw.call(this,b,e);const c=this.ctx,g=s.gear,a=Math.atan2(b.vy,b.vx);
+ c.save();const n=Math.min(s.path.length,8+g*6);for(let i=n-1;i>0;i--){const p=s.path[i],q=s.path[i-1];c.beginPath();c.moveTo(p.x,p.y);c.lineTo(q.x,q.y);c.strokeStyle=i%3===0?'#fff5cd':'#efb64c';c.globalAlpha=(1-i/n)*(.16+g*.055);c.lineWidth=(1-i/n)*(3+g*1.3);c.lineCap='round';c.stroke();}
+ c.globalAlpha=1;draw.call(this,b,e);c.save();c.translate(b.x,b.y);c.rotate(a);for(let i=0;i<g;i++){const y=(i-(g-1)/2)*7;c.beginPath();c.moveTo(-14,y);c.lineTo(5+i%2*5,y-2);c.strokeStyle=i%2?'#fff2bd':'#e8c16a';c.globalAlpha=.45;c.lineWidth=1.5;c.stroke();}c.restore();
+ for(const v of s.events){const t=(e.time-v.t)/.28;if(t<0||t>1)continue;c.save();c.translate(v.x,v.y);c.rotate(v.a);c.globalAlpha=Math.max(0,1-t);if(v.kind==='up'){c.scale(.45,1);for(const side of [-1,1]){c.beginPath();c.arc(0,0,b.radius+4+t*32,side<0?.2:Math.PI+.2,side<0?Math.PI-.2:Math.PI*2-.2);c.strokeStyle=side<0?'#fff5d6':'#efb94e';c.lineWidth=(1-t)*5+.7;c.stroke();}c.beginPath();c.moveTo(-b.radius-t*75,-3);c.lineTo(-b.radius+7,0);c.lineTo(-b.radius-t*75,3);c.fillStyle='#fff2ba';c.fill();}else for(let i=0;i<7;i++){const y=(i-3)*7,x=-10-t*(20+i%3*15);c.beginPath();c.moveTo(x,y*(1+t));c.lineTo(x-8*(1-t),y*(1+t)+2);c.strokeStyle=i%2?'#ffe8a8':'#ba883b';c.lineWidth=2;c.stroke();}c.restore();}c.restore();
+ };
+})(typeof window!=='undefined'?window:globalThis);

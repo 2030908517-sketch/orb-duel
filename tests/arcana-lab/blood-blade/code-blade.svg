@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-label="纯矢量代码绘制的深红弧形血刃">
+  <defs>
+    <linearGradient id="blood" x1="460" y1="340" x2="888" y2="340" gradientUnits="userSpaceOnUse"><stop stop-color="#651329"/><stop offset=".53" stop-color="#98132b"/><stop offset=".83" stop-color="#c51d32"/><stop offset="1" stop-color="#f14b46"/></linearGradient>
+    <linearGradient id="edge" x1="460" y1="100" x2="790" y2="560" gradientUnits="userSpaceOnUse"><stop stop-color="#ab2537"/><stop offset=".28" stop-color="#f34d4b"/><stop offset=".55" stop-color="#ffb09a"/><stop offset=".73" stop-color="#ff6256"/><stop offset="1" stop-color="#b82136"/></linearGradient>
+    <linearGradient id="tail" x1="170" y1="390" x2="710" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#6f142b" stop-opacity="0"/><stop offset=".35" stop-color="#8e1730" stop-opacity=".7"/><stop offset="1" stop-color="#c52239"/></linearGradient>
+    <path id="body" d="M348 92 C624 53 854 167 884 337 C916 507 731 642 438 614 C584 592 685 533 724 459 L670 489 C701 446 711 401 694 366 L641 393 C659 343 645 294 608 263 C538 218 450 193 393 185 L499 180 C463 140 405 110 348 92Z"/>
+    <clipPath id="inside"><use href="#body"/></clipPath>
+  </defs>
+  <!-- One primary crescent; secondary fluid ribbons trail behind the same body. -->
+  <path d="M730 384 C640 362 514 389 451 412 C370 443 313 460 230 450 C322 440 363 415 417 381 C475 345 566 321 622 325 L587 343 C660 338 710 347 730 384Z" fill="url(#tail)"/>
+  <path d="M735 460 C640 477 528 518 471 532 C408 548 367 528 316 531 C384 512 421 527 469 503 C546 475 631 428 705 422Z" fill="#81142c"/>
+  <path d="M638 261 C547 250 469 222 420 219 C374 215 338 231 280 218 C336 217 371 193 425 196 C509 198 573 218 638 261Z" fill="#85162c"/>
+  <use href="#body" fill="url(#blood)"/>
+  <g clip-path="url(#inside)">
+    <!-- Broad value planes instead of photoreal texture or uniform outlines. -->
+    <path d="M359 98 C633 90 796 215 812 348 C830 491 675 608 424 627 L899 664 L964 342 L894 79Z" fill="#ef343b" opacity=".7"/>
+    <path d="M402 109 C650 110 806 236 821 359 C834 467 722 571 554 603 C728 574 865 477 859 358 C852 225 658 88 402 109Z" fill="#ff5650" opacity=".48"/>
+    <path d="M438 137 C626 178 735 272 737 383 C739 467 656 547 531 593 C659 568 782 484 781 380 C779 253 616 155 438 137Z" fill="#6a1028"/>
+    <path d="M499 170 C635 219 708 285 724 351 C695 314 657 286 612 267 L649 277 C608 227 558 196 499 170Z" fill="#d52b3a"/>
+    <path d="M716 438 C713 479 671 533 613 565 C698 533 749 489 770 446 L743 462 L754 426Z" fill="#df2c39"/>
+    <path d="M731 299 C769 342 782 390 752 446 C799 402 804 349 767 298 L776 335Z" fill="#ee3d42"/>
+    <!-- A few dragged channels show the material's flow without a central white bar. -->
+    <path d="M520 177 C639 220 734 285 758 359" fill="none" stroke="#3e1024" stroke-width="5" stroke-linecap="round"/>
+    <path d="M769 397 C752 478 667 554 571 589" fill="none" stroke="#431024" stroke-width="6" stroke-linecap="round"/>
+    <path d="M584 184 C703 241 776 299 789 360" fill="none" stroke="#f44a48" stroke-width="2.5" opacity=".7"/>
+    <path d="M800 418 C775 490 707 548 641 579" fill="none" stroke="#f54c49" stroke-width="2" opacity=".65"/>
+    <path d="M616 331 L697 358 L642 356Z M641 428 L711 400 L668 439Z" fill="#491126"/>
+  </g>
+  <!-- The cutting edge is selective and narrow; the concave liquid edge stays dark. -->
+  <path d="M348 92 C624 53 854 167 884 337 C916 507 731 642 438 614 C722 630 894 499 869 340 C839 180 621 65 348 92Z" fill="url(#edge)"/>
+  <path d="M748 185 C821 236 864 297 874 358 C881 412 858 458 819 496" fill="none" stroke="#ffb29a" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M852 294 C867 320 874 346 875 368" fill="none" stroke="#ffe2c5" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Sparse tapered blood fragments, never a necklace of equally sized circles. -->
+  <path d="M182 414 C210 400 224 398 248 401 C229 409 212 413 182 414Z" fill="#a22136"/>
+  <path d="M303 354 C324 337 346 335 364 339 C344 344 330 352 303 354Z" fill="#a71d34"/>
+  <path d="M260 483 C279 475 292 477 305 480 C289 486 277 487 260 483Z" fill="#86182f"/>
+  <path d="M403 258 C416 252 425 255 433 260 C420 264 412 263 403 258Z" fill="#cb293b"/>
+</svg>

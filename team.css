@@ -1,0 +1,58 @@
+.team-app{max-width:none;margin:0;padding:0 24px}
+.team-header{height:68px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--border)}
+.team-modes{display:flex;gap:4px;padding:4px;border:1px solid var(--border);border-radius:8px;background:#151c26}
+.team-modes a{color:#b7c5d8;text-decoration:none;padding:8px 16px;white-space:nowrap;border-radius:5px}.team-modes a.active{color:var(--accent);background:#273126}
+.team-heading{display:flex;justify-content:space-between;align-items:center;margin:12px 0}.team-heading h1{font-size:23px;margin:4px 0;font-weight:550}
+.team-workspace{display:grid;grid-template-columns:var(--rail-width,300px) minmax(0,1fr) var(--rail-width,300px);grid-template-areas:"blue arena pink";gap:16px;align-items:start}
+.team-rail{min-width:0;display:flex;flex-direction:column;gap:12px}.team-rail-blue{grid-area:blue}.team-rail-pink{grid-area:pink}
+.squad{min-width:0}.squad-blue{--team:#70b5ff}.squad-pink{--team:#ef86ba}
+.squad-title{display:flex;justify-content:space-between;gap:6px;margin-bottom:8px;font-size:12px;line-height:20px}
+.squad-title b{color:var(--team);white-space:nowrap}.squad-title span{color:#b0bfd3;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.squad-cards{display:grid;grid-template-columns:1fr;gap:10px}
+.team-card{min-width:0;background:#141c27;border:1px solid #2b3647;border-top:2px solid var(--team);border-radius:7px;padding:10px;position:relative}.team-card.eliminated{background:#101720;border-color:#344052}
+.team-card-head{display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:26px 38px;gap:5px 6px;align-items:center}
+.team-card-head .team-label{color:var(--team);font-size:12px;letter-spacing:0;grid-row:1;grid-column:1}
+.team-card-head .health-number{font-size:23px;margin:0;grid-row:1;grid-column:2;text-align:right;white-space:nowrap;line-height:26px}.team-card-head small{font-size:13px;color:#a8b7cb}
+.team-card-head select{grid-row:2;grid-column:1/-1;min-width:0;width:100%;height:38px;padding:5px 10px;font-size:18px;font-weight:650;background:#223247;border:1px solid #526c8b;color:#f5f8ff;-webkit-text-fill-color:#f5f8ff;opacity:1;color-scheme:dark}
+.team-card-head select:disabled{opacity:1;color:#f5f8ff;-webkit-text-fill-color:#f5f8ff;background:#1d2b3e;border-color:#415a78;cursor:default}
+.team-card-head option{background:#1c293b;color:#f5f8ff;font-size:18px}
+.team-card .health-track{margin:8px 0;height:5px}
+.team-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,25px);gap:3px 8px;height:109px}
+.team-stat{display:flex;align-items:baseline;justify-content:space-between;gap:4px;min-width:0;line-height:25px}
+.team-stat span{font-size:14px;color:#b4c3d6;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.team-stat b{font-size:17px;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;flex-shrink:0;line-height:25px}.team-stat b.word-value{font-size:14px}.team-values .team-stat:first-child b{color:var(--accent)}
+.team-life{height:42px;margin-top:3px;font-size:13px;line-height:21px;white-space:nowrap;overflow:hidden}.team-life span{display:block;overflow:hidden;text-overflow:ellipsis}.team-life span:last-child{color:var(--accent)}
+.team-status{height:23px;font-size:13px;color:#b4c3d6;line-height:23px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.team-status.affected{color:#e3bf82}
+.team-card details{font-size:11px;color:#a8b9cf}.team-card summary{cursor:pointer;line-height:21px}
+.team-card details[open]{position:absolute;z-index:5;top:100%;left:0;right:0;background:#192230;border:1px solid #536986;padding:12px;box-shadow:0 8px 22px #0008;border-radius:5px}.team-card details p{line-height:1.7;color:#c0cde0}
+.team-field{grid-area:arena;min-width:0}.team-field .arena-wrap{width:100%;max-width:100%;margin:0}.team-field canvas{aspect-ratio:640/440}
+.team-field .transport{padding:10px 0 0;flex-wrap:wrap;gap:12px}.team-field .speed-switch{margin-left:auto}.team-field .arena-note{margin-top:8px}.team-field .arena-top,.team-field .arena-bottom{font-size:11px}
+.team-setup{padding:14px}.team-setup select{margin-top:8px;color:#f0f5fc;background:#1d2b3e}.team-setup .panel-intro{margin:10px 0}
+.map-copy,.team-hint{font-size:11px;color:#95a7bf;line-height:1.6}.map-copy{min-height:35px}.team-hint{margin:12px 0 0}
+.team-setup .seed-block{margin-top:10px;padding-top:10px}.team-rail .activity{padding:14px;margin:0}.team-rail .result-summary{max-height:180px;font-size:11px;margin:0}
+.team-rail #event-log{margin-top:10px}.team-rail #event-log li{padding:7px 0;font-size:10px}
+.team-mode footer{margin-top:14px}.team-mode .center-overlay h2{font-size:28px}.team-mode .center-overlay p{font-size:14px}.team-mode #toggle{min-width:112px}
+@media(max-width:1200px){.team-app{padding:0 16px}.team-workspace{gap:12px}.team-modes a{padding:7px 12px}.team-heading h1{font-size:22px}.team-field .clock .eyebrow{display:none}.team-field .arena-note{font-size:9px;flex-wrap:wrap}}
+@media(max-width:1100px){
+  .team-workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"arena arena" "blue pink";gap:14px 12px}
+  .team-field{width:100%}.team-rail{gap:12px}.squad-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .team-values{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,38px);height:161px}
+  .team-stat{flex-direction:column;gap:0;justify-content:normal;line-height:16px}.team-stat span{font-size:14px;line-height:16px}.team-stat b{font-size:16px;line-height:22px}
+  .team-card-head .health-number{font-size:20px}.team-card-head small{font-size:11px}.team-card-head select{font-size:17px}
+  .team-life{font-size:12px}.team-status{font-size:12px}.team-field .arena-note{font-size:10px}
+}
+@media(max-width:720px){.squad-cards{grid-template-columns:1fr}.team-values{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,25px);height:109px}.team-stat{flex-direction:row;align-items:baseline;justify-content:space-between;gap:4px;line-height:25px}.team-stat span,.team-stat b{line-height:25px}}
+@media(max-width:560px){
+  .team-app{padding:0 10px}.team-header{height:60px;gap:8px}.team-header .brand{font-size:15px;gap:6px}.team-header .brand-mark{display:none}.team-header .brand small{font-size:8px;letter-spacing:2px}
+  .team-modes a{font-size:11px;padding:7px 9px}.team-header .text-button{font-size:10px}.team-heading h1{font-size:18px}.team-heading .eyebrow{font-size:8px}
+  .team-workspace{gap:12px 7px}.squad-title{flex-wrap:wrap;gap:0}.squad-title span{font-size:10px}
+  .team-card{padding:8px}.team-card-head{grid-template-columns:24px minmax(0,1fr)}.team-card-head .team-label{font-size:11px}.team-card-head .health-number{font-size:18px}.team-card-head small{font-size:10px}.team-card-head select{font-size:17px;padding:5px 7px}
+  .team-values{grid-template-rows:repeat(4,36px);height:153px;gap:3px 6px}.team-stat{flex-direction:column;justify-content:normal;align-items:stretch;gap:0}.team-stat span{font-size:12px;line-height:15px}.team-stat b{font-size:15px;line-height:21px}.team-stat b.word-value{font-size:13px}
+  .team-setup,.team-rail .activity{padding:10px}.team-setup .panel-heading .eyebrow{display:none}.team-setup .panel-heading h2,.team-rail .panel-heading h2{font-size:12px}
+  .team-setup .seed-block>label{font-size:10px}.team-setup .seed-input input{padding:8px 5px;font-size:10px}.team-setup .seed-input button{width:25px;font-size:17px}.team-setup select{font-size:12px;padding:8px 6px}.team-hint{font-size:10px}
+  .team-field .transport{gap:7px}.team-field .clock{gap:0}.team-field .clock strong{font-size:18px}.team-field .arena-note{font-size:9px;flex-wrap:wrap}
+  .team-field .arena-top,.team-field .arena-bottom{font-size:8px;left:9px;right:9px;letter-spacing:0}.team-field .arena-top{top:9px}.team-field .arena-bottom{bottom:9px}.team-field .arena-bottom span:first-child{max-width:68%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team-mode .center-overlay{padding:16px}.team-mode .center-overlay h2{font-size:19px;margin:8px 0}.team-mode .center-overlay p{font-size:11px;margin-bottom:12px}.team-mode .overlay-kicker{font-size:8px;letter-spacing:1px}
+}
+@media(max-width:400px){.team-heading h1{font-size:16px}.team-field #toggle{min-width:95px;padding:8px 12px}.team-field .icon-button{width:35px;height:38px}.team-field .transport-buttons{gap:5px}.team-field .clock strong{font-size:16px}.team-card-head select{font-size:16px}.team-rail .panel-intro{font-size:10px}.team-life{font-size:12px}.team-life span:last-child{font-size:12px}}
+@media(max-width:360px){.team-values{grid-template-columns:1fr;grid-template-rows:repeat(8,25px);height:221px}.team-stat{flex-direction:row;align-items:baseline;justify-content:space-between;gap:4px}.team-stat span,.team-stat b{line-height:25px}}

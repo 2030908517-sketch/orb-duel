@@ -1,0 +1,18 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {pathToFileURL}=require('node:url'),pw=require(path.join(process.env.USERPROFILE,'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
+const root=path.resolve(__dirname,'..'),out=path.join(root,'tests/arcana-lab/evidence/'+(process.argv[2]||'ranger-final'));fs.mkdirSync(out,{recursive:true});
+(async()=>{const browser=await pw.chromium.launch({channel:'msedge',headless:true}),errors=[];try{
+ const p=await browser.newPage({viewport:{width:1440,height:1050}});p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:8799/arcana.html?v=20261016-ranger4');await p.waitForFunction(()=>window.orbDuel);
+ const sample=JSON.parse(fs.readFileSync(path.join(root,'tests/ranger-health-duration-results.json'),'utf8')).matches.find(m=>m.types[0]==='ranger'&&m.casts[0]===1);assert(sample,'known cast fixture');await p.selectOption('#type-0','ranger');await p.selectOption('#type-1',sample.types[1]);await p.locator('#seed').fill('ranger-hp-'+sample.seed);await p.locator('#seed').press('Tab');
+ assert((await p.locator('#skill-description-0').textContent()).includes('死线·极限反击'));assert((await p.locator('#skill-description-0').textContent()).includes('≤30%'));
+ assert((await p.locator('#health-0').textContent()).includes('224'));await p.click('#overlay-start');await p.click('[data-speed="4"]');
+ await p.waitForFunction(()=>orbDuel.snapshot().balls[0].arcana.used||orbDuel.snapshot().state==='ended',{},{timeout:25000});await p.click('[data-speed="1"]');
+ const cast=await p.evaluate(()=>orbDuel.snapshot());assert.equal(cast.balls[0].arcana.casts,1);await p.locator('#arena').screenshot({path:path.join(out,'live-ranger-cast.png')});
+ await p.click('#toggle');await p.click('#restart');assert.equal((await p.evaluate(()=>orbDuel.snapshot())).balls[0].arcana.used,false);
+ await p.goto(pathToFileURL(path.join(root,'tests/arcana-lab/index.html')).href);await p.waitForFunction(()=>window.arcanaLab?.ready);await p.evaluate(()=>{arcanaLab.choose('ranger');arcanaLab.seek(.95);});
+ await p.setViewportSize({width:390,height:844});assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'mobile lab fits');await p.screenshot({path:path.join(out,'ranger-lab-390.png'),fullPage:true});
+ // Dedicated UI fixture: force two committed titles to inspect stacking, not combat validity.
+ await p.setViewportSize({width:900,height:900});const stacked=await p.evaluate(()=>{const G=OrbDuel,e=new G.Engine(['normal','ranger'],'subtitle-pair',{mode:'arcana'});e.start();for(const b of e.balls)G.Arcana.commit(b,e);new G.Clock(e).advance(.1);const c=document.createElement('canvas');c.id='subtitle-fixture';c.style.cssText='position:fixed;left:20px;top:20px;z-index:100;display:block;width:720px;height:680px;max-height:none';document.body.append(c);new G.Renderer(c).draw(e);return e.effects.filter(f=>f.style==='subtitle').map(f=>({owner:f.owner,title:f.title}));});
+ assert.equal(stacked.length,2);assert.notEqual(stacked[0].owner,stacked[1].owner);await p.locator('#subtitle-fixture').screenshot({path:path.join(out,'two-subtitles.png')});
+ assert.deepEqual(errors,[]);const report={passed:true,liveCast:{seed:cast.seed,types:cast.balls.map(b=>b.type),time:cast.time,phase:cast.balls[0].arcana.phase},mobileWidth:390,stackedCaptions:stacked,errors};fs.writeFileSync(path.join(out,'live-ui.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

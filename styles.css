@@ -43,3 +43,42 @@ html{scrollbar-gutter:stable}.app{max-width:1840px;padding-inline:24px}.layout{d
 
 /* Reserve the longest control label in every state to avoid reflow at the end. */
 #toggle{min-width:128px}@media(max-width:560px){#toggle{min-width:108px}}
+
+/* Keep both combat cards together and make live values easy to read. */
+.combat-rail .fighter{padding:16px}.fighter-name{height:30px}.fighter-name h2{font-size:18px}.health-number{font-size:26px}.health-number small{font-size:14px}
+.fighter-stats{grid-template-rows:repeat(6,24px);height:159px;min-height:159px;flex-basis:159px;gap:3px 8px}
+.stats-core .stat-chip,.stats-skills .stat-chip{line-height:24px;gap:5px}.stat-label{font-size:11px}.stats-core b,.stats-skills b{font-size:16px}
+.awakening-stat{font-size:11px;line-height:24px}.awakening-stat b{font-size:14px}.status-slot{font-size:11px;line-height:24px}.status-slot b{font-size:14px}.fighter-top .team-label,.awake-notice{font-size:11px}
+@media(max-width:1099px){
+ .rail-left{display:grid;grid-column:1/-1;grid-row:1;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+ .rail-left .fighter{grid-column:auto;grid-row:auto;padding:12px}
+ .fighter-stats{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,24px);height:78px;min-height:78px;flex-basis:78px}
+}
+@media(min-width:561px) and (max-width:700px){
+ .fighter-stats{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(6,24px);height:159px;min-height:159px;flex-basis:159px}.awakening-stat,.status-slot{grid-column:1/-1}
+}
+@media(max-width:560px){
+ .rail-left{gap:6px}.rail-left .fighter{padding:8px}.fighter-name{height:44px}.fighter-name h2{font-size:14px}.health-number{font-size:20px}.health-number small{font-size:11px}
+ .fighter-stats{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(6,20px);height:135px;min-height:135px;flex-basis:135px;gap:3px 4px}
+ .stat-label{font-size:9px}.stats-core b,.stats-skills b{font-size:13px}.stats-core .stat-chip,.stats-skills .stat-chip{line-height:20px;gap:3px}
+ .awakening-stat,.status-slot{grid-column:1/-1;font-size:9px;line-height:20px}.awakening-stat b,.status-slot b{font-size:12px}.fighter-top .team-label,.awake-notice{font-size:9px}
+}
+@media(max-width:360px){.fighter-stats{grid-template-rows:repeat(9,20px);height:204px;min-height:204px;flex-basis:204px}.stats-skills .stat-chip{grid-column:1/-1}}
+
+/* Readable combat labels in every mode; keep the status slots reserved. */
+.stat-label{font-size:14px;color:#b4c3d6;font-weight:500}
+.awakening-stat,.status-slot{font-size:14px;color:#b4c3d6}
+.status-slot b{color:#bac9db}
+@media(min-width:701px) and (max-width:1099px){
+ .fighter-stats{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(6,24px);height:159px;min-height:159px;flex-basis:159px}
+ .awakening-stat,.status-slot{grid-column:1/-1}
+}
+@media(max-width:560px){
+ .stat-label,.awakening-stat,.status-slot{font-size:12px}
+ .fighter-stats{grid-template-rows:repeat(9,22px);height:222px;min-height:222px;flex-basis:222px}
+ .stats-skills .stat-chip{grid-column:1/-1}
+ .stats-core .stat-chip,.stats-skills .stat-chip,.awakening-stat,.status-slot{line-height:22px}
+}
+
+/* Pending damage overlays existing HP; never a shield or extra life. */
+.health-track{position:relative}.health-track .debt-layer{position:absolute;top:0;height:100%;background:repeating-linear-gradient(120deg,#badb72 0px,#badb72 3px,#365128 3px,#365128 6px);box-shadow:inset 0 0 0 1px #d7ee9a;pointer-events:none}.health-track.debt-fatal .debt-layer{background:repeating-linear-gradient(120deg,#e8c76f 0px,#e8c76f 3px,#594529 3px,#594529 6px)}

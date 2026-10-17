@@ -1,17 +1,23 @@
 (function(root){
   'use strict';
   const G=root.OrbDuel;
-  const defs={
-    normal:{name:'破阵重拳',description:'觉醒恢复最多 8 生命，碰撞攻击 +25%；满拳势重拳释放一次伤害 3.5 的短程定向拳劲。'},
-    vampire:{name:'血契收束',description:'血能至少 1、敌人在 220 范围内时预警 0.25 秒连链；8.5 秒周期，持续 2.1 秒，7 次脉冲各消耗 0.25 血能、伤害 1.05 并治疗 85%。完整连接消血印收束 2.6 伤害并治疗。断链最多返还 1.2 秒。'},
-    accelerator:{name:'闪电突袭',description:'周期 8.5 秒、预警 0.7 秒；900 速度起冲，速度持续衰减，最多 1.5 秒，可多次墙面反弹，全程无敌。撞敌立即结束冲撞，速度越快伤害越高；动量传给对手，首次撞墙按法向动能追加伤害。未接触敌人返还 1 秒 CD，撞盾不返还。'},
-    reflector:{name:'镜裂回敬',description:'姿态延长至 3.2 秒、2 次镜片截获；即时反伤 60%，实际扣血的 25% 蓄能，上限 8（随加热增长），姿态结束沿最近来袭方向射出。截获弹以 55% 原伤折返，不能再次反射或蓄能。'},
-    shield:{name:'堡垒释放',description:'19 盾 / 8.8 秒 / 持续 3.1 秒；盾被打破或到期，将剩余压力的 90% 沿运动方向释放为短程宽波。碰撞盾击与释放共用压力，不重复兑现。'},
-    ranger:{name:'过载弹匣',description:'三发弹匣，每发 4.6 伤害，间隔 0.32 秒，装填 3.8 秒。满 2 校准时下一次装填消耗校准，末发重弹 8.4，过载装填 5.1 秒。子弹不追踪、落空不返还。'},
-    trapper:{name:'雷网起爆',description:'强化节点 10.2 伤害、周期 3.4 秒、布防 0.4 秒、持续 11 秒、最多 4 枚，120 范围内生成最多 3 条感应线。爆炸半径 60，90 内节点每跳延迟 0.09 秒传播。同轮同目标最多两次，第二次为 55%；可拆节点断链。'}
-    ,boomerang:{name:'双刃回环',description:'每 4.2 秒投出左右双弧刃，每次基础伤害 2.8，回程斩印 ×1.5；同一步同一刃印只强化一刃。两刃完整接回才获得近战强化，冷却返还每次投掷限一次。'},
-    laser:{name:'贯穿重炮',description:'3.6 秒充能，瞄准 0.18 秒后锁线预警 0.55 秒。释放 0.18 秒宽炮，最多三次脉冲，总基础伤害 22.2，伤害预算按 50% / 25% / 25% 分配，命中有有限推力；散热 1.45 秒。'},
-    venom:{name:'剧毒扩散',description:'毒池扩大至 36、持续 5.5 秒，每层毒伤提升到 1.05；满毒敌人踩池也可引爆，与碰撞共享 2.5 秒引爆冷却。仍最多 2 池，不额外叠加毒层上限。'}
+  const defs={storm:{name:'雷暴接力',description:'每11.5秒锁定三处落点，各预警后按0.38秒间隔接力落雷、每处3.8基础伤害，命中积导电，可触发一次有限电解。'},charge:{name:'雷化·沿壁疾行',description:'4电荷与10秒冷却就绪后，下一次有效外墙撞击雷化1.75秒，以760速度沿墙过角移动；每敌最多两次电弧，导电延长跃迁距离。本体不参与球碰撞，仍承受实体、光束等伤害，结束向内凝聚回场。'},orbital:{name:'恒星坍缩·超新星',description:'15.5秒周期，召回三颗真实卫星并急旋收缩0.9秒，压缩星核0.2秒，再释放真实扩张的10伤冲击环、强击退与顿帧，每敌限中一次；随后释放三颗2.8伤重生彗星，反弹并返回恢复星环。无额外无敌，沉默中断坍缩；普通彗星实际命中附小范围星爆。'},
+    demon:{name:'地狱之门',description:'相对两侧地狱门成为攻击起点，每10秒围猎一轮，两爪各自预警、提前锁定并真实伸向预测落点，间隔0.26秒。带本源烙印的目标被同轮两爪抓获后收束1秒，触发一次双锁处刑；与普通处刑互斥，单轮每敌技能伤害上限22（随加热增长）。处刑不立即解除3.2秒物理魂锁，不追加控制时长，已处刑的锁链到期无终结伤害。门爪仍可躲开。'},
+    normal:{name:'破阵重拳',description:'觉醒恢复最多 8 生命，碰撞攻击 +25%；重拳有额外击退与短顿帧，并释放一次伤害 3.5 的短程定向拳劲。'},
+    vampire:{name:'血契收束',description:'220 距离获取血链，260 距离外持续 0.12 秒才断开；预警失去目标不消血能。连接保存已有血印收束资格，每次有效汲取耗0.5血能（包括护盾吸收），七次成功后收束另耗0.5并直接碎盾；血契期间无霸体；断链仍按连接时长有限返还。'},
+    accelerator:{name:'闪电突袭',description:'8.5 秒周期、0.7 秒预警，末段 0.12 秒锁定，其前持续更新反弹预瞄。900 速度起冲并持续衰减，可反弹、全程无敌；撞敌结束并传动能，首次撞墙追加有限伤害与独立强反馈。冲刺结束后巡航速度回落到82%，最多285，再逐渐积速；全程无接触自然耗尽只返最多10点实际损失巡航速度，不返冲刺CD。'},
+    reflector:{name:'镜鉴预判',description:'继承基础蓄能反击弹；姿态3.2秒、即时反伤60%。一次完整姿态无生命损失时，获得一次无视CD的迎撞/预警/飞行物预判开启机会；有扣血或被中断不授予补偿，沉默仍阻止开启。'},
+    shield:{name:'堡垒震荡',description:'17 盾 / 9 秒 / 持续 3 秒；盾结束收拢 0.22 秒，预瞄敌人运动与传播时间，剩余盾量的 50% 加余压的 70% 化为 230 距离扩张波面，盾越完整波越强。盾击、压力波有独立强反馈，压力不重复兑现。'},
+    ranger:{name:'战术切枪',description:'觉醒补满一次校准。装填结束按校准/距离选择三连发、狙击或散射，选定后不切换。满层远距狙击：0.5秒预瞄+0.15秒锁定、21伤高速实体弹；瞄准受伤不打断，本发按狙击零层±21度扰动，命中恢复3层、失手清零。满层近距散射：两轮扇形弹幕加7.8重弹，展开消耗校准，每颗命中恢复1层，结束保留恢复层数。三种模式均装填4秒，出膛不追踪。'},
+    trapper:{name:'游走雷网',description:'最多七枚节点，动态线连接最远可用的已布防节点，感应线随自身反弹运动扫过场地；敌人穿线后拉索牵引0.3秒，结束时拉进爆炸命中范围才爆炸，否则保留节点；仍遵守墙面和碰撞物理。爆破有强击退与短顿帧，并释放四枚低伤破片；节点消失后自动连接下一枚，没有节点则等待布雷。基础最多五枚，觉醒最多七枚，可被拆除。'},
+    boomerang:{name:'双刃回环',description:'投出 4.1 主刃与 2.3 副刃，以更短弧线出击、返程追随主人。回程斩印和接刃重斩有不同反馈；完整接回近战 +40%，部分接回 +20%，奖励持续 8 秒，使用后消耗。'},
+    laser:{name:'主炮扫射',description:'3.6 秒充能，发射前更新反弹预瞄，末段 0.18 秒锁线。精准首炮基础 19.5，随后 0.65 秒扫射追加最多 6.2 余波，有限推力；0.38 弧度扫向侧方，不追踪。强首炮接触顿帧、持续冲刷声，结束后散热 1.45 秒。'},
+    holy:{name:'启示圣裁',description:'觉醒后每14秒蓄势0.7秒，圣光从随机角落向对角落每0.5秒降下一整条斜排，覆盖全场；每柱有落点预警、直径35并留场0.9秒，单轮每名敌人最多3次4.2落地伤害、4次0.9触碰伤害，同来源触碰至少间隔0.35秒。整波共享降临气流，命中同步冲击、击退和短顿帧；光雨结束前不再开启下一轮。沉默打断蓄势与未落下的圣裁，已放出的圣水和三角阵保持。'},
+    ghost:{name:'追魂三连穿',description:'虚化周期8秒，虚化延长为 1.9 秒，发动中三次短预瞄后以 560 速度穿行 0.23 秒，每次重新瞄准，穿行无实体碰撞；接触恐吓依然按 0.25 秒预算。虚化仍碰墙反弹；退相后魂影按真实路径与原速重走，恐吓相同、重放本轮魂爆。退相释放半径 95 的短程魂爆，基础 5 加本轮有效恐吓次数（最多 +3），命中有定向击退、短顿帧与空灵重音。'},
+    magnet:{name:'极性坍缩',description:'每 11 秒过载：预警 0.35 秒后自身短暂锚定，强吸敌人和 270 范围飞行物，保持磁牵引 0.5 秒，再反转以 900 径向速度弹射（实际速度受 800 上限约束）。吸引迎撞与排斥撞墙只各结算一次有限动能伤害；飞刃先被甩离原轨迹，再恢复弧线回收，激光不受影响。'},
+    time:{name:'零时禁令',description:'每 7 秒预瞄 0.35 秒后投出时钟，末段 0.08 秒锁定，出手后不追踪。触敌、到达 250 距离或撞边界会爆炸：半径 46，基础 12 伤害，实际炸中且非无敌的敌人沉默 1.2 秒；打断蓄力、持续施法和冲刺，已飞出武器继续运行。爆炸留下与普通技能相同的时间领域，领域本身不沉默，但敌人运动时间为20%、冷却和充能时间为70%（延缓30%） 并持续侵蚀；若正充能 / 等待攻击，沉默额外延后该次技能 1 秒。'},
+    venom:{name:'腐蚀共鸣',description:'每11秒预警后催化场上己方毒液进入下一态：普通池变浓缩池、浓缩池变毒雾；现有毒雾延长1.5秒（每池累计最多3秒）。不造成爆炸、不折现毒伤、不喷射旧液滴。'}
+
   };
   G.Awakening={
     defs,time:15,healthRatio:.5,
@@ -20,15 +26,17 @@
     dashing(ball,engine){return this.active(ball) && ball.awakening.dashUntil>engine.time+1e-9;},
     predict(ball,seconds){
       const fold=(value,min,max)=>{const span=max-min,p=((value-min)%(2*span)+2*span)%(2*span);return min+(p<=span?p:2*span-p);};
-      return {x:fold(ball.x+ball.vx*seconds,ball.radius,G.Constants.width-ball.radius),y:fold(ball.y+ball.vy*seconds,ball.radius,G.Constants.height-ball.radius)};
+      const bounds=ball.combatBounds;return {x:fold(ball.x+ball.vx*seconds,(bounds?.left||0)+ball.radius,(bounds?.right??G.Constants.width)-ball.radius),y:fold(ball.y+ball.vy*seconds,(bounds?.top||0)+ball.radius,(bounds?.bottom??G.Constants.height)-ball.radius),...(bounds?{combatBounds:{...bounds}}:{})};
     },
     activate(ball,engine){
       const a=ball.awakening;if(a.active || ball.hp<=0)return;a.active=true;a.activatedAt=engine.time;a.nextCast=engine.time;a.casts=0;
       engine.log(engine.label(ball)+'觉醒 · '+defs[ball.type].name);
-      G.Roles.activate(ball,engine);engine.sound('awakening',ball.x);G.Spectacle?.emit(engine,ball,'awaken',{sound:false,radius:72,life:.65});
-      engine.ring(ball.x,ball.y,ball.def.color,95);engine.burst(ball.x,ball.y,ball.def.color,22);
+      if(ball.type==='ghost'&&Number.isFinite(ball.ghost.nextPhase))ball.ghost.nextPhase+=1.6;
+      if(ball.type==='holy')G.Holy.activate(ball,engine);if(ball.type==='demon')G.Demon?.activate(ball,engine);
+      G.Roles.activate(ball,engine);const venomOpening=ball.type==='venom'&&G.VenomVisual?.frame(ball,engine)?.opening;if(!venomOpening){engine.sound('awakening',ball.x);G.Spectacle?.emit(engine,ball,'awaken',{sound:false,radius:72,life:.65});
+      engine.ring(ball.x,ball.y,ball.def.color,95);engine.burst(ball.x,ball.y,ball.def.color,22);}
       if(ball.type==='normal'){const heal=Math.min(8,ball.maxHp-ball.hp);ball.hp+=heal;ball.stats.healing+=heal;if(heal)engine.float(ball.x,ball.y,'+'+heal.toFixed(1),ball.def.color);}
-      if(ball.type==='shield'){const spec=this.shieldOptions(ball);ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration;ball.nextShield=engine.time+spec.period;}
+      if(ball.type==='shield'&&!G.Temporal.silenced(ball,engine)){G.Adaptive?.cancel(ball,'shield');if(engine.time<1.5){ball.shield=0;ball.nextShield=1.5;}else{const spec=this.shieldOptions(ball);ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration+(G.Adaptive?.duration(ball,'shield')||0);ball.role.shieldAdaptiveId=G.Adaptive?.begin(ball,'shield',engine);ball.nextShield=engine.time+spec.period;}}
       if(ball.type==='ranger')ball.nextShot=Math.min(ball.nextShot,engine.time+.4);
       if(ball.type==='trapper')ball.nextTrap=Math.min(ball.nextTrap,engine.time+.4);
     },
@@ -36,15 +44,16 @@
       if(ball.hp<=0)return;
       const a=ball.awakening,t=engine.time,target=G.World.targetFor(ball,engine);
       if(!a.active && (t+1e-9>=this.time || ball.hp<=ball.maxHp*this.healthRatio))this.activate(ball,engine);
-      if(!a.active || !target)return;
-      if(ball.type==='vampire')G.Roles.vampireUpdate(ball,dt,engine);
+      if(!a.active || !target || G.Temporal.silenced(ball,engine)||G.Arcana?.busy(ball)||G.VampireHunt?.busy(ball))return;
+      if(ball.type==='vampire')G.Roles.vampireUpdate(ball,dt,engine);if(ball.type==='venom')G.Characters.spread(ball,engine);
       if(ball.type==='accelerator'){
         if(ball.motionSpeed){
           if(t+1e-9>=a.dashUntil)this.finishDash(ball,engine);
           else ball.motionSpeed=a.dashStartSpeed*Math.exp(-.95*(t-a.dashStartedAt));
         }
+        if(a.chargeUntil&&t<a.chargeUntil-.12)a.aim=G.Venom.steer(ball,engine,a.aim,G.World.aim(ball,target,900,a.chargeUntil-t),dt);
         if(a.chargeUntil && t+1e-9>=a.chargeUntil){
-          a.chargeUntil=0;a.dashStartedAt=t;a.dashStartSpeed=900;a.dashStopSpeed=Math.max(275,ball.speed+20);
+          a.chargeUntil=0;a.dashStartedAt=t;a.dashStartSpeed=900;a.dashStopSpeed=Math.max(275,(G.Overdrive?.active(ball)?Math.min(ball.speed,ball.def.maxSpeed):ball.speed)+20);
           a.dashUntil=t+Math.min(1.5,Math.log(a.dashStartSpeed/a.dashStopSpeed)/.95);
           a.dashHit=false;a.dashSuccess=false;a.stopAfterContact=false;a.casts++;ball.motionSpeed=900;ball.inertia=0;
           ball.vx=Math.cos(a.aim)*900;ball.vy=Math.sin(a.aim)*900;
@@ -59,25 +68,26 @@
 
     },
     area(ball,engine,radius,damage,kind){
-      for(const target of engine.balls)if(target.id!==ball.id && target.hp>0 && Math.hypot(target.x-ball.x,target.y-ball.y)<=radius+target.radius)engine.pendingAttacks.push({source:ball,target,raw:G.Combat.rollAttack(ball,engine,damage,kind),kind});
+      for(const target of engine.balls)if(G.World.enemy(ball,target,engine) && target.hp>0 && Math.hypot(target.x-ball.x,target.y-ball.y)<=radius+target.radius)engine.pendingAttacks.push({source:ball,target,raw:G.Combat.rollAttack(ball,engine,damage,kind),kind});
       engine.ring(ball.x,ball.y,ball.def.color,radius);engine.burst(ball.x,ball.y,ball.def.color,16);engine.sound('break',ball.x);G.Spectacle?.emit(engine,ball,'barrier',{radius,life:.48});engine.impact(ball.x,ball.y,ball.def.color,1.6);
       engine.log(engine.label(ball)+'释放破盾反击');
     },
     finishChain(ball,engine){G.Roles.finishChain(ball,engine);},
-    finishDash(ball,engine){
+    finishDash(ball,engine,interrupted=false){
       const a=ball.awakening;if(!ball.motionSpeed)return;
       ball.motionSpeed=0;a.dashUntil=engine.time;a.stopAfterContact=false;ball.inertia=0;
-      if(a.dashHit){ball.speed=Math.max(ball.def.speed,ball.speed-12);ball.character.recoveryUntil=Math.max(ball.character.recoveryUntil,engine.time+.6);}
-      else G.Recovery.refund(ball,engine,'nextCast',1,'冲撞落空',a);
+      const geared=G.Overdrive?.active(ball),cruiseBefore=ball.speed;if(geared)G.Overdrive.shift(ball,engine,-1,'dash');else ball.speed=Math.max(ball.def.speed,Math.min(ball.def.dashRecoveryCap??ball.def.maxSpeed,ball.speed*(ball.def.dashRecoveryRatio??1)));
+      if(a.dashHit)ball.character.recoveryUntil=Math.max(ball.character.recoveryUntil,engine.time+.6);
+      else if(!interrupted&&!geared){const gain=Math.min(ball.def.dashMissSpeedRefund||0,Math.max(0,cruiseBefore-ball.speed));ball.speed+=gain;ball.stats.speedReturned=(ball.stats.speedReturned||0)+gain;if(gain)engine.signal(ball,'冲撞落空 · 返速 +'+gain.toFixed(0),'miss');}
       G.Physics.normalizeSpeed(ball);
       if(a.dashHit&&!a.dashSuccess)engine.signal(ball,'冲撞被抵消','miss');
     },
     dashMultiplier(speed){return .65+.85*Math.min(1,speed/900)**2;},
-    attackMultiplier(ball){return this.active(ball) && ball.type==='normal'?1.25:ball.motionSpeed && !ball.awakening.dashHit?this.dashMultiplier(ball.motionSpeed):1;},
+    attackMultiplier(ball){return this.active(ball) && ball.type==='normal'?1.25:ball.motionSpeed && !ball.awakening.dashHit?this.dashMultiplier(ball.motionSpeed*(ball.temporal?.rate??1)):1;},
     shotDamage(ball){return G.Roles.rangerDamage(ball);},
     shotPeriod(ball){return this.active(ball)?.32:.42;},
-    trapOptions(ball){return this.active(ball)?{damage:10.2,period:3.4,radius:15,armDelay:.4,life:11,cap:4,blastRadius:60,chainRange:90}:{damage:ball.def.trapDamage,period:ball.def.trapPeriod,radius:ball.def.trapRadius,armDelay:ball.def.trapArmDelay,life:ball.def.trapLife,cap:ball.def.maxTraps,blastRadius:45,chainRange:0};},
-    shieldOptions(ball){return this.active(ball)?{amount:19,period:8.8,duration:3.1}:{amount:ball.def.shieldAmount,period:ball.def.shieldPeriod,duration:ball.def.shieldDuration};},
+    trapOptions(ball){return {damage:ball.def.trapDamage,period:this.active(ball)?1.45:ball.def.trapPeriod,radius:ball.def.trapRadius,armDelay:ball.def.trapArmDelay,life:ball.def.trapLife,cap:this.active(ball)?7:ball.def.maxTraps,blastRadius:45,chainRange:85};},
+    shieldOptions(ball){return this.active(ball)?{amount:17,period:9.0,duration:3.0}:{amount:ball.def.shieldAmount,period:ball.def.shieldPeriod,duration:ball.def.shieldDuration};},
     status(ball,engine){
       const a=ball.awakening,t=engine.time;if(!a.active)return [{label:'觉醒',value:Math.max(0,this.time-t).toFixed(1)+'s / ≤'+Math.round(this.healthRatio*100)+'%'}];
       const stats=[{label:'觉醒',value:defs[ball.type].name}];if(['normal','vampire','shield','ranger','laser','reflector','trapper'].includes(ball.type))return stats;

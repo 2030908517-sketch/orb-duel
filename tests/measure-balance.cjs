@@ -1,5 +1,5 @@
 const path=require('node:path'),fs=require('node:fs'),crypto=require('node:crypto');
-const source=path.resolve(process.argv[4]||path.join(__dirname,'..')),files=['config','physics','skills','world','characters','roles','awakening','engine'];
+const source=path.resolve(process.argv[4]||path.join(__dirname,'..')),files=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','engine'];
 for(const name of files)require(path.join(source,'js/'+name+'.js'));
 const G=globalThis.OrbDuel,types=Object.keys(G.Types),seeds=Number(process.argv[2]||40),prefix=process.argv[3]||'holdout',results={},start=Date.now(),refunds=Object.fromEntries(types.map(t=>[t,0]));let matches=0,minTime=Infinity,maxTime=0;
 for(const a of types)for(const b of types){

@@ -3,33 +3,37 @@
   const Game = root.OrbDuel;
   const C = Game.Constants;
   Game.Physics = {
+    armored(ball){return ball.hp>0&&(Game.Priority?Game.Priority.armored(ball):!!Game.LaserBlade?.active(ball));},
     limit(ball) {
-      const length=Math.hypot(ball.vx,ball.vy),cap=ball.motionSpeed||800;
+      const length=Math.hypot(ball.vx,ball.vy),cap=(ball.motionSpeed||800)*(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1);
       if(length>cap){ball.vx*=cap/length;ball.vy*=cap/length;}
     },
     normalizeSpeed(ball,dt=0) {
+      if(ball.magnetic?.anchored){ball.vx=0;ball.vy=0;ball.inertia=0;return;}
       const length = Math.hypot(ball.vx, ball.vy);
-      const speed=ball.motionSpeed || ball.speed;
+      const rate=(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1),speed=(ball.ghost?.lungeSpeed || ball.motionSpeed || ball.speed)*rate;
       if (!Number.isFinite(length) || length < 1e-6) { ball.vx = speed; ball.vy = 0; }
       else {
-        const target=ball.inertia>dt&&!ball.motionSpeed?Math.max(100,speed+(length-speed)*Math.exp(-dt*4)):speed;
+        const target=ball.inertia>dt&&!ball.motionSpeed?Math.max(100*rate,speed+(length-speed)*Math.exp(-dt*(ball.impactDrag||4)*rate)):speed;
         ball.vx*=target/length;ball.vy*=target/length;this.limit(ball);
       }
-      if(ball.inertia>0)ball.inertia=Math.max(0,ball.inertia-dt);
+      if(ball.inertia>0)ball.inertia=Math.max(0,ball.inertia-dt*rate);if(!ball.inertia)ball.impactDrag=0;
     },
     constrain(ball) {
-      const r = ball.radius;
+      const r = ball.radius, bounds=ball.combatBounds;
+      const left=(bounds?.left||0)+r,right=(bounds?.right??C.width)-r,top=(bounds?.top||0)+r,bottom=(bounds?.bottom??C.height)-r;
       let bounced = false;
       ball.wallContact=null;
       const wall=(speed,nx,ny)=>{if(!ball.wallContact||speed>ball.wallContact.speed)ball.wallContact={speed,nx,ny};bounced=true;};
-      if (ball.x < r) { ball.x = r; if (ball.vx < 0) {wall(-ball.vx,1,0);ball.vx=-ball.vx;} }
-      if (ball.x > C.width - r) { ball.x = C.width - r; if (ball.vx > 0) {wall(ball.vx,-1,0);ball.vx=-ball.vx;} }
-      if (ball.y < r) { ball.y = r; if (ball.vy < 0) {wall(-ball.vy,0,1);ball.vy=-ball.vy;} }
-      if (ball.y > C.height - r) { ball.y = C.height - r; if (ball.vy > 0) {wall(ball.vy,0,-1);ball.vy=-ball.vy;} }
+      if (ball.x < left) { ball.x = left; if (ball.vx < 0) {wall(-ball.vx,1,0);ball.vx=-ball.vx;} }
+      if (ball.x > right) { ball.x = right; if (ball.vx > 0) {wall(ball.vx,-1,0);ball.vx=-ball.vx;} }
+      if (ball.y < top) { ball.y = top; if (ball.vy < 0) {wall(-ball.vy,0,1);ball.vy=-ball.vy;} }
+      if (ball.y > bottom) { ball.y = bottom; if (ball.vy > 0) {wall(ball.vy,0,-1);ball.vy=-ball.vy;} }
       return bounced;
     },
     integrate(ball, dt) {
       this.normalizeSpeed(ball,dt);
+      Game.Priority?.force(ball,dt);
       ball.x += ball.vx * dt; ball.y += ball.vy * dt;
       return this.constrain(ball);
     },
@@ -42,7 +46,8 @@
       // A deterministic normal also resolves exactly coincident centers.
       if (distance < 1e-8) { dx = 1; dy = 0; distance = 1; }
       const nx = dx / distance, ny = dy / distance;
-      const inverseA = 1 / a.mass, inverseB = 1 / b.mass;
+      const inverseA = this.armored(a)?0:1 / a.mass, inverseB = this.armored(b)?0:1 / b.mass;
+      if(inverseA+inverseB===0)return true;
       const correction = minDistance - Math.hypot(b.x - a.x, b.y - a.y) + 0.02;
       a.x -= nx * correction * inverseA / (inverseA + inverseB);
       a.y -= ny * correction * inverseA / (inverseA + inverseB);
@@ -54,7 +59,7 @@
         const impulse=-2*relative/(inverseA+inverseB);
         a.vx-=impulse*inverseA*nx;a.vy-=impulse*inverseA*ny;
         b.vx+=impulse*inverseB*nx;b.vy+=impulse*inverseB*ny;
-        a.inertia=.8;b.inertia=.8;
+        if(inverseA)a.inertia=.8;if(inverseB)b.inertia=.8;
       }
       this.limit(a); this.limit(b);
       return true;

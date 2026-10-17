@@ -1,0 +1,31 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>神圣球 · 圣水与对角光雨</title>
+<style>body{background:#0c1016;color:#e3e9f3;font:15px/1.6 "Segoe UI","Microsoft YaHei",sans-serif;max-width:1440px;margin:24px auto;padding:20px}h1{margin:0 0 5px}p{color:#9aa9bb}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#131b26;padding:14px;border:1px solid #293548;border-radius:12px}canvas{width:100%;aspect-ratio:360/340}output{display:block;min-height:28px;color:#fff0c9}h2{font-size:17px;margin:0 0 8px}pre{white-space:pre-wrap}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.grid{grid-template-columns:1fr}}</style>
+<h1>神圣球 · 圣水结界 / 启示圣裁</h1><p>正式模拟模块生成的实战帧：不规则水渍、真实路径闭环、大阵密集落光、落点预警与放慢后的对角光雨。白色光柱直径35，落下后留场0.9秒，落地与触碰分别结算；神圣球使用光环图案。</p><div class="grid" id="grid"></div><details><summary>查看场景数据</summary><pre id="results"></pre></details>
+<script src="../js/config.js"></script><script src="../js/physics.js"></script><script src="../js/skills.js"></script><script src="../js/world.js"></script><script src="../js/aim.js?v=20261014-tactics1"></script><script src="../js/flyers.js?v=20261014-tactics1"></script><script src="../js/mines.js?v=20261014-tactics1"></script><script src="../js/pursuit.js?v=20261014-tactics1"></script><script src="../js/characters.js"></script><script src="../js/roles.js"></script><script src="../js/ranger.js?v=20261014-salvo1"></script><script src="../js/awakening.js"></script><script src="../js/temporal.js"></script><script src="../js/magnet.js"></script><script src="../js/ghost.js"></script><script src="../js/holy.js"></script><script src="../js/cosmic.js?v=20261014-cosmic1"></script><script src="../js/charge.js"></script><script src="../js/stellar.js"></script><script src="../js/arcana.js"></script><script src="../js/engine.js"></script><script src="../js/audio.js"></script><script src="../js/spectacle.js"></script><script src="../js/renderer.js"></script><script src="../js/cosmic-render.js?v=20261014-cosmic1"></script><script src="../js/holy-render.js"></script><script src="../js/tactics-render.js?v=20261014-tactics1"></script><script src="../js/ranger-render.js?v=20261014-salvo1"></script>
+<script>
+const G=OrbDuel,scenes=[],reports=[];
+for(const [phase,title] of [['water','圣水 · 半透明水渍'],['seal','闭环 · 三角形与外接圆'],['rain','圣阵 · 面积越大光雨越密'],['warning','圣裁 · 明确落点预警'],['early','圣裁 · 从角落缓缓推进'],['late','圣裁 · 推进到对角落']]){
+ const card=document.createElement('article');card.className='card';card.innerHTML='<h2>'+title+'</h2><canvas></canvas><output></output>';document.querySelector('#grid').append(card);let e,found=false;
+ for(let attempt=0;attempt<24&&!found;attempt++){
+  e=new G.Engine(['holy','normal'],'holy-demo-'+attempt);e.start();e.balls.forEach(b=>{b.hp=b.maxHp=10000;});
+  for(let tick=0;tick<9000;tick++){e.step();const w=e.holyWorld,judgements=w.lights.filter(l=>l.kind==='judgement'),landed=judgements.filter(l=>l.landed);
+   found=phase==='water'?e.time>=3:phase==='seal'?w.zones.length>0&&e.effects.some(f=>f.kind==='holySeal'&&f.age>.1):phase==='rain'?w.zones.length>0&&w.lights.filter(l=>l.kind==='zone'&&l.landed).length>=2:phase==='warning'?judgements.some(l=>e.time>=l.warningAt&&!l.landed)&&!landed.length:phase==='early'?landed.some(l=>l.band>=3)&&landed.every(l=>l.band<=5):landed.some(l=>l.band>=10);
+   if(found)break;
+  }
+ }
+ e.pause();const renderer=new G.Renderer(card.querySelector('canvas'));renderer.draw(e);const w=e.holyWorld;
+ card.querySelector('output').textContent='时间 '+G.formatTime(e.time)+' · 圣水 '+w.water.length+' · 光柱 '+w.lights.filter(l=>l.landed).length;
+ scenes.push({e,renderer});reports.push({phase,found,time:e.time,water:w.water.length,zones:w.zones.length,lights:w.lights.length,radius:w.lights[0]?.radius});
+}
+for(const [phase,title] of [['ward','庇护 · 离圈3秒获得白盾'],['burn','圣灼 · 护盾接触与光柱延长'],['row','圣裁 · 同一斜排同步下砸']]){
+ const card=document.createElement('article');card.className='card';card.innerHTML='<h2>'+title+'</h2><canvas></canvas><output></output>';document.querySelector('#grid').append(card);
+ const e=new G.Engine(['holy','normal'],'holy-'+phase);e.start();e.balls.forEach((b,i)=>{b.hp=b.maxHp=10000;b.speed=b.vx=b.vy=0;b.x=90+i*190;b.y=200;});
+ let found=false;
+ if(phase==='row'){G.Awakening.activate(e.balls[0],e);G.Holy.judgement(e.balls[0],e);while(e.time<1.94)e.step();found=e.holyWorld.lights.filter(l=>l.kind==='judgement'&&l.band===3).every(l=>l.landed);}
+ else{while(e.time<3.1)e.step();if(phase==='ward')found=e.balls[0].shield===5;
+   else{e.balls[1].x=e.balls[0].x+45;e.balls[1].y=e.balls[0].y;e.step();const burn=e.holyWorld.burns[0];if(burn){const original=burn.until;G.Holy.light(e.balls[0],e,{x:e.balls[1].x,y:e.balls[1].y},'zone',999,e.time,6);e.step();found=burn.until>=original+2;}}
+ }
+ e.pause();const renderer=new G.Renderer(card.querySelector('canvas'));renderer.draw(e);scenes.push({e,renderer});reports.push({phase,found,time:e.time,shield:e.balls[0].shield,burns:e.holyWorld.burns.map(v=>({...v}))});card.querySelector('output').textContent=phase==='row'?'同排同时下砸 · 每0.5秒一排':phase==='ward'?'庇护5盾 · 冷却10秒':G.Holy.burnStatus(e.balls[1],e)+' · 光柱延长2秒';
+}
+window.holyDemo={scenes,reports};document.querySelector('#results').textContent=JSON.stringify(reports,null,2);window.addEventListener('resize',()=>scenes.forEach(s=>s.renderer.draw(s.e)));
+</script></html>
