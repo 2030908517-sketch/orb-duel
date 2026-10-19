@@ -1,0 +1,77 @@
+/* Keep live panels and canvas; never clone or change the simulation. */
+html.recording-mode, .recording-mode body { width:100%; height:100%; overflow:hidden; background:#0c1016; }
+.recording-mode .header, .recording-mode .team-header,
+.recording-mode .section-heading, .recording-mode .team-heading,
+.recording-mode footer, .recording-mode .rail-right,
+.recording-mode .team-setup, .recording-mode .activity,
+.recording-mode #result-summary, .recording-mode .transport,
+.recording-mode .arena-note, .recording-mode .arena-top,
+.recording-mode .arena-bottom, .recording-mode .team-card details { display:none !important; }
+.recording-mode .battle-stage, .recording-mode .team-workspace {
+  position:fixed; top:16px; left:50%; transform:translateX(-50%);
+  width:var(--record-total) !important; height:var(--record-height);
+  display:grid !important; grid-template-columns:var(--record-panel) var(--record-field);
+  gap:16px; align-items:center; margin:0; padding:0;
+}
+.recording-mode .team-workspace { grid-template-columns:var(--record-panel) var(--record-field) var(--record-panel); grid-template-areas:'blue arena pink'; }
+.recording-mode .fighters { display:contents !important; }
+.recording-mode .rail-left { grid-column:1; grid-row:1; display:flex !important; flex-direction:column; gap:12px; }
+.recording-mode .arena-column { grid-column:2; grid-row:1; }
+.recording-mode .arena-column, .recording-mode .team-field { width:var(--record-field) !important; max-width:none !important; margin:0; min-width:0; }
+.recording-mode .arena-wrap { width:var(--record-field) !important; max-width:none !important; margin:0 !important; }
+.recording-mode .team-rail { min-width:0; }
+.recording-mode .team-card select { appearance:none; pointer-events:none; background:transparent; border-color:transparent; padding-left:0; }
+@media(max-height:800px) {
+  .recording-mode .team-life { height:15px; margin-top:0; }
+  .recording-mode .team-status { height:38px; min-height:38px; }
+  .recording-mode .team-values { gap:2px; }
+}
+@media(max-width:899px) {
+  .recording-mode .battle-stage { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); align-items:start; }
+  .recording-mode .rail-left { grid-column:1; grid-row:1; display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .recording-mode .arena-column { grid-column:1; grid-row:2; justify-self:center; align-self:center; }
+  .recording-mode .team-workspace { grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:auto minmax(0,1fr); grid-template-areas:'blue pink' 'arena arena'; gap:12px; align-items:start; }
+  .recording-mode .team-field { justify-self:center; align-self:center; }
+  .recording-mode .fighter, .recording-mode .team-card { padding:10px; }
+}
+
+/* Portrait composition keeps both panels above the undistorted arena. */
+.recording-portrait .battle-stage, .recording-portrait .team-workspace {
+  box-sizing:border-box; width:600px !important; height:1066.666667px;
+  padding:16px; top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(var(--portrait-scale,1));
+  transform-origin:center; background:#0c1016;
+  grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+.recording-portrait .rail-left {
+  grid-column:1; grid-row:1; display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;
+}
+.recording-portrait .arena-column { grid-column:1; grid-row:2; justify-self:center; align-self:start; }
+.recording-portrait .team-workspace {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-areas:'blue pink' 'arena arena';
+}
+.recording-portrait .team-field { justify-self:center; align-self:start; }
+.recording-portrait .squad-cards { grid-template-columns:minmax(0,1fr); }
+.recording-portrait .fighter, .recording-portrait .team-card { padding:10px; }
+.recording-portrait .team-card .team-stat { display:flex; flex-direction:row; align-items:baseline; justify-content:space-between; font-size:12px; line-height:18px; gap:4px; }
+.recording-portrait .team-card .team-stat b,
+.recording-portrait .team-card .team-stat strong { font-size:14px; }
+.recording-portrait .team-values { gap:1px; }
+.recording-portrait .team-life { height:16px; margin:0; }
+.recording-portrait .team-status { height:30px; min-height:30px; }
+/* Natural-height panels: spend the available height on uniform arena scaling. */
+.recording-portrait .battle-stage, .recording-portrait .team-workspace { height:var(--portrait-height,900px); grid-template-rows:auto auto; align-content:start; }
+.recording-portrait .battle-stage .rail-left { height:auto; align-items:stretch; }
+.recording-portrait .battle-stage .fighter { display:flex; flex-direction:column; height:auto; min-height:0; box-sizing:border-box; padding:10px; }
+.recording-portrait .battle-stage .fighter-stats { gap:3px; }
+.recording-portrait .battle-stage .stat-chip,
+.recording-portrait .battle-stage .stat-label { font-size:14px; line-height:24px; }
+.recording-portrait .battle-stage .stat-chip b { font-size:16px; line-height:24px; }
+.recording-portrait .battle-stage .stats-skills { grid-template-rows:repeat(3,minmax(24px,auto)); gap:3px 8px; }
+.recording-portrait .battle-stage .stats-stages { grid-template-columns:minmax(0,1fr); gap:2px; }
+.recording-portrait .battle-stage .stats-stages .stat-chip { flex-wrap:nowrap; }
+.recording-portrait .battle-stage .status-slot { margin-top:3px; padding-top:8px; height:40px; min-height:40px; }
+.recording-portrait .battle-stage .health-track { margin:8px 0 0; flex-shrink:0; }

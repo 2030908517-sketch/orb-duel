@@ -1,13 +1,17 @@
 # ORB DUEL — Automatic Orb Battle Simulator
 
+## Boomerang Arcana: Twinblade Dance
+
+Arcana-only, 228 HP. Awakened at ≤30% HP, once per duel: four live throw/return relays with reciprocal predictive steering, real catches, alternating approaches and a harmless final ring. Armored but vulnerable to damage; shields, immunity, reflection and blade marks retain their rules. Per-target blade budget 32, at most 10 hits, 8.2-second timeout. Classic/Team unchanged. See [design and verification](docs/design/experiments/blade-dance.md). Existing version identifiers are unchanged.
+
 ## Arcana priority (20261017-priority1)
 
 Arcana effect protection is independent of actor armor, damage immunity and absence. Added stage-specific armor, protected forced movement and source-aware royal-shield rank reduction. Accelerator/Venom/Shield actors remain controllable. See [rules](ARCANA_PRIORITY.md); run `node tests/verify-arcana-priority.cjs`. Existing combat numbers and general rewind rules are unchanged.
 
 
-## Accelerator overdrive (20261017-overdrive1)
+## Accelerator Arcana: Kinetic Cycle (20261018-kinetic3)
 
-Arcana now unlocks permanent speed gears at awakened 30% HP: 365 / 410 / 460 / 515 / 575. Genuine high-speed near passes upshift; body collisions resolve original physics before downshifting. Awakening dash retains its original 900 start, decay, damage, immunity and 8.5s cooldown, then consumes exactly one gear. No timed cruise growth after activation. Arcana HP remains220; Classic/Team108. Tunables: `Overdrive.config`. Focused verification: `node tests/verify-overdrive.cjs`.
+Awakened at ≤30% HP, once per duel: the next awakening dash contact transfers motion into the enemy. The caster stops while the enemy ricochets along real walls at nominal speed 900, then returns and brakes before contact. A short compression hold releases both actors in opposite directions; one final enemy wall hit ends the attack, and the caster resumes cruise on its first wall. The opener reuses ordinary dash damage (18 base damage in every mode, before the existing variance, heat and defenses). Wall hits use the existing mass/normal-velocity calculation and heavy feedback, without extra fixed damage. Final wall rebound retains inertia; caster cruise reaches 365 within 0.24 seconds after its first wall. Energy flows from the braking enemy into the gap between both orbs, reaching its peak exactly at rest; a 0.12-second freeze precedes release. Shields/immunity and time slowdown retain their rules. Arcana HP remains 220; Classic stays at 108 and Team retains its existing 220. See [design and verification](docs/design/experiments/accelerator-kinetic-cycle.md). Run `node tests/verify-kinetic-cycle.cjs`.
 
 ## Current adjustment (20261017-poison2)
 
@@ -146,7 +150,7 @@ Both modes now have **seventeen orbs**. **Thunderstorm** stores wall-contact cha
 
 - Accelerator and Magnet kinetic **wall damage is 25% lower**, preserving momentum and knockback. Pre-heat wall caps are now 9, 13.5 and 5.25 for dash follow-ups, magnetic repulsion and light attraction-wall hits. Direct attraction contacts retain their previous damage budget.
 - Time zones keep **90% movement slow**, while **cooldowns, reloads and capacitor charging slow by 50% independently**. Active cast windups retain the previous slow; overlap never multiplies either rate.
-- Awakened Venom pool resonance and actual pool-triggered toxin explosions spray **three physical droplets**. Each deals 1.2 base direct damage and applies short weak poison. Reflections retain that poison; misses disappear without generating recursive pools.
+- Venom uses living tendrils, leaping concentrated globs and converging green mist. Real contact precedes invasion; all sources share the toxin application cooldown. Old automatic detonations and resonance droplets are removed.
 
 Fresh checks passed **183 new mechanic boundaries**, **289 ordered 1v1 matchups**, **147 team matches**, current timing/character regressions, **six real-browser viewport/mode checks**, six skill-render scenes and **141 synthesized audio waveform profiles**. An initial fresh three-seed, both-side sample gave Thunderstorm and Orbital approximately 59.4% and 50.5% win/draw scores; this is a small functional balance sample, not a roster-wide verdict. [Full rules, limits and visual/audio references](COSMIC_DESIGN.md) · [Validation](VALIDATION.md).
 
@@ -155,7 +159,7 @@ Fresh checks passed **183 new mechanic boundaries**, **289 ordered 1v1 matchups*
 Miss recovery now evaluates complete skill rounds, including released bullets, returning blades, leftover pools, echoes and light columns. Damage absorption, reflection, disarming and actual control count as useful outcomes. Interrupted unreleased casts cannot farm rewards. Gains are capped, reset after useful rounds, and shown in the existing stable status rows.
 
 - **Defenses:** Shield and Reflector first activate at **1.5 simulation seconds**. Empty Shield windows extend the next window by 0.25 seconds, capped at 0.5; empty Reflector stances add 0.2, capped at 0.4. Neither advances cooldown or grants more shield HP. Predictive stances do not stack the duration bonus.
-- **Accelerator:** an empty dash returns at most **10 lost cruise speed**, with **no dash cooldown refund**. A full-speed empty dash recovers to at most 295; a hit or interruption still recovers to at most 285.
+- **Accelerator:** an empty dash returns at most **10 lost cruise speed**, and refunds **2 seconds of the next dash cooldown**. A full-speed empty dash recovers to at most 295; a hit or interruption still recovers to at most 285.
 - **Ranged/control:** missed Ranger magazines modestly improve ordinary aim tracking without granting calibration or shorter reloads. Venom's entire projectile-and-pool miss reduces its next spread, retaining random error. Repeated misses can let suitable skills wait at most 1.2 personal-time seconds for an invulnerable target, before starting their normal warning.
 - **Other roles:** failed mine captures modestly extend that surviving node's next pull; an empty caught blade round receives a small extra return; unused Ghost phases shift their next cycle later; empty Holy fields bias legal random positions and empty judgements receive bounded recovery. Existing melee drought, blood-chain and magnetic-pull compensation remain.
 - **Time/UI:** enemy local time rate is **10% (90% slow)** and clock base damage is **12**. Ranger's small protruding emblem line is removed; sniper telegraphs, original motion tails and recorded Soul Paths remain.
@@ -247,7 +251,7 @@ Open **`team.html`**, or use **2v2 团队** in the original page header. Pick tw
 
 Team mode uses a larger **640×440** arena with three presets: open arena, twin pillars, and staggered cover. Teammates bounce off each other without friendly fire; ranged attacks, control and area damage affect enemies only. Physical objects reflect or stop at pillars, beams are occluded, and phased Ghosts can pass through cover. A team loses when both members are eliminated; simultaneous team wipes draw.
 
-On desktop, Blue's two stat cards sit on the left and Pink's on the right, leaving a larger arena in the center. Orb selectors use bright, larger text that remains readable when locked during a match. Narrow layouts show the arena first, with both teams below. Persistent status slots and overlays keep the arena stable through pauses and results. Mode switching returns to the selected mode's preparation page. Local file playback, seeded reproduction, pause, reset and 1×/2×/4× speeds remain supported.
+On desktop, Blue's two stat cards sit on the left and Pink's on the right, leaving a larger arena in the center. Orb selectors use bright, larger text that remains readable when locked during a match. Narrow layouts show the arena first, with both teams below. Persistent status slots and overlays keep the arena stable through pauses and results. Mode switching returns to the selected mode's preparation page. Local file playback, seeded reproduction, pause, reset and 1×/2×/4×/8× speeds remain supported.
 
 Combat labels such as Attack, Speed and skill resources use larger, brighter text in both modes. Team rails now sit near the outer page edges, and the arena scales to the width between them instead of centering a narrow three-column block. The page can scroll vertically; the arena and orb proportions remain unchanged. The latest UI checks are recorded in `tests/labels-layout-results.json`.
 
@@ -279,7 +283,7 @@ The Ghost orb periodically phases through bodies and physical attacks while immu
 - Automatic movement in a compact rectangular arena. Walls reflect motion; orb collisions exchange momentum along the contact normal.
 - One awakening per orb after **15 simulation seconds or at 50% health or below**, whichever happens first.
 - Health bars, attack and speed values, ability resources, cooldowns, status effects, battle time, and a winner or draw result.
-- Pause/resume, full reset, reproducible random seeds, and 1× / 2× / 4× simulation speed.
+- Pause/resume, full reset, reproducible random seeds, and 1× / 2× / 4× / 8× simulation speed.
 - Distinct wall and orb collision sounds, synthesized skill audio, particles, impact flashes, trails, and stronger awakening feedback.
 - A responsive dark layout with stable status slots and an arena that keeps its size when a battle ends.
 - Fully local gameplay: no account, network connection, backend, installation, or build step required.
@@ -290,7 +294,7 @@ The Ghost orb periodically phases through bodies and physical attacks while immu
 | --- | --- | --- |
 | Normal | Builds fist momentum from health damage and partial shield contact; three charges arm the next effective collision as a heavy strike. A collision drought builds a capped damage bonus; a close near miss can trigger a short turn-and-chase. | Heals up to 8 HP, gains permanent collision damage, and heavy strikes add knockback, a brief impact stop, and a short directional fist wave. |
 | Vampire | Restores 38% of actual attack damage, leaves a five-second blood mark, and stores blood energy from effective contacts. | Waits for range before spending blood energy on a seven-pulse tether; a complete channel consumes the mark for a finisher, while distance hysteresis and a short grace period prevent edge flicker. An interrupted chain refunds up to 1.2 seconds; a captured mark survives expiration during a complete channel. |
-| Accelerator | Builds cruise speed over time, +5 per wall and +18 per enemy, capped at 365; strong impacts transfer momentum and cause a follow-up wall hit. | Invulnerable, decaying ricochet dash; ends on enemy contact, then cruise falls to 82%, capped at 285, before rebuilding; an empty natural dash returns up to 10 lost cruise speed, without a cooldown refund. |
+| Accelerator | Builds cruise speed over time, +5 per wall and +18 per enemy, capped at 365; strong impacts transfer momentum and cause a follow-up wall hit. | Invulnerable, decaying ricochet dash; ends on enemy contact, then cruise falls to 82%, capped at 285, before rebuilding; an empty natural dash returns up to 10 lost cruise speed, with a 2-second refund of the next dash cooldown. |
 | Thunderstorm | Wall charge strengthens predictive lightning; actual contact and bolt hits build conductive marks with a finite third-hit discharge. | Three separately warned relay strikes, finite tracking and final locks. |
 | Charge | Wall charge, traveling perimeter currents, conductive contact marks and fixed grounding discharge. | The body turns into finite wall-following lightning, arcs to nearby enemies, then reforms inward. |
 | Stellar | Three persistent, energy-building satellites launch actual bouncing comets, resonate on distinct hits, then return. | Recall, spiral collapse, compressed core, expanding supernova ring and three rebirth comets. |
@@ -305,7 +309,7 @@ The Ghost orb periodically phases through bodies and physical attacks while immu
 | Holy | Real water loops form triangle fields; staying outside its own circle charges a small ward whose enemy contacts inflict sacred burn. Pillar hits extend active burns. | A telegraphed diagonal sweep with 0.9-second pillars, capped at three landing hits and four contact ticks per enemy per cast; first landing hits provide strong feedback. |
 | Magnet | Pulls distant enemies and forcefully repels nearby enemies. Attraction contacts and repulsion wall hits deal one kinetic-energy follow-up; an attraction wall hit gives a lighter fallback, and a failed capture improves the next pull up to 36%; pulses bend physical bullets, blades, and clocks, while lasers remain unchanged. | Anchors itself, captures the enemy, then reverses polarity into a powerful launch. Released flyers respond to both phases and curved blades subsequently resume recall. |
 | Time | Periodically places short-lived zones under enemies, slowing movement and active casts to 10%, with cooldowns and charging at 50% and dealing periodic erosion damage while its own clock stays normal. | Predictive clocks explode on contact, maximum range, or walls; actual blast hits deal damage and silence for 1.2 seconds, interrupting active casts and adding two seconds to charging or waiting attacks. Each blast leaves the same slow-time zone; misses do not silence. |
-| Venom | Melee hits and poison pools build up to three poison stacks; full stacks can trigger a detonation that preserves one stack and settles part of the removed poison damage. | Enhanced pools share the detonation cooldown and periodically release telegraphed corrosion resonance. |
+| Venom | Erosion and paralysis share four slots (three per kind). Living pools, globs and green mist capture before infection. | Existing erosion calls liquid binding; existing paralysis calls attached hunting mist. Both share normal toxin cooldowns. |
 
 ![Actual frames of the Accelerator's decaying dash and wall follow-up](preview-decay-dash.png)
 
@@ -332,10 +336,11 @@ Then open [http://127.0.0.1:8799/](http://127.0.0.1:8799/). Some browser test pa
 | Control | Action |
 | --- | --- |
 | Left/right selectors | Choose orb types before a match. |
+| F / Esc | F cycles landscape recording → portrait recording → exit before or during combat; Esc exits immediately. Portrait panels sit above the arena; the compact composition scales to available height without distorting the arena (the content crop is not fixed at 9:16). Only live combat panels and the arena remain. In this view, Space starts/pauses/resumes and R restarts. If browser fullscreen is unavailable, a clean viewport layout is used. |
 | Main button / Space | Start, pause, or resume. Space works when a form control does not have focus. |
 | Reset button / R | Reset all state with the same seed. |
 | New-seed action | Generate a fresh seed and start another match. |
-| 1× / 2× / 4× | Change the rate of simulation time. |
+| 1× / 2× / 4× / 8× | Change the rate of simulation time. |
 | Speaker button | Toggle sound. |
 
 Configuration is locked during a match. Opening the rules or switching to a background tab pauses the game.
@@ -432,3 +437,13 @@ The preceding twelve-orb build passed 5,760 full engine matches, 120 focused Mag
 ## Preceding ghost and magnetic recovery validation
 
 The thirteen-orb build passed 6,760 full engine matches, 130 focused Ghost matchups, 192 moving-target cases, eight real mechanism frames, five browser viewport checks, live magnetic-recovery values at two narrow widths, and 97 offline audio waveforms. Controlled attraction contact improved from 13/24 to 24/24 with the maximum bounded compensation; this is not a guarantee for arbitrary matches. Triple-lunge awakening delivered more real damage in the controlled Ghost moving-target cases. An independent 2,028-match sample gave Ghost and Magnet 56.3% non-mirror scores; matchups still vary. See [current validation](VALIDATION.md). Open `tests/ghost.html` for current mechanics.
+
+活体毒液参数与专项检查：`js/living-venom.js`、`js/living-venom-art.js`、`node tests/verify-living-venom.cjs`；规则见 `docs/design/VENOM_V2.md`。
+
+Venom awakening evolution: successful same-toxin resonance grants +2% to that toxin for the match, independently capped at +20%. One reward per field visit; mist must actually attach. See `docs/design/VENOM_V2.md`; implementation: `js/venom-evolution.js`.
+
+
+### 2026-10-18 — Laser evasion and damage reduction
+Awakened Laser predicts approaching hostile bodies with a 0.12s horizon and a 20-unit safety margin. A 0.16s lateral light burst (520 nominal speed, 8s cooldown, 6% capacitor) precedes the existing real heat-blade counter (8% capacitor when awakened, 15% before awakening). Bullets/clocks/traps trigger only the blade. The burst is physical movement with wall/obstacle checks and no invulnerability; silence cancels it, and temporal slowing still applies. Main-beam firing remains uninterrupted; an urgent burst may cancel aiming while retaining capacitor.
+“免伤” is a reusable 30% incoming-damage reduction, applied once before shield settlement, including piercing, reflected and periodic damage. Laser Arcana has it throughout, preserving its existing brief sweep invulnerability. Normal completion resets the burst cooldown and grants one free burst; the following blade still costs capacitor. Vampire Hunt is available before awakening as well, retaining the 6s mark-absence requirement and 10s cooldown. These ordinary changes apply to Classic, Arcana and Team; Laser Arcana stays mode-specific.
+Targeted checks: `node tests/verify-laser-jet.cjs`, `node tests/verify-laser-blade.cjs --quick`, `node tests/verify-blood-hunt.cjs --quick`. Quick Hunt skips its obsolete historical snapshot comparison and full-match replay; quick Laser skips its two long natural matches. See [design brief](docs/design/experiments/laser-evasion.md).

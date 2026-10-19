@@ -245,6 +245,6 @@
  tiers:{S:{priority:100,bus:'arcanaBus'},A:{priority:70,bus:'ordinaryBus'},B:{priority:40,bus:'ordinaryBus'},C:{priority:55,bus:'cueBus'},R:{priority:20,bus:'ambienceBus'},D:{priority:10,bus:'ambienceBus'}},calibration,
  trims:{},
  // Judge whole-move cadence and impact strength, not merely ticks inside a cast.
- eventGain(event){const requested=Number.isFinite(event.gain)?event.gain:1;if(event.kind!=='wall')return requested;const speed=Number.isFinite(event.impactSpeed)?event.impactSpeed:300,t=Math.max(0,Math.min(1,(speed-300)/250));return requested*Math.pow(10,3*t/20);},
+ eventGain(event){const requested=Number.isFinite(event.gain)?event.gain:1;if(event.kind!=='wall')return requested;const speed=Number.isFinite(event.impactSpeed)?event.impactSpeed:300,t=Math.max(0,Math.min(1,(speed-300)/250));return requested*Math.pow(10,(-1.5+4.5*t)/20);},
  describe(kind){const known=calibration[kind],c=known||{tier:'C',db:-3,gain:.5},s=this.tiers[c.tier],trim=Math.max(-6,Math.min(6,this.trims[kind]||0));return {...c,gain:c.gain*Math.pow(10,trim/20),bus:s.bus,calibrated:!!known,priority:s.priority+(G.Audio.profiles[kind]?.priority||0),maxSame:['C','R','D'].includes(c.tier)?1:2,minGap:c.tier==='R'?.25:c.tier==='D'?.20:0};}};
 })(typeof window!=='undefined'?window:globalThis);

@@ -134,7 +134,7 @@
         const target=G.World.targetFor(ball,engine);
         if(ball.type==='vampire' && a.chainUntil>t && target){
           this.lightning(ball.x,ball.y,target.x,target.y,t,'#ef86baaa',2.4);
-          for(let i=0;i<6;i++){const u=(t*1.2+i/6)%1;this.circle(target.x+(ball.x-target.x)*u,target.y+(ball.y-target.y)*u,2.5);c.fillStyle='#a6ffc9';c.fill();}
+          for(let i=0;i<(target.type==='venom'?0:6);i++){const u=(t*1.2+i/6)%1;this.circle(target.x+(ball.x-target.x)*u,target.y+(ball.y-target.y)*u,2.5);c.fillStyle='#a6ffc9';c.fill();}
         }
         if(ball.type==='accelerator' && a.chargeUntil>t){
           c.save();c.strokeStyle='#fff0a488';c.lineWidth=2;c.setLineDash([6,6]);c.beginPath();c.moveTo(ball.x,ball.y);c.lineTo(ball.x+Math.cos(a.aim)*400,ball.y+Math.sin(a.aim)*400);c.stroke();c.restore();

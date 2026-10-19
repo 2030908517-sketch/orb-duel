@@ -37,10 +37,7 @@
     for(const b of engine.balls){const i=b.id,card=$('fighter-'+i);card.classList.toggle('eliminated',b.hp<=0);card.classList.toggle('awakened',b.awakening.active);
       $('health-'+i).replaceChildren(document.createTextNode(hpText(b.hp)+' '),node('small',null,'/ '+b.maxHp));$('fill-'+i).style.width=Math.max(0,b.hp/b.maxHp*100)+'%';$('fill-'+i).style.background=b.def.color;
       $('bar-'+i).setAttribute('aria-valuenow',b.hp.toFixed(1));$('bar-'+i).setAttribute('aria-valuemin','0');$('bar-'+i).setAttribute('aria-valuemax',b.maxHp);
-      const awake=G.Awakening.status(b,engine),extra=[...(G.Skills[b.type]?.status?.(b,engine)||[]),...awake.filter(s=>s.label!=='觉醒')];
-      const ultimate=G.Arcana?.status(b,engine);if(ultimate)extra.splice(b.type==='accelerator'?4:5,1,ultimate);
-      const stats=[{label:'攻击',value:G.Combat.attackValue(b,engine).toFixed(1)},{label:'速度',value:Math.round(Math.hypot(b.vx,b.vy))},...extra.slice(0,6)];while(stats.length<8)stats.push({label:'',value:''});$('fighter-meta-'+i).replaceChildren(...stats.map(chip));
-      $('awakening-'+i).textContent=b.hp<=0?'已淘汰':awake.find(s=>s.label==='觉醒')?.value||'';
+      G.StatusPanel.fillStats($('fighter-meta-'+i),b,engine,chip);$('awakening-'+i).hidden=true;
       const notice=b.awakening.active&&engine.time-b.awakening.activatedAt<2.4?'✦ 觉醒！':b.notice&&engine.time-b.notice.at<1.6?b.notice.text:'';$('awake-notice-'+i).textContent=notice;$('awake-notice-'+i).title=notice;
       G.StatusPanel.render($('status-slot-'+i),b,engine);
     }

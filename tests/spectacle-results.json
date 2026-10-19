@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "matches": 300,
+  "matches": 588,
   "combatIndependentOfSpectacle": true,
   "species": [
     "normal",
@@ -12,10 +12,14 @@
     "trapper",
     "boomerang",
     "laser",
+    "ghost",
+    "holy",
+    "magnet",
+    "time",
     "venom"
   ],
   "newCues": 10,
-  "totalAudioProfiles": 59,
-  "peakEffects": 102,
+  "totalAudioProfiles": 103,
+  "peakEffects": 136,
   "pauseResetEndPassed": true
 }

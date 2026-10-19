@@ -35,7 +35,7 @@
       if(!target||target.hp<=0||['counterStep','bloodMist'].includes(target.arcana?.phase)||G.Awakening.dashing(target,engine)||G.Ghost.phased(target))return false;
       if(G.Physics.armored(target))return true;
       let v=this.velocity(target,ball,mode,power*(target.temporal?.rate??1));
-      if(mode==='pull'&&bonus>0){const aim=G.World.aim(target,ball,power),nx=Math.cos(aim),ny=Math.sin(aim),radial=target.vx*nx+target.vy*ny,retain=1-Math.min(.75,bonus*2),speed=power*(target.temporal?.rate??1);v={vx:nx*speed+(target.vx-nx*radial)*retain,vy:ny*speed+(target.vy-ny*radial)*retain};}
+      if(mode==='pull'&&bonus>0){const aim=G.Aim.adjust(ball,engine,'magnetPull',G.World.aim(target,ball,power)),nx=Math.cos(aim),ny=Math.sin(aim),radial=target.vx*nx+target.vy*ny,retain=1-Math.min(.75,bonus*2),speed=power*(target.temporal?.rate??1);v={vx:nx*speed+(target.vx-nx*radial)*retain,vy:ny*speed+(target.vy-ny*radial)*retain};}
       target.vx=v.vx;target.vy=v.vy;
       target.inertia=Math.max(target.inertia,1.25);target.impactDrag=1.3;G.Physics.limit(target);
       if(mark)target.magneticMark={owner:ball.id,cause:mode,until:engine.time+ball.def.magnetLife,heat:engine.heatMultiplier};

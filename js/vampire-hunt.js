@@ -9,14 +9,13 @@
     hidden(b){return b.hunt?.phase==='flight';},
     event(b,e,stage,cue,p=b){const h=b.hunt,id='hunt:'+b.id+':'+h.casts+':'+stage;e.effects.push({kind:'hunt',style:stage,owner:b.id,x:p.x,y:p.y,angle:h.aim,age:0,life:.3,eventId:id});if(cue){e.sound(cue,p.x);e.soundEvents.at(-1).presentationId=id;}G.Presentation?.note(e,'vampire.hunt',{eventId:id,stage,actorId:b.id,targetId:stage==='mark'?p.id:h.target,x:p.x,y:p.y,cue:cue||null});},
     update(b,e){if(b.type!=='vampire'||e.state!=='running'||e.ending||b.hp<=0)return;const h=b.hunt??=this.fresh();h.tick=e.tick;
-      if(!G.Awakening.active(b))return;
       if(!h.awake){h.awake=true;for(const t of e.balls)if(G.World.enemy(b,t,e))h.missing[t.id]=e.time;}
       for(const t of e.balls){if(!G.World.enemy(b,t,e)||t.hp<=0)continue;const mark=t.role.bloodMark;if(mark?.owner===b.id&&mark.until>e.time)h.missing[t.id]=e.time;else h.missing[t.id]??=e.time;}
       const target=e.balls.find(t=>t.id===h.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e));
       if(h.phase!=='idle'){
         if(G.Temporal.silenced(b,e)||!target){this.finish(b,e);return;}
         if(h.phase==='warning'){
-          if(e.time<h.until-.08)h.aim=G.World.aim(b,target,this.speed,Math.max(0,h.until-e.time));
+          if(e.time<h.until-.08)h.aim=G.Aim.direct(b,target,e,'hunt',this.speed,Math.max(0,h.until-e.time));
           if(e.time+1e-9>=h.until){h.phase='flight';h.flightAim=h.aim;h.started=e.time;h.until=e.time+Math.max(.28,Math.min(450/this.speed,Math.hypot(target.x-b.x,target.y-b.y)/this.speed+.1));b.inertia=0;this.event(b,e,'launch','huntLaunch');}return;
         }
         if(h.phase==='flight'&&e.time+1e-9>=h.until)this.reform(b,e);
@@ -41,8 +40,8 @@
     endCombat(e){for(const b of e.balls)if(b.hunt)this.finish(b,e,true);},
     slow(b,lost){if(b.hunt&&this.busy(b))b.hunt.started+=lost;},
     snapshot(h){return {...h,missing:{...h.missing}};},
-    status(b,e){if(!b.hunt||!G.Awakening.active(b))return '未觉醒';if(this.busy(b))return {warning:'预备',flight:'扑袭',reform:'凝形'}[b.hunt.phase];return Math.max(0,b.hunt.nextCast-e.time).toFixed(1)+'s';},
-    copy:'觉醒后当前目标连续6秒无自己的血印，可独立发动血影追猎，冷却10秒：0.24秒预备、末0.08秒锁定，以420速度真实定向扑袭最多1.07秒；首次接触非无敌敌人造成一次8基础伤害并按实际伤害正常吸血，同时补5秒血印、不送血能。扑袭/恢复不结算身体碰撞，仍可受技能伤害；碰墙/障碍或落空正常凝形，沉默可中断。'
+    status(b,e){if(!b.hunt)return '待机';if(this.busy(b))return {warning:'预备',flight:'扑袭',reform:'凝形'}[b.hunt.phase];return Math.max(0,b.hunt.nextCast-e.time).toFixed(1)+'s';},
+    copy:'全期可用：当前目标连续6秒无自己的血印，可独立发动血影追猎，冷却10秒：0.24秒预备、末0.08秒锁定，以420速度真实定向扑袭最多1.07秒；首次接触非无敌敌人造成一次8基础伤害并按实际伤害正常吸血，同时补5秒血印、不送血能。扑袭/恢复不结算身体碰撞，仍可受技能伤害；碰墙/障碍或落空正常凝形，沉默可中断。'
   };
   const noContact=G.Arcana.noContact,custom=G.Arcana.customMove,move=G.Arcana.move;
   G.Arcana.noContact=function(b){return H.phasing(b)||noContact.call(this,b);};

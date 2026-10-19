@@ -2,6 +2,8 @@
  'use strict';const G=root.OrbDuel;
  // Shared, read-only inventory of actor effects. Skill cooldowns stay in their existing slots.
  G.StatusPanel={
+  stats(b,e){const awake=G.Awakening.status(b,e);return {core:[{label:'攻击',value:G.Combat.attackValue(b,e).toFixed(1)},{label:'速度',value:Math.round(Math.hypot(b.vx,b.vy))}],awake:awake.find(s=>s.label==='觉醒'),ultimate:e.mode==='arcana'?G.Arcana?.status(b,e):null,arcana:e.mode==='arcana',extra:[...(G.Skills[b.type]?.status?.(b,e)||[]),...awake.filter(s=>s.label!=='觉醒')].slice(0,6)};},
+  fillStats(meta,b,e,make){const s=this.stats(b,e);meta.style.setProperty('--orb-color',b.def.color);const core=document.createElement('div');core.className='stats-core';const stages=document.createElement('div');stages.className='stats-stages'+(s.arcana?' has-arcana':'');const skills=document.createElement('div');skills.className='stats-skills';core.append(...s.core.map(make));const awake=make(s.awake);awake.classList.add('awakening-stat');stages.append(awake);if(s.arcana){const ult=make(s.ultimate||{label:'奥义',value:''});ult.classList.add('arcana-stat');stages.append(ult);}for(let i=0;i<6;i++){const chip=make(s.extra[i]||{label:'',value:''});if(!s.extra[i])chip.classList.add('empty-slot');skills.append(chip);}meta.replaceChildren(core,stages,skills);},
   collect(b,e){if(b.hp<=0)return ['停止行动'];const out=[],t=e.time,r=b.role,a=b.awakening,c=b.character,active=until=>Number.isFinite(until)&&until>t+1e-8;
    const add=s=>{if(s&&!out.includes(s))out.push(s)},timed=(name,until)=>{if(active(until))add(name+' '+(until-t).toFixed(1)+'s')};
    const effects=(items)=>items.filter(v=>v.target===b.id&&active(v.until)&&e.balls.some(o=>o.id===v.owner&&o.hp>0));
@@ -9,6 +11,8 @@
    if(G.Ghost.phased(b))timed('虚化无敌',b.ghost.until);
    if(G.Awakening.dashing(b,e))timed('冲刺无敌',a.dashUntil);
    if(G.Arcana?.immune(b))add('奥义无敌');
+   if(G.Combat.reduction(b,e)>0)add('免伤 30%');
+   if(b.role.jetActive)add('激光短喷');if(b.role.jetFree)add('免费短喷就绪');
    if(b.shield>0)add('护盾 '+b.shield.toFixed(1)+(active(b.shieldUntil)?' · '+(b.shieldUntil-t).toFixed(1)+'s':''));
    if(b.arcana?.royalActive&&b.arcana.royalShield>0)add('王城专属盾 '+b.arcana.royalShield.toFixed(1)+(active(b.arcana.royalUntil)?' · '+(b.arcana.royalUntil-t).toFixed(1)+'s':''));
    if(b.cageBounds)add('机械囚禁');const pulls=effects(e.arcanaWorld?.defense?.returns||[]);if(pulls.length&&!G.Physics.armored(b))timed('逆命牵返',Math.max(...pulls.map(v=>v.until)));
@@ -16,17 +20,18 @@
    if(G.Temporal.silenced(b,e))timed('沉默',b.temporal.silenceUntil);
    if(b.temporal.rate<.999)add('时间减速 '+Math.round((1-b.temporal.rate)*100)+'%');if((b.temporal.cooldownRate??1)<.999)add('技能延缓 '+Math.round((1-b.temporal.cooldownRate)*100)+'%');
    if(r.cutSlowActive&&active(r.cutSlowUntil)&&!G.Physics.armored(b))timed('热切减速55%',r.cutSlowUntil);
-   if(b.stagger)timed('失衡',b.stagger.until);if(b.bladeMark)timed('刃印',b.bladeMark.until);if(r.bloodMark)timed('血印',r.bloodMark.until);
+   if(b.kineticCycle)add(b.kineticCycle.side==='target'?'动能失衡':'动能轮回');if(b.stagger)timed('失衡',b.stagger.until);if(b.bladeMark)timed('刃印',b.bladeMark.until);if(r.bloodMark)timed('血印',r.bloodMark.until);
    if(b.magneticMark)timed(b.magneticMark.cause==='pull'?'磁牵引印记':'磁排斥印记',b.magneticMark.until);
    const toxins=G.Venom?.layers(b,t)||[];if(toxins.some(v=>v.type==='erosion'))timed('侵蚀中毒',Math.max(...toxins.filter(v=>v.type==='erosion').map(v=>v.until)));
-   const n=toxins.filter(v=>v.type==='paralysis').length;if(n){timed('麻痹中毒',Math.max(...toxins.filter(v=>v.type==='paralysis').map(v=>v.until)));if(!G.Physics.armored(b)){add('麻痹减速 '+Math.round(n*G.Venom.config.slowPerLayer*100)+'%');add('瞄准转速降低 '+Math.round(n*G.Venom.config.aimReductionPerLayer*100)+'%');}add('普通碰撞削弱 '+Math.round(n*G.Venom.config.contactReductionPerLayer*100)+'%');}
+   const n=toxins.filter(v=>v.type==='paralysis').length,weight=G.VenomEvolution?.paralysisWeight(b,e)??n;if(n){timed('麻痹中毒',Math.max(...toxins.filter(v=>v.type==='paralysis').map(v=>v.until)));if(!G.Physics.armored(b)){add('麻痹减速 '+Math.round(weight*G.Venom.config.slowPerLayer*100)+'%');add('瞄准转速降低 '+Math.round(weight*G.Venom.config.aimReductionPerLayer*100)+'%');}add('普通碰撞削弱 '+Math.round(weight*G.Venom.config.contactReductionPerLayer*100)+'%');}
+   const living=e.livingVenom;if(living){const binds=living.binds.filter(v=>v.target===b.id&&v.until>t&&e.balls.some(o=>o.id===v.owner&&o.hp>0));if(binds.length)timed('活体缠缚',Math.max(...binds.map(v=>v.until)));const swarms=living.swarms.filter(v=>v.target===b.id&&v.until>t&&e.balls.some(o=>o.id===v.owner&&o.hp>0));if(swarms.length)timed('附身毒群',Math.max(...swarms.map(v=>v.until)));if(living.attacks.some(v=>v.target===b.id&&v.phase==='cling'))add('毒液附着侵入');}
    if(G.Venom?.inMist(b,e)&&!G.Physics.armored(b)&&!G.World.absent(b,e))add('毒雾瞄准扰动');
    const conductive=effects(e.chargeWorld?.conductive||[]);if(conductive.length)timed('导电',Math.max(...conductive.map(v=>v.until)));
    const staticMarks=effects(e.cosmicWorld?.marks||[]).filter(v=>v.stacks>0);if(staticMarks.length)add('电解印记 '+staticMarks.reduce((sum,v)=>sum+v.stacks,0)+' · '+(Math.max(...staticMarks.map(v=>v.until))-t).toFixed(1)+'s');
    const brands=effects(e.demonWorld?.marks||[]);if(brands.length)timed('地狱烙印',Math.max(...brands.map(v=>v.until)));const chains=effects(e.demonWorld?.chains||[]);if(chains.length)timed('魂锁',Math.max(...chains.map(v=>v.until)));
    add(G.Holy?.burnStatus(b,e));add(G.Adaptive?.status(b,e));
    const debt=G.VenomArcana?.state(b);if(debt?.active||debt?.pool>0){add('万毒缓蚀');add('伤害池 '+debt.pool.toFixed(1)+' · 下跳'+G.VenomArcana.amount(debt.pool).toFixed(1));if(debt.pool>=b.hp)add('缓蚀致死风险');}
-   const gear=G.Overdrive?.state(b);if(gear?.active)add('超速挡位 '+gear.gear);
+   const gear=G.Overdrive?.state(b);if(gear?.active)add('动能轮回');
    if(G.Arcana?.busy(b)){const name=G.Arcana.defs[b.type]?.name||'奥义';const phases={blink:'瞬身',punch:'出拳',punchRecovery:'收势',warning:'蓄势',orbit:'高速环绕',sonicRecovery:'收势',bloodLiquefy:'液化',bloodTide:'血海围猎',bloodReverse:'漩涡回流',bloodFinale:'血柱重生',bloodRebirth:'展翼重生',bloodRecovery:'重生收势',counterStep:'闪避',counterCharge:'瞄准蓄能',counterRecovery:'收枪',debtCharge:'清算蓄势',debtRecovery:'清算收势',royalRise:'城墙升起',shrink:'王城收缩',hold:'王城封锁',release:'王城释放',trapReady:'替身待触发',trapAftermath:'囚笼爆破',laserFocus:'日轮展开',laserForge:'光铸天刃',laserSweep:'断界裁切',laserReturn:'万光归零'};add(name+(phases[b.arcana.phase]?' · '+phases[b.arcana.phase]:''));}
    if(e.timeRewind?.active)add('全场时间回溯');
    if(b.type==='normal'){if(b.charges>=3)add('重击就绪');else if(b.charges>0)add('拳势 '+b.charges+'/3');if(r.pursuitUntil>t)timed('回身追击加速',r.pursuitUntil);}

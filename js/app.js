@@ -76,21 +76,11 @@
       const event=ball.notice,noticeText=recently?'✦ 觉醒！':event && engine.time-event.at<1.6?event.text:'';
       if(notice.textContent!==noticeText)notice.textContent=noticeText;
       notice.classList.toggle('active',!!noticeText);
-      const awakeStats=G.Awakening.status(ball,engine),meta=$('fighter-meta-'+i);
-      // Stable slots: statuses and awakening never change the arena's vertical position.
-      const core=document.createElement('div');core.className='stats-core';
-      const skills=document.createElement('div');skills.className='stats-skills';
+      const meta=$('fighter-meta-'+i);
       const makeChip=stat=>{const chip=document.createElement('span'),label=document.createElement('span'),value=document.createElement('b');chip.className='stat-chip';label.className='stat-label';label.textContent=stat.label;value.textContent=String(stat.value).replace(/ \/ /g,'/');chip.append(label,value);chip.title=(stat.label==='返还CD'?'本局累计返还冷却：':stat.label+' ')+stat.value;return chip;};
-      for(const stat of [{label:'攻击',value:G.Combat.attackValue(ball,engine).toFixed(1)},{label:'速度',value:Math.round(Math.hypot(ball.vx,ball.vy))}])core.append(makeChip(stat));
-      core.firstChild.title='当前碰撞攻击，计入蓄力、重击、巡航积速、觉醒、冲撞瞬时速度与加热；实际伤害波动 ±20%，并受护盾与无敌影响。';
-      core.lastChild.title='实际运动速度；当前巡航 '+ball.speed.toFixed(1)+'，巡航上限 '+ball.def.maxSpeed+'。击退和冲撞可暂时超过巡航速度。';
-      const extra=[...(G.Skills[ball.type]?.status?.(ball,engine)||[]),...awakeStats.filter(s=>s.label!=='觉醒')];
-      const ultimate=G.Arcana?.status(ball,engine);if(ultimate)extra.splice(['accelerator','shield'].includes(ball.type)?4:5,1,ultimate);
-      for(let slot=0;slot<6;slot++){const chip=makeChip(extra[slot]||{label:'',value:''});if(!extra[slot]){chip.classList.add('empty-slot');chip.setAttribute('aria-hidden','true');}skills.append(chip);}
-      const awake=makeChip(awakeStats.find(s=>s.label==='觉醒'));awake.classList.add('awakening-stat');
       const status=document.getElementById('status-slot-'+i)||document.createElement('div');status.className='status-slot';status.id='status-slot-'+i;status.setAttribute('aria-label','当前状态与增益');
       const statusScroll=document.getElementById(status.id)?.querySelector('.status-items')?.scrollTop||0;
-      if(status.parentNode===meta){meta.replaceChild(core,meta.children[0]);meta.replaceChild(skills,meta.children[1]);meta.replaceChild(awake,meta.children[2]);}else meta.replaceChildren(core,skills,awake,status);G.StatusPanel.render(status,ball,engine,statusScroll);
+      G.StatusPanel.fillStats(meta,ball,engine,makeChip);meta.append(status);G.StatusPanel.render(status,ball,engine,statusScroll);
     });
     $('timer').textContent = timeString(engine.time);
     $('collision-count').textContent = engine.collisions + ' 次碰撞'; $('round-seed').textContent = 'SEED ' + engine.seed;

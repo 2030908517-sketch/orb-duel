@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "checks": 110,
+  "checks": 140,
   "coverage": [
     "bounded contact drought damage / simultaneous consumption",
     "blood-chain duration refund / pulse count / absorption",

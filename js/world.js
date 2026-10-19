@@ -21,7 +21,7 @@
     fire(ball,engine,options={}){
       const target=this.targetFor(ball,engine);if(!target)return;
       const mode=options.mode||'shot';if(mode==='boomerang')return G.Characters.throwBlade(ball,engine,options);const speed=options.speed||ball.def.shotSpeed;
-      const radius=options.radius||ball.def.shotRadius,angle=options.angle??(this.aim(ball,target,speed)+(options.angleOffset||0)),distance=ball.radius+radius+2;
+      const radius=options.radius||ball.def.shotRadius,angle=options.angle??(G.Aim.direct(ball,target,engine,'projectile',speed)+(options.angleOffset||0)),distance=ball.radius+radius+2;
       const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:options.maxBounces??(mode==='counter'?0:1),sniper:!!options.sniper,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy,storedCounter:!!options.storedCounter};
       if(ball.combatBounds)shot.combatBounds={...ball.combatBounds};
       if(G.Physics.constrain(shot)){shot.bounces++;this.ricochet(shot,engine);}
@@ -102,7 +102,7 @@
           const reflected=G.Roles.intercept(shot,first.target,engine);if(reflected){if(!reflected.absorbed)nextShots.push(reflected);continue;}
           G.Aim?.result(shot,engine,true);
           engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,adaptiveId:shot.adaptiveId,kind:mode==='venom'?'poisonShot':mode==='blade'?'boomerang':shot.noMirror&&mode==='shot'?'counter':mode,noReflect:!!shot.noReflect||mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx),angle:Math.atan2(shot.vy,shot.vx),heavyShot:!!shot.heavy,sniperShot:!!shot.sniper,storedCounter:!!shot.storedCounter,calibrationShot:shot.calibrationEligible?shot:null,calibrationIgnored:!!shot.calibrationIgnored,poisonUnit:shot.poisonUnit,poisonLife:shot.poisonLife,mirrorReturn:!!shot.noMirror});
-          engine.ring(shot.x,shot.y,shot.color,22);
+          if(shot.danceOwner===undefined)engine.ring(shot.x,shot.y,shot.color,22);
           if(mode!=='boomerang')continue;
           shot.hitIds.push(first.key);
         }

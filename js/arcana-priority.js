@@ -17,7 +17,7 @@
   }
  };
  if(!G.Arcana?.health||!G.DefenseArcana||!G.RangerArcana)return;
- const copy=G.Arcana.copy;G.Arcana.copy=function(type){const extra={normal:'正式执行阶段霸体，不额外无敌。',ranger:'仅奥义瞄准阶段霸体，可受伤。',shield:'专属盾抵抗普通穿盾/破盾；敌方奥义的穿盾/破盾降低一级，本体仍可受控制。',accelerator:'本体可受减速、沉默和牵引；挡位机制保留，受控时仍可升降挡。',venom:'伤害池不属于中毒，净化和沉默不能清除或暂停；本体仍可受控制。',reflector:'清算牵引不受普通净化、沉默和运动控制覆盖，霸体目标免疫牵引。'};return copy.call(this,type)+(extra[type]?' '+extra[type]:'');};
+ const copy=G.Arcana.copy;G.Arcana.copy=function(type){const extra={normal:'正式执行阶段霸体，不额外无敌。',ranger:'仅奥义瞄准阶段霸体，可受伤。',shield:'专属盾抵抗普通穿盾/破盾；敌方奥义的穿盾/破盾降低一级，本体仍可受控制。',accelerator:'动能轮回每局一次；沉默不阻止准备冲刺及正式释放，普通技能与时间减速规则保留。',venom:'伤害池不属于中毒，净化和沉默不能清除或暂停；本体仍可受控制。',reflector:'清算牵引不受普通净化、沉默和运动控制覆盖，霸体目标免疫牵引。'};return copy.call(this,type)+(extra[type]?' '+extra[type]:'');};
  const commit=G.Arcana.commit;G.Arcana.commit=function(b,e){const rate=b.temporal.rate,cd=b.temporal.cooldownRate;commit.call(this,b,e);if(['accelerator','venom','shield','reflector'].includes(b.type)){const now=b.temporal.rate||1;b.vx*=rate/now;b.vy*=rate/now;b.temporal.rate=rate;b.temporal.cooldownRate=cd;}};
  G.Temporal.controlImmune=function(b,e){return G.World.absent(b,e)||P.armored(b);};
  // Arcana timers are world clocks, even when ordinary actor clocks are slowed.

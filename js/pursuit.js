@@ -9,7 +9,7 @@
         if(d<=edge+.1||pair?.touching){delete s.nearMisses[target.id];if(s.pursuitTarget===target.id)s.pursuitUntil=0;continue;}
         if(d>edge+10){delete s.nearMisses[target.id];continue;}
         if(old&&d>old.distance+.02&&old.approached&&t>=(s.nextPursuit||0)&&!G.Temporal.silenced(b,e)&&t-(pair?.lastHit??-Infinity)>.35){
-          const point=G.Awakening.predict(target,.12),angle=Math.atan2(point.y-b.y,point.x-b.x),speed=b.speed*1.3*b.temporal.rate;
+          const point=G.Awakening.predict(target,.12),angle=G.Aim.adjust(b,e,'pursuit',Math.atan2(point.y-b.y,point.x-b.x)),speed=b.speed*1.3*b.temporal.rate;
           b.vx=Math.cos(angle)*speed;b.vy=Math.sin(angle)*speed;b.inertia=.3;s.pursuitUntil=t+.28;s.pursuitTarget=target.id;s.nextPursuit=t+7;s.pursuits=(s.pursuits||0)+1;delete s.nearMisses[target.id];
           e.signal(b,'擦肩回身 · 追击','pursuit');e.effects.push({kind:'tactic',style:'pursuit',x:b.x,y:b.y,angle,color:b.def.color,age:0,life:.28});break;
         }

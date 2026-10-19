@@ -13,7 +13,7 @@
       if(s.elapsed>=this.freeze+this.reverse+this.restart)this.finish(e);
     },
     cooldowns(b,e){const t=e.time,d=b.def,a=G.Awakening.active(b),r=b.role;
-      b.nextShot=t+(d.shotPeriod||0);b.nextTrap=t+(b.type==='trapper'?G.Awakening.trapOptions(b).period:0);b.nextPool=t+(b.type==='venom'?G.Venom.config.poolPeriod:d.poolPeriod||0);b.nextShield=t+(b.type==='shield'?G.Awakening.shieldOptions(b).period:0);b.nextLaser=t+(a?2.1:1.1)+(a?3.6:4.2);r.coolingUntil=t+(a?2.1:1.1);r.capacitor=0;r.nextPursuit=t+7;r.nextSpit=t+(b.type==='venom'?G.Venom.config.spitPeriod:d.spitPeriod||0);b.character.nextSpread=t+G.Venom.config.resonancePeriod;b.pressure.lastHit=t;
+      b.nextShot=t+(d.shotPeriod||0);b.nextTrap=t+(b.type==='trapper'?G.Awakening.trapOptions(b).period:0);b.nextPool=t+(b.type==='venom'?G.Venom.config.poolPeriod:d.poolPeriod||0);b.nextShield=t+(b.type==='shield'?G.Awakening.shieldOptions(b).period:0);b.nextLaser=t+(a?2.1:1.1)+(a?3.6:4.2);r.coolingUntil=t+(a?2.1:1.1);r.capacitor=0;r.nextPursuit=t+7;r.nextSpit=t+(b.type==='venom'?G.Venom.config.spitPeriod:d.spitPeriod||0);b.character.nextSpread=0;b.pressure.lastHit=t;
       if(b.type==='ranger'){G.Ranger.init(b);r.ammo=0;r.reloadUntil=t+(a?d.reloadTime:d.baseReloadTime);b.nextShot=r.reloadUntil;}
       b.awakening.nextCast=a?t+8.5:Infinity;b.stance.next=t+(d.stancePeriod||0);b.temporal.nextDomain=b.type==='time'?t+d.domainPeriod:Infinity;b.temporal.nextClock=b.type==='time'&&a?t+d.clockPeriod:Infinity;
       b.ghost.nextPhase=b.type==='ghost'?t+d.phasePeriod+(a?1.6:0):Infinity;b.magnetic.nextPulse=b.type==='magnet'?t+d.magnetPeriod:Infinity;b.magnetic.nextOverload=b.type==='magnet'&&a?t+d.overloadPeriod:Infinity;

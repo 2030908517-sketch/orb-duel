@@ -40,7 +40,7 @@
     },
     world(e,dt){const w=e.demonWorld;if(!w||e.state!=='running')return;const live=[];
       for(const c of w.claws){const b=e.balls.find(v=>v.id===c.owner&&v.hp>0),t=e.balls.find(v=>v.id===c.target&&v.hp>0);if(!b||!t||G.Temporal.silenced(b,e)||e.time>c.expires)continue;
-        if(e.time<c.lockAt){const p=G.Awakening.predict(t,Math.min(.7,Math.max(0,c.at+c.flight-e.time)));c.endX=p.x;c.endY=p.y;}else c.locked=true;
+        if(e.time<c.lockAt){const desired=G.Awakening.predict(t,Math.min(.7,Math.max(0,c.at+c.flight-e.time))),p=G.Aim.point(b,t,e,'claw:'+c.id,desired,dt);c.endX=p.x;c.endY=p.y;}else c.locked=true;
         if(e.time+1e-9<c.at){live.push(c);continue;}
         if(!c.released){c.released=true;e.sound('demonClaw',c.startX);}
         const oldX=c.x,oldY=c.y,age=e.time-c.at,u=age<=c.flight+.1?clamp(age/c.flight,0,1):clamp(1-(age-c.flight-.1)/.16,0,1),reach=Math.hypot(c.endX-c.startX,c.endY-c.startY),nx=reach?(c.endX-c.startX)/reach:1,ny=reach?(c.endY-c.startY)/reach:0;

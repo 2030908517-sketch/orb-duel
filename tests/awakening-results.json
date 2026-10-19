@@ -1,5 +1,5 @@
 {
-  "checks": 94,
+  "checks": 118,
   "passed": true,
   "trigger": "15s or <=50% HP",
   "skills": [
@@ -12,6 +12,10 @@
     "trapper",
     "boomerang",
     "laser",
+    "holy",
+    "ghost",
+    "magnet",
+    "time",
     "venom"
   ]
 }

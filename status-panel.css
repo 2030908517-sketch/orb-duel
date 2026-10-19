@@ -11,3 +11,29 @@
 .team-mode .status-tag{font-size:17px;line-height:20px}
 .team-mode .status-items{height:43px}
 @media(max-width:760px){.team-mode .status-tag{font-size:16px}}
+
+/* Ordered combat inventory, preserving the existing 3px / 8px row spacing. */
+.fighter-stats,.team-values{display:flex;flex-direction:column;gap:3px;height:auto;min-height:0;flex:0 0 auto}
+.stats-core,.stats-stages,.stats-skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 8px;min-width:0}
+.stats-stages .awakening-stat,.stats-stages .arcana-stat{grid-column:auto;display:flex;gap:5px;min-width:0;align-items:baseline;line-height:24px;font-size:14px;white-space:nowrap;flex-wrap:wrap;overflow:hidden}
+.stats-stages:not(.has-arcana) .awakening-stat{grid-column:1/-1}
+.stats-stages .stat-label{font-size:14px}
+.stats-stages b{font-size:16px;line-height:24px;min-width:0;white-space:nowrap;max-width:100%}
+.stats-stages .arcana-stat b{color:var(--orb-color)}
+.stats-core .stat-chip,.stats-skills .stat-chip{line-height:24px;min-width:0}
+.stats-skills{grid-template-rows:repeat(3,minmax(24px,auto))}
+.status-slot,.team-status{box-sizing:content-box;padding-top:8px;margin-top:3px;border-top:1px solid #293446}
+.team-values .stats-core,.team-values .stats-stages,.team-values .stats-skills{width:100%}
+.team-values .team-stat{min-width:0}.team-values .stats-stages .team-stat{justify-content:space-between}
+.team-values .stats-stages b,.team-values .stats-stages b.word-value{font-size:17px;line-height:25px;flex-shrink:1}
+.team-life{height:21px}.team-life [hidden]{display:none}
+@media(max-width:560px){
+ .stats-core,.stats-stages,.stats-skills{gap:3px 4px}
+ .stats-stages .awakening-stat,.stats-stages .arcana-stat{font-size:12px;line-height:22px}
+ .stats-stages .stat-label{font-size:12px}.stats-stages b{font-size:13px;line-height:22px}
+ .stats-skills .stat-chip{grid-column:auto;line-height:22px}.status-slot,.team-status{padding-top:7px}
+}
+
+/* Prevent inherited flex wrapping from narrowing the entire stats column. */
+.fighter-stats,.team-values{width:100%;flex-wrap:nowrap;align-items:stretch;box-sizing:border-box}
+.stats-core,.stats-stages,.stats-skills{width:100%;box-sizing:border-box}

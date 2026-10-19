@@ -26,7 +26,7 @@
     reflector: {update:(b,dt,e)=>G.Roles.reflectorUpdate(b,dt,e),reflection:(b,actual)=>b.stance.phase==='active'?actual*(G.Awakening.active(b)?.6:b.def.reflection):0,onReceive:(b,h,e)=>G.Roles.reflectorReceive(b,h,e),status:(b,e)=>G.Roles.status(b,e)},
     shield: {update:(b,dt,e)=>G.Roles.shieldUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
     boomerang: {
-      update(ball,dt,engine){if(engine.state==='running' && engine.time+1e-9>=ball.nextShot && ball.character.bladeRemaining===0 && G.World.targetFor(ball,engine)){ball.character.bladeAdaptiveId=G.Adaptive?.begin(ball,'blade',engine);ball.character.bladeLost=false;ball.character.caughtInCast=0;const awake=G.Awakening.active(ball),castId=++ball.bladeCastId;for(const offset of awake?[-.16,.16]:[0])G.World.fire(ball,engine,{mode:'boomerang',castId,angleOffset:offset,damage:awake&&offset>0?2.3:ball.def.shotDamage});G.Adaptive?.close(ball,ball.character.bladeAdaptiveId);engine.sound('throw',ball.x);ball.nextShot=engine.time+(awake?4.2:ball.def.shotPeriod);}},
+      update(ball,dt,engine){const enemy=G.World.targetFor(ball,engine);if(enemy)G.Aim.direct(ball,enemy,engine,'blade',ball.def.shotSpeed);if(engine.state==='running' && engine.time+1e-9>=ball.nextShot && ball.character.bladeRemaining===0 && G.World.targetFor(ball,engine)){ball.character.bladeAdaptiveId=G.Adaptive?.begin(ball,'blade',engine);ball.character.bladeLost=false;ball.character.caughtInCast=0;const awake=G.Awakening.active(ball),castId=++ball.bladeCastId;for(const offset of awake?[-.16,.16]:[0])G.World.fire(ball,engine,{mode:'boomerang',castId,angleOffset:offset,damage:awake&&offset>0?2.3:ball.def.shotDamage});G.Adaptive?.close(ball,ball.character.bladeAdaptiveId);engine.sound('throw',ball.x);ball.nextShot=engine.time+(awake?4.2:ball.def.shotPeriod);}},
       status(ball,engine){return [{label:'刃伤',value:G.Combat.attackValue(ball,engine,ball.def.shotDamage).toFixed(1)},{label:'投掷',value:Math.max(0,ball.nextShot-engine.time).toFixed(1)+'s'},{label:'武器',value:ball.character.bladeRemaining?'在外 '+ball.character.bladeRemaining:'手中'},{label:'接刃',value:ball.character.catchUntil>engine.time?'重击就绪':'未蓄势'},{label:'回斩',value:(G.Combat.attackValue(ball,engine,ball.def.shotDamage)*1.5).toFixed(1)},...G.Recovery.refundStatus(ball)];}
     },
     laser: {update:(b,dt,e)=>G.Roles.laserUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
@@ -42,8 +42,10 @@
   };
   G.Combat = {
     // The UI displays this value before ±20% seeded variation and shield absorption.
-    attackValue(ball,engine,base=ball.def.damage,kind='contact') { return base*(G.Skills[ball.type]?.attackMultiplier?.(ball)||1)*G.Characters.attackMultiplier(ball,engine,base,kind)*(kind==='contact'?G.Roles.multiplier(ball):1)*(kind==='contact'&&base===ball.def.damage?1+ball.pressure.bonus:1)*G.Awakening.attackMultiplier(ball)*engine.heatMultiplier; },
+    attackValue(ball,engine,base=ball.def.damage,kind='contact') { if(ball.type==='accelerator'&&kind==='contact'&&base===ball.def.damage&&G.Awakening.dashing(ball,engine)&&!ball.awakening.dashHit)return 18*engine.heatMultiplier;return base*(G.Skills[ball.type]?.attackMultiplier?.(ball)||1)*G.Characters.attackMultiplier(ball,engine,base,kind)*(kind==='contact'?G.Roles.multiplier(ball):1)*(kind==='contact'&&base===ball.def.damage?1+ball.pressure.bonus:1)*G.Awakening.attackMultiplier(ball)*engine.heatMultiplier; },
     rollAttack(ball,engine,base=ball.def.damage,kind='contact') { return this.attackValue(ball,engine,base,kind)*engine.rng.between(0.8,1.2); },
+    grantReduction(ball,engine,duration){ball.role.damageReductionUntil=Math.max(ball.role.damageReductionUntil||0,engine.time+Math.max(0,duration));},
+    reduction(ball,engine){return (ball.role.damageReductionUntil>engine.time||G.LaserBlade?.active(ball)) ? 0.3 : 0;},
     applyDamage(ball, raw, engine, options = {}) {
       if(engine.ending||engine.state==='ended')return {actual:0,blocked:0,avoided:raw};
       if(G.World.absent(ball,engine)||G.VampireArcana?.immune(ball)||!options.bypassInvulnerability&&G.Arcana?.immune(ball))return {actual:0,blocked:0,avoided:raw};
@@ -52,6 +54,7 @@
         if(!options.silent && raw>0 && engine.time-(ball.awakening.lastEvade??-Infinity)>.12){engine.float(ball.x,ball.y-28,'无敌','#fff1a4');ball.awakening.lastEvade=engine.time;}
         return {actual:0,blocked:0,avoided:raw};
       }
+      if(!options.damageReduced)raw*=1-this.reduction(ball,engine);
       const oldShield=ball.shield;
       const royal=options.bypassShield?0:G.DefenseArcana?.absorbRoyal(ball,raw,engine)||0;
       const normalBlocked=options.bypassShield?0:Math.min(ball.shield,Math.max(0,raw-royal)),blocked=royal+normalBlocked;
@@ -118,7 +121,7 @@
         G.Recovery.hit(hit.source,hit,engine);G.Skills[hit.source.type]?.onHit?.(hit.source,hit,engine);
         if(hit.dash && hit.actual>0){hit.source.stats.dashHits++;hit.source.awakening.dashSuccess=true;engine.signal(hit.source,'冲刺命中','heavy',hit.target);}
         if(hit.kind==='poisonShot'&&hit.actual>0){engine.sound('toxinSplash',hit.target.x);engine.burst(hit.target.x,hit.target.y,hit.source.def.color,5);}if(hit.kind==='shard'&&hit.actual>0)engine.sound('shardHit',hit.target.x);if(hit.kind==='poison' && hit.actual>0)engine.sound('poisonHit',hit.target.x);
-        if(hit.actual>0 && hit.actual<15 && !hit.feedback && !hit.heavyShot && hit.beamId===undefined && ['shot','boomerang','counter','laser'].includes(hit.kind)){engine.sound(hit.kind==='laser'?'laserHit':hit.kind==='counter'?'counterHit':'shotHit',hit.target.x);engine.impact(hit.target.x,hit.target.y,hit.source.def.color,hit.kind==='laser'?1.6:.65);if(hit.kind==='laser')engine.signal(hit.source,'光束命中','laserHit',hit.target);if(hit.kind==='counter')engine.signal(hit.source,'蓄能反击命中','counterHit',hit.target);if(hit.kind==='boomerang' && hit.returning)engine.signal(hit.source,'回程命中','returnHit',hit.target);}
+        if(hit.actual>0 && hit.actual<15 && !hit.feedback && !hit.dance && !hit.heavyShot && hit.beamId===undefined && ['shot','boomerang','counter','laser'].includes(hit.kind)){engine.sound(hit.kind==='laser'?'laserHit':hit.kind==='counter'?'counterHit':'shotHit',hit.target.x);engine.impact(hit.target.x,hit.target.y,hit.source.def.color,hit.kind==='laser'?1.6:.65);if(hit.kind==='laser')engine.signal(hit.source,'光束命中','laserHit',hit.target);if(hit.kind==='counter')engine.signal(hit.source,'蓄能反击命中','counterHit',hit.target);if(hit.kind==='boomerang' && hit.returning)engine.signal(hit.source,'回程命中','returnHit',hit.target);}
         if(hit.blocked>0 && !hit.actual)engine.sound('shieldHit',hit.target.x);
         if(hit.kind==='trap') hit.source.stats.trapsTriggered++;
       }

@@ -4,7 +4,7 @@
   // Only the affected actor's skill clock slows. Debuffs and released objects use world time.
   const timers={mechanism:['nextSwap'],hunt:['nextCast','until'],
     ball:['nextShot','nextTrap','nextPool','nextLaser','nextShield','shieldUntil'],
-    role:['chainWarning','shieldFireAt','salvoFireAt','counterFireAt','reloadUntil','coolingUntil','disruptedUntil','nextSpit','sniperLockAt','sniperFireAt','nextPursuit','pursuitUntil'],
+    role:['chainWarning','shieldFireAt','salvoFireAt','counterFireAt','reloadUntil','coolingUntil','disruptedUntil','nextSpit','sniperLockAt','sniperFireAt','nextPursuit','pursuitUntil','jetNext'],
     character:['recoveryUntil','nextSpread','spreadFireAt'],
     awakening:['nextCast','nextPulse','chargeUntil','dashUntil','chainUntil'],
     demon:['nextClaw','nextGate'],holy:['triangleReady','nextJudgement','chargeUntil','nextWard'],stance:['next','until'],temporal:['nextDomain','nextClock','castAt'],magnetic:['nextPulse','nextOverload','until'],ghost:['nextPhase','until','nextLunge','chargeUntil','lungeUntil'],charge:['nextGain','nextDischarge','nextForm'],stellar:['nextNova','nextLaunch'],cosmic:['nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard','launchAt']
@@ -124,7 +124,7 @@
       const lost=dt*(1-ball.temporal.rate),cdLost=dt*(1-(ball.temporal.cooldownRate??ball.temporal.rate));if(lost<=0&&cdLost<=0)return;
       for(const [group,keys] of Object.entries(timers)){
         const state=group==='ball'?ball:ball[group];if(!state)continue;
-        for(const key of keys)if(Number.isFinite(state[key])&&state[key]>0&&state[key]>engine.time-dt+1e-9)state[key]+=['nextSwap','nextShot','nextTrap','nextPool','nextLaser','nextShield','reloadUntil','coolingUntil','nextSpit','nextPursuit','nextSpread','nextCast','nextClaw','nextGate','triangleReady','nextJudgement','nextWard','next','nextDomain','nextClock','nextPulse','nextOverload','nextPhase','nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard'].includes(key)&&!(group==='awakening'&&key==='nextPulse')?cdLost:lost;
+        for(const key of keys)if(Number.isFinite(state[key])&&state[key]>0&&state[key]>engine.time-dt+1e-9)state[key]+=['jetNext','nextSwap','nextShot','nextTrap','nextPool','nextLaser','nextShield','reloadUntil','coolingUntil','nextSpit','nextPursuit','nextSpread','nextCast','nextClaw','nextGate','triangleReady','nextJudgement','nextWard','next','nextDomain','nextClock','nextPulse','nextOverload','nextPhase','nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard'].includes(key)&&!(group==='awakening'&&key==='nextPulse')?cdLost:lost;
       }
       G.VampireHunt?.slow(ball,lost);G.Demon?.slow(ball,engine,lost);G.Cosmic?.slow(ball,engine,lost);G.Stellar?.slow(ball,engine,lost);G.Arcana?.slow(ball,engine,lost);
       if(ball.laser)for(const key of ['fireAt','trackUntil'])if(ball.laser[key]>engine.time-dt+1e-9)ball.laser[key]+=lost;
@@ -147,8 +147,8 @@
     },
     update(ball,dt,engine){
       if(engine.state!=='running'||this.silenced(ball,engine))return;
-      const t=engine.time,s=ball.temporal,target=G.World.targetFor(ball,engine);if(!target)return;
-      if(t+1e-9>=s.nextDomain&&!G.Adaptive?.wait(ball,target,engine,'timeDomain')){const id=G.Adaptive?.begin(ball,'timeDomain',engine);this.domain(ball,engine,target.x,target.y);engine.timeDomains.at(-1).adaptiveId=id;G.Adaptive?.close(ball,id);s.nextDomain=t+ball.def.domainPeriod;}
+      const t=engine.time,s=ball.temporal,target=G.World.targetFor(ball,engine);if(!target)return;const domainAim=G.Aim.point(ball,target,engine,'domain',target,dt);
+      if(t+1e-9>=s.nextDomain&&!G.Adaptive?.wait(ball,target,engine,'timeDomain')){const id=G.Adaptive?.begin(ball,'timeDomain',engine);this.domain(ball,engine,domainAim.x,domainAim.y);engine.timeDomains.at(-1).adaptiveId=id;G.Adaptive?.close(ball,id);s.nextDomain=t+ball.def.domainPeriod;}
       if(!G.Awakening.active(ball))return;
       const tracked=G.Aim.track(ball,target,engine,'clock',ball.def.clockSpeed,s.castAt?Math.max(0,s.castAt-t):0,6,dt);
       if(!Number.isFinite(s.nextClock))s.nextClock=t+.6;

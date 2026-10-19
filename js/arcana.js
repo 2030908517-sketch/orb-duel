@@ -52,6 +52,7 @@
         // A prepared, target-dependent release waits for the locked actor to re-enter.
         const locked=e.balls.find(v=>v.id===u.target);
         if(G.World.absent(locked,e)&&['warning','counterStep','counterCharge','debtStep','debtWarning','laserFocus','laserForge'].includes(u.phase)){for(const key of ['started','until','lockAt'])if(Number.isFinite(u[key]))u[key]+=dt;continue;}
+        if(G.BladeDance?.handles(b)){G.BladeDance.update(b,t,e,dt);continue;}
         if(b.type==='accelerator'&&G.Overdrive){G.Overdrive.update(b,e,dt);continue;}if(b.type==='time'&&G.TimeRewind)continue;if(b.type==='laser'&&G.LaserBlade){G.LaserBlade.arcanaUpdate(b,t,e,dt);continue;}
         if(G.Trapper?.handles(b)){G.Trapper.arcanaUpdate(b,e);continue;}
         if(G.DefenseArcana?.handles(b)){G.DefenseArcana.update(b,t,e,dt);continue;}
@@ -104,9 +105,10 @@
         }return w.travel<w.reach;});
     },
     mixedDamage(target,total,ordinary,piercing,shatter,e){if(this.immuneTarget(target,e))return G.Combat.applyDamage(target,total,e,{bypassShield:true});
+      const reduction=1-G.Combat.reduction(target,e);total*=reduction;ordinary*=reduction;piercing*=reduction;
       const old=target.shield,royal=G.DefenseArcana?.absorbRoyal(target,ordinary,e)||0,normalBlocked=Math.min(old,Math.max(0,ordinary-royal)),blocked=royal+normalBlocked;target.shield-=normalBlocked;target.stats.absorbed+=blocked;G.Roles.absorb(target,blocked,e);G.DefenseArcana?.afterAbsorb(target,e);if(shatter)G.DefenseArcana?.shatterRoyal(target,e);
       if(old>0&&(target.shield<=0||shatter)){target.shield=0;target.shieldUntil=0;if(target.type==='shield'&&G.Awakening.active(target)){target.awakening.pendingBurst=true;G.Roles.shieldEnd(target,e);}e.signal(target,'护盾破裂','break');e.burst(target.x,target.y,target.def.color,18);this.effect(e,target,'shatter',target,{life:.45});}
-      const healthRaw=ordinary-blocked+piercing,result=G.Combat.applyDamage(target,healthRaw,e,{bypassShield:true});if(blocked)e.float(target.x,target.y+30,'盾 −'+blocked.toFixed(1),target.def.color);
+      const healthRaw=ordinary-blocked+piercing,result=G.Combat.applyDamage(target,healthRaw,e,{bypassShield:true,damageReduced:true});if(blocked)e.float(target.x,target.y+30,'盾 −'+blocked.toFixed(1),target.def.color);
       return {...result,blocked,ordinaryRaw:ordinary,piercingRaw:piercing,ordinaryActual:healthRaw>0?result.actual*(ordinary-blocked)/healthRaw:0,piercingActual:healthRaw>0?result.actual*piercing/healthRaw:0};
     },
     hit(h,e){if(h.kind==='arcDebt'){G.DefenseArcana?.hit(h,e);return;}if(G.VampireArcana&&(h.prison||h.kind==='arcBite'||h.kind==='arcTide')){G.VampireArcana.hit(h,e);return;}if(h.kind==='arcPierce'){G.RangerArcana?.hit(h,e);return;}const b=h.source,u=b.arcana;if(!['arcFist','arcSonic','arcBlood'].includes(h.kind)||h.actual+h.blocked<=0||h.avoided)return;

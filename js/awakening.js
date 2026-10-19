@@ -16,7 +16,7 @@
     ghost:{name:'追魂三连穿',description:'虚化周期8秒，虚化延长为 1.9 秒，发动中三次短预瞄后以 560 速度穿行 0.23 秒，每次重新瞄准，穿行无实体碰撞；接触恐吓依然按 0.25 秒预算。虚化仍碰墙反弹；退相后魂影按真实路径与原速重走，恐吓相同、重放本轮魂爆。退相释放半径 95 的短程魂爆，基础 5 加本轮有效恐吓次数（最多 +3），命中有定向击退、短顿帧与空灵重音。'},
     magnet:{name:'极性坍缩',description:'每 11 秒过载：预警 0.35 秒后自身短暂锚定，强吸敌人和 270 范围飞行物，保持磁牵引 0.5 秒，再反转以 900 径向速度弹射（实际速度受 800 上限约束）。吸引迎撞与排斥撞墙只各结算一次有限动能伤害；飞刃先被甩离原轨迹，再恢复弧线回收，激光不受影响。'},
     time:{name:'零时禁令',description:'每 7 秒预瞄 0.35 秒后投出时钟，末段 0.08 秒锁定，出手后不追踪。触敌、到达 250 距离或撞边界会爆炸：半径 46，基础 12 伤害，实际炸中且非无敌的敌人沉默 1.2 秒；打断蓄力、持续施法和冲刺，已飞出武器继续运行。爆炸留下与普通技能相同的时间领域，领域本身不沉默，但敌人运动时间为20%、冷却和充能时间为70%（延缓30%） 并持续侵蚀；若正充能 / 等待攻击，沉默额外延后该次技能 1 秒。'},
-    venom:{name:'腐蚀共鸣',description:'每11秒预警后催化场上己方毒液进入下一态：普通池变浓缩池、浓缩池变毒雾；现有毒雾延长1.5秒（每池累计最多3秒）。不造成爆炸、不折现毒伤、不喷射旧液滴。'}
+    venom:{name:'万毒·同巢共鸣',description:'敌人携侵蚀接触液池触发活体缠缚，携麻痹进入毒雾触发限时附身追猎；保留三态自然演变，所有侵染共享施毒CD。'}
 
   };
   G.Awakening={
@@ -51,7 +51,7 @@
           if(t+1e-9>=a.dashUntil)this.finishDash(ball,engine);
           else ball.motionSpeed=a.dashStartSpeed*Math.exp(-.95*(t-a.dashStartedAt));
         }
-        if(a.chargeUntil&&t<a.chargeUntil-.12)a.aim=G.Venom.steer(ball,engine,a.aim,G.World.aim(ball,target,900,a.chargeUntil-t),dt);
+        if(a.chargeUntil&&t<a.chargeUntil-.12)a.aim=G.Aim.track(ball,target,engine,'dash',900,a.chargeUntil-t,4.5,dt);
         if(a.chargeUntil && t+1e-9>=a.chargeUntil){
           a.chargeUntil=0;a.dashStartedAt=t;a.dashStartSpeed=900;a.dashStopSpeed=Math.max(275,(G.Overdrive?.active(ball)?Math.min(ball.speed,ball.def.maxSpeed):ball.speed)+20);
           a.dashUntil=t+Math.min(1.5,Math.log(a.dashStartSpeed/a.dashStopSpeed)/.95);
@@ -61,8 +61,8 @@
           engine.log(engine.label(ball)+'衰减冲撞 · 墙反弹不中断 · 撞敌截停');engine.burst(ball.x,ball.y,'#fff0a4',14);
         }
         if(!a.chargeUntil && !this.dashing(ball,engine) && t+1e-9>=a.nextCast){
-          const origin=this.predict(ball,.7),destination=this.predict(target,.82);a.aim=Math.atan2(destination.y-origin.y,destination.x-origin.x);
-          a.chargeUntil=t+.7;a.nextCast=t+8.5;engine.sound('charge',ball.x);engine.log(engine.label(ball)+'锁定冲撞方向 · 蓄力 0.7s');
+          a.aim=Math.atan2(ball.vy,ball.vx);
+          ball.role.aimTracks??={};ball.role.aimTracks.dash={angle:a.aim,tick:-1};a.chargeUntil=t+.7;a.nextCast=t+8.5;engine.sound('charge',ball.x);engine.log(engine.label(ball)+'锁定冲撞方向 · 蓄力 0.7s');
         }
       }
 
@@ -78,11 +78,11 @@
       ball.motionSpeed=0;a.dashUntil=engine.time;a.stopAfterContact=false;ball.inertia=0;
       const geared=G.Overdrive?.active(ball),cruiseBefore=ball.speed;if(geared)G.Overdrive.shift(ball,engine,-1,'dash');else ball.speed=Math.max(ball.def.speed,Math.min(ball.def.dashRecoveryCap??ball.def.maxSpeed,ball.speed*(ball.def.dashRecoveryRatio??1)));
       if(a.dashHit)ball.character.recoveryUntil=Math.max(ball.character.recoveryUntil,engine.time+.6);
-      else if(!interrupted&&!geared){const gain=Math.min(ball.def.dashMissSpeedRefund||0,Math.max(0,cruiseBefore-ball.speed));ball.speed+=gain;ball.stats.speedReturned=(ball.stats.speedReturned||0)+gain;if(gain)engine.signal(ball,'冲撞落空 · 返速 +'+gain.toFixed(0),'miss');}
+      else if(!interrupted&&!geared){const gain=Math.min(ball.def.dashMissSpeedRefund||0,Math.max(0,cruiseBefore-ball.speed));ball.speed+=gain;ball.stats.speedReturned=(ball.stats.speedReturned||0)+gain;if(gain)engine.signal(ball,'冲撞落空 · 返速 +'+gain.toFixed(0),'miss');G.Recovery.refund(ball,engine,'nextCast',2,'冲刺落空',a);}
       G.Physics.normalizeSpeed(ball);
       if(a.dashHit&&!a.dashSuccess)engine.signal(ball,'冲撞被抵消','miss');
     },
-    dashMultiplier(speed){return .65+.85*Math.min(1,speed/900)**2;},
+    dashMultiplier(speed){return .65+.50*Math.min(1,speed/900)**2;},
     attackMultiplier(ball){return this.active(ball) && ball.type==='normal'?1.25:ball.motionSpeed && !ball.awakening.dashHit?this.dashMultiplier(ball.motionSpeed*(ball.temporal?.rate??1)):1;},
     shotDamage(ball){return G.Roles.rangerDamage(ball);},
     shotPeriod(ball){return this.active(ball)?.32:.42;},

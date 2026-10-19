@@ -99,7 +99,7 @@
       if(!t){G.Arcana.finish(b,e);return;}
       if(u.phase==='counterStep'&&e.time+1e-9>=u.until){this.separateExit(b,e);this.brace(b,t,e);return;}
       if(u.phase==='counterCharge'){
-        if(e.time<u.lockAt-1e-9)u.aim=G.Aim.track(b,t,e,'arcPierce',this.bulletSpeed,Math.max(0,u.until-e.time),7,dt*b.temporal.rate);
+        if(e.time<u.lockAt-1e-9)u.aim=G.Aim.track(b,t,e,'arcPierce',this.bulletSpeed,Math.max(0,u.until-e.time),7,dt*b.temporal.rate,true);
         else if(!u.locked){u.locked=true;if(!u.lockCue){u.lockCue=true;this.event(b,e,'lock','arcRangerLock');}}
         if(e.time+1e-9<u.until)return;
         if(G.Arcana.immuneTarget(t,e)){
