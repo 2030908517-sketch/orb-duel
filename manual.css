@@ -1,0 +1,17 @@
+.manual-hud { border:1px solid #43546b; border-radius:8px; padding:10px 12px; margin-top:10px; color:#dce8f6; background:#141c27; font-size:14px; }
+.manual-hud > div { display:flex; align-items:center; flex-wrap:wrap; gap:6px 18px; }
+.manual-hud small { display:block; color:#a8bad0; margin-top:6px; line-height:1.7; }
+.manual-hud p { margin:4px 0 0; color:#b5c3d3; font-size:12px; min-height:18px; }
+.manual-hud [data-manual="window"] { color:#ffe6ac; }
+.manual-hud.pierce-ready { border-color:#ffcc7b; }
+body[data-control="manual"] #arena { cursor:crosshair; touch-action:none; }
+.recording-mode .manual-hud { position:fixed; bottom:0; left:0; right:0; margin:0; z-index:8; }
+@media(max-width:900px){.manual-hud{font-size:12px;}}
+
+body[data-control="manual"].manual-input-active { user-select:none; -webkit-user-select:none; overscroll-behavior:none; }
+body[data-control="manual"].manual-input-active input, body[data-control="manual"].manual-input-active textarea { user-select:text; -webkit-user-select:text; }
+
+.manual-hud .manual-role-row { justify-content:space-between; gap:6px 12px; padding:3px 0; }
+.manual-role-row > b { text-align:right; }
+
+body[data-control="manual"] .combat-rail .fighter { border-top:3px solid var(--manual-role-color); }

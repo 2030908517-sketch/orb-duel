@@ -33,13 +33,14 @@
       }
       return list.sort((a,b)=>a.at-b.at||a.owner-b.owner||a.id-b.id);
     },
-    route(b,threat,e){if(b.magnetic.anchored)return null;let best=null;
+    route(b,threat,e,requestedAngle=null){if(b.magnetic.anchored)return null;let best=null;
       const threats=this.threats(b,e),duration=.16;
       const flyers=[...e.projectiles,...e.timeClocks].filter(p=>G.World.enemy(p.owner,b,e)&&G.Flyers.physical(p)&&(p.expires===undefined||p.expires>=e.time+duration)&&!(p.mode==='arcBlood'&&!p.launched)).concat(this.tideSamples(b,e));
       // The path may pass through bodies and attacks while invulnerable. Walls
       // remain solid; the landing and the start of the charge must be safe.
       for(const distance of [92,74,58])for(let turn=0;turn<24;turn++){
-        const angle=threat.angle+turn*Math.PI/12,dx=Math.cos(angle)*distance,dy=Math.sin(angle)*distance,end={x:b.x+dx,y:b.y+dy};let legal=true;
+        if(requestedAngle!==null&&turn!==0)continue;
+        const angle=requestedAngle??(threat.angle+turn*Math.PI/12),dx=Math.cos(angle)*distance,dy=Math.sin(angle)*distance,end={x:b.x+dx,y:b.y+dy};let legal=true;
         for(let i=1;i<=8;i++){const q=i/8,p={x:b.x+dx*q,y:b.y+dy*q,radius:b.radius};
           if((b.cageBounds||b.cageWalls?.length)&&G.Trapper&&!G.Trapper.legal(p,b.radius,e,b,false)){legal=false;break;}
           if(p.x<b.radius+3||p.x>C.width-b.radius-3||p.y<b.radius+3||p.y>C.height-b.radius-3||e.mode==='2v2'&&e.obstacles.some(o=>G.Team.overlaps(p,o,2))){legal=false;break;}

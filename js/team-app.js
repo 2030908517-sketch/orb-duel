@@ -21,6 +21,7 @@
   function randomSeed(){const v=new Uint32Array(1);crypto.getRandomValues(v);return 'team-'+v[0].toString(36);}
   $('seed').value=randomSeed();
   const engine=new G.TeamEngine(defaults,$('seed').value),clock=new G.Clock(engine),renderer=new G.TeamRenderer($('arena')),audio=new G.Audio();
+  const review=new G.AnimationReview(engine,$('arena'));
   let previous=performance.now(),lastUi=-Infinity,renderedState='',seenEvents='';
   function fit(){
     const workspace=document.querySelector('.team-workspace'),field=document.querySelector('.team-field'),wide=innerWidth>1100;
@@ -30,7 +31,7 @@
     field.style.maxWidth=wide?Math.floor(width)+'px':'';
   }
   function selection(){selects.forEach((s,i)=>{const d=G.Types[s.value],a=G.Awakening.defs[s.value];$('skill-description-'+i).replaceChildren(node('p',null,d.skill+' · '+d.description+(s.value==='vampire'?' '+G.VampireHunt.copy:'')),node('p',null,'觉醒 · '+a.name+'：'+a.description));if(G.Arcana?.defs[s.value])$('skill-description-'+i).append(node('p',null,G.Arcana.copy(s.value)));});$('map-description').textContent=T.maps[$('map').value].description;}
-  function reset(start=false,fresh=false){audio.stop();engine.soundEvents.length=0;if(fresh)$('seed').value=randomSeed();$('seed').value=$('seed').value.trim()||'team-001';engine.reset(selects.map(s=>s.value),$('seed').value,$('map').value);clock.reset();previous=performance.now();renderedState=seenEvents='';selection();if(start){void audio.unlock();engine.start();}update();renderer.draw(engine);}
+  function reset(start=false,fresh=false){review.reset();audio.stop();engine.soundEvents.length=0;if(fresh)$('seed').value=randomSeed();$('seed').value=$('seed').value.trim()||'team-001';engine.reset(selects.map(s=>s.value),$('seed').value,$('map').value);clock.reset();previous=performance.now();renderedState=seenEvents='';selection();if(start){void audio.unlock();engine.start();}update();renderer.draw(engine);}
   function toggle(){if(engine.state==='running'){engine.pause();audio.stop();engine.soundEvents.length=0;}else{void audio.unlock();if(engine.state==='ready'){if(engine.seed!==($('seed').value.trim()||'team-001'))reset();engine.start();}else if(engine.state==='paused')engine.resume();else reset(true);}clock.reset();previous=performance.now();update();}
   function chip(stat){const c=node('span','team-stat'),value=String(stat.value).replace(/ \/ /g,'/');c.append(node('span',null,stat.label),node('b',/[\u3400-\u9fff]/.test(value)?'word-value':null,value));c.title=stat.label+' '+stat.value;return c;}
   function update(){
@@ -64,6 +65,6 @@
   document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA','BUTTON'].includes(e.target.tagName)||$('rules-dialog').open||e.repeat||e.ctrlKey||e.altKey||e.metaKey)return;if(e.code==='Space'){e.preventDefault();toggle();}if(e.code==='KeyR'){e.preventDefault();reset();}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&engine.state==='running'){engine.pause();audio.stop();clock.reset();update();}previous=performance.now();});window.addEventListener('resize',fit);
   const observer=new ResizeObserver(fit);observer.observe(document.querySelector('.team-header'));observer.observe(document.querySelector('.team-heading'));
-  function frame(now){clock.advance((now-previous)/1000);previous=now;if(engine.state==='paused'||engine.state==='ready'){engine.soundEvents.length=0;audio.stop();}else audio.consume(engine.soundEvents.splice(0));renderer.draw(engine);if(now-lastUi>=50||engine.state!==renderedState){update();lastUi=now;}requestAnimationFrame(frame);}
-  selection();update();audioUI();renderer.draw(engine);requestAnimationFrame(frame);window.orbDuel=Object.freeze({snapshot:()=>engine.snapshot(),clock:()=>({speed:clock.speed,accumulator:clock.accumulator}),audio:()=>audio.snapshot()});
+  function frame(now){clock.advance((now-previous)/1000);previous=now;if(engine.state==='paused'||engine.state==='ready'){engine.soundEvents.length=0;audio.stop();}else audio.consume(engine.soundEvents.splice(0));renderer.draw(engine);if(now-lastUi>=50||engine.state!==renderedState){update();lastUi=now;}review.capture(now);requestAnimationFrame(frame);}
+  selection();update();audioUI();renderer.draw(engine);requestAnimationFrame(frame);window.orbDuel=Object.freeze({snapshot:()=>engine.snapshot(),clock:()=>({speed:clock.speed,accumulator:clock.accumulator}),audio:()=>audio.snapshot(),review:()=>review.info()});
 })();

@@ -1,5 +1,15 @@
 # ORB DUEL — Automatic Orb Battle Simulator
 
+## Manual skill duel (PC)
+
+Open **[manual.html](manual.html)** or use the new mode link. Choose Ranger, Normal, Vampire or Trapper; every orb still moves automatically. Ranger controls remain: aim with the mouse, left-click for one full attack sequence, and right-click after awakening to select sniper/scatter (full calibration is still required). At the original Arcana threshold, E toggles standby; WASD chooses an eight-direction dodge, consuming the Arcana only on execution. After dodging, left-click within one combat second to fire the original armor-piercing round; otherwise it expires. Existing automatic modes and combat numbers are unchanged. See [rules, isolation, backup and validation](docs/design/MANUAL_MODE.md).
+
+Normal: left-click during a real near-miss opportunity to pursue; right-click to prepare a charged heavy hit. Vampire: left-click to hunt (or release a wave during Blood Sea), right-click for Blood Pact. Trapper: left-click places a mine at the orb itself; right-click swaps with the selected node. For these three roles, press both mouse buttons together for Arcana (Trapper toggles collision-trigger standby). Cooldowns, resources and native effects are retained. F toggles the dedicated fullscreen battle view.
+
+## Animation review
+
+Press **V** in any mode to pause and review roughly the last 20 seconds of displayed combat. Arrow keys step captured frames; Shift+arrows jump 10 frames. Seek with the timeline or 5/10-second buttons; play at ¼×, ½× or 1×. Space plays/pauses review; V returns to the original paused match, then Space resumes combat. Review is silent and never restores or re-simulates combat state. Restart clears the buffer. Captures are capped at 800 pixels wide with a 64 MiB image/HUD budget, so complex scenes may retain less than 20 seconds; fast simulation does not generate missing frames. See [implementation and limits](docs/design/ANIMATION_REVIEW.md).
+
 ## Boomerang Arcana: Twinblade Dance
 
 Arcana-only, 228 HP. Awakened at ≤30% HP, once per duel: four live throw/return relays with reciprocal predictive steering, real catches, alternating approaches and a harmless final ring. Armored but vulnerable to damage; shields, immunity, reflection and blade marks retain their rules. Per-target blade budget 32, at most 10 hits, 8.2-second timeout. Classic/Team unchanged. See [design and verification](docs/design/experiments/blade-dance.md). Existing version identifiers are unchanged.
@@ -447,3 +457,8 @@ Venom awakening evolution: successful same-toxin resonance grants +2% to that to
 Awakened Laser predicts approaching hostile bodies with a 0.12s horizon and a 20-unit safety margin. A 0.16s lateral light burst (520 nominal speed, 8s cooldown, 6% capacitor) precedes the existing real heat-blade counter (8% capacitor when awakened, 15% before awakening). Bullets/clocks/traps trigger only the blade. The burst is physical movement with wall/obstacle checks and no invulnerability; silence cancels it, and temporal slowing still applies. Main-beam firing remains uninterrupted; an urgent burst may cancel aiming while retaining capacitor.
 “免伤” is a reusable 30% incoming-damage reduction, applied once before shield settlement, including piercing, reflected and periodic damage. Laser Arcana has it throughout, preserving its existing brief sweep invulnerability. Normal completion resets the burst cooldown and grants one free burst; the following blade still costs capacitor. Vampire Hunt is available before awakening as well, retaining the 6s mark-absence requirement and 10s cooldown. These ordinary changes apply to Classic, Arcana and Team; Laser Arcana stays mode-specific.
 Targeted checks: `node tests/verify-laser-jet.cjs`, `node tests/verify-laser-blade.cjs --quick`, `node tests/verify-blood-hunt.cjs --quick`. Quick Hunt skips its obsolete historical snapshot comparison and full-match replay; quick Laser skips its two long natural matches. See [design brief](docs/design/experiments/laser-evasion.md).
+
+
+### Boomerang hunt / twin-blade cooperation
+
+The ordinary Boomerang kit now uses single-blade return pursuit before awakening, crossing twin returns at close range after awakening, and a real blade rendezvous launching one non-returning blade at long range. Actual catches grant an 8-second single/twin weapon slash rather than a body-contact multiplier. Tuning is centralized in `js/boomerang-hunt.js`; see [mechanics and review](docs/design/experiments/boomerang-hunt.md). All three production entries share this ordinary kit; Arcana dance remains separate. Focused check: `node tests/verify-boomerang-hunt.cjs`.

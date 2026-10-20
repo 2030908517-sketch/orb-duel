@@ -24,7 +24,7 @@
     },
     result(shot,e,hit){if(!shot.calibrationEligible||shot.aimResolved)return;shot.aimResolved=true;const b=e.balls.find(v=>v.id===shot.owner&&v.hp>0);if(!b||b.type!=='ranger')return;
       if(shot.sniper){if(b.role.sniperPending===shot.id)b.role.sniperPending=null;b.role.calibration=hit?b.def.calibrationCap:0;e.signal(b,hit?'狙击命中 · 校准回满':'狙击落空 · 校准清空',hit?'ready':'miss');}
-      else if(hit)b.role.calibration=Math.min(b.def.calibrationCap,b.role.calibration+1);else if(!shot.scatter)b.role.calibration=Math.max(0,b.role.calibration-1);if(hit)b.role.calibrationUntil=e.time+6;
+      else if(hit)b.role.calibration=Math.min(b.def.calibrationCap,b.role.calibration+1);if(hit)b.role.calibrationUntil=e.time+6;
     }
   };
 })(typeof window!=='undefined'?window:globalThis);

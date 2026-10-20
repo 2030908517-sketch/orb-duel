@@ -104,13 +104,13 @@
           engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,adaptiveId:shot.adaptiveId,kind:mode==='venom'?'poisonShot':mode==='blade'?'boomerang':shot.noMirror&&mode==='shot'?'counter':mode,noReflect:!!shot.noReflect||mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx),angle:Math.atan2(shot.vy,shot.vx),heavyShot:!!shot.heavy,sniperShot:!!shot.sniper,storedCounter:!!shot.storedCounter,calibrationShot:shot.calibrationEligible?shot:null,calibrationIgnored:!!shot.calibrationIgnored,poisonUnit:shot.poisonUnit,poisonLife:shot.poisonLife,mirrorReturn:!!shot.noMirror});
           if(shot.danceOwner===undefined)engine.ring(shot.x,shot.y,shot.color,22);
           if(mode!=='boomerang')continue;
-          shot.hitIds.push(first.key);
+          shot.hitIds.push(first.key);if(shot.bladeSling){G.Characters.bladeRemoved(shot,owner,engine,false);continue;}
         }
         if(mode==='boomerang' && shot.returning && this.intersects(shot,oldX,oldY,owner)){G.Characters.bladeRemoved(shot,owner,engine,true);continue;}
         if(ended){if(mode==='venom')G.Flyers.spill(shot,owner,engine);continue;}
         nextShots.push(shot);
       }
-      engine.projectiles=nextShots;
+      engine.projectiles=nextShots;G.BladeHunt?.relay(engine);
       G.Roles.updateWaves(engine,dt);G.Roles.updateBeams(engine);this.updateTraps(engine);
       G.Venom.world(engine);
     },

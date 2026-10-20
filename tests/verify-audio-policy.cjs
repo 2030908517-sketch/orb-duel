@@ -5,6 +5,9 @@ function hit(type,kind){const e=new G.Engine([type,'normal'],'audio-policy',{mod
 {const{cues}=hit('vampire','chain');eq(cues.join(','),'bloodPulse','long-cooldown pact retains original pulse');eq(M.describe(cues[0]).tier,'A');eq(G.Audio.profiles.bloodPulse.cooldown,.27,'original audio cadence');}
 {const{cues}=hit('orbital','orbitTouch');eq(cues.join(','),'starTap','minor orbit touch has one sound');eq(M.describe('starTap').tier,'R');}
 {const{cues}=hit('venom','toxinBurst');ok(!cues.includes('toxinErupt'),'removed toxin explosion no longer produces heavy sound');eq(M.describe('toxinErupt').tier,'A');ok(M.describe('toxinErupt').db>=0);}
+// Strengthened attack cues cannot regress below the collision reference.
+for(const key of ['bladeSlashHit','bladeTwinHit','fistHit','heavyShotHit','sniperHit','bladeHeavyHit','guardHeavy','starCollapse','stormCrash','holyLand']){ok(M.describe(key).db>=0,'strong impact cannot be quieter than normal collision: '+key);eq(M.describe(key).tier,'A','strong impact retains attack priority, without adding ultimate ducking');}
+ok(M.describe('bladeSlashHit').db>=3,'single catch slash clearly above collision');ok(M.describe('bladeTwinHit').db>M.describe('bladeSlashHit').db,'twin catch slash louder than single');
 eq(M.describe('ball').db,0);eq(M.describe('shot').db,0);ok(M.describe('arcVenomBeat').db>=-3);eq(M.describe('arcVenomBeat').tier,'C');eq(M.describe('arcFistHit').tier,'S');ok(M.describe('arcFistHit').db>=3);ok(M.describe('arcTimeReverse').db<=-15);G.Audio.profiles.uncalibratedProbe={priority:1};ok(!M.describe('uncalibratedProbe').calibrated,'unreviewed cue is explicitly marked');delete G.Audio.profiles.uncalibratedProbe;
 eq(M.describe('wall').db,-3);ok(M.describe('arcVenomBeat').db>=1);
 ok(Math.abs(M.eventGain({kind:'wall',impactSpeed:550})-Math.pow(10,3/20))<1e-6,'fast wall restores old level');

@@ -3,12 +3,14 @@
   const G = window.OrbDuel, $ = id => document.getElementById(id);
   const isArcana=document.body.dataset.mode==='arcana';
   const selects = [$('type-0'), $('type-1')];
-  for (const select of selects) for (const [id, def] of Object.entries(G.Types)) { const option = document.createElement('option'); option.value = id; option.textContent = def.name; select.append(option); }
-  selects[0].value = 'normal'; selects[1].value = 'vampire';
+  for (const select of selects) for (const [id, def] of Object.entries(G.Types)) { if(document.body.dataset.control==='manual'&&select===selects[0]&&!G.ManualRoles.types.includes(id))continue;const option = document.createElement('option'); option.value = id; option.textContent = def.name; select.append(option); }
+  selects[0].value = document.body.dataset.control==='manual'?'ranger':'normal'; selects[1].value = 'vampire';
   function randomSeed() { const words = new Uint32Array(1); crypto.getRandomValues(words); return 'orb-' + words[0].toString(36).padStart(7, '0'); }
   $('seed').value = randomSeed();
   const engine = new G.Engine(selects.map(s => s.value), $('seed').value,{mode:isArcana?'arcana':'1v1'});
   const clock = new G.Clock(engine), renderer = new G.Renderer($('arena')), audio = new G.Audio();
+  const manualUI = document.body.dataset.control==='manual'?new G.ManualUI(engine,clock,renderer):null;
+  const review = new G.AnimationReview(engine, $('arena'));
   let previous = performance.now(), lastUi = -Infinity, seenEvents = '', renderedState = '';
   const timeString = G.formatTime;
   const roundHp = hp => hp <= 0 ? '0' : hp < 1 ? hp.toFixed(1) : Math.ceil(hp).toString();
@@ -24,6 +26,7 @@
     });
   }
   function reset(start = false, newSeed = false) {
+    review.reset(); manualUI?.clear();
     audio.stop();
     updateAudioDiagnostics();
     if (newSeed) $('seed').value = randomSeed();
@@ -97,7 +100,7 @@
   }
   function updateState() {
     const state = engine.state, active = state === 'running' || state === 'paused';
-    selects.forEach(select => { select.disabled = active; }); $('seed').disabled = active; $('random-seed').disabled = active;
+    selects.forEach((select,i) => { select.disabled = active; }); $('seed').disabled = active; $('random-seed').disabled = active;
     $('config-note').textContent = active ? '本局配置已锁定；重新开始后可调整。' : '选择球种，观察能力如何相互作用。';
     const labels = { ready: '准备就绪', running: '对战进行中', paused: '已暂停', ended: '对战结束' };
     $('state-badge').textContent = state==='running'&&engine.ending?'收招结算中':labels[state]; $('state-badge').className = 'status-badge ' + state;
@@ -160,9 +163,10 @@
     updateAudioDiagnostics();
     renderer.draw(engine);
     if (now - lastUi >= 50 || renderedState !== engine.state) { updateUI(); lastUi = now; }
+    review.capture(now);
     requestAnimationFrame(frame);
   }
   updateSelection(); updateUI(); updateAudioButton(); renderer.draw(engine); requestAnimationFrame(frame);
   // Read-only snapshots are useful for local diagnostics without coupling UI to the engine.
-  window.orbDuel = Object.freeze({ snapshot: () => engine.snapshot(), clock: () => ({ speed: clock.speed, accumulator: clock.accumulator }), audio: () => audio.snapshot() });
+  window.orbDuel = Object.freeze({ snapshot: () => engine.snapshot(), clock: () => ({ speed: clock.speed, accumulator: clock.accumulator }), audio: () => audio.snapshot(), review: () => review.info() });
 })();

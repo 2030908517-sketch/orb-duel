@@ -14,7 +14,7 @@
     retire(){
       G.Demon?.cleanup(this);G.Cosmic?.cleanup(this);G.Charge?.cleanup(this);G.Stellar?.cleanup(this);G.Arcana?.cleanup(this);
       for(const b of this.balls)if(b.hp<=1e-8&&!this.retired.has(b.id)){
-        G.Holy?.retire(b,this);G.VampireHunt?.finish(b,this,true);this.retired.add(b.id);b.hp=0;b.vx=b.vy=0;b.motionSpeed=b.inertia=b.impactDrag=0;b.shield=0;b.trail=[];b.poison=b.stagger=b.magneticMark=b.bladeMark=null;b.laser=null;
+        G.BladeHunt?.retire(b,this);G.Holy?.retire(b,this);G.VampireHunt?.finish(b,this,true);this.retired.add(b.id);b.hp=0;b.vx=b.vy=0;b.motionSpeed=b.inertia=b.impactDrag=0;b.shield=0;b.trail=[];b.poison=b.stagger=b.magneticMark=b.bladeMark=null;b.laser=null;
         b.ghost.phase='solid';b.ghost.lungeSpeed=b.ghost.chargeUntil=0;b.magnetic.phase='rest';b.magnetic.anchored=false;b.magnetic.pullAttempt=null;b.role.chainWarning=b.role.salvoFireAt=b.role.shieldFireAt=b.role.counterRelease=0;b.awakening.chainActive=false;b.awakening.dashUntil=b.awakening.chargeUntil=0;
         b.ghost.trace=null;
         for(const field of ['projectiles','traps','pools','waves','beams','timeDomains','timeClocks','trapChains','ghostEchoes'])this[field]=this[field].filter(v=>v.owner!==b.id);
@@ -50,6 +50,7 @@
       G.Arcana?.update(this,dt);
       for (const ball of this.balls) {
         if(ball.hp<=0)continue;
+        G.BladeHunt?.beforeMove(ball,dt,this);
         if (G.Arcana?.customMove(ball)?G.Arcana.move(ball,dt,this):G.Charge?.flowing(ball)?G.Charge.move(ball,dt,this):G.Physics.integrate(ball, dt)) {
           this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);
           if (this.tick % 2 === 0) this.burst(ball.x, ball.y, ball.def.color, 3);

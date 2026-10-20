@@ -37,7 +37,7 @@
       this.drawAbilities(engine);
       this.drawSignals(engine);
       for (const ball of engine.balls) {
-        for (let i = ball.trail.length - 1; i >= 0; i--) { if(ball.arcana?.phase==='orbit')break;const point = ball.trail[i]; c.globalAlpha = (1 - i / ball.trail.length) * (ball.type === 'accelerator' ? 0.19 : 0.10); c.fillStyle = ball.def.color; this.circle(point.x, point.y, ball.radius * (1 - i / (ball.trail.length + 3)) * 0.8); c.fill(); }
+        for (let i = ball.trail.length - 1; i >= 0; i--) { if(ball.arcana?.phase==='orbit'||G.BladeDance?.active(ball))break;const point = ball.trail[i]; c.globalAlpha = (1 - i / ball.trail.length) * (ball.type === 'accelerator' ? 0.19 : 0.10); c.fillStyle = ball.def.color; this.circle(point.x, point.y, ball.radius * (1 - i / (ball.trail.length + 3)) * 0.8); c.fill(); }
         c.globalAlpha = 1;
       }
       for (const effect of engine.effects.filter(e => e.kind === 'ring' || e.kind === 'particle')) {
@@ -180,7 +180,7 @@
         this.circle(trap.x,trap.y,2);c.fillStyle=armed?'#ffe4e6':trap.color;c.fill();c.restore();
       }
       for(const shot of engine.projectiles) {if(['comet','arcBlood','arcPierce'].includes(shot.mode))continue;
-        if(G.RangerView?.flyer(this,shot)||G.TacticsView?.flyer(this,shot))continue;
+        if(G.RangerView?.flyer(this,shot)||G.TacticsView?.flyer(this,shot,engine))continue;
         if(shot.mode==='boomerang'){
           c.save();if(shot.history?.length){c.beginPath();c.moveTo(shot.x,shot.y);for(const p of shot.history)c.lineTo(p.x,p.y);c.strokeStyle=shot.returning?'#fff5b470':shot.color+'70';c.lineWidth=1.6;c.stroke();}c.translate(shot.x,shot.y);c.rotate(engine.time*20);c.strokeStyle=shot.returning?'#fff5b4':shot.color;c.lineWidth=3;c.lineCap='round';c.beginPath();c.moveTo(-7,4);c.lineTo(0,-4);c.lineTo(7,4);c.stroke();c.restore();continue;
         }
@@ -216,7 +216,7 @@
         if(b.type==='reflector'&&r.counterRelease>0){c.strokeStyle='#dbc8ff';c.lineWidth=1.5;for(const a of [r.counterAngle-.12,r.counterAngle+.12]){c.beginPath();c.moveTo(b.x+Math.cos(a)*26,b.y+Math.sin(a)*26);c.lineTo(b.x+Math.cos(a)*80,b.y+Math.sin(a)*80);c.stroke();}}
         if(b.type==='ranger'){if(r.calibration){c.strokeStyle='#ffd3ad';c.lineWidth=1;c.strokeRect(b.x-9,b.y-9,18,18);}}
         if(b.type==='shield'&&(r.shieldRelease>0||r.shieldReserve>0)){c.save();c.translate(b.x,b.y);c.rotate(r.shieldAngle);c.fillStyle=b.def.color+'15';c.beginPath();c.moveTo(0,0);c.arc(0,0,110,-.32,.32);c.closePath();c.fill();c.strokeStyle='#b9fff0';c.lineWidth=2;c.beginPath();c.moveTo(32,0);c.lineTo(64,0);c.moveTo(54,-7);c.lineTo(64,0);c.lineTo(54,7);c.stroke();c.restore();}
-        if(b.type==='ranger'&&r.overload&&r.ammo>0){c.save();c.translate(b.x,b.y);c.rotate(r.salvoAngle);const open=r.salvoFireAt>t?Math.max(0,1-(r.salvoFireAt-t)/.3):1;for(const side of [-1,1]){c.save();c.translate(6,side*(12+open*12));c.rotate(side*.22);c.fillStyle='#452e23';c.strokeStyle='#ffcc9d';c.lineWidth=2;c.fillRect(-6,-4,29,8);c.strokeRect(-6,-4,29,8);c.restore();}c.strokeStyle='#ffe6a1';c.lineWidth=1.5;c.beginPath();c.moveTo(22,-5);c.lineTo(37,0);c.lineTo(22,5);c.stroke();c.restore();}
+        if(b.type==='ranger'&&r.overload&&r.ammo>0&&!r.reloadUntil){c.save();c.translate(b.x,b.y);c.rotate(r.salvoAngle);const open=r.salvoFireAt>t?Math.max(0,1-(r.salvoFireAt-t)/.3):1;for(const side of [-1,1]){c.save();c.translate(6,side*(12+open*12));c.rotate(side*.22);c.fillStyle='#452e23';c.strokeStyle='#ffcc9d';c.lineWidth=2;c.fillRect(-6,-4,29,8);c.strokeRect(-6,-4,29,8);c.restore();}c.strokeStyle='#ffe6a1';c.lineWidth=1.5;c.beginPath();c.moveTo(22,-5);c.lineTo(37,0);c.lineTo(22,5);c.stroke();c.restore();}
         if(b.type==='laser'&&b.laser?.awake){c.save();const angle=b.laser.angle;c.translate(b.x,b.y);c.rotate(angle);c.globalAlpha=b.laser.locked?.65:.3;c.fillStyle=b.def.color+'18';c.beginPath();c.moveTo(0,0);c.arc(0,0,210,-.3,.3);c.closePath();c.fill();c.strokeStyle='#ffe9a8';c.lineWidth=1;c.setLineDash([5,5]);for(const edge of [-.3,.3]){c.beginPath();c.moveTo(25*Math.cos(edge),25*Math.sin(edge));c.lineTo(210*Math.cos(edge),210*Math.sin(edge));c.stroke();}c.setLineDash([]);c.beginPath();c.arc(0,0,100,-.3,.3);c.stroke();c.restore();}
         if(b.type==='laser'){c.beginPath();c.arc(b.x,b.y,b.radius+8,-Math.PI/2,-Math.PI/2+Math.PI*2*r.capacitor);c.strokeStyle=r.coolingUntil>t?'#947d49':b.def.color;c.lineWidth=2.5;c.stroke();}
       }
@@ -294,7 +294,7 @@
       if (ball.type === 'reflector') { for (let i = 0; i < 8; i++) { const angle = i * Math.PI / 4; c.beginPath(); c.moveTo(x + Math.cos(angle) * 4, y + Math.sin(angle) * 4); c.lineTo(x + Math.cos(angle) * 11, y + Math.sin(angle) * 11); c.stroke(); } this.circle(x, y, 5); c.stroke(); }
       if (ball.type === 'shield') { c.beginPath(); c.moveTo(x, y - 11); c.lineTo(x + 9, y - 7); c.lineTo(x + 8, y + 3); c.quadraticCurveTo(x + 4, y + 9, x, y + 12); c.quadraticCurveTo(x - 4, y + 9, x - 8, y + 3); c.lineTo(x - 9, y - 7); c.closePath(); c.stroke(); }
       if (ball.type === 'ranger') { this.circle(x,y,7);c.stroke();for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){c.beginPath();c.moveTo(x+dx*4,y+dy*4);c.lineTo(x+dx*12,y+dy*12);c.stroke();} }
-      if(ball.type==='boomerang'){c.beginPath();c.moveTo(x-11,y+6);c.lineTo(x,y-7);c.lineTo(x+11,y+6);c.stroke();}
+      if(ball.type==='boomerang'){if(G.BladeHuntView)G.BladeHuntView.icon(c,x,y,12,G.BladeDanceView?.pose(ball,engine)||0);else{c.save();c.translate(x,y);c.rotate(G.BladeDanceView?.pose(ball,engine)||0);c.beginPath();c.moveTo(-11,6);c.lineTo(0,-7);c.lineTo(11,6);c.stroke();c.restore();}}
       if(ball.type==='laser'){c.beginPath();c.moveTo(x-11,y);c.lineTo(x+11,y);c.moveTo(x-6,y-5);c.lineTo(x+6,y+5);c.moveTo(x-6,y+5);c.lineTo(x+6,y-5);c.stroke();}
       if(ball.type==='storm')G.CosmicView?.icon(c,x,y,ball.type);if(ball.type==='orbital')G.StellarView?.icon(c,x,y);if(ball.type==='charge')G.ChargeView?.icon(c,x,y);if(ball.type==='demon')G.DemonView?.icon(c,x,y);
       if(ball.type==='holy')G.HolyView?.icon(c,x,y);
@@ -313,19 +313,19 @@
  // One read-only HUD pass: equal-size badges, shared placement and no combat mutation.
  G.OrbMarkers={size:3.5,gap:11,offset:8,
   // Optical balance: filled circles need less extent than pointed or open symbols.
-  weights:{dot:.87,diamond:1.19,bloodGem:1,drop:1.07,bar:1.12,shield:.92,mirror:1.06,bolt:1.12,cross:1,chevron:1.12,brand:1.05,magnet:1.05},
+  weights:{dot:.87,diamond:1.19,bloodGem:1,drop:1.07,bar:1.12,sniperRound:1.05,shield:.92,mirror:1.06,bolt:1.12,cross:1,chevron:1.12,crescentBlade:1.02,twinBlade:1.02,bladeSeal:1.12,brand:1.05,magnet:1.05},
   visible(b,e){return b.hp>0&&!G.World.absent(b,e)&&!G.VampireHunt?.hidden(b)&&!G.Charge?.flowing(b)&&!['core','rebirth'].includes(b.stellar?.phase);},
   collect(b,e){const own=[],poison=[],marks=[],t=e.time,r=b.role;
    const add=(group,key,shape,color,active=true)=>group.push({owner:b.id,key,shape,color,active,alpha:G.Ghost.phased(b)?.4:1});
    if(b.type==='normal')for(let i=0;i<3;i++)add(own,'fist'+i,'dot','#fff0a4',i<b.charges);
    if(b.type==='vampire')for(let i=0;i<4;i++)add(own,'blood'+i,'bloodGem','#f385a9',r.blood>=2*(i+1));
-   if(b.type==='ranger')for(let i=0;i<(r.fireMode==='sniper'?1:3);i++)add(own,'ammo'+i,'bar',r.overload?'#fff0a4':b.def.color,i<r.ammo);
+   if(b.type==='ranger')for(const m of G.Ranger.ammoMarkers(b,e)){add(own,m.key,m.shape,r.overload?'#fff0a4':b.def.color,m.active);Object.assign(own.at(-1),{alpha:own.at(-1).alpha*m.alpha,scale:m.scale,degrees:m.degrees});}
    if(b.type==='shield'&&(b.shield>0||b.arcana?.royalShield>0))for(let i=0;i<Math.ceil(r.pressure/2);i++)add(own,'pressure'+i,'shield','#c7fff3');
-   if(b.type==='boomerang'&&b.character.catchUntil>t&&!b.character.bladeRemaining)add(own,'catch','chevron','#d9faff');
+   if(b.type==='boomerang'&&b.character.catchUntil>t&&!b.character.bladeRemaining)add(own,'catch',b.character.catchPower>=1.4?'twinBlade':'crescentBlade','#d9faff');
    if(b.type==='magnet')for(let i=0;i<Math.round(b.magnetic.pullBonus/.12);i++)add(own,'pull'+i,'bar','#bcd3ff');
    const layers=G.Venom.layers(b,t);if(layers.length)for(let i=0;i<4;i++){const l=layers[i];add(poison,'poison'+i,l?.type==='paralysis'?'diamond':'dot',l?G.Venom.colors[l.type]:'#425166',!!l);if(b.venomChange)poison.at(-1).pulse=Math.max(0,1-(t-b.venomChange.at)/.35);}
    if(r.bloodMark?.until>=t)add(marks,'bloodMark','drop','#ffbad9');
-   if(b.bladeMark?.until>=t)add(marks,'bladeMark','chevron','#c9f7ff');
+   if(b.bladeMark?.until>=t)add(marks,'bladeMark','bladeSeal','#c9f7ff');
    if(b.magneticMark?.until>=t)add(marks,'magneticMark','magnet',b.magneticMark.cause==='pull'?'#9bbaff':'#ff8fa8');
    if(G.Temporal.silenced(b,e))add(marks,'silence','cross','#ede5ff');
    const alive=id=>e.balls.some(v=>v.id===id&&v.hp>0);
@@ -337,17 +337,21 @@
   layout(e){const result=[];for(const b of e.balls){if(!this.visible(b,e))continue;const groups=this.collect(b,e);for(const [name,items]of Object.entries(groups))for(let i=0;i<items.length;i++){
     // Stable sectors only. No wall or neighbouring-orb avoidance.
     const lane=name==='marks'?Math.floor(i/6):0,index=name==='marks'?i%6:i;
-    const degrees=name==='own'?-90+(i-(items.length-1)/2)*21:name==='poison'?147+(i-1.5)*21:-28+index*21;
+    const degrees=items[i].degrees??(name==='own'?-90+(i-(items.length-1)/2)*21:name==='poison'?147+(i-1.5)*21:-28+index*21);
     const angle=degrees*Math.PI/180,radius=b.radius+this.offset+lane*this.gap;
     result.push({...items[i],x:b.x+Math.cos(angle)*radius,y:b.y+Math.sin(angle)*radius,lane,group:name,radius:this.size,weight:this.weights[items[i].shape]||1});
    }}return result;
   },
   draw(r,e){const c=r.ctx;c.save();c.shadowBlur=0;c.lineCap='round';c.lineJoin='round';
-   for(const m of this.layout(e)){c.save();c.translate(m.x,m.y);c.globalAlpha=m.alpha*(m.active?1:.3);const pulse=1+(m.pulse||0)*.12;c.scale(pulse*m.weight,pulse*m.weight);c.beginPath();
+   for(const m of this.layout(e)){c.save();c.translate(m.x,m.y);c.globalAlpha=m.alpha*(m.active?1:.3);const pulse=1+(m.pulse||0)*.12;c.scale(pulse*m.weight*(m.scale??1),pulse*m.weight*(m.scale??1));c.beginPath();
     if(m.shape==='diamond'){c.moveTo(0,-3.2);c.lineTo(3.2,0);c.lineTo(0,3.2);c.lineTo(-3.2,0);c.closePath();}
     else if(m.shape==='bloodGem'){c.moveTo(0,-3.8);c.bezierCurveTo(-1,-2.1,-3,0,-2.7,1.5);c.lineTo(-1.4,3);c.lineTo(1.4,3);c.lineTo(2.7,1.5);c.bezierCurveTo(3,0,1,-2.1,0,-3.8);c.closePath();}
     else if(m.shape==='drop'){c.moveTo(0,-3.3);c.bezierCurveTo(-3.6,.7,-2,3.2,0,3.2);c.bezierCurveTo(2,3.2,3.6,.7,0,-3.3);c.closePath();}
+    else if(m.shape==='crescentBlade'){c.moveTo(-3.2,-3.2);c.bezierCurveTo(4.4,-2.2,4.4,2.2,-3.2,3.2);c.bezierCurveTo(.1,1.2,.1,-1.2,-3.2,-3.2);c.closePath();}
+    else if(m.shape==='twinBlade'){c.moveTo(-3.6,-3);c.bezierCurveTo(1.6,-3,1.6,1,-3.6,1.7);c.bezierCurveTo(-1.4,.2,-1.4,-1.4,-3.6,-3);c.closePath();c.moveTo(3.6,3);c.bezierCurveTo(-1.6,3,-1.6,-1,3.6,-1.7);c.bezierCurveTo(1.4,-.2,1.4,1.4,3.6,3);c.closePath();}
+    else if(m.shape==='bladeSeal'){c.moveTo(3.7,-1);c.bezierCurveTo(.9,-3.9,-3.5,-2.8,-3.4,2.9);c.bezierCurveTo(-1.7,.7,-.8,-.1,.1,.3);c.lineTo(-.4,1.7);c.quadraticCurveTo(1.3,-.2,3.7,-1);c.closePath();}
     else if(m.shape==='chevron'){c.moveTo(-2.3,-3);c.lineTo(2.3,0);c.lineTo(-2.3,3);}
+    else if(m.shape==='sniperRound'){c.moveTo(0,-4.6);c.lineTo(1.6,-1.3);c.lineTo(1.6,2.5);c.lineTo(2.1,2.5);c.lineTo(2.1,3.6);c.lineTo(-2.1,3.6);c.lineTo(-2.1,2.5);c.lineTo(-1.6,2.5);c.lineTo(-1.6,-1.3);c.closePath();}
     else if(m.shape==='bar'){c.moveTo(-1.7,3);c.lineTo(-1.7,-1.2);c.quadraticCurveTo(0,-4.2,1.7,-1.2);c.lineTo(1.7,3);c.closePath();}
     else if(m.shape==='bolt'){c.moveTo(1,-3.2);c.lineTo(-2.2,.4);c.lineTo(.7,.4);c.lineTo(-1.1,3.2);}
     else if(m.shape==='cross'){c.moveTo(-2.4,-2.4);c.lineTo(2.4,2.4);c.moveTo(2.4,-2.4);c.lineTo(-2.4,2.4);}
@@ -359,7 +363,7 @@
     else{c.arc(0,0,3.1,0,TAU);}
     // Trace the actual silhouette for contrast; never wrap every icon in a circular badge.
     c.strokeStyle='#101721';c.lineWidth=2.5;c.stroke();c.strokeStyle=m.color;c.fillStyle=m.color;c.lineWidth=1.3;
-    if(m.active&&['dot','diamond','bloodGem','drop','bar','shield'].includes(m.shape))c.fill();else c.stroke();
+    if(m.active&&['dot','diamond','bloodGem','drop','bar','sniperRound','shield','crescentBlade','twinBlade','bladeSeal'].includes(m.shape))c.fill();else c.stroke();
     if(m.shape==='bloodGem'&&m.active){c.fillStyle='#b3466e';c.beginPath();c.moveTo(0,-2.6);c.lineTo(-1.7,1.4);c.lineTo(0,2.2);c.closePath();c.fill();c.strokeStyle='#ffd3df';c.lineWidth=.75;c.beginPath();c.moveTo(.3,-1.4);c.lineTo(1.5,.8);c.stroke();}c.restore();
    }c.restore();
   }

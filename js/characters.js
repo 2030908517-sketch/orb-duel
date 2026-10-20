@@ -11,6 +11,7 @@
     },
     attackMultiplier(ball,engine,base,kind){
       if(ball.type!=='boomerang'||kind!=='contact'||base!==ball.def.damage)return 1;
+      if(G.BladeHunt&&!G.BladeDance?.active(ball))return G.BladeHunt.config.bodyFactor*(ball.character.bladeRemaining>0?G.BladeHunt.config.awayFactor:1);
       if(ball.character.bladeRemaining>0)return .8;
       return ball.character.catchUntil>engine.time?ball.character.catchPower:1;
     },
@@ -38,9 +39,9 @@
       }
       if(hit.kind==='wallSlam'){b.stats.wallSlams++;engine.signal(b,'撞墙追击','miss',t);this.effect(engine,b,hit.point||t,'wallSlam',{angle:hit.wallAngle});G.Roles.heavyImpact(b,hit,engine,'wallCrack','wallSlam',0,.065);}
       if(b.type==='boomerang'){
-        if(hit.kind==='boomerang'&&!hit.returning){t.bladeMark={owner:b.id,until:engine.time+3.2,claimedTick:-1};engine.signal(b,'飞刃留印','shotHit');}
-        if(hit.kind==='boomerang'&&hit.markBonus){t.bladeMark=null;b.stats.bladeFinishers++;engine.signal(b,'回刃斩印','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',35,.045);}
-        if(hit.kind==='contact'&&b.character.bladeRemaining===0&&b.character.catchUntil>engine.time){b.character.catchUntil=0;engine.signal(b,'接刃重击','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',155,.06);}
+        if(hit.kind==='boomerang'&&(!hit.returning||hit.bladeHunt)&&!hit.markBonus){t.bladeMark={owner:b.id,until:engine.time+3.2,claimedTick:-1};engine.signal(b,'飞刃留印',hit.bladeSling?'miss':'shotHit');}
+        if(hit.kind==='boomerang'&&hit.markBonus){if(!hit.claimedBladeMark||t.bladeMark===hit.claimedBladeMark)t.bladeMark=null;if(hit.markBlade)hit.markBlade.bladeMarkUsed=true;b.stats.bladeFinishers++;engine.signal(b,hit.returning?'回刃斩印':'去刃斩印','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',35,.045);}
+        if(!G.BladeHunt&&hit.kind==='contact'&&b.character.bladeRemaining===0&&b.character.catchUntil>engine.time){b.character.catchUntil=0;engine.signal(b,'接刃重击','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',155,.06);}
       }
     },
     spread(ball,engine){G.Venom.resonate(ball,engine);},
@@ -73,6 +74,7 @@
       shot.curve={start,control:{x:clamp((start.x+end.x)/2-dy/d*side*65,r,C.width-r),y:clamp((start.y+end.y)/2+dx/d*side*65,r,C.height-r)},end,started:engine.time,duration:.72};shot.returning=true;engine.sound('return',shot.x);
     },
     moveBlade(shot,owner,engine,dt){
+      if(shot.bladeHunt&&G.BladeHunt.move(shot,owner,engine,dt))return;
       if(G.Magnet.moveBlade(shot,owner,engine,dt))return;
       if(!shot.returning&&engine.time+1e-9>=shot.turnAt)this.returnBlade(shot,owner,engine);
       const curve=shot.curve;
@@ -82,18 +84,18 @@
       else{const desired=Math.atan2(owner.y-shot.y,owner.x-shot.x),angle=Math.atan2(shot.vy,shot.vx),delta=Math.atan2(Math.sin(desired-angle),Math.cos(desired-angle)),next=angle+clamp(delta,-8*dt,8*dt);shot.x+=Math.cos(next)*shot.speed*dt;shot.y+=Math.sin(next)*shot.speed*dt;}
       const bounds=shot.combatBounds;shot.x=clamp(shot.x,(bounds?.left||0)+shot.radius,(bounds?.right??C.width)-shot.radius);shot.y=clamp(shot.y,(bounds?.top||0)+shot.radius,(bounds?.bottom??C.height)-shot.radius);
       if(dt>0){shot.vx=(shot.x-oldX)/dt;shot.vy=(shot.y-oldY)/dt;}
-      if(engine.tick%4===0){shot.history.unshift({x:shot.x,y:shot.y});shot.history.length=Math.min(shot.history.length,12);}
+      if(engine.tick%4===0){shot.history.unshift({x:shot.x,y:shot.y,at:engine.time});shot.history.length=Math.min(shot.history.length,12);}
     },
     bladePacket(shot,owner,target,engine){
-      const mark=target.bladeMark,bonus=shot.returning&&mark?.owner===owner.id&&mark.until>=engine.time&&mark.claimedTick!==engine.tick;
+      const mark=target.bladeMark,normal=!!shot.bladeHunt,eligible=normal?!shot.bladeSling&&!shot.bladeMarkUsed:shot.returning,bonus=eligible&&mark?.owner===owner.id&&mark.until>=engine.time&&mark.claimedTick!==engine.tick;
       if(bonus)mark.claimedTick=engine.tick;
-      return {source:owner,target,raw:shot.raw*(bonus?1.5:1),kind:'boomerang',adaptiveId:shot.adaptiveId,returning:shot.returning,markBonus:!!bonus};
+      return {source:owner,target,raw:normal&&bonus?shot.raw*(shot.bladeSlot?G.BladeHunt.config.subMarkDamage:G.BladeHunt.config.mainMarkDamage)/(shot.bladeBase||(shot.bladeSlot?2.3:owner.def.shotDamage)):shot.raw*(bonus?1.5:1),claimedBladeMark:normal&&bonus?mark:null,markBlade:normal&&bonus?shot:null,kind:'boomerang',bladeHunt:normal,adaptiveId:shot.adaptiveId,returning:shot.returning,markBonus:!!bonus,angle:Math.atan2(shot.vy,shot.vx),bladeCross:shot.bladeHunt&&shot.bladePlan==='cross'&&!shot.returning,bladeCast:shot.castId,bladeSlot:shot.bladeSlot,bladeSling:!!shot.bladeSling};
     },
     bladeRemoved(shot,owner,engine,caught){
-      if(!owner)return;owner.character.bladeRemaining=Math.max(0,owner.character.bladeRemaining-1);
+      if(!owner||shot.bladeHunt&&shot.bladeDisposed)return;if(shot.bladeHunt)shot.bladeDisposed=true;owner.character.bladeRemaining=Math.max(0,owner.character.bladeRemaining-1);
       if(!caught)owner.character.bladeLost=true;
       if(caught){const round=G.Adaptive?.round(owner,shot.adaptiveId);if(round)round.caught=true;owner.character.caughtInCast++;owner.stats.bladesCaught++;if(shot.castId&&owner.lastRecallCast!==shot.castId){owner.lastRecallCast=shot.castId;G.Recovery.refund(owner,engine,'nextShot',.35,'飞刃回收');}}
-      if(owner.character.bladeRemaining===0&&owner.character.caughtInCast>0){owner.character.catchPower=owner.character.bladeLost?1.2:1.4;owner.character.catchUntil=engine.time+8;engine.signal(owner,'接刃蓄势','bladeCatch');this.effect(engine,owner,owner,'bladeCatch');}
+      if(owner.character.bladeRemaining===0&&owner.character.caughtInCast>0){if(G.BladeDance?.active(owner))return;if(G.BladeHunt&&!G.BladeDance?.active(owner)){G.BladeHunt.reward(owner,engine);return;}owner.character.catchPower=owner.character.bladeLost?1.2:1.4;owner.character.catchUntil=engine.time+8;engine.signal(owner,'接刃蓄势','bladeCatch');this.effect(engine,owner,owner,'bladeCatch');}
     }
   };
 })(typeof window!=='undefined'?window:globalThis);
@@ -157,7 +159,7 @@
   steer(b,e,angle,desired,dt){const control=this.aimControl(b,e);return control.rate===1&&control.offset===0?desired:G.Aim.turn(angle,desired+control.offset,8*control.rate*dt);},
   contactPacket(h,e){
    if(h.kind!=='contact'||h.dash||h.heavyContact||h.heavyShot||h.priority==='arcana'||G.Arcana?.busy(h.source))return h;
-   const b=h.source,t=e.time,special=b.type==='normal'&&b.charges>=3||b.type==='shield'&&(h.pressureSpent||b.role.pressure)>0||b.type==='boomerang'&&b.character.catchUntil>t||b.type==='accelerator'&&h.impact?.closing>=430&&h.impact?.forward>=250||b.ghost?.lungeUntil>t;
+   const b=h.source,t=e.time,special=b.type==='normal'&&b.charges>=3||b.type==='shield'&&(h.pressureSpent||b.role.pressure)>0||b.type==='boomerang'&&!G.BladeHunt&&b.character.catchUntil>t||b.type==='accelerator'&&h.impact?.closing>=430&&h.impact?.forward>=250||b.ghost?.lungeUntil>t;
    if(special)return h;const n=this.count(b,'paralysis',t);return n?{...h,raw:h.raw*(1-n*this.config.contactReductionPerLayer)}:h;
   },
   settle(b,e){

@@ -1,0 +1,88 @@
+{
+  "rate": 24000,
+  "modes": [
+    {
+      "hz": 6038.09,
+      "tauSeconds": 0.0387,
+      "relativeAmplitude": 1.0
+    },
+    {
+      "hz": 6471.68,
+      "tauSeconds": 0.0607,
+      "relativeAmplitude": 0.4924
+    },
+    {
+      "hz": 5578.12,
+      "tauSeconds": 0.0777,
+      "relativeAmplitude": 0.3591
+    },
+    {
+      "hz": 5091.8,
+      "tauSeconds": 0.12,
+      "relativeAmplitude": 0.1047
+    },
+    {
+      "hz": 4486.82,
+      "tauSeconds": 0.0783,
+      "relativeAmplitude": 0.0377
+    }
+  ],
+  "clips": [
+    {
+      "key": "throw",
+      "file": "sword.4.ogg.f32",
+      "start": 0.048,
+      "end": 0.26,
+      "pitchRate": 0.9,
+      "modalRatio": 0.12,
+      "maskFloor": 0.52,
+      "duration": 0.23554166666666668,
+      "peak": 0.6754207692166156,
+      "recordedMaterial": true,
+      "measuredModesFile": "measured-modes.json",
+      "sha256": "45625f1ce0d2a86fd818d8f29332002e724d7173b8e20bfd0ec7d85935d8c054"
+    },
+    {
+      "key": "return",
+      "file": "sword.1.ogg.f32",
+      "start": 0.148,
+      "end": 0.445,
+      "pitchRate": 1.05,
+      "modalRatio": 0.15,
+      "maskFloor": 0.48,
+      "duration": 0.282875,
+      "peak": 0.6741872107256818,
+      "recordedMaterial": true,
+      "measuredModesFile": "measured-modes.json",
+      "sha256": "9f7b519a5da8f89fa22b64a75d524ee04b5cf0a13ed1bb32014de49d56f950fb"
+    },
+    {
+      "key": "returnHit",
+      "file": "sword.6.ogg.f32",
+      "start": 0.013,
+      "end": 0.205,
+      "pitchRate": 1.08,
+      "modalRatio": 0.18,
+      "maskFloor": 0.32,
+      "duration": 0.17779166666666665,
+      "peak": 0.6758242047773029,
+      "recordedMaterial": true,
+      "measuredModesFile": "measured-modes.json",
+      "sha256": "6bc756f98b8370e370688dcde72c0c01420220dfca6f6eb6a902b28ba20e7764"
+    },
+    {
+      "key": "moonCut",
+      "file": "sword.8.ogg.f32",
+      "start": 0.218,
+      "end": 0.482,
+      "pitchRate": 0.94,
+      "modalRatio": 0.22,
+      "maskFloor": 0.34,
+      "duration": 0.2808333333333333,
+      "peak": 0.6771124000353402,
+      "recordedMaterial": true,
+      "measuredModesFile": "measured-modes.json",
+      "sha256": "3e3c265af7fd5e88cd61f9c371523c2981e409a091c8cfaefd666e54f6e00793"
+    }
+  ]
+}

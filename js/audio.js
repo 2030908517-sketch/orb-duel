@@ -159,6 +159,11 @@
     pressureHit:{duration:.34,cooldown:.2,priority:6,noise:{gain:.28,decay:.055,cutoff:1700},layers:[['sine',125,32,.32],['triangle',640,105,.15]]},
     beamGrind:{duration:.18,cooldown:.11,priority:4,noise:{gain:.12,decay:.07,cutoff:2400},layers:[['sawtooth',900,450,.10],['sine',110,75,.15]]},
     largeHit:{duration:.34,cooldown:.13,priority:6,noise:{gain:.23,decay:.028,cutoff:2500},layers:[['sine',165,36,.36],['triangle',780,130,.17],['sine',85,42,.11,.025]]},
+    // Catch slashes: broad air shear and midrange metal bite, distinct from spinning blades.
+    bladeSlashWhoosh:{duration:.16,cooldown:.16,priority:4,cutoff:2500,noise:{gain:.20,attack:.015,decay:.045,cutoff:2100},layers:[['triangle',420,125,.07,0,.12]]},
+    bladeTwinWhoosh:{duration:.21,cooldown:.16,priority:4,cutoff:2900,noise:{gain:.19,attack:.01,decay:.055,cutoff:2500},layers:[['triangle',510,150,.06,0,.12],['triangle',710,190,.055,.045,.14]]},
+    bladeSlashHit:{duration:.24,cooldown:.14,priority:6,cutoff:2600,noise:{gain:.26,decay:.023,cutoff:2200},layers:[['triangle',940,260,.22,0,.09],['sine',145,52,.32,0,.20],['triangle',630,420,.075,.01,.14]]},
+    bladeTwinHit:{duration:.32,cooldown:.14,priority:6,cutoff:3100,noise:{gain:.23,decay:.035,cutoff:2800},layers:[['triangle',1160,380,.16,0,.085],['triangle',790,230,.24,.038,.105],['sine',165,43,.34,.025,.25],['triangle',980,640,.06,.06,.18]]},
     bladeHeavyHit:{duration:.30,cooldown:.14,priority:6,noise:{gain:.20,decay:.042,cutoff:2900},layers:[['triangle',2300,520,.16],['sine',175,48,.30],['triangle',1540,350,.11,.018]]},
     mirrorAim:{duration:.18,cooldown:.2,priority:4,layers:[['sine',1100,1450,.17],['triangle',1650,2200,.12,.04]]},
     mirrorStrike:{duration:.32,cooldown:.16,priority:6,noise:{gain:.23,decay:.025,cutoff:3100},layers:[['triangle',2450,620,.15],['sine',155,38,.30],['sine',1225,310,.12,.015]]},
@@ -244,8 +249,8 @@
         if(kind==='holyTouch'&&latest.has('holyHit'))continue;
         if(kind==='holyLand'&&latest.has('holyHit'))continue;
         if(kind==='mineBlast'&&latest.has('mineHit'))continue;
-        if(started>=(mix?.maxPerBatch||4))break;if(kind==='heavy'&&ordered.some(e=>['largeHit','fistHit','bladeHeavyHit','mirrorStrike','chainHit','cannonHit','pressureHit','shieldBash','thunderHit','guardHeavy','toxinErupt','heavyShotHit'].includes(e.kind)))continue;
-        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake','fistHit','shieldBash','cannon','heavyShot','chainBlast','largeHit','bladeHeavyHit','mirrorStrike','chainHit','cannonHit','guardHeavy','toxinErupt'].includes(e.kind))))continue;
+        if(started>=(mix?.maxPerBatch||4))break;if(kind==='heavy'&&ordered.some(e=>['largeHit','fistHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','pressureHit','shieldBash','thunderHit','guardHeavy','toxinErupt','heavyShotHit'].includes(e.kind)))continue;
+        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake','fistHit','shieldBash','cannon','heavyShot','chainBlast','largeHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','guardHeavy','toxinErupt'].includes(e.kind))))continue;
         const policy=info(kind);if(now-(this.lastPlayed[kind]??-Infinity)<Math.max(profiles[kind].cooldown,policy.minGap||0))continue;
         if(policy.tier==='R'&&now-(this.lastRepeatAt??-Infinity)<.10)continue;
         if([...this.voices].filter(v=>v.kind===kind).length>=info(kind).maxSame)continue;

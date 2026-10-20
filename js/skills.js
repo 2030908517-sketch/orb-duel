@@ -15,7 +15,7 @@
     ghost:{update:(b,dt,e)=>G.Ghost.update(b,dt,e),status:(b,e)=>G.Ghost.status(b,e)},
     magnet:{update:(b,dt,e)=>G.Magnet.update(b,dt,e),status:(b,e)=>G.Magnet.status(b,e)},
     time:{update:(b,dt,e)=>G.Temporal.update(b,dt,e),status:(b,e)=>G.Temporal.status(b,e)},
-    normal: {attackMultiplier:b=>b.charges>=3&&!G.Arcana?.busy(b)?1.3:1,onHit:(b,h,e)=>G.Roles.normalHit(b,h,e),status:(b,e)=>G.Roles.status(b,e)},
+    normal: {attackMultiplier:b=>b.charges>=3&&!G.Arcana?.busy(b)&&(!G.ManualRoles?.normalOwned(b)||G.ManualRoles.heavyReady(b))?1.3:1,onHit:(b,h,e)=>G.Roles.normalHit(b,h,e),status:(b,e)=>G.Roles.status(b,e)},
     accelerator: {
       update(ball, dt,engine) { if(!G.Overdrive?.active(ball))ball.speed = Math.min(ball.def.maxSpeed, ball.speed + ball.def.acceleration * dt); },
       attackMultiplier(ball) { return 1 + 0.40 * ((G.Overdrive?.active(ball)?Math.min(ball.speed,ball.def.maxSpeed):ball.speed) - ball.def.speed) / (ball.def.maxSpeed - ball.def.speed); },
@@ -26,8 +26,8 @@
     reflector: {update:(b,dt,e)=>G.Roles.reflectorUpdate(b,dt,e),reflection:(b,actual)=>b.stance.phase==='active'?actual*(G.Awakening.active(b)?.6:b.def.reflection):0,onReceive:(b,h,e)=>G.Roles.reflectorReceive(b,h,e),status:(b,e)=>G.Roles.status(b,e)},
     shield: {update:(b,dt,e)=>G.Roles.shieldUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
     boomerang: {
-      update(ball,dt,engine){const enemy=G.World.targetFor(ball,engine);if(enemy)G.Aim.direct(ball,enemy,engine,'blade',ball.def.shotSpeed);if(engine.state==='running' && engine.time+1e-9>=ball.nextShot && ball.character.bladeRemaining===0 && G.World.targetFor(ball,engine)){ball.character.bladeAdaptiveId=G.Adaptive?.begin(ball,'blade',engine);ball.character.bladeLost=false;ball.character.caughtInCast=0;const awake=G.Awakening.active(ball),castId=++ball.bladeCastId;for(const offset of awake?[-.16,.16]:[0])G.World.fire(ball,engine,{mode:'boomerang',castId,angleOffset:offset,damage:awake&&offset>0?2.3:ball.def.shotDamage});G.Adaptive?.close(ball,ball.character.bladeAdaptiveId);engine.sound('throw',ball.x);ball.nextShot=engine.time+(awake?4.2:ball.def.shotPeriod);}},
-      status(ball,engine){return [{label:'刃伤',value:G.Combat.attackValue(ball,engine,ball.def.shotDamage).toFixed(1)},{label:'投掷',value:Math.max(0,ball.nextShot-engine.time).toFixed(1)+'s'},{label:'武器',value:ball.character.bladeRemaining?'在外 '+ball.character.bladeRemaining:'手中'},{label:'接刃',value:ball.character.catchUntil>engine.time?'重击就绪':'未蓄势'},{label:'回斩',value:(G.Combat.attackValue(ball,engine,ball.def.shotDamage)*1.5).toFixed(1)},...G.Recovery.refundStatus(ball)];}
+      update(ball,dt,engine){if(G.BladeHunt)return G.BladeHunt.update(ball,dt,engine);const enemy=G.World.targetFor(ball,engine);if(enemy)G.Aim.direct(ball,enemy,engine,'blade',ball.def.shotSpeed);if(engine.state==='running' && engine.time+1e-9>=ball.nextShot && ball.character.bladeRemaining===0 && G.World.targetFor(ball,engine)){ball.character.bladeAdaptiveId=G.Adaptive?.begin(ball,'blade',engine);ball.character.bladeLost=false;ball.character.caughtInCast=0;const awake=G.Awakening.active(ball),castId=++ball.bladeCastId;for(const offset of awake?[-.16,.16]:[0])G.World.fire(ball,engine,{mode:'boomerang',castId,angleOffset:offset,damage:awake&&offset>0?2.3:ball.def.shotDamage});G.Adaptive?.close(ball,ball.character.bladeAdaptiveId);engine.sound('throw',ball.x);ball.nextShot=engine.time+(awake?4.2:ball.def.shotPeriod);}},
+      status(ball,engine){if(G.BladeHunt)return G.BladeHunt.status(ball,engine);return [{label:'刃伤',value:G.Combat.attackValue(ball,engine,ball.def.shotDamage).toFixed(1)},{label:'投掷',value:Math.max(0,ball.nextShot-engine.time).toFixed(1)+'s'},{label:'武器',value:ball.character.bladeRemaining?'在外 '+ball.character.bladeRemaining:'手中'},{label:'接刃',value:ball.character.catchUntil>engine.time?'重击就绪':'未蓄势'},{label:'回斩',value:(G.Combat.attackValue(ball,engine,ball.def.shotDamage)*1.5).toFixed(1)},...G.Recovery.refundStatus(ball)];}
     },
     laser: {update:(b,dt,e)=>G.Roles.laserUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
     venom: {
@@ -36,7 +36,7 @@
     },
     ranger: {update:(b,dt,e)=>G.Roles.rangerUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
     trapper: {
-      update(ball, dt, engine) { if (engine.state==='running' && engine.time+1e-9>=ball.nextTrap) { if(G.World.placeTrap(ball,engine)!==false)ball.nextTrap=engine.time+G.Awakening.trapOptions(ball).period; } },
+      update(ball, dt, engine) { if (!G.ManualRoles?.owns(ball,engine) && engine.state==='running' && engine.time+1e-9>=ball.nextTrap) { if(G.World.placeTrap(ball,engine)!==false)ball.nextTrap=engine.time+G.Awakening.trapOptions(ball).period; } },
       status(ball,engine) { return G.Roles.status(ball,engine); }
     }
   };
@@ -153,7 +153,7 @@
       G.Demon?.afterBatch(engine);G.Cosmic?.afterBatch(engine);G.Stellar?.afterBatch(engine);G.DefenseArcana?.afterBatch(hits,engine);
       G.Presentation?.observeHits(hits,engine);
       for(const hit of hits.filter(p=>p.kind!=='contact' && p.kind!=='chain')) {
-        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',stormBolt:'落雷命中',staticShock:'导电电解',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
+        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',bladeSlash:'接刃斩击',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',stormBolt:'落雷命中',staticShock:'导电电解',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
         if(hit.avoided>0)message+=' · 无敌抵消';if(hit.blocked>0)message+=' · 盾 −'+hit.blocked.toFixed(1);if(hit.reflection>0)message+=' · 反伤';engine.log(message);
       }
     }

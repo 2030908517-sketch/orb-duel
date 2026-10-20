@@ -10,7 +10,7 @@
     shield:{name:'堡垒震荡',description:'17 盾 / 9 秒 / 持续 3 秒；盾结束收拢 0.22 秒，预瞄敌人运动与传播时间，剩余盾量的 50% 加余压的 70% 化为 230 距离扩张波面，盾越完整波越强。盾击、压力波有独立强反馈，压力不重复兑现。'},
     ranger:{name:'战术切枪',description:'觉醒补满一次校准。装填结束按校准/距离选择三连发、狙击或散射，选定后不切换。满层远距狙击：0.5秒预瞄+0.15秒锁定、21伤高速实体弹；瞄准受伤不打断，本发按狙击零层±21度扰动，命中恢复3层、失手清零。满层近距散射：两轮扇形弹幕加7.8重弹，展开消耗校准，每颗命中恢复1层，结束保留恢复层数。三种模式均装填4秒，出膛不追踪。'},
     trapper:{name:'游走雷网',description:'最多七枚节点，动态线连接最远可用的已布防节点，感应线随自身反弹运动扫过场地；敌人穿线后拉索牵引0.3秒，结束时拉进爆炸命中范围才爆炸，否则保留节点；仍遵守墙面和碰撞物理。爆破有强击退与短顿帧，并释放四枚低伤破片；节点消失后自动连接下一枚，没有节点则等待布雷。基础最多五枚，觉醒最多七枚，可被拆除。'},
-    boomerang:{name:'双刃回环',description:'投出 4.1 主刃与 2.3 副刃，以更短弧线出击、返程追随主人。回程斩印和接刃重斩有不同反馈；完整接回近战 +40%，部分接回 +20%，奖励持续 8 秒，使用后消耗。'},
+    boomerang:{name:'双刃回环',description:'投出4.1主刃与2.3副刃：近距从两侧交错切割后双返；远距两刃实际交汇，主刃加速直飞不返并施刃印、副刃回手。接回1/2刃获得8秒单/双刃武器重斩，挥斩一次消耗，普通射程180；主/副刃去程和回程均可施加或触发已有刃印，该次触印伤害3.6/2.2，每刃往返限一次；保留回收返CD。'},
     laser:{name:'主炮扫射',description:'3.6 秒充能，发射前更新反弹预瞄，末段 0.18 秒锁线。精准首炮基础 19.5，随后 0.65 秒扫射追加最多 6.2 余波，有限推力；0.38 弧度扫向侧方，不追踪。强首炮接触顿帧、持续冲刷声，结束后散热 1.45 秒。'},
     holy:{name:'启示圣裁',description:'觉醒后每14秒蓄势0.7秒，圣光从随机角落向对角落每0.5秒降下一整条斜排，覆盖全场；每柱有落点预警、直径35并留场0.9秒，单轮每名敌人最多3次4.2落地伤害、4次0.9触碰伤害，同来源触碰至少间隔0.35秒。整波共享降临气流，命中同步冲击、击退和短顿帧；光雨结束前不再开启下一轮。沉默打断蓄势与未落下的圣裁，已放出的圣水和三角阵保持。'},
     ghost:{name:'追魂三连穿',description:'虚化周期8秒，虚化延长为 1.9 秒，发动中三次短预瞄后以 560 速度穿行 0.23 秒，每次重新瞄准，穿行无实体碰撞；接触恐吓依然按 0.25 秒预算。虚化仍碰墙反弹；退相后魂影按真实路径与原速重走，恐吓相同、重放本轮魂爆。退相释放半径 95 的短程魂爆，基础 5 加本轮有效恐吓次数（最多 +3），命中有定向击退、短顿帧与空灵重音。'},
@@ -51,7 +51,7 @@
           if(t+1e-9>=a.dashUntil)this.finishDash(ball,engine);
           else ball.motionSpeed=a.dashStartSpeed*Math.exp(-.95*(t-a.dashStartedAt));
         }
-        if(a.chargeUntil&&t<a.chargeUntil-.12)a.aim=G.Aim.track(ball,target,engine,'dash',900,a.chargeUntil-t,4.5,dt);
+        if(a.chargeUntil&&t<a.chargeUntil-.12)a.aim=G.Aim.track(ball,target,engine,'dash',900,a.chargeUntil-t,5.2,dt);
         if(a.chargeUntil && t+1e-9>=a.chargeUntil){
           a.chargeUntil=0;a.dashStartedAt=t;a.dashStartSpeed=900;a.dashStopSpeed=Math.max(275,(G.Overdrive?.active(ball)?Math.min(ball.speed,ball.def.maxSpeed):ball.speed)+20);
           a.dashUntil=t+Math.min(1.5,Math.log(a.dashStartSpeed/a.dashStopSpeed)/.95);

@@ -49,6 +49,7 @@
       }this.effect(e,b,'bloodSeal',center,{life:1.5});e.sound('arcBloodRelease',center.x);
     },
     update(e,dt){if(e.state!=='running')return;for(const b of e.balls){const u=b.arcana;if(!u||b.hp<=0)continue;const t=u.target!==null?e.balls.find(t=>t.id===u.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e)):G.World.targetFor(b,e);
+        if(G.ManualRoles?.arcanaUpdate(b,t,e,dt))continue;
         // A prepared, target-dependent release waits for the locked actor to re-enter.
         const locked=e.balls.find(v=>v.id===u.target);
         if(G.World.absent(locked,e)&&['warning','counterStep','counterCharge','debtStep','debtWarning','laserFocus','laserForge'].includes(u.phase)){for(const key of ['started','until','lockAt'])if(Number.isFinite(u[key]))u[key]+=dt;continue;}

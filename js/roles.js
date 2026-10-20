@@ -53,9 +53,9 @@
     },
     normalHit(ball,hit,engine){
       if(hit.kind!=='contact'||hit.actual+hit.blocked<=0||G.Arcana?.busy(ball))return;
-      if(ball.charges>=3){hit.heavyContact=true;this.heavyImpact(ball,hit,engine,'fistHit','fistHit',190,.06);ball.charges=0;ball.stats.heavyHits++;engine.signal(ball,'破阵重拳','miss',hit.target);
+      if(ball.charges>=3&&(!G.ManualRoles?.owns(ball,engine)||engine.manual.heavyReady)){if(G.ManualRoles?.owns(ball,engine))engine.manual.heavyReady=false;hit.heavyContact=true;this.heavyImpact(ball,hit,engine,'fistHit','fistHit',190,.06);ball.charges=0;ball.stats.heavyHits++;engine.signal(ball,'破阵重拳','miss',hit.target);
         if(G.Awakening.active(ball)&&!G.Temporal.silenced(ball,engine))this.wave(ball,engine,3.5*engine.heatMultiplier,Math.atan2(hit.impact?.ny??0,hit.impact?.nx??1),'fistWave',150,24);
-      }else{ball.charges=Math.min(3,ball.charges+(hit.actual>0?1:.5));if(ball.charges===3)engine.signal(ball,'重拳就绪','ready');}
+      }else if(ball.charges<3){ball.charges=Math.min(3,ball.charges+(hit.actual>0?1:.5));if(ball.charges===3)engine.signal(ball,'重拳就绪','ready');}
     },
     absorb(ball,blocked,engine){if(blocked>0&&ball.type==='shield')G.Adaptive?.goodKey(ball,'shield');if(ball.type==='shield'&&blocked>0)ball.role.pressure=Math.min(8,ball.role.pressure+blocked*.40/engine.heatMultiplier);},
     shieldEnd(ball,engine){const r=ball.role,release=G.Awakening.active(ball)&&!G.Temporal.silenced(ball,engine)&&(r.pressure>0||ball.shield>0);if(!release)G.Adaptive?.close(ball,r.shieldAdaptiveId);if(release){const enemy=G.World.targetFor(ball,engine);r.shieldReserve=ball.shield;r.shieldRelease=r.pressure;r.shieldAngle=enemy?G.Aim.direct(ball,enemy,engine,'shield',390,.22):Math.atan2(ball.vy,ball.vx);r.shieldFireAt=engine.time+.22;engine.signal(ball,'盾片收拢 · 锁定冲击','pressureCharge');this.effect(ball,engine,'shieldGather',ball,r.shieldAngle,.22);}r.pressure=0;},
@@ -74,16 +74,17 @@
       if(hit.kind==='laser'&&hit.push&&hit.actual+hit.blocked>0&&!hit.avoided){this.shove(t,hit.angle,hit.push*(1+Math.min(1,hit.actual/20)),.85);this.effect(b,engine,'beamContact',t,hit.angle,.16);engine.sound('beamGrind',t.x);if(hit.beamFirst)this.heavyImpact(b,hit,engine,'beamImpact','cannonHit',0,.04);}
       if(hit.heavyShot&&hit.actual+hit.blocked>0)this.heavyImpact(b,hit,engine,'shellHit',hit.sniperShot?'sniperHit':'heavyShotHit',hit.sniperShot?205:180,hit.sniperShot?.065:.055);
       if(hit.kind==='pressureWave'&&hit.actual+hit.blocked>0)this.heavyImpact(b,hit,engine,'pressureHit','pressureHit',hit.push||190,.06);
-      if(b.type==='vampire'&&hit.kind==='contact'&&hit.actual>0){t.role.bloodMark={owner:b.id,until:engine.time+5};this.effect(b,engine,'bloodMark',t,0,.35);}
+      if(b.type==='vampire'&&hit.kind==='contact'&&hit.actual>0){t.role.bloodMark={owner:b.id,until:engine.time+3};this.effect(b,engine,'bloodMark',t,0,.35);}
       if(b.type==='shield'&&hit.kind==='contact'&&hit.actual+hit.blocked>0&&hit.pressureSpent>0){engine.signal(b,'承压盾击','miss',t);this.heavyImpact(b,hit,engine,'pressureHit','shieldBash',85+hit.pressureSpent*11,.05);}
       if(['fistWave','pressureWave'].includes(hit.kind)&&hit.actual>0){r.waveHits++;if(hit.kind==='fistWave')engine.sound('fistRelease',t.x);engine.impact(t.x,t.y,b.def.color,1.6);this.effect(b,engine,hit.kind,t,hit.angle);}
       if(hit.kind==='bloodFinish'&&hit.actual>0){engine.signal(b,'血契收束','miss',t);this.heavyImpact(b,hit,engine,'bloodFinish','bloodFinish',0,.05);}
     },
+    startChain(ball,engine){const r=ball.role,a=ball.awakening,t=engine.time;r.chainAdaptiveId=G.Adaptive?.begin(ball,'vampire',engine);r.chainWarning=t+.25;a.nextCast=t+8.5;engine.sound('bloodCharge',ball.x);engine.signal(ball,'血契锁定','miss');},
     vampireUpdate(ball,dt,engine){
       const a=ball.awakening,r=ball.role,t=engine.time,target=G.World.targetFor(ball,engine);if(!target)return;
       const distance=Math.hypot(target.x-ball.x,target.y-ball.y),inRange=distance<=220;
       if(r.chainWarning){if(t+1e-9>=r.chainWarning){r.chainWarning=0;if(distance>235){G.Adaptive?.close(ball,r.chainAdaptiveId);a.nextCast=Math.min(a.nextCast,t+.6);return;}r.chainOutSince=-1;r.chainMarked=!!(target.role.bloodMark?.owner===ball.id&&target.role.bloodMark.until>=t);a.chainActive=true;a.chainStartedAt=t;a.chainConnected=0;a.chainRefund=0;a.chainUntil=t+2.1;a.nextPulse=t+.3;r.chainDamage=0;r.chainPulses=0;a.casts++;engine.sound('chain',ball.x);this.effect(ball,engine,'bloodConnect');}}
-      else if(!a.chainActive&&t+1e-9>=a.nextCast&&inRange&&r.blood>=.5&&!G.Adaptive?.wait(ball,target,engine,'vampire')){r.chainAdaptiveId=G.Adaptive?.begin(ball,'vampire',engine);r.chainWarning=t+.25;a.nextCast=t+8.5;engine.sound('bloodCharge',ball.x);engine.signal(ball,'血契锁定','miss');}
+      else if(!G.ManualRoles?.owns(ball,engine)&&!a.chainActive&&t+1e-9>=a.nextCast&&inRange&&r.blood>=.5&&!G.Adaptive?.wait(ball,target,engine,'vampire')){this.startChain(ball,engine);}
       if(!a.chainActive)return;
       if(distance>260){if(r.chainOutSince<0)r.chainOutSince=t;if(t-r.chainOutSince>=.12){this.finishChain(ball,engine);return;}}else r.chainOutSince=-1;
       if(distance<=260)a.chainConnected=Math.min(2.1,Math.max(0,t-a.chainStartedAt));

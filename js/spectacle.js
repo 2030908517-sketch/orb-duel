@@ -78,7 +78,7 @@
         c.restore();
       }
       c.globalAlpha=1;
-      for(const shot of engine.projectiles){if(shot.danceOwner!==undefined)continue;if(engine.mode==='arcana'&&['arcBlood','arcPierce'].includes(shot.mode))continue;const b=engine.balls.find(b=>b.id===shot.owner);if(!b?.awakening.active)continue;
+      for(const shot of engine.projectiles){if(shot.danceOwner!==undefined||shot.bladeHunt)continue;if(engine.mode==='arcana'&&['arcBlood','arcPierce'].includes(shot.mode))continue;const b=engine.balls.find(b=>b.id===shot.owner);if(!b?.awakening.active)continue;
         const angle=Math.atan2(shot.vy,shot.vx);c.save();c.translate(shot.x,shot.y);c.rotate(angle);c.shadowColor=shot.color;c.shadowBlur=10;
         if(shot.mode==='boomerang'){c.rotate(t*18);c.beginPath();c.arc(0,0,10,-2.5,1.2);c.strokeStyle=shot.returning?'#fffbd9':'#b7f4ff';c.lineWidth=3;c.stroke();c.beginPath();c.arc(0,0,15,-2.4,-.2);c.strokeStyle=shot.color+'70';c.lineWidth=2;c.stroke();}
         else {c.beginPath();c.moveTo(9,0);c.lineTo(-13,-4);c.lineTo(-8,0);c.lineTo(-13,4);c.closePath();c.fillStyle=shot.mode==='counter'?'#e7dfff':'#fff1d3';c.fill();this.line(c,-10,0,-40,0,shot.color+'80',shot.mode==='counter'?4:2);}

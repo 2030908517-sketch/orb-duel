@@ -40,7 +40,8 @@
    if(b.type==='reflector'){if(b.stance.phase==='warning')timed('反伤预备',b.stance.until);if(b.stance.phase==='active')timed(r.predictiveActive?'预判反伤':'反伤姿态',b.stance.until);if(r.predictReady)add('预判反伤就绪');if(G.DefenseArcana?.predictionReady(b,e))timed('奥义预测反伤资格',b.arcana.predictUntil);if(G.DefenseArcana?.guardActive(b,e))add('奥义预测反伤');if(r.counterRelease>0)add('蓄能反击待发');}
    if(b.type==='shield'&&(r.shieldRelease>0||r.shieldReserve>0))add('盾压震荡蓄势');
    if(b.type==='ranger'){if(r.calibration>0&&active(r.calibrationUntil))add('校准 '+r.calibration+'/'+b.def.calibrationCap);if(active(r.reloadUntil))timed('装填',r.reloadUntil);if(['aim','locked'].includes(r.sniperPhase))add(r.sniperPhase==='locked'?'狙击锁定':'狙击预瞄');if(r.sniperHurt&&['aim','locked'].includes(r.sniperPhase))add('狙击受创偏移');if(r.fireMode==='scatter'&&!r.reloadUntil&&r.ammo>0)add('枪阵强化');}
-   if(b.type==='boomerang'&&active(c.catchUntil)&&!c.bladeRemaining)timed('接刃重击强化',c.catchUntil);
+   if(b.type==='boomerang'&&G.BladeHunt){const h=c.bladeHunt;if(h?.swing)timed(h.swing.count>=2?'双刃挥斩':'单刃挥斩',h.swing.at+G.BladeHunt.config.slashLife);if(h?.plan?.mode==='chase'&&(e.projectiles||[]).some(p=>p.owner===b.id&&p.castId===h.plan.id&&p.returning))add('逐刃追猎');}
+   if(b.type==='boomerang'&&active(c.catchUntil)&&!c.bladeRemaining)timed(G.BladeHunt?(c.catchPower>=1.4?'双刃重斩':'单刃重斩'):'接刃重击强化',c.catchUntil);
    if(b.type==='laser'){if(b.laser)add(b.laser.locked?'主炮锁定':'主炮预瞄');if(r.bladePhase)add('高温刃 · '+({warmup:'凝刃',sweep:'切割',return:'回收'}[r.bladePhase]||'准备'));if(active(r.coolingUntil))timed('主炮散热',r.coolingUntil);if(active(r.disruptedUntil))timed('电容防连震',r.disruptedUntil);}
    if(b.type==='venom'&&active(c.spreadFireAt))timed('腐蚀共鸣催化',c.spreadFireAt);
    if(b.type==='accelerator'&&active(a.chargeUntil))timed('冲刺蓄势',a.chargeUntil);
