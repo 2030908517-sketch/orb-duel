@@ -46,25 +46,25 @@
       const t=e.balls.find(t=>G.World.enemy(b,t,e)&&t.hp>0);if(!t)return false;
       return b.type==='normal'?b.charges>=3:!G.Arcana.protected(t,e,b.type)&&b.role.blood>=3;
     },
-    primary(e){if(this.player(e)?.type==='ranger')return R.fire(e);if(this.blocked(e))return false;const b=this.player(e);
-      if(b.type==='vampire'&&G.VampireArcana.active(b)){if(!A.waveReady(b,e))return false;const t=e.balls.find(t=>G.World.enemy(b,t,e)&&t.hp>0);if(!t)return false;G.VampireArcana.spawn(b,t,e,{...e.manual.pointer});return true;}
+    primary(e,probe=false){if(this.player(e)?.type==='ranger')return R.fire(e,probe);if(this.blocked(e))return false;const b=this.player(e);
+      if(b.type==='vampire'&&G.VampireArcana.active(b)){if(!A.waveReady(b,e))return false;const t=e.balls.find(t=>G.World.enemy(b,t,e)&&t.hp>0);if(!t)return false;if(probe)return true;G.VampireArcana.spawn(b,t,e,{...e.manual.pointer});return true;}
       if(this.blocked(e,true))return false;
-      if(b.type==='normal'){const t=A.pursuitTarget(b,e);if(!t)return false;G.Pursuit.perform(b,t,e);e.manual.pursuitOffer=null;return true;}
-      if(b.type==='vampire'){const t=G.World.targetFor(b,e);if(!G.VampireHunt.ready(b,t,e))return false;G.VampireHunt.begin(b,t,e,this.angle(b,e,true));return true;}
-      if(b.type==='trapper'){if(e.time+EPS<b.nextTrap)return false;const p=A.placement(b,e);if(!p)return false;const placed=G.World.placeTrap(b,e);if(placed===false)return false;b.nextTrap=e.time+G.Awakening.trapOptions(b).period;return true;}
+      if(b.type==='normal'){const t=A.pursuitTarget(b,e);if(!t)return false;if(probe)return true;G.Pursuit.perform(b,t,e);e.manual.pursuitOffer=null;return true;}
+      if(b.type==='vampire'){const t=G.World.targetFor(b,e);if(!G.VampireHunt.ready(b,t,e))return false;if(probe)return true;G.VampireHunt.begin(b,t,e,this.angle(b,e,true));return true;}
+      if(b.type==='trapper'){if(e.time+EPS<b.nextTrap)return false;const p=A.placement(b,e);if(!p)return false;if(probe)return true;const placed=G.World.placeTrap(b,e);if(placed===false)return false;b.nextTrap=e.time+G.Awakening.trapOptions(b).period;return true;}
       return false;
     },
-    secondary(e){if(this.player(e)?.type==='ranger')return R.switch(e);if(this.blocked(e,true))return false;const b=this.player(e);
-      if(b.type==='normal'){if(b.charges<3||e.manual.heavyReady)return false;e.manual.heavyReady=true;return true;}
-      if(b.type==='vampire'){if(!A.chainReady(b,e))return false;G.Roles.startChain(b,e);return true;}
-      if(b.type==='trapper'){const n=A.selected(b,e);if(!A.canSwap(b,n,e))return false;G.Trapper.swap(b,n,e);return true;}return false;
+    secondary(e,probe=false){if(this.player(e)?.type==='ranger')return R.switch(e,probe);if(this.blocked(e,true))return false;const b=this.player(e);
+      if(b.type==='normal'){if(b.charges<3||e.manual.heavyReady)return false;if(probe)return true;e.manual.heavyReady=true;return true;}
+      if(b.type==='vampire'){if(!A.chainReady(b,e))return false;if(probe)return true;G.Roles.startChain(b,e);return true;}
+      if(b.type==='trapper'){const n=A.selected(b,e);if(!A.canSwap(b,n,e))return false;if(probe)return true;G.Trapper.swap(b,n,e);return true;}return false;
     },
-    ultimate(e){if(this.blocked(e))return false;const b=this.player(e);if(b.type==='ranger')return R.arm(e);
-      if(b.type==='trapper'&&e.manual.armed){e.manual.armed=false;G.Trapper.arcanaUpdate(b,e);return true;}
-      if(!this.ready(e))return false;if(b.type==='trapper'){e.manual.armed=true;G.Trapper.arcanaUpdate(b,e);return true;}
+    ultimate(e,probe=false){if(this.blocked(e))return false;const b=this.player(e);if(b.type==='ranger')return R.ultimate(e,probe);
+      if(b.type==='trapper'&&e.manual.armed){if(probe)return true;e.manual.armed=false;G.Trapper.arcanaUpdate(b,e);return true;}
+      if(!this.ready(e))return false;if(probe)return true;if(b.type==='trapper'){e.manual.armed=true;G.Trapper.arcanaUpdate(b,e);return true;}
       const t=e.balls.find(t=>G.World.enemy(b,t,e)&&t.hp>0);G.Arcana.start(b,t,e);return true;
     },
-    fire(e){return this.primary(e);},switch(e){return this.secondary(e);},
+    fire(e,probe=false){return this.primary(e,probe);},switch(e,probe=false){return this.secondary(e,probe);},
     info(e){if(this.player(e)?.type==='ranger')return R.info(e);const b=this.player(e),u=b.arcana;return {ready:this.ready(e),used:!!u?.used,armed:e.manual.armed,phase:u?.phase,blocked:this.blocked(e),message:e.manual.message};},
     panel(e){const b=this.player(e),s=this.info(e),t=e.time,r=b.role,fmt=v=>Math.max(0,v-t).toFixed(1)+'s',fields=[];
       if(b.type==='normal')fields.push({label:'拳势',value:b.charges+'/3'},{label:'追击CD',value:fmt(r.nextPursuit||0)},{label:'追击机会',value:A.pursuitTarget(b,e)?'可按左键追击':r.pursuitUntil>t?'回身追击中':'等待真实擦肩'},{label:'重击准备',value:e.manual.heavyReady?'已准备 · 下次有效碰撞':'右键准备（需满拳势）'});

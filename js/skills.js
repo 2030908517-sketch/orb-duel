@@ -31,7 +31,7 @@
     },
     laser: {update:(b,dt,e)=>G.Roles.laserUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},
     venom: {
-      update(ball,dt,engine){G.Flyers?.poisonUpdate(ball,engine);if(engine.state==='running'&&engine.time+1e-9>=ball.nextPool){G.World.pool(ball,engine);ball.nextPool=engine.time+G.Venom.config.poolPeriod;}},
+      update(ball,dt,engine){G.Flyers?.poisonUpdate(ball,engine);if(!G.ManualRoles?.owns(ball,engine)&&engine.state==='running'&&engine.time+1e-9>=ball.nextPool){G.World.pool(ball,engine);ball.nextPool=engine.time+G.Venom.config.poolPeriod;}},
       status(ball,engine){return G.Venom.status(ball,engine);}
     },
     ranger: {update:(b,dt,e)=>G.Roles.rangerUpdate(b,dt,e),status:(b,e)=>G.Roles.status(b,e)},

@@ -1,0 +1,268 @@
+{
+  "date": "2026-10-21",
+  "scope": "Headless native entry loading and focused fixtures; not browser, audio, balance or full skill coverage.",
+  "checks": 14,
+  "passed": 14,
+  "results": [
+    {
+      "name": "18 registered types",
+      "passed": true,
+      "evidence": [
+        "normal",
+        "vampire",
+        "accelerator",
+        "storm",
+        "charge",
+        "orbital",
+        "demon",
+        "reflector",
+        "shield",
+        "ranger",
+        "trapper",
+        "boomerang",
+        "laser",
+        "ghost",
+        "holy",
+        "magnet",
+        "time",
+        "venom"
+      ]
+    },
+    {
+      "name": "Classic has no actor Arcana; independent mode has eleven",
+      "passed": true,
+      "evidence": [
+        "normal",
+        "vampire",
+        "accelerator",
+        "reflector",
+        "shield",
+        "ranger",
+        "trapper",
+        "boomerang",
+        "laser",
+        "time",
+        "venom"
+      ]
+    },
+    {
+      "name": "Wall reflection retains tangent and bounds center",
+      "passed": true,
+      "evidence": {
+        "x": 23,
+        "vx": 200,
+        "vy": 70
+      }
+    },
+    {
+      "name": "Reduction precedes ordinary shield",
+      "passed": true,
+      "evidence": {
+        "hpLost": 4,
+        "actual": 4,
+        "blocked": 10,
+        "hpLoss": 4,
+        "deferred": 0
+      }
+    },
+    {
+      "name": "Ghost rejects even bypassInvulnerability",
+      "passed": true,
+      "evidence": {
+        "actual": 0,
+        "blocked": 0,
+        "avoided": 10
+      }
+    },
+    {
+      "name": "Reflection excludes wall origin, includes opponent projectile",
+      "passed": true,
+      "evidence": {
+        "projectileReturn": 7.5,
+        "mirrorInterception": null
+      }
+    },
+    {
+      "name": "Venom booked damage differs from immediate HP loss",
+      "passed": true,
+      "evidence": {
+        "booked": 20,
+        "hpLost": 2.200000000000003,
+        "deferred": 17.799999999999997
+      }
+    },
+    {
+      "name": "Vampire effective contact callback adds exactly two blood",
+      "passed": true,
+      "evidence": 2
+    },
+    {
+      "name": "Holy one active zone per owner",
+      "passed": true,
+      "evidence": 1
+    },
+    {
+      "name": "Normal threshold uses strict below ten percent",
+      "passed": true,
+      "evidence": {
+        "charges": 3,
+        "phase": "warning"
+      }
+    },
+    {
+      "name": "Trap min spacing and infinite ordinary lifetime",
+      "passed": true,
+      "evidence": {
+        "spacing": 70,
+        "expires": "Infinity"
+      }
+    },
+    {
+      "name": "Team uses legacy three Arcana, larger arena and physical friendly contacts",
+      "passed": true,
+      "evidence": {
+        "arena": [
+          640,
+          440
+        ],
+        "threshold": 0.4,
+        "roles": [
+          "normal",
+          "vampire",
+          "accelerator"
+        ]
+      }
+    },
+    {
+      "name": "Manual supports eight roles and does not auto-fire ranger",
+      "passed": true,
+      "evidence": {
+        "types": [
+          "ranger",
+          "normal",
+          "vampire",
+          "trapper",
+          "venom",
+          "laser",
+          "boomerang",
+          "time"
+        ],
+        "shots": 0
+      }
+    },
+    {
+      "name": "18-role focused smoke, 8 simulated seconds per role",
+      "passed": true,
+      "evidence": [
+        {
+          "type": "normal",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "vampire",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "accelerator",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "storm",
+          "time": 8,
+          "state": "running",
+          "contacts": 2
+        },
+        {
+          "type": "charge",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "orbital",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "demon",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "reflector",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "shield",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "ranger",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "trapper",
+          "time": 8,
+          "state": "running",
+          "contacts": 3
+        },
+        {
+          "type": "boomerang",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "laser",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "ghost",
+          "time": 8,
+          "state": "running",
+          "contacts": 2
+        },
+        {
+          "type": "holy",
+          "time": 8,
+          "state": "running",
+          "contacts": 2
+        },
+        {
+          "type": "magnet",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        },
+        {
+          "type": "time",
+          "time": 8,
+          "state": "running",
+          "contacts": 0
+        },
+        {
+          "type": "venom",
+          "time": 8,
+          "state": "running",
+          "contacts": 1
+        }
+      ]
+    }
+  ]
+}

@@ -37,7 +37,7 @@
   A.behind=function(r,e){oldBehind.call(this,r,e);const c=r.ctx;c.save();
     for(const b of e.balls){if(b.type!=='ranger'||!b.arcana||b.hp<=0)continue;const u=b.arcana;
       if(u.phase==='counterStep'){const h=u.history||[];for(let i=h.length-1;i>=0;i-=4)ghost(c,h[i],.12+.18*(1-i/Math.max(1,h.length)));}
-      if(u.phase==='counterCharge')breech(c,b,e);
+      if(u.phase==='counterCharge'&&u.manualCounter!=='window')breech(c,b,e);
     }c.restore();};
   A.front=function(r,e){oldFront.call(this,r,e);const c=r.ctx;c.save();
     for(const p of e.projectiles)if(p.mode==='arcPierce'){

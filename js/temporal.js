@@ -145,10 +145,12 @@
         if(this.silenced(ball,engine)&&ball.shield>0&&engine.time>=ball.shieldUntil){ball.shield=0;ball.role.pressure=0;}
       }
     },
+    startDomain(ball,engine,domainAim){const s=ball.temporal,t=engine.time;const id=G.Adaptive?.begin(ball,'timeDomain',engine);this.domain(ball,engine,domainAim.x,domainAim.y);engine.timeDomains.at(-1).adaptiveId=id;G.Adaptive?.close(ball,id);s.nextDomain=t+ball.def.domainPeriod;},
+    startClock(ball,engine,tracked){const s=ball.temporal,t=engine.time;s.clockAdaptiveId=G.Adaptive?.begin(ball,'timeClock',engine);s.aim=tracked;s.castAt=t+.35;s.nextClock=t+ball.def.clockPeriod;engine.sound('clockCharge',ball.x);},
     update(ball,dt,engine){
       if(engine.state!=='running'||this.silenced(ball,engine))return;
       const t=engine.time,s=ball.temporal,target=G.World.targetFor(ball,engine);if(!target)return;const domainAim=G.Aim.point(ball,target,engine,'domain',target,dt);
-      if(t+1e-9>=s.nextDomain&&!G.Adaptive?.wait(ball,target,engine,'timeDomain')){const id=G.Adaptive?.begin(ball,'timeDomain',engine);this.domain(ball,engine,domainAim.x,domainAim.y);engine.timeDomains.at(-1).adaptiveId=id;G.Adaptive?.close(ball,id);s.nextDomain=t+ball.def.domainPeriod;}
+      if(!G.ManualRoles?.owns(ball,engine)&&t+1e-9>=s.nextDomain&&!G.Adaptive?.wait(ball,target,engine,'timeDomain')){this.startDomain(ball,engine,domainAim);}
       if(!G.Awakening.active(ball))return;
       const tracked=G.Aim.track(ball,target,engine,'clock',ball.def.clockSpeed,s.castAt?Math.max(0,s.castAt-t):0,6,dt);
       if(!Number.isFinite(s.nextClock))s.nextClock=t+.6;
@@ -158,7 +160,7 @@
           const bounds=ball.combatBounds;engine.timeClocks.push({id:engine.nextWorldId++,owner:ball.id,adaptiveId:s.clockAdaptiveId,x:Math.max((bounds?.left||0)+9,Math.min((bounds?.right??C.width)-9,ball.x+nx*offset)),y:Math.max((bounds?.top||0)+9,Math.min((bounds?.bottom??C.height)-9,ball.y+ny*offset)),radius:9,angle:s.aim,speed:ball.def.clockSpeed,range:ball.def.clockRange,travel:0,raw:G.Combat.rollAttack(ball,engine,ball.def.clockDamage,'timeBlast'),color:ball.def.color,started:t});
           G.Adaptive?.close(ball,s.clockAdaptiveId);s.castAt=0;ball.stats.clocksThrown++;engine.sound('clockThrow',ball.x);engine.signal(ball,'零时禁令 · 时钟出手','miss');
         }
-      }else if(t+1e-9>=s.nextClock&&!G.Adaptive?.wait(ball,target,engine,'timeClock')){s.clockAdaptiveId=G.Adaptive?.begin(ball,'timeClock',engine);s.aim=tracked;s.castAt=t+.35;s.nextClock=t+ball.def.clockPeriod;engine.sound('clockCharge',ball.x);}
+      }else if(!G.ManualRoles?.owns(ball,engine)&&t+1e-9>=s.nextClock&&!G.Adaptive?.wait(ball,target,engine,'timeClock')){this.startClock(ball,engine,tracked);}
     },
     status(ball,engine){const s=ball.temporal,t=engine.time;return [
       {label:'领域CD',value:Math.max(0,s.nextDomain-t).toFixed(1)+'s'},

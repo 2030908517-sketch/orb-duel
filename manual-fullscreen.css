@@ -28,7 +28,7 @@
 .manual-battle-fullscreen .stats-core b { font-size:18px; }
 .manual-battle-fullscreen .stat-label { font-size:15px; }
 .manual-battle-fullscreen .stats-stages { grid-template-columns:minmax(0,1fr);gap:8px; }
-.manual-battle-fullscreen .stats-stages .stat-chip { display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;font-size:15px;line-height:24px;white-space:normal;overflow:visible; }
+.manual-battle-fullscreen .stats-stages .stat-chip { display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px;font-size:15px;line-height:24px;white-space:normal;overflow:visible; }
 .manual-battle-fullscreen .stats-stages .stat-chip b { font-size:17px;white-space:normal;overflow-wrap:anywhere;max-width:none; }
 .manual-battle-fullscreen .status-slot { height:60px;min-height:60px;padding-top:10px; }
 .manual-battle-fullscreen .status-items { height:52px; }

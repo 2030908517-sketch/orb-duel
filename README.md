@@ -2,9 +2,18 @@
 
 ## Manual skill duel (PC)
 
-Open **[manual.html](manual.html)** or use the new mode link. Choose Ranger, Normal, Vampire or Trapper; every orb still moves automatically. Ranger controls remain: aim with the mouse, left-click for one full attack sequence, and right-click after awakening to select sniper/scatter (full calibration is still required). At the original Arcana threshold, E toggles standby; WASD chooses an eight-direction dodge, consuming the Arcana only on execution. After dodging, left-click within one combat second to fire the original armor-piercing round; otherwise it expires. Existing automatic modes and combat numbers are unchanged. See [rules, isolation, backup and validation](docs/design/MANUAL_MODE.md).
+Open **[manual.html](manual.html)** or use the new mode link. Choose Ranger, Normal, Vampire, Trapper, Venom, Laser, Boomerang or Time; every orb still moves automatically. Ranger controls remain: aim with the mouse, left-click for one full attack sequence, and right-click after awakening to select sniper/scatter (full calibration is still required). At the original Arcana threshold, press both mouse buttons together to dodge toward the cursor along a legal native route. After dodging, left-click within one combat second to begin the original 1.08-second armor-piercing charge; aim with the mouse until its final 0.16-second lock. Without a click, the opportunity expires without firing. E/WASD no longer control Ranger Arcana. Existing automatic modes and combat numbers are unchanged. See [rules, isolation, backup and validation](docs/design/MANUAL_MODE.md).
 
 Normal: left-click during a real near-miss opportunity to pursue; right-click to prepare a charged heavy hit. Vampire: left-click to hunt (or release a wave during Blood Sea), right-click for Blood Pact. Trapper: left-click places a mine at the orb itself; right-click swaps with the selected node. For these three roles, press both mouse buttons together for Arcana (Trapper toggles collision-trigger standby). Cooldowns, resources and native effects are retained. F toggles the dedicated fullscreen battle view.
+
+| Added player | Left click | Right click | Middle click | Arcana |
+| --- | --- | --- | --- | --- |
+| Venom | Aim and fire poison glob | Pool at own body | — | Automatic |
+| Laser | Start native cannon warning after full charge | Earned heat blade | Original short jet | Both buttons |
+| Boomerang | Throw / awakened close cross | Returning-blade chase / awakened far sling | Earned catch heavy slash | Both buttons |
+| Time | Aim clock after awakening | Mouse-centered domain | — | Automatic lethal rewind |
+
+Native windups, ranges, earned opportunities and resources still apply. Laser's blade has an earned-use limit rather than an independent cooldown; its jet retains native threat/route conditions. Time's domain preview shows its real radius. Venom/Time do not use a manual Arcana chord.
 
 ## Animation review
 

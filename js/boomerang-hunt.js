@@ -9,12 +9,15 @@ const H=G.BladeHunt={
  update(b,dt,e){
   const t=G.World.targetFor(b,e);if(t)G.Aim.direct(b,t,e,'blade',b.def.shotSpeed);const pending=b.character.bladeHunt?.plan;if(pending?.mode==='relay'&&!pending.relayed){const relayTarget=e.balls.find(v=>v.id===pending.target&&G.World.targetable(v,e));if(relayTarget)G.Aim.direct({...b,x:pending.meet.x,y:pending.meet.y},relayTarget,e,'bladeRelay',this.config.slingSpeed);}
   if(!t||e.state!=='running'||e.time+1e-9<b.nextShot||b.character.bladeRemaining||this.state(b).swing)return;
+  if(!G.ManualRoles?.owns(b,e))this.cast(b,t,e);
+ },
+ cast(b,t,e,requestedMode=null,requestedAngle=null){
   const awake=G.Awakening.active(b),range=awake?this.config.awakeRange:this.config.range,distance=Math.hypot(t.x-b.x,t.y-b.y),castId=++b.bladeCastId;
   b.character.bladeAdaptiveId=G.Adaptive?.begin(b,'blade',e);b.character.bladeLost=false;b.character.caughtInCast=0;
   // Choose the move from the same wall-aware future position used by its outbound arc.
-  const predicted=G.Awakening.predict(t,awake?.58:.65),heading=G.World.aim(b,t,b.def.shotSpeed),aim=G.Aim.adjust(b,e,'blade',heading),offset=aim-heading,dx=predicted.x-b.x,dy=predicted.y-b.y,d=Math.hypot(dx,dy)||1,far=d>range,angle=Math.atan2(dy,dx)+offset,nx=Math.cos(angle),ny=Math.sin(angle);
+  const predicted=G.Awakening.predict(t,awake?.58:.65),heading=G.World.aim(b,t,b.def.shotSpeed),aim=G.Aim.adjust(b,e,'blade',heading),offset=aim-heading,dx=predicted.x-b.x,dy=predicted.y-b.y,d=Math.hypot(dx,dy)||1,far=d>range,angle=requestedAngle??Math.atan2(dy,dx)+offset,nx=Math.cos(angle),ny=Math.sin(angle);
   const end=this.point(b,{x:b.x+nx*Math.min(range,d),y:b.y+ny*Math.min(range,d)},b.def.shotRadius),meet=this.point(b,{x:b.x+nx*range*this.config.relayFraction,y:b.y+ny*range*this.config.relayFraction},b.def.shotRadius);
-  const plan=this.state(b).plan={id:castId,mode:awake?(far?'relay':'cross'):(far?'chase':'single'),target:t.id,created:e.time,meet,crossHits:[],crossDone:false,relayed:false};
+  const plan=this.state(b).plan={id:castId,mode:requestedMode??(awake?(far?'relay':'cross'):(far?'chase':'single')),target:t.id,created:e.time,meet,crossHits:[],crossDone:false,relayed:false};
   for(let slot=0;slot<(awake?2:1);slot++){
    const side=slot?1:-1,p=G.World.fire(b,e,{mode:'boomerang',castId,angleOffset:side*.16,damage:slot?2.3:b.def.shotDamage});if(!p)continue;
    p.bladeHunt=true;p.bladeSlot=slot;p.bladeBase=slot?2.3:b.def.shotDamage;p.bladeMarkUsed=false;p.bladePlan=plan.mode;p.bladeTarget=t.id;p.bladeCreated=e.time;p.bladeDisposed=false;
@@ -45,7 +48,7 @@ const H=G.BladeHunt={
    if(e.time<plan.created+this.config.relayTime*.85||Math.hypot(a.x-plan.meet.x,a.y-plan.meet.y)>14||Math.hypot(other.x-plan.meet.x,other.y-plan.meet.y)>14||Math.hypot(a.x-other.x,a.y-other.y)>a.radius+other.radius+1)continue;
    plan.relayed=true;const target=e.balls.find(t=>t.id===plan.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e));
    if(!target){G.Characters.returnBlade(a,b,e);G.Characters.returnBlade(other,b,e);continue;}
-   const angle=G.Aim.adjust(b,e,'bladeRelay',G.World.aim({...b,x:a.x,y:a.y},target,this.config.slingSpeed));
+   const angle=G.ManualFour?.owns(b,e)?G.ManualFour.relayAim(b,a,e):G.Aim.adjust(b,e,'bladeRelay',G.World.aim({...b,x:a.x,y:a.y},target,this.config.slingSpeed));
    a.bladeSling=true;a.speed=this.config.slingSpeed;a.vx=Math.cos(angle)*a.speed;a.vy=Math.sin(angle)*a.speed;a.expires=e.time+Math.hypot(target.x-a.x,target.y-a.y)/a.speed+.6;
    this.cue(e,b,'relay',{x:(a.x+other.x)/2,y:(a.y+other.y)/2},{angle});e.sound('bladeCatch',a.x);e.sound('throw',a.x);G.Characters.returnBlade(other,b,e);
   }
@@ -63,10 +66,11 @@ const H=G.BladeHunt={
    if(e.time>=s.at+c.slashLife)state.swing=null;
   }}
   if(dance)return;
-  if(!state.swing&&!G.Temporal.silenced(b,e)&&b.character.catchUntil>e.time&&!b.character.bladeRemaining){const t=G.World.targetFor(b,e);if(t&&Math.hypot(t.x-b.x,t.y-b.y)<=b.radius+t.radius+c.slashReach-5&&this.clear(b,t,e)){
+  if(!G.ManualRoles?.owns(b,e)&&!state.swing&&!G.Temporal.silenced(b,e)&&b.character.catchUntil>e.time&&!b.character.bladeRemaining){const t=G.World.targetFor(b,e);if(t&&Math.hypot(t.x-b.x,t.y-b.y)<=b.radius+t.radius+c.slashReach-5&&this.clear(b,t,e)){
    this.startSwing(b,t,e);
   }}
   // Chase provides steering, not armor, forced speed, or a replacement for knockback.
+  if(G.ManualFour?.owns(b,e)&&e.manual.chaseCast!==state.plan?.id)return;
   if(state.plan?.mode!=='chase'||G.Temporal.silenced(b,e)||b.inertia>0||b.magnetic?.anchored||G.Priority?.forced(b,e))return;
   const p=e.projectiles.find(p=>p.owner===b.id&&p.castId===state.plan.id&&p.bladeHunt&&p.returning&&!p.bladeDisposed);if(!p||!this.clear(b,p,e,b.radius))return;
   const heading=Math.atan2(b.vy,b.vx),desired=Math.atan2(p.y-b.y,p.x-b.x),a=turn(heading,desired,c.chaseTurn*dt*(b.temporal?.rate??1)*(G.Venom?.speedFactor(b)||1)),speed=Math.hypot(b.vx,b.vy)||b.speed;b.vx=Math.cos(a)*speed;b.vy=Math.sin(a)*speed;

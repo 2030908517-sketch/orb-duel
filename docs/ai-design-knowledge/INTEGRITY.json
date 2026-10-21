@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-21",
+  "scope": "All pre-existing non-.git files in outputs/orb-duel; excludes this newly added knowledge directory.",
+  "baselineFiles": 1129,
+  "changedExistingFiles": [],
+  "addedFilesOutsideKnowledge": [],
+  "sourceSnapshotChanged": [],
+  "notes": "Existing dirty Git status predates this analysis. No production edits, commits or pushes performed."
+}

@@ -83,9 +83,10 @@
       this.event(b,e,'evade','arcRangerEvade',b,{style:'counterEvade',angle:route.angle,threatAngle:threat.angle,life:.5});
       G.Presentation?.note(e,'arcana.ranger.dodge',{actorId:b.id,threatKind:threat.kind,threatId:threat.id,arrival:threat.at});
     },
-    brace(b,t,e){const u=b.arcana;u.phase='counterCharge';u.started=e.time;u.until=e.time+this.chargeTime;u.lockAt=u.until-this.lockTime;u.waitBudget=.75;u.locked=false;u.lockCue=false;
+    prepareCharge(b,t,e){const u=b.arcana;u.phase='counterCharge';u.started=e.time;u.until=e.time+this.chargeTime;u.lockAt=u.until-this.lockTime;u.waitBudget=.75;u.locked=false;u.lockCue=false;
       u.aim=G.World.aim(b,t,this.bulletSpeed,this.chargeTime);b.role.aimTracks??={};b.role.aimTracks.arcPierce={angle:u.aim,tick:-1};b.motionSpeed=b.speed*.24;
-      this.event(b,e,'brace','arcRangerBreech',b,{style:'counterWake',history:[...u.history],life:.42});this.event(b,e,'charge','arcRangerCharge');
+    },
+    brace(b,t,e){this.prepareCharge(b,t,e);const u=b.arcana;this.event(b,e,'brace','arcRangerBreech',b,{style:'counterWake',history:[...u.history],life:.42});this.event(b,e,'charge','arcRangerCharge');
     },
     update(b,t,e,dt){const u=b.arcana;
       if(u.phase==='idle'){

@@ -6,7 +6,7 @@
     constructor(e,renderer){this.engine=e;this.root=document.documentElement;this.stage=document.querySelector('.battle-stage');this.enemy=document.getElementById('fighter-1');
       this.anchor=document.createComment('enemy windowed position');this.enemy.before(this.anchor);
       this.playerView=document.createElement('section');this.playerView.className='manual-fullscreen-player manual-fs-only';this.playerView.setAttribute('aria-label','全屏玩家技能状态');
-      this.playerView.innerHTML='<div><span>攻击模式</span><b data-fs="weapon"></b></div><div><span>普通技能</span><b data-fs="cooldown"></b><progress data-fs="reload" max="1" value="0" aria-label="装填进度"></progress></div><div><span>校准</span><b data-fs="calibration"></b></div><div><span>奥义操作</span><b data-fs="standby"></b></div><div class="manual-fs-window"><span>侧闪后 · 穿甲射击窗口</span><b data-fs="window"></b><progress data-fs="window-progress" max="1" value="0" aria-label="穿甲窗口剩余时间"></progress></div>';
+      this.playerView.innerHTML='<div><span>攻击模式</span><b data-fs="weapon"></b></div><div><span>普通技能</span><b data-fs="cooldown"></b><progress data-fs="reload" max="1" value="0" aria-label="装填进度"></progress></div><div><span>校准</span><b data-fs="calibration"></b></div><div><span>奥义操作</span><b data-fs="standby"></b></div><div class="manual-fs-window"><span>穿甲窗口</span><b data-fs="window"></b><progress data-fs="window-progress" max="1" value="0" aria-label="穿甲窗口剩余时间"></progress></div>';
       this.rangerView=this.playerView.innerHTML;this.hint=document.createElement('div');this.hint.className='manual-fs-operations manual-fs-only';document.querySelector('.arena-column').append(this.hint);
       document.getElementById('fighter-0').insertBefore(this.playerView,document.getElementById('fighter-meta-0'));
       this.enemyView=document.createElement('section');this.enemyView.className='manual-fullscreen-enemy manual-fs-only';this.enemyView.setAttribute('aria-label','敌方全部冷却与角色机制');this.enemy.append(this.enemyView);
@@ -31,21 +31,21 @@
       this.stage.style.setProperty('--manual-fs-field',field+'px');this.stage.style.setProperty('--manual-fs-height',h+'px');this.stage.style.setProperty('--manual-fs-panel',panels+'px');
     }
     rows(container,title,fields){const heading=document.createElement('h3');heading.textContent=title;container.append(heading);
-      for(const field of fields){const row=document.createElement('div'),label=document.createElement('span'),value=document.createElement('b');row.className='manual-fs-row';label.textContent=field.label;value.textContent=String(field.value);row.append(label,value);container.append(row);}
+      for(const field of fields){const row=document.createElement('div'),label=document.createElement('span'),value=document.createElement('b');row.className='manual-fs-row';label.textContent=field.label;value.textContent=String(field.value);row.append(label,value);if(field.progress!==undefined){const progress=document.createElement('progress');progress.className='manual-role-progress';progress.max=1;progress.value=field.progress;progress.setAttribute('aria-label',field.label+'进度');row.append(progress);}container.append(row);}
     }
     update(){const e=this.engine,b=M.player(e),s=M.info(e),r=b.role,names={burst:'三连发',sniper:'狙击',scatter:'散射'},blocked=M.blocked(e,true);
       const panel=b.type!=='ranger'?M.panel(e):null;
-      this.hint.textContent=panel?panel.controls:'左键：射击 · 右键：切换武器 · E：奥义待命 · WASD：待命期间侧闪 · F：退出全屏';
+      this.hint.textContent=panel?panel.controls:'左键：射击 · 右键：切换武器 · 左右同按：沿光标侧闪 · 闪后1秒内左键：蓄力穿甲反击 · F：退出全屏';
       if(panel){const key=b.type+JSON.stringify(panel.fields);if(this.playerKey!==key){this.playerKey=key;this.playerView.replaceChildren();this.rows(this.playerView,'玩家主动能力',panel.fields);}}
       else{if(this.playerKey){this.playerView.innerHTML=this.rangerView;this.playerKey=null;}
       const values={weapon:names[s.weapon]+(s.weapon==='burst'&&G.Awakening.active(b)?' · 已选'+names[s.selected]+'（需满校准）':''),
         cooldown:(G.Temporal.silenced(b,e)?'沉默 · ':'')+(s.executing?'执行中':r.sniperPending!==null?'等待狙击弹结果':s.cooldown>0?s.cooldown.toFixed(1)+'s':blocked?'当前状态禁止施放':'可以射击'),
-        calibration:s.calibration+' / '+s.cap,standby:s.armed?'待命中 · E取消 / WASD侧闪':s.ready?'按E开启待命':s.used?'本局已消耗':'等待原有解锁与释放条件',
-        window:s.phase==='counterCharge'?s.window.toFixed(2)+'s · 左键发射':'侧闪结束后开启'};
+        calibration:s.calibration+' / '+s.cap,standby:s.charging?'穿甲蓄力中':s.window>0?'1秒内左键蓄力':s.phase==='counterStep'?'沿光标侧闪中':s.ready?'左右同按沿光标侧闪':s.used?'本局已消耗':'等待原有解锁与释放条件',
+        window:s.window>0?s.window.toFixed(2)+'s · 左键蓄力':s.charging?'蓄力中':'侧闪后1秒内点击'};
       for(const [key,text]of Object.entries(values)){const el=this.playerView.querySelector('[data-fs="'+key+'"]');if(el.textContent!==text)el.textContent=text;}
       const duration=r.reloadDuration||(G.Awakening.active(b)?b.def.reloadTime:b.def.baseReloadTime);
       this.playerView.querySelector('[data-fs="reload"]').value=r.reloadUntil>e.time?Math.max(0,Math.min(1,1-(r.reloadUntil-e.time)/duration)):s.cooldown>0&&!s.executing?Math.max(0,Math.min(1,1-s.cooldown/(b.def.shotPeriod||s.cooldown))):!blocked&&!s.executing?1:0;
-      this.playerView.querySelector('[data-fs="window-progress"]').value=s.window;this.playerView.classList.toggle('pierce-ready',s.phase==='counterCharge');}
+      this.playerView.querySelector('[data-fs="window-progress"]').value=s.window;this.playerView.classList.toggle('pierce-ready',s.window>0);}
       const t=e.balls.find(v=>v.id!==b.id);if(t){
         // Preserve every native field, with no six-slot truncation. Do not infer skill readiness from a zero timer.
         const native=[...(G.Skills[t.type]?.status?.(t,e)||[]),...G.Awakening.status(t,e).filter(v=>v.label!=='觉醒')];

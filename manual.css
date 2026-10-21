@@ -15,3 +15,24 @@ body[data-control="manual"].manual-input-active input, body[data-control="manual
 .manual-role-row > b { text-align:right; }
 
 body[data-control="manual"] .combat-rail .fighter { border-top:3px solid var(--manual-role-color); }
+
+.manual-role-progress { width:100%; flex-basis:100%; height:5px; accent-color:var(--manual-role-color,#9ad8ff); }
+
+/* Fixed screen-size cues stay legible when the arena scales. They never capture input. */
+.manual-cursor-cues { position:fixed; z-index:30; display:flex; gap:5px; pointer-events:none; user-select:none; }
+.manual-cursor-cues[hidden], .manual-cursor-skill[hidden], .cue-badge[hidden] { display:none; }
+.manual-cursor-skill { --cue-ink:var(--cue-color); position:relative; width:34px; height:34px; flex:none; color:#c3cedb; text-align:center; }
+.manual-cursor-skill::before { content:''; position:absolute; box-sizing:border-box; width:24px; height:24px; left:50%; top:50%; transform:translate(-50%,-50%); border-radius:50%; background:#101722ed; border:1px solid #526074; }
+.manual-cursor-skill svg { width:34px; height:34px; position:absolute; top:0; left:0; transform:rotate(-90deg); fill:none; stroke-width:2; }
+.cue-track { stroke:#71829b; stroke-opacity:.58; stroke-dasharray:2 3; }
+.has-cooldown .cue-track { stroke-dasharray:none; stroke-opacity:.25; }
+.cue-progress { stroke:var(--cue-ink); stroke-linecap:round; }
+.cue-key { position:absolute; inset:0; display:grid; place-items:center; padding:0; font:700 10px/1 system-ui,sans-serif; color:#a4b0c0; }
+.is-ready::before { background:color-mix(in srgb,var(--cue-ink) 72%,#111a27); border-color:var(--cue-ink); box-shadow:0 0 calc(var(--cue-pulse,0) * 5px) var(--cue-ink); }
+.is-ready .cue-key { color:#0b111a; text-shadow:0 1px #ffffff30; }
+.is-ult { --cue-ink:#eac67d; }
+.is-active.is-ult::before { border-color:#eac67d; background:#574322; }
+.is-active.is-ult .cue-key { color:#ffe5b3; }
+.is-used { opacity:.48; }
+.is-locked .cue-track { stroke-opacity:.3; }
+.cue-badge { position:absolute; right:-2px; top:-2px; width:14px; height:14px; border:1px solid var(--cue-ink); border-radius:4px; background:#17212c; color:#f5f8fd; font:700 10px/12px system-ui,sans-serif; }

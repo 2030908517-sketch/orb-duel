@@ -1,0 +1,1198 @@
+{
+  "date": "2026-10-21",
+  "head": "1c122467fc4323efa3abb71daf623ed8882865e9",
+  "note": "Working tree, including uncommitted and untracked production files. This manifest is not a Git commit.",
+  "modes": {
+    "index.html": {
+      "width": 360,
+      "height": 340,
+      "scripts": [
+        "config",
+        "physics",
+        "skills",
+        "world",
+        "aim",
+        "flyers",
+        "mines",
+        "pursuit",
+        "characters",
+        "roles",
+        "ranger",
+        "awakening",
+        "temporal",
+        "magnet",
+        "ghost",
+        "holy",
+        "demon",
+        "cosmic",
+        "charge",
+        "stellar",
+        "adaptive",
+        "arcana",
+        "vampire-hunt",
+        "trapper",
+        "laser-blade",
+        "presentation",
+        "engine",
+        "audio",
+        "audio-mix",
+        "spectacle",
+        "renderer",
+        "holy-render",
+        "tactics-render",
+        "ranger-render",
+        "charge-render",
+        "stellar-render",
+        "blood-blade-shape",
+        "arcana-art",
+        "cosmic-render",
+        "demon-render",
+        "vampire-hunt-art",
+        "trapper-art",
+        "laser-blade-art",
+        "arena-walls",
+        "time-rewind",
+        "time-rewind-art",
+        "arcana-venom",
+        "arcana-venom-art",
+        "accelerator-overdrive",
+        "accelerator-overdrive-art",
+        "arcana-priority",
+        "venom-art",
+        "boomerang-hunt",
+        "boomerang-hunt-art",
+        "living-venom",
+        "living-venom-art",
+        "status-panel",
+        "venom-evolution",
+        "pact-toxin-art",
+        "animation-review",
+        "app",
+        "audio-audition",
+        "recording-view"
+      ],
+      "health": {
+        "normal": {
+          "hp": 126,
+          "arcana": null
+        },
+        "vampire": {
+          "hp": 112,
+          "arcana": null
+        },
+        "accelerator": {
+          "hp": 108,
+          "arcana": null
+        },
+        "storm": {
+          "hp": 118,
+          "arcana": null
+        },
+        "charge": {
+          "hp": 118,
+          "arcana": null
+        },
+        "orbital": {
+          "hp": 120,
+          "arcana": null
+        },
+        "demon": {
+          "hp": 122,
+          "arcana": null
+        },
+        "reflector": {
+          "hp": 125,
+          "arcana": null
+        },
+        "shield": {
+          "hp": 118,
+          "arcana": null
+        },
+        "ranger": {
+          "hp": 112,
+          "arcana": null
+        },
+        "trapper": {
+          "hp": 114,
+          "arcana": null
+        },
+        "boomerang": {
+          "hp": 112,
+          "arcana": null
+        },
+        "laser": {
+          "hp": 105,
+          "arcana": null
+        },
+        "ghost": {
+          "hp": 110,
+          "arcana": null
+        },
+        "holy": {
+          "hp": 120,
+          "arcana": null
+        },
+        "magnet": {
+          "hp": 116,
+          "arcana": null
+        },
+        "time": {
+          "hp": 120,
+          "arcana": null
+        },
+        "venom": {
+          "hp": 112,
+          "arcana": null
+        }
+      }
+    },
+    "arcana.html": {
+      "width": 360,
+      "height": 340,
+      "scripts": [
+        "config",
+        "physics",
+        "skills",
+        "world",
+        "aim",
+        "flyers",
+        "mines",
+        "pursuit",
+        "characters",
+        "roles",
+        "ranger",
+        "awakening",
+        "temporal",
+        "magnet",
+        "ghost",
+        "holy",
+        "demon",
+        "cosmic",
+        "charge",
+        "stellar",
+        "adaptive",
+        "arcana",
+        "arcana-vampire",
+        "arcana-ranger",
+        "arcana-defense",
+        "vampire-hunt",
+        "trapper",
+        "laser-blade",
+        "presentation",
+        "engine",
+        "audio",
+        "audio-mix",
+        "arcana-audio",
+        "spectacle",
+        "renderer",
+        "holy-render",
+        "tactics-render",
+        "ranger-render",
+        "charge-render",
+        "stellar-render",
+        "blood-blade-shape",
+        "arcana-art",
+        "arcana-vampire-art",
+        "arcana-ranger-art",
+        "arcana-defense-art",
+        "cosmic-render",
+        "demon-render",
+        "vampire-hunt-art",
+        "trapper-art",
+        "laser-blade-art",
+        "arena-walls",
+        "time-rewind",
+        "time-rewind-art",
+        "arcana-venom",
+        "arcana-venom-art",
+        "accelerator-overdrive",
+        "accelerator-overdrive-art",
+        "arcana-priority",
+        "venom-art",
+        "arcana-dance",
+        "arcana-dance-art",
+        "boomerang-hunt",
+        "boomerang-hunt-art",
+        "living-venom",
+        "living-venom-art",
+        "status-panel",
+        "venom-evolution",
+        "pact-toxin-art",
+        "animation-review",
+        "app",
+        "audio-audition",
+        "recording-view"
+      ],
+      "health": {
+        "normal": {
+          "hp": 280,
+          "arcana": "瞬身·破阵轰拳"
+        },
+        "vampire": {
+          "hp": 198,
+          "arcana": "血海重生"
+        },
+        "accelerator": {
+          "hp": 220,
+          "arcana": "超速·动能轮回"
+        },
+        "storm": {
+          "hp": 118,
+          "arcana": null
+        },
+        "charge": {
+          "hp": 118,
+          "arcana": null
+        },
+        "orbital": {
+          "hp": 120,
+          "arcana": null
+        },
+        "demon": {
+          "hp": 122,
+          "arcana": null
+        },
+        "reflector": {
+          "hp": 250,
+          "arcana": "旧债·逆命清算"
+        },
+        "shield": {
+          "hp": 236,
+          "arcana": "王城·天垒封锁"
+        },
+        "ranger": {
+          "hp": 224,
+          "arcana": "死线·极限反击"
+        },
+        "trapper": {
+          "hp": 232,
+          "arcana": "诡匣·替身收监"
+        },
+        "boomerang": {
+          "hp": 228,
+          "arcana": "回天·双生轮舞"
+        },
+        "laser": {
+          "hp": 210,
+          "arcana": "日轮·断界天刃"
+        },
+        "ghost": {
+          "hp": 110,
+          "arcana": null
+        },
+        "holy": {
+          "hp": 120,
+          "arcana": null
+        },
+        "magnet": {
+          "hp": 116,
+          "arcana": null
+        },
+        "time": {
+          "hp": 215,
+          "arcana": "终焉·命运重启"
+        },
+        "venom": {
+          "hp": 220,
+          "arcana": "腐生·万毒缓蚀"
+        }
+      }
+    },
+    "manual.html": {
+      "width": 360,
+      "height": 340,
+      "scripts": [
+        "config",
+        "physics",
+        "skills",
+        "world",
+        "aim",
+        "flyers",
+        "mines",
+        "pursuit",
+        "characters",
+        "roles",
+        "ranger",
+        "awakening",
+        "temporal",
+        "magnet",
+        "ghost",
+        "holy",
+        "demon",
+        "cosmic",
+        "charge",
+        "stellar",
+        "adaptive",
+        "arcana",
+        "arcana-vampire",
+        "arcana-ranger",
+        "arcana-defense",
+        "vampire-hunt",
+        "trapper",
+        "laser-blade",
+        "presentation",
+        "engine",
+        "audio",
+        "audio-mix",
+        "arcana-audio",
+        "spectacle",
+        "renderer",
+        "holy-render",
+        "tactics-render",
+        "ranger-render",
+        "charge-render",
+        "stellar-render",
+        "blood-blade-shape",
+        "arcana-art",
+        "arcana-vampire-art",
+        "arcana-ranger-art",
+        "arcana-defense-art",
+        "cosmic-render",
+        "demon-render",
+        "vampire-hunt-art",
+        "trapper-art",
+        "laser-blade-art",
+        "arena-walls",
+        "time-rewind",
+        "time-rewind-art",
+        "arcana-venom",
+        "arcana-venom-art",
+        "accelerator-overdrive",
+        "accelerator-overdrive-art",
+        "arcana-priority",
+        "venom-art",
+        "arcana-dance",
+        "arcana-dance-art",
+        "boomerang-hunt",
+        "boomerang-hunt-art",
+        "living-venom",
+        "living-venom-art",
+        "status-panel",
+        "venom-evolution",
+        "pact-toxin-art",
+        "animation-review",
+        "manual-ranger",
+        "manual-roles",
+        "manual-four",
+        "manual-cues",
+        "manual-ui",
+        "manual-fullscreen",
+        "app",
+        "audio-audition"
+      ],
+      "health": {
+        "normal": {
+          "hp": 280,
+          "arcana": "瞬身·破阵轰拳"
+        },
+        "vampire": {
+          "hp": 198,
+          "arcana": "血海重生"
+        },
+        "accelerator": {
+          "hp": 220,
+          "arcana": "超速·动能轮回"
+        },
+        "storm": {
+          "hp": 118,
+          "arcana": null
+        },
+        "charge": {
+          "hp": 118,
+          "arcana": null
+        },
+        "orbital": {
+          "hp": 120,
+          "arcana": null
+        },
+        "demon": {
+          "hp": 122,
+          "arcana": null
+        },
+        "reflector": {
+          "hp": 250,
+          "arcana": "旧债·逆命清算"
+        },
+        "shield": {
+          "hp": 236,
+          "arcana": "王城·天垒封锁"
+        },
+        "ranger": {
+          "hp": 224,
+          "arcana": "死线·极限反击"
+        },
+        "trapper": {
+          "hp": 232,
+          "arcana": "诡匣·替身收监"
+        },
+        "boomerang": {
+          "hp": 228,
+          "arcana": "回天·双生轮舞"
+        },
+        "laser": {
+          "hp": 210,
+          "arcana": "日轮·断界天刃"
+        },
+        "ghost": {
+          "hp": 110,
+          "arcana": null
+        },
+        "holy": {
+          "hp": 120,
+          "arcana": null
+        },
+        "magnet": {
+          "hp": 116,
+          "arcana": null
+        },
+        "time": {
+          "hp": 215,
+          "arcana": "终焉·命运重启"
+        },
+        "venom": {
+          "hp": 220,
+          "arcana": "腐生·万毒缓蚀"
+        }
+      }
+    },
+    "team.html": {
+      "width": 640,
+      "height": 440,
+      "scripts": [
+        "config",
+        "team-maps",
+        "physics",
+        "skills",
+        "world",
+        "aim",
+        "flyers",
+        "mines",
+        "pursuit",
+        "characters",
+        "roles",
+        "ranger",
+        "awakening",
+        "temporal",
+        "magnet",
+        "ghost",
+        "holy",
+        "demon",
+        "cosmic",
+        "charge",
+        "stellar",
+        "adaptive",
+        "team-arcana-legacy",
+        "vampire-hunt",
+        "trapper",
+        "laser-blade",
+        "presentation",
+        "engine",
+        "audio",
+        "audio-mix",
+        "spectacle",
+        "renderer",
+        "holy-render",
+        "tactics-render",
+        "ranger-render",
+        "charge-render",
+        "stellar-render",
+        "arcana-render",
+        "cosmic-render",
+        "demon-render",
+        "team-runtime",
+        "team-engine",
+        "vampire-hunt-art",
+        "trapper-art",
+        "laser-blade-art",
+        "arena-walls",
+        "time-rewind",
+        "time-rewind-art",
+        "venom-art",
+        "boomerang-hunt",
+        "boomerang-hunt-art",
+        "living-venom",
+        "living-venom-art",
+        "status-panel",
+        "venom-evolution",
+        "pact-toxin-art",
+        "animation-review",
+        "team-app",
+        "audio-audition",
+        "recording-view"
+      ],
+      "health": {
+        "normal": {
+          "hp": 280,
+          "arcana": "瞬身·破阵轰拳"
+        },
+        "vampire": {
+          "hp": 198,
+          "arcana": "血月·噬心回流"
+        },
+        "accelerator": {
+          "hp": 220,
+          "arcana": "断空·音障崩裂"
+        },
+        "storm": {
+          "hp": 118,
+          "arcana": null
+        },
+        "charge": {
+          "hp": 118,
+          "arcana": null
+        },
+        "orbital": {
+          "hp": 120,
+          "arcana": null
+        },
+        "demon": {
+          "hp": 122,
+          "arcana": null
+        },
+        "reflector": {
+          "hp": 125,
+          "arcana": null
+        },
+        "shield": {
+          "hp": 118,
+          "arcana": null
+        },
+        "ranger": {
+          "hp": 112,
+          "arcana": null
+        },
+        "trapper": {
+          "hp": 114,
+          "arcana": null
+        },
+        "boomerang": {
+          "hp": 112,
+          "arcana": null
+        },
+        "laser": {
+          "hp": 105,
+          "arcana": null
+        },
+        "ghost": {
+          "hp": 110,
+          "arcana": null
+        },
+        "holy": {
+          "hp": 120,
+          "arcana": null
+        },
+        "magnet": {
+          "hp": 116,
+          "arcana": null
+        },
+        "time": {
+          "hp": 120,
+          "arcana": null
+        },
+        "venom": {
+          "hp": 112,
+          "arcana": null
+        }
+      }
+    }
+  },
+  "files": {
+    "index.html": "dbe061d544d7e846ea7ba534183cea8472f0d11fc9facc4de8d4981dea7c4abe",
+    "js/config.js": "6b17245d9e558d0038ce2bede8e68299dfa18ef6ca261228e064ca198b5e43f8",
+    "js/physics.js": "cbd75beb4579cd8c731987ecc10490f283f3b5684d654547a51bab8f1bd2335b",
+    "js/skills.js": "290d4474d285f3e029ec0763eced95329f7a09db15580f2467a08aa41d0ffd32",
+    "js/world.js": "ea96fbabb4e88ec579ecae338069efa5070bf8698c3347152b2e58ed6019dcb4",
+    "js/aim.js": "ab5e2bf97f186f0aacdd817fd96045d7fa178c37527e2d9d6a7c75d85a0ef20d",
+    "js/flyers.js": "530e62ca565db1145a1b93242a54a4f6727b967f6f58b87d78277c41fda26b8e",
+    "js/mines.js": "2f3f7d8a578a35b34154dfdea91ac867247d7c3c5144be2e1b91efa5fc918cc4",
+    "js/pursuit.js": "afd0d8574ca104151f99beb728b9ede99f93bc425da5b07d218ea9170adea9f4",
+    "js/characters.js": "79b35897b91e606c24bc2e76512d56b9e5e9b65c3077e889c02492cf3e8cb09f",
+    "js/roles.js": "5574e19701d467a3faf113c5d51e877e69eea16b28761e2c44dd4df6258366ca",
+    "js/ranger.js": "bb166817ee4cb85be09a38a67fe33e2b322c978cc625b11d4f2a52ef6b885c6e",
+    "js/awakening.js": "cdd3a60fa6ea82d2768d58f1360c8c540b5a3d13ca3a05ec528ad0eabf879e53",
+    "js/temporal.js": "f83d99802a62ed51644bbba2d0563176cf92af697badc2866ace20877bfd2221",
+    "js/magnet.js": "886104c5353ee9820d0d909712178c33f0ec955325e748f85c915624245b3ff6",
+    "js/ghost.js": "15f960b3ccfd3b0dceb94d9c9d98deb91a5290871dd1fdc85ef5dc95e71e9455",
+    "js/holy.js": "0254cc21c5c117241ff60207c407d2c5f34bc7f0ea66ef351569fbe99d690a92",
+    "js/demon.js": "40746bfdd83d0d966aab039bdbfc032e8fdde5d7ccca824e156ee671a37c8290",
+    "js/cosmic.js": "b6ddb2df7d8bb81ecd3a748fc0d6ea2b789a4cbfc4e43d92d55528d9581597ef",
+    "js/charge.js": "28fd3504e65becf1b247666df3790bf9aa152e8831c3ae8f412c45bdeb066b25",
+    "js/stellar.js": "44d08dddd4649346160a24f5a4a560aadf2f1b6d97f50d9354d3ead9ae90b71a",
+    "js/adaptive.js": "e6912f54882a5f024b0e7f193e7bed9b7c39ebc09d701d90248ece037a3060c9",
+    "js/arcana.js": "a5ae5c8da48f377e52b95b214120e3086d142ea2500d671e0140d4ed5fb3ff71",
+    "js/vampire-hunt.js": "d5c97bdc3e1679be9eafc9d60c22597150e96bb5719ab8c634f101e742f0ed0a",
+    "js/trapper.js": "2ff098e292680b6f4a8f752ebbfa7692d6d16c9a19ca186964c19c240b99195e",
+    "js/laser-blade.js": "f5b47985f61a8c3a63a77d1719f5b042421b1c5f77fc07a663137748bbcec655",
+    "js/presentation.js": "48d8218cd8a6ffcb994d8eb60fdc57fd44dfad5196306158369a0336b1bba097",
+    "js/engine.js": "c37cd06833318cc6eb94379b839dccda83bfa1c072d06fbe59fc4d2c22aa2316",
+    "js/audio.js": "ce8fcc3bf1ca21c332fdfbe83975851f9d6fa020bdc25a2781ee6ed8ab841310",
+    "js/audio-mix.js": "8347767b67c3b6a4777dcdae31d4688d0172fa12bbf331ac7e96154dd4eab0b4",
+    "js/spectacle.js": "92c03780cad0aadd28f053ac1edc6b5f30634474a3440cb3198ce0fedce4f328",
+    "js/renderer.js": "032e5e86e590aecd4550d0d1ef2664b20663fb997c8d4196afc75c53f6c2c1af",
+    "js/holy-render.js": "1a86d77c9b6cce6d530089d679a468f4fe3d69756d5dffb5a4c00b768cab9311",
+    "js/tactics-render.js": "ea8f548f0c72c3206392c20f3c8954c567753924782541755184fa799d8c8a1a",
+    "js/ranger-render.js": "eb34e84aaabb05e61e7b2a74eb020176db6f26bf0d3b7b6a19b08833b1a922db",
+    "js/charge-render.js": "e69a4afa910cb5a3d99ee3afa632f2cbf305c3b3cb8ec2713a267dabcb2b3586",
+    "js/stellar-render.js": "ff4ea53ed3b47d5f83bfda7ff901162ed7d6cb4031f85542a175f5c2094b0700",
+    "js/blood-blade-shape.js": "e6c015705beb161cc07c7f59bd5971adcbe8cffccf972c924c2fd499c5aae8e0",
+    "js/arcana-art.js": "6022ff55da485ffda2573b4b303d615b1bb21ae05db4a14feaf1ab06b7a2e36c",
+    "js/cosmic-render.js": "7bfb2f0bc348cda70e301ebc8376fd11b534fc2aa502db19965572b2575f180d",
+    "js/demon-render.js": "4b1add3455f3159d6dc0fb2854ee16c1eeed6925c38b8d67661f809ef74b88c1",
+    "js/vampire-hunt-art.js": "cc8a43fc3d57e1cd52f6c401d4c700d732e0946e12610af774ff420b1d078ee9",
+    "js/trapper-art.js": "11074cb2590ae9f2c5ba11aace3755d2b60f5314c818f2877bd8ff4afc8d4a93",
+    "js/laser-blade-art.js": "af3f0023c34ac451a76a375e207881d40a7faf1c1cc44a200b58cb4d4c8f3bec",
+    "js/arena-walls.js": "cea655cea2899c1eafe13b2443ae0e53a9102edad5282e4967e286279d0ab0bd",
+    "js/time-rewind.js": "4fe57bfd41259ab0f8e29229710aa4a0a3b8f7bb692c0539ab5350e7bd82dd6e",
+    "js/time-rewind-art.js": "31b6ba6fff7fd1f99bec145de9410981ea400db22dfb8c72cb1b7a013e6cee47",
+    "js/arcana-venom.js": "07b8b6aa4bc71b3302759c3e8434377b01c319f99c2abb2008e1b307318f4148",
+    "js/arcana-venom-art.js": "14b0c93e7f08601f311e888944bbc70004b3ac0c373a947e9fdbe338c811acac",
+    "js/accelerator-overdrive.js": "b4d76bcc2cfd1f211b80cf78e72322d807d543b7ef60486cc7fede92019d7706",
+    "js/accelerator-overdrive-art.js": "a962b4f0659ed634346af92acc1ad229045c73607f22e9efe0e8a603a0a50630",
+    "js/arcana-priority.js": "78d04e5c62f554b5a11cb6e649f8c6f6edc3ae88aaf946f13d8bc517b0e4790f",
+    "js/venom-art.js": "415209c9984b8382947c281c337e0b69a2c95db13c67d43068f9d1bc726846f6",
+    "js/boomerang-hunt.js": "48c8a846edfc4eff19d126ee90d2cdfacd5dcbe1e975d519da15cf65e39fdd90",
+    "js/boomerang-hunt-art.js": "37fadf640b88583d3260ea9171003b76987afd0046d7b5be01bfcb4ddb1e2718",
+    "js/living-venom.js": "fd699441777ac7a0055227c88d66dfa48d468e5afbfcdd1ca3c7719bd9d13204",
+    "js/living-venom-art.js": "043df8f95b427ea978a2a1becae7785ad4754c6c3179aa6f7183d7b10062fb76",
+    "js/status-panel.js": "d55277e1a693f82d42fb7f8af25ad83eb772f6383b74d69a6effbe10520d106f",
+    "js/venom-evolution.js": "303e2e07f06a9d2cf830f4ed4d3532cc8d69d9b07c0fec49af046c80e1fd9987",
+    "js/pact-toxin-art.js": "bf10f410d65b74152d1c48dcd402e843a49ff9b36ec4a8579236e455f2977268",
+    "js/animation-review.js": "02b38ab37de1751798ff6ca36ec640398587eb58f90c26b30720bcbd78418724",
+    "js/app.js": "6c65fc1e3de360f594706dc35649482b0e7b07e86729b60f1f8bd576f2ce9c24",
+    "js/audio-audition.js": "e454732feb6029186c3e47c98a52cdf19af260efd409d54498648cb42ac5c5ee",
+    "js/recording-view.js": "e1f43e994face6831fd539a9bbcfe0e79887ff1690780eb0095f29d2ebc65889",
+    "arcana.html": "1d7d259394c2435672b7e19d2879cbde55550fb38e4cc1fdff9267d45b11835f",
+    "js/arcana-vampire.js": "2f5cbe9b237ca01ce95987cc424a590b32e2ac3f03b3d33954fff1c92314894e",
+    "js/arcana-ranger.js": "3f74306e9c8e5e81cfc08d396a1f7b5c4d49dadab5b88a7f6ecf93a64b3567d6",
+    "js/arcana-defense.js": "891e7bca4b6b210dcc2ba7cc420083ea6bea1019a6148185eca8d07e67995e6d",
+    "js/arcana-audio.js": "180798e8d35157fb51f23bde356c1523959d826ac35b1e593e051b7a3bdb1711",
+    "js/arcana-vampire-art.js": "073e40c2c231353a5d638259b330225434245b4f6e6586fcc24c6ac3ad831feb",
+    "js/arcana-ranger-art.js": "ace9951c96a0100bf14b114fa11c5f70069fcd180aed455e8a7aca0c9b1697fa",
+    "js/arcana-defense-art.js": "3257512a566580e7926f860210d2b7f68956c7ae22e9af3f5151fecb7c38c877",
+    "js/arcana-dance.js": "0779bcdefbf84182fac587b05ad056de14c5c2993953f9ad913e4b2c21fb86a1",
+    "js/arcana-dance-art.js": "cce50d9ef49615495a0a10f38e8782eda985f84da47f8579817a6d552f3bda98",
+    "manual.html": "14f9dc34f30aac94923c15fdcc5fcf7f4526230ca0eb0ba1aacfaa0e46a05854",
+    "js/manual-ranger.js": "f45ba215f0279fbf5376e23141ed1f0da6e97a3c2838e3a801cbf4120ab295d3",
+    "js/manual-roles.js": "222bd0aae66afef4487a7bdfc303611199fc972054f32df260d283db7226193f",
+    "js/manual-four.js": "79d5779fdd04f3e24b5fac2ede731a0090e8193664a38ff3241e423337f2b7a9",
+    "js/manual-cues.js": "574025bb8d960d382d876bedd12c654cf453bcd13ff348ae5ba9114dda12634d",
+    "js/manual-ui.js": "5bc703186ae454a52f97b56cdc4dc85ddaf8ad5303ba881f9de5e49f4f3e2d1a",
+    "js/manual-fullscreen.js": "24c0aae00e9c400bdb8bfcab55329212b269ae741949d4c025a5539c0ba347f2",
+    "team.html": "7fc736c13e3e10b93b23f8a29f809c9ff263055a2cebbaf18e2dc02b1a61caea",
+    "js/team-maps.js": "b1ed00ee3d727e23ac1b767e7b57f0f3324361e2896e27ce2021de51883c5604",
+    "js/team-arcana-legacy.js": "034c753d3b650a0dd846df53a6e297b63ffe5f37a43c50d52a82eea9e67d8c0f",
+    "js/arcana-render.js": "923fbbf1c33e0a9463fb85b03786a4d4f86192eefdda4036521c86d7e64d8115",
+    "js/team-runtime.js": "82fc212224aede6f83b4862e90171f4abbbd3b68960e8f202f9bb6c5cd64cbb1",
+    "js/team-engine.js": "92f4a9d2a2866daab3964c25717b9146b664cd301a2742dfc92b86a18ac70752",
+    "js/team-app.js": "a2a746f23393a6b06a0ed84ae8ba2e5e2280c50c525bd7f7981feff392536801"
+  },
+  "types": {
+    "normal": {
+      "name": "普通球",
+      "color": "#70b5ff",
+      "symbol": "●",
+      "hp": 126,
+      "damage": 11,
+      "speed": 235,
+      "maxSpeed": 235,
+      "mass": 1,
+      "pressureWait": 6,
+      "pressureRate": 0.03,
+      "pressureCap": 0.3,
+      "skill": "破阵拳势",
+      "description": "碰撞实伤积1拳势，盾吸收积0.5，满3后下一次有效碰撞+30%，附带强击退与短顿帧。擦肩接近到球面间隙10以内但没碰到、随后开始远离时，回身追击0.28秒、速度+30%，独立冷却7秒，不无敌也不持续追踪。觉醒重拳附带短程拳劲；久未造成伤害有限蓄力。",
+      "advantage": "蓄力重击",
+      "weakness": "依赖接触"
+    },
+    "vampire": {
+      "name": "吸血球",
+      "color": "#ef86ba",
+      "symbol": "♥",
+      "hp": 112,
+      "damage": 10.8,
+      "speed": 225,
+      "maxSpeed": 225,
+      "mass": 1,
+      "lifesteal": 0.38,
+      "skill": "血印猎食",
+      "description": "实际扣血的 38% 治疗；有效身体碰撞固定获得2血能，上限8；造成实际生命伤害留3秒血印。觉醒消耗血能连接血契，完整汲取后消印收束，成功收束会净化自身负面状态；技能伤害不额外提供血能。",
+      "advantage": "持续回复",
+      "weakness": "怕高爆发"
+    },
+    "accelerator": {
+      "name": "加速球",
+      "color": "#f8c56c",
+      "symbol": "ϟ",
+      "hp": 108,
+      "damage": 9.6,
+      "speed": 205,
+      "maxSpeed": 365,
+      "mass": 0.9,
+      "acceleration": 2.4,
+      "hitBoost": 18,
+      "wallBoost": 5,
+      "dashRecoveryCap": 285,
+      "dashRecoveryRatio": 0.82,
+      "dashMissSpeedRefund": 10,
+      "pressureWait": 6,
+      "pressureRate": 0.02,
+      "pressureCap": 0.2,
+      "skill": "动能突击",
+      "description": "积累速度，速度增伤最高 +40%。法向接近速度 ≥430、自身迎撞速度 ≥250 时，实伤命中造成击退和 0.7 秒失衡；失衡首次撞墙按法向动能追加一次伤害（上限 9）；觉醒冲撞逐渐减速、反弹不中断，撞敌结束。每次有效撞墙巡航速度+5、撞敌+18，最高365；普通强撞不扣巡航速度；觉醒冲刺期间只积累巡航速度，不补充冲刺速度。每次冲刺结束，巡航速度回落到原值的82%，上限285、下限205，再重新积速；空冲自然结束仅返还最多10点本次损失巡航速度，并减少下一轮冲刺冷却2秒；身体命中（含护盾抵消）和中断不返CD。久未命中可蓄力。",
+      "advantage": "后期爆发",
+      "weakness": "前期较弱"
+    },
+    "storm": {
+      "name": "雷霆球",
+      "color": "#91b8ff",
+      "hp": 118,
+      "damage": 8.8,
+      "speed": 220,
+      "maxSpeed": 220,
+      "mass": 1.05,
+      "strikePeriod": 5.4,
+      "skill": "导电雷暴",
+      "description": "撞墙蓄1电荷，0.5秒内只记一次，最多3；每5.4秒引雷；0.42秒预警中有限跟随、末段0.16秒锁定，基础4.9伤害。满电荷消耗3层升级为7.4强雷。有效碰撞和落雷叠5秒导电印记，第三层电解追加3.5伤害，每敌人1.2秒内最多一次，不持续扣血。觉醒每11.5秒在三处锁定落点接力落雷，各3.8伤害、有独立预警；既能躲开，也能被护盾和虚化挡住。雷电不是飞行物，实体掩体阻挡引雷。",
+      "advantage": "蓄电爆发",
+      "weakness": "落点可躲"
+    },
+    "charge": {
+      "name": "电荷球",
+      "color": "#87efff",
+      "hp": 118,
+      "damage": 8.8,
+      "speed": 225,
+      "maxSpeed": 225,
+      "mass": 1,
+      "chargeCap": 6,
+      "dischargePeriod": 4.8,
+      "currentSpeed": 440,
+      "arcRange": 38,
+      "arcDamage": 3.6,
+      "patchDamage": 1.1,
+      "groundDamage": 4.5,
+      "formSpeed": 760,
+      "formLife": 1.75,
+      "formPeriod": 10,
+      "formDamage": 3.8,
+      "skill": "高压导体",
+      "description": "撞墙获得1电荷，获取间隔0.45秒、上限6，撞点带电6秒。每4.8秒消耗2电荷，从最近一次带电点沿墙双向发出真实电流，440速度、持续2.3秒，拐角继续传导、留下0.7秒带电痕迹；电流每敌限一次3.6伤，墙电轻击1.1伤，同源电弧至少间隔0.65秒。有效碰撞实伤留下5秒导电：电弧距离由38增至66；导电者撞外墙消印、固定4.5短路伤并留下4秒带电点。觉醒后满4电荷且冷却结束的有效墙撞消耗4电荷，化身760速度沿壁电流1.75秒，每敌最多两次3.8电弧，10秒冷却，结束向内凝聚回场。雷化不参与球体接触，不免疫弹丸、光束或持续伤害；掩体遮挡电弧，内障碍不蓄电也不接地。",
+      "advantage": "沿墙控制",
+      "weakness": "依赖墙面与近壁目标"
+    },
+    "orbital": {
+      "name": "星辰球",
+      "color": "#ffc99a",
+      "hp": 120,
+      "damage": 8.3,
+      "speed": 215,
+      "maxSpeed": 215,
+      "mass": 1,
+      "orbitCharge": 5.4,
+      "cometDamage": 2.5,
+      "cometEnergyDamage": 1.2,
+      "orbitTouch": 0.75,
+      "resonanceDamage": 2.2,
+      "rebirthDamage": 2.8,
+      "novaPeriod": 15.5,
+      "novaDamage": 10,
+      "skill": "彗星与超新星",
+      "description": "三颗真实卫星独立公转，半径38/47/56，5.4秒蓄满轨道能，最高135%；实轨擦击0.75伤，同一敌人0.9秒一次。三星蓄满后依次预瞄投射高速彗星，间隔0.18秒、速度585起、伤害3.7起，最多反弹两次、飞行1.25秒，命中或结束后900速度返回，回归后才重新蓄能；有卫星未回时满能伙伴最多等待到135%再单独投射。彗星出膛不追踪，可被磁力影响，不替本体挡弹。同轮不同彗星1.1秒内两次实伤命中同敌，额外一次2.2共振星爆。觉醒15.5秒周期：召回三星，0.9秒旋转坍缩、0.2秒星核压缩，释放真实扩张的10伤冲击环并强击退，每敌只中一次、掩体遮挡；0.28秒后向三方向投射2.8伤重生彗星，返回后恢复星环。觉醒普通彗星实伤命中还对附近其他敌人造成1.8小星爆。坍缩没有无敌，沉默中断蓄势而不清除已飞出彗星。",
+      "advantage": "真实卫星连携",
+      "weakness": "回收与坍缩空窗"
+    },
+    "demon": {
+      "name": "恶魔球",
+      "color": "#e86a65",
+      "hp": 122,
+      "damage": 9.5,
+      "speed": 215,
+      "maxSpeed": 215,
+      "mass": 1.1,
+      "brandLife": 7,
+      "clawPeriod": 6.3,
+      "clawDamage": 8,
+      "chainLife": 3.2,
+      "dualDelay": 1,
+      "executionDamage": 8,
+      "terminalDamage": 2.5,
+      "gatePeriod": 10,
+      "gateDamage": 6.5,
+      "dualDamage": 9,
+      "castCap": 22,
+      "skill": "地狱烙印",
+      "description": "有效碰撞留下7秒地狱烙印（不持续扣血）。每6.3秒召唤预警魔爪，按当前速度预测并提前锁定，伸爪命中8基础伤害；有自己的烙印则留下3.2秒弹性灵魂锁链，留出松弛距离，距离越远牵引越强，仍能沿切向运动。之后另一次有效攻击消耗烙印处刑、额外8伤害，但锁链保留至原定到期，不再重复处刑；未处刑的自然断链才造成2.5终结伤害。首爪不能自触发处刑，纯护盾吸收不能处刑。觉醒每10秒从相对两侧地狱门围猎，两爪间隔0.26秒、各6.5伤害；同轮双锁收束1秒后触发一次9伤害特殊处刑，与普通处刑互斥，每轮每敌技能伤害上限22（随加热增长）。沉默、虚化与死亡解除相关锁链，不赠送终结伤害。",
+      "advantage": "捕获连招",
+      "weakness": "依赖烙印与二次命中"
+    },
+    "reflector": {
+      "name": "反伤球",
+      "color": "#b39cff",
+      "symbol": "✦",
+      "hp": 125,
+      "damage": 10.2,
+      "speed": 210,
+      "maxSpeed": 210,
+      "mass": 1.2,
+      "reflection": 0.75,
+      "stancePeriod": 6.2,
+      "stanceDuration": 2.9,
+      "stanceWarning": 0.45,
+      "skill": "镜面反击",
+      "description": "每6.2秒预警0.45秒后进入2.9秒姿态，即时返还实伤75%；反伤仅返还敌方技能伤害；吸引撞墙和冲撞墙伤不返还，磁排斥伤害仍可返还。基础姿态将敌方造成实伤的25%蓄为反击弹，上限8（随加热增长），结束预瞄0.18秒后发射。觉醒后一次姿态完全没扣血可获得一次预判机会，等待迎撞、预警结束或实体将命中，无视CD直接开姿态，沉默仍阻止；有扣血则恢复普通周期。姿态外不反伤，反伤与反击弹不递归。",
+      "advantage": "反制强攻",
+      "weakness": "姿态空窗"
+    },
+    "shield": {
+      "name": "护盾球",
+      "color": "#61d8c3",
+      "symbol": "⬡",
+      "hp": 118,
+      "damage": 10.8,
+      "speed": 225,
+      "maxSpeed": 225,
+      "mass": 1.1,
+      "shieldAmount": 13,
+      "shieldPeriod": 10,
+      "shieldDuration": 2.6,
+      "pressureWait": 8,
+      "pressureRate": 0.02,
+      "pressureCap": 0.16,
+      "skill": "承压堡垒",
+      "description": "每 10 秒获得 13 盾，持续 2.6 秒。实际吸收的 40% 积压力，上限 8；碰撞消压盾击，最多增伤 55%。觉醒盾结束后锁定敌人，预警后释放扩张压力波，剩余盾量越多波伤越高；不能续盾，压力不重复兑现。",
+      "advantage": "周期防御",
+      "weakness": "护盾空窗"
+    },
+    "ranger": {
+      "name": "射手球",
+      "color": "#ff9a70",
+      "hp": 112,
+      "damage": 6,
+      "speed": 210,
+      "maxSpeed": 210,
+      "mass": 1,
+      "shotDamage": 4.2,
+      "calibrationCap": 3,
+      "baseReloadTime": 5.2,
+      "reloadTime": 4,
+      "sniperThreshold": 180,
+      "sniperDamage": 21,
+      "sniperSpread": 21,
+      "sniperSpeed": 800,
+      "sniperAim": 0.5,
+      "sniperLock": 0.15,
+      "shotPeriod": 1.2,
+      "shotSpeed": 440,
+      "shotRadius": 4,
+      "shotLife": 1.6,
+      "skill": "弹匣校准",
+      "description": "三发弹匣、间隔0.42秒，每发4.2伤害；普通子弹命中加1校准，未命中不扣校准，6秒失效。校准0至3层散布为±9/6/3/0度。觉醒前装填5.2秒，觉醒后三种模式装填4秒。觉醒每次装填结束重新选模式：未满三连发；满层距离180及以上狙击，否则散射。狙击预瞄0.5秒、锁定0.15秒，发射21伤、800速度实体；瞄准或锁定受实伤不打断，本发固定按狙击零层±21度扰动，命中回满、落空清零，等待弹丸结算再选下一模式。散射展开消耗本轮校准，两轮扇形弹幕加7.8重弹，每颗命中恢复1层，散射落空不扣层；结束保留恢复的校准。瞄准以有限角速度跟随：普通弹3.2到5.6弧度/秒、预测最多0.5秒；狙击7.5弧度/秒、预测最多0.9秒。满校准消除随机散布，不等于必中。普通弹可反弹一次并增伤15%，狙击不反弹，出膛均不追踪。",
+      "advantage": "远程消耗",
+      "weakness": "近战偏弱"
+    },
+    "trapper": {
+      "name": "陷阱球",
+      "color": "#f0717c",
+      "hp": 114,
+      "damage": 9.2,
+      "speed": 210,
+      "maxSpeed": 210,
+      "mass": 1.1,
+      "trapDamage": 4.2,
+      "trapPeriod": 2.1,
+      "trapRadius": 12,
+      "trapArmDelay": 0.55,
+      "trapLife": "Infinity",
+      "maxTraps": 5,
+      "linkRange": 180,
+      "skill": "感应雷网",
+      "description": "基础每2.1秒布置4.2基础伤节点，觉醒每1.45秒；0.55秒布防，无时间寿命，最多5/7枚；超上限时回收最早放置的节点（含中枢）。180内多线连接，直接碰节点即爆，穿线拉索捕获0.3秒，拉不到爆炸范围保留节点；可被子弹/光束拆除。85内已布防近邻仅在自身爆炸范围内有存活敌人时预约0.09秒连锁，起爆前复查，敌人离开则取消并保留节点，同组每敌最多两次爆炸、原始伤害上限8.5×热度；四枚破片各0.45伤。觉醒保留连接最远节点的动态线。每8秒与离敌人最远且可合法落脚的有效节点交换位置，保留节点状态及放置顺序；节点中心至少间隔70，冷却到期但离自己的节点过近时等待离远再放，重布线不直接算命中。",
+      "advantage": "封锁路线",
+      "weakness": "可被绕开"
+    },
+    "boomerang": {
+      "name": "回旋球",
+      "color": "#65cee9",
+      "hp": 112,
+      "damage": 7.5,
+      "speed": 220,
+      "maxSpeed": 220,
+      "mass": 1,
+      "shotSpeed": 340,
+      "shotRadius": 5,
+      "shotLife": 2.8,
+      "shotDamage": 4.1,
+      "shotPeriod": 4.6,
+      "skill": "弧刃连携",
+      "description": "普通投返觉醒前射程200、觉醒后180，单刃往返留印，射程外在返程时逐刃追猎；觉醒双刃近距交错斩、远距真实交汇后弹射一刃直飞不返、命中施印，另一刃回手；普通主/副刃去回程均可施加或触发已有刃印，该次触印伤害3.6/2.2，每刃整次往返限触发一次。接回1/2刃获得8秒单/双刃武器重斩（8/11），真实扇面判定，可被躲避、防御和反伤；每轮返CD0.35秒。普通身体伤害70%，离刃再乘80%。",
+      "advantage": "往返双击",
+      "weakness": "回程会落空"
+    },
+    "laser": {
+      "name": "激光球",
+      "color": "#e5dd78",
+      "hp": 105,
+      "damage": 6,
+      "speed": 210,
+      "maxSpeed": 210,
+      "mass": 1,
+      "laserDamage": 19.6,
+      "laserPeriod": 5.5,
+      "laserCharge": 0.65,
+      "laserWidth": 4,
+      "skill": "电容重炮",
+      "description": "全程主炮射完后的每次空窗可用一次热切光刃：敌人、敌对实体弹丸/时钟/陷阱接近时预判触发100距离弧扫，4基础伤、生命命中减速55%持续1.1秒，无击退，可切断实体。未觉醒消耗15%电容、觉醒后8%，不足部分延后等量充能；光刃在瞄准/扫射/沉默期间不发动。觉醒后预判身体碰撞可激光短喷侧移，预测光刃可命中时才反切，短喷冷却8秒、消耗6%电容；不因子弹或陷阱短喷、不无敌，优先躲碰撞时可中止主炮瞄准，电容保留。4.2 秒电容充能，瞄准 0.18 秒后锁线预警 0.65 秒，释放 19.6 伤害光束，散热 1.1 秒。瞄准以6.5弧度/秒跟随、预测最多1秒；充能中碰撞最多每 1.5 秒损失 14% 电容，锁线后不再打断；连续两次落空有限返还散热。",
+      "advantage": "集中爆发",
+      "weakness": "蓄力可落空"
+    },
+    "ghost": {
+      "name": "幽灵球",
+      "color": "#cfedf0",
+      "hp": 110,
+      "damage": 11,
+      "speed": 220,
+      "maxSpeed": 220,
+      "mass": 1,
+      "phasePeriod": 6.4,
+      "phaseDuration": 1.4,
+      "fearDamage": 2.1,
+      "fearInterval": 0.25,
+      "skill": "虚化恐吓",
+      "description": "每 6.4 秒预警 0.25 秒后虚化 1.4 秒。虚化穿过小球、弹丸、飞刃、时钟与陷阱感应线，免疫一切扣血和新控制；仍碰墙反弹；穿过敌人时每 0.25 秒造成 2.1 基础恐吓伤害。虚化与觉醒冲刺记录残影路径，结束生成魂影按真实路径与原速重走，按相同2.1恐吓伤害/0.25秒独立命中；觉醒魂影也重放原退相魂爆。魂影是不可碰撞的技能回响，不会再次生成魂影，主人死亡即清除。实体攻击不会被虚体消耗。觉醒虚化中三段预瞄穿行，退相时释放短程魂爆。",
+      "advantage": "穿行避伤",
+      "weakness": "实体期脆弱"
+    },
+    "holy": {
+      "name": "神圣球",
+      "color": "#f4f7ff",
+      "hp": 120,
+      "damage": 7.5,
+      "speed": 220,
+      "maxSpeed": 220,
+      "mass": 1,
+      "waterLife": 4.5,
+      "waterCap": 256,
+      "waterDamage": 0.35,
+      "zoneLife": 5.4,
+      "lightRadius": 17.5,
+      "lightLife": 0.9,
+      "lightTouchInterval": 0.35,
+      "lightTouchDamage": 1.2,
+      "judgementTouchDamage": 0.9,
+      "lightDamage": 6,
+      "judgementPeriod": 14,
+      "judgementBand": 0.5,
+      "judgementDamage": 4.2,
+      "wardDelay": 3,
+      "wardAmount": 5,
+      "wardLife": 5,
+      "wardPeriod": 10,
+      "burnLife": 3,
+      "burnInterval": 0.5,
+      "burnDamage": 0.5,
+      "skill": "圣水结界",
+      "description": "运动留下持续4.5秒的圣水连线；敌人每0.5秒受到0.35基础伤害，同一来源重叠不叠伤。重走至少1.4秒前的旧连线形成有效闭环，连接三个真实路径点组成三角阵，外接圆内随机落下6基础伤害白色圣光，直径35、留场0.9秒，后续触碰每0.35秒造成1.2基础伤害，同来源不叠加，圣阵越大每波光柱越多；同轮预警和落地同步，空间不足则少落几柱，不单独错峰，持续5.4秒；成阵冷却4.2秒，每颗球最多同时一阵，阵内闭环不会重复成阵。连续离开自己的圣阵3秒获得5点神圣庇护，持续5秒、冷却10秒；没有圣阵也算离圈，入阵重置离圈计时。敌人有效碰撞庇护会受到3秒神圣灼伤，每0.5秒0.5基础伤害，同来源不叠层；光柱落下命中延长灼伤2秒，持续触碰只扣血不延长。觉醒每14秒从随机角落向对角推进全场圣光，每0.5秒一条斜排同时落下，单轮每名敌人最多3次4.2落地伤害、4次0.9触碰伤害；扫场未完成不开始下一轮。",
+      "advantage": "持久地形",
+      "weakness": "成阵依赖路线"
+    },
+    "magnet": {
+      "name": "磁力球",
+      "color": "#ff738f",
+      "hp": 116,
+      "damage": 8.8,
+      "speed": 210,
+      "maxSpeed": 210,
+      "mass": 1.35,
+      "magnetPeriod": 5.8,
+      "magnetRange": 270,
+      "magnetNear": 132,
+      "pullSpeed": 690,
+      "pushSpeed": 780,
+      "magnetLife": 1.25,
+      "magnetEnergyCap": 18,
+      "overloadPeriod": 11,
+      "skill": "极性脉冲",
+      "description": "每 5.8 秒预警 0.28 秒，远于 132 则强吸引，近处则猛烈排斥；半径 270 同步偏转子弹、反击弹、飞刃、飞行时钟、毒液弹与破片，激光不受影响。吸引后的首次迎撞仅给敌人追加动能伤害，排斥后的首次撞墙按法向动能伤害，墙伤降低25%、上限13.5；吸引撞墙也有40%轻伤（基础上限5.25）；没有撞中自己则下次吸力+12%，最高+36%，并减少横向偏差。追击不能在墙角重复。觉醒先锚定强吸，再反转弹射。",
+      "advantage": "动能控制",
+      "weakness": "脉冲有空窗"
+    },
+    "time": {
+      "name": "时间球",
+      "color": "#c2b6ff",
+      "hp": 120,
+      "damage": 6,
+      "speed": 215,
+      "maxSpeed": 215,
+      "mass": 1,
+      "domainPeriod": 6.5,
+      "domainRadius": 58,
+      "domainDuration": 2.2,
+      "timeRate": 0.2,
+      "cooldownRate": 0.7,
+      "domainDamage": 2,
+      "clockPeriod": 7,
+      "clockSpeed": 330,
+      "clockRange": 250,
+      "clockDamage": 12,
+      "blastRadius": 46,
+      "silenceDuration": 1.2,
+      "skill": "局部时滞",
+      "description": "全期新增时间回溯：敌人离开已生效领域时回到该领域的中心位置，每个领域总共一次，领域自然消散不回溯。每 6.5 秒在敌人脚下预警 0.25 秒后展开 2.2 秒时间领域，半径 58。敌人在内运动与已开始的施法按20%流逝；冷却、装填和充能独立按70%流逝（延缓30%），每 0.5 秒受到 2 基础侵蚀伤害，重叠不叠伤；自己、印记与已放出的独立武器不受影响，同类领域不叠乘。觉醒获得预瞄时钟投掷：碰敌、到达 250 距离或边界后爆炸，12 基础伤害并对实际炸中的敌人沉默 1.2 秒；若正在充能或等待下一次攻击，额外延后 1 秒；爆炸同时留下相同领域。",
+      "advantage": "干扰节奏",
+      "weakness": "领域可脱离"
+    },
+    "venom": {
+      "name": "毒液球",
+      "color": "#a4d568",
+      "hp": 112,
+      "damage": 6.5,
+      "speed": 215,
+      "maxSpeed": 215,
+      "mass": 1,
+      "poolPeriod": 3.2,
+      "spitPeriod": 9,
+      "spitSpeed": 300,
+      "spitRange": 220,
+      "spitDamage": 2.4,
+      "skill": "双毒三态",
+      "description": "侵蚀毒持续扣血，麻痹毒削弱移速、普通碰撞伤害和普通瞄准转向。共用4槽，单类最多3层；满槽同类两次有效施毒替换对方最短剩余的一层，替换冷却2秒。毒液依次变为普通池、浓缩池、毒雾，觉醒共鸣催化形态。绿色液滴/紫色菱形和文字实时显示毒层结构；不再自动毒爆。",
+      "advantage": "区域消耗",
+      "weakness": "依赖毒池接触"
+    }
+  },
+  "constants": {
+    "width": 360,
+    "height": 340,
+    "dt": 0.004166666666666667,
+    "radius": 23,
+    "collisionCooldown": 0.22,
+    "heatStart": 60,
+    "decayStart": 150,
+    "decayPerSecond": 3
+  },
+  "arcanaHealth": {
+    "normal": 280,
+    "accelerator": 220,
+    "vampire": 198,
+    "ranger": 224,
+    "shield": 236,
+    "reflector": 250,
+    "trapper": 232,
+    "laser": 210,
+    "time": 215,
+    "venom": 220,
+    "boomerang": 228
+  },
+  "arcanaDefs": {
+    "normal": {
+      "name": "瞬身·破阵轰拳",
+      "raw": 32
+    },
+    "accelerator": {
+      "name": "超速·动能轮回",
+      "raw": 0
+    },
+    "vampire": {
+      "name": "血海重生",
+      "raw": 10
+    },
+    "ranger": {
+      "name": "死线·极限反击",
+      "raw": 28
+    },
+    "shield": {
+      "name": "王城·天垒封锁"
+    },
+    "reflector": {
+      "name": "旧债·逆命清算",
+      "raw": 18
+    },
+    "trapper": {
+      "name": "诡匣·替身收监"
+    },
+    "laser": {
+      "name": "日轮·断界天刃",
+      "raw": 18
+    },
+    "time": {
+      "name": "终焉·命运重启",
+      "raw": 0
+    },
+    "venom": {
+      "name": "腐生·万毒缓蚀",
+      "raw": 0
+    },
+    "boomerang": {
+      "name": "回天·双生轮舞",
+      "raw": 0
+    }
+  },
+  "venom": {
+    "capacity": 4,
+    "typeCap": 3,
+    "applyInterval": 1.1,
+    "erosionLife": 6,
+    "concentratedLife": 7.5,
+    "paralysisLife": 5.5,
+    "pulsePeriod": 0.5,
+    "mistPulsePeriod": 0.5,
+    "mistDamage": 0.18,
+    "erosionDamage": 0.55,
+    "awakeErosionDamage": 0.65,
+    "replacementHits": 2,
+    "replacementCooldown": 2,
+    "slowPerLayer": 0.04,
+    "contactReductionPerLayer": 0.08,
+    "aimReductionPerLayer": 0.14,
+    "mistAimDegrees": 5,
+    "poolPeriod": 3.2,
+    "spitPeriod": 9,
+    "spitFirstDelay": 1.6,
+    "spitDamage": 2.4,
+    "poolCap": 4,
+    "poolGap": 8,
+    "armDelay": 0.5,
+    "normalRadius": 46,
+    "concentratedRadius": 30,
+    "mistRadius": 62,
+    "shotPoolRadius": 36,
+    "normalTime": 3.5,
+    "concentratedTime": 3,
+    "mistTime": 4.5,
+    "concentratedMinorEvery": 2,
+    "mistExtend": 1.5,
+    "mistMaxExtension": 3
+  },
+  "blade": {
+    "range": 200,
+    "awakeRange": 180,
+    "mainMarkDamage": 3.6,
+    "subMarkDamage": 2.2,
+    "slingStop": 0.055,
+    "bodyFactor": 0.7,
+    "awayFactor": 0.8,
+    "chaseTurn": 5,
+    "relayFraction": 0.58,
+    "relayTime": 0.42,
+    "relayWait": 0.45,
+    "slingSpeed": 560,
+    "rewardLife": 8,
+    "slashReach": 28,
+    "slashWind": 0.075,
+    "slashLife": 0.3,
+    "singleDamage": 8,
+    "doubleDamage": 11,
+    "singleHalfAngle": 1.2,
+    "doubleHalfAngle": 1.5,
+    "crossWindow": 0.24
+  },
+  "overdrive": {
+    "speed": 900,
+    "wallCap": 4,
+    "cruiseRamp": 0.24,
+    "brakeGap": 8,
+    "brakeDistance": 270,
+    "peakStop": 0.12,
+    "timeout": 6
+  }
+}
