@@ -10,7 +10,7 @@
     activate(b,e){const s=this.ensure(b,e);if(!s||s.active||b.arcana.used||b.hp<=0)return false;G.Arcana.commit(b,e);s.active=true;s.started=e.time;s.nextTick=e.time+.5;e.hitStop(.05);this.event(b,e,'activate');e.sound('arcVenomOpen',b.x);e.signal(b,'腐生 · 伤害缓蚀','ready');return true;},
     event(b,e,stage,amount=0){const s=this.state(b),eventId=b.arcana.castId+':venom:'+stage+':'+e.tick;G.Presentation?.note(e,'arcana.venom',{eventId,stage,actorId:b.id,pool:s.pool,amount});},
     receive(b,raw,e,options={}){const s=this.ensure(b,e);if(!s||raw<=0)return null;let immediate=raw;
-      if(s.active)immediate=0;else if(!b.arcana.used&&b.hp-raw<=b.maxHp*.3+1e-9){immediate=Math.max(0,b.hp-b.maxHp*.3);this.activate(b,e);}
+      if(s.active)immediate=0;else if(!b.arcana.used&&G.HolySeals?.canStart(b,e)!==false&&b.hp-raw<=b.maxHp*.3+1e-9){immediate=Math.max(0,b.hp-b.maxHp*.3);this.activate(b,e);}
       const deferred=s.active?Math.max(0,raw-immediate):0;
       if(deferred>0){s.pool+=deferred;s.received+=deferred;G.VenomVisual?.hurt(b,e,deferred);if(!options.silent){if(deferred>=.1)e.float(b.x,b.y+29,'缓蚀 +'+deferred.toFixed(1),'#c1dd82');this.event(b,e,'bank',deferred);}}
       return {immediate,deferred};

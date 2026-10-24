@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-22",
+  "tests": [
+    {
+      "name": "new action recipes differ and every active profile calibrated",
+      "pass": true
+    },
+    {
+      "name": "rend and extraction no longer request identical grip voice",
+      "pass": true
+    },
+    {
+      "name": "full demon Arcana has nail, fire, sever and assimilation identities",
+      "pass": true
+    },
+    {
+      "name": "ordinary nail and grasp use distinct warnings and releases",
+      "pass": true
+    },
+    {
+      "name": "laser preparation and propulsion separated from dash and cannon",
+      "pass": true
+    },
+    {
+      "name": "living bind and swarm request independent preparation sounds",
+      "pass": true
+    },
+    {
+      "name": "full Blade Dance replaces ordinary throw, recall, catch and slash cues",
+      "pass": true
+    }
+  ],
+  "passed": 7,
+  "total": 7
+}

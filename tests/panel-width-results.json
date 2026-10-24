@@ -1,0 +1,167 @@
+{
+  "passed": true,
+  "version": "20261013-side4",
+  "errors": [],
+  "records": [
+    {
+      "viewport": [
+        1920,
+        930
+      ],
+      "arena": [
+        371,
+        151,
+        1163,
+        799.5625
+      ],
+      "blue": [
+        24,
+        150,
+        330,
+        1032.1875
+      ],
+      "pink": [
+        1551,
+        150,
+        330,
+        762.5
+      ],
+      "previousArena": [
+        1265,
+        869.6875
+      ],
+      "previousRail": 278,
+      "rosterValues": true,
+      "paused": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "arena": [
+        321,
+        151,
+        709,
+        487.4375
+      ],
+      "blue": [
+        24,
+        150,
+        280,
+        1032.1875
+      ],
+      "pink": [
+        1047,
+        150,
+        280,
+        762.5
+      ],
+      "previousArena": [
+        769,
+        528.6875
+      ],
+      "previousRail": 250,
+      "rosterValues": true,
+      "paused": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        1180,
+        800
+      ],
+      "arena": [
+        309,
+        150,
+        547,
+        376.0625
+      ],
+      "blue": [
+        16,
+        149,
+        280,
+        1032.1875
+      ],
+      "pink": [
+        869,
+        149,
+        280,
+        762.5
+      ],
+      "rosterValues": true,
+      "paused": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "arena": [
+        17,
+        150,
+        911,
+        626.3125
+      ],
+      "blue": [
+        16,
+        867.3125,
+        450.5,
+        745.59375
+      ],
+      "pink": [
+        478.5,
+        867.3125,
+        450.5,
+        493.5
+      ],
+      "previousArena": [
+        911,
+        626.3125
+      ],
+      "previousRail": 450.5,
+      "rosterValues": true,
+      "paused": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "arena": [
+        11,
+        133,
+        353,
+        242.6875
+      ],
+      "blue": [
+        10,
+        495.6875,
+        174,
+        1117
+      ],
+      "pink": [
+        191,
+        495.6875,
+        174,
+        847
+      ],
+      "previousArena": [
+        353,
+        242.6875
+      ],
+      "previousRail": 174,
+      "rosterValues": true,
+      "paused": true,
+      "reset": true,
+      "overflow": false
+    }
+  ]
+}

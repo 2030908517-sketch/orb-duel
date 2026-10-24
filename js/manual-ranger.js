@@ -8,9 +8,9 @@
     state(b,e){return e.manual&&b.id===e.manual.playerId&&b.type==='ranger'?e.manual:null;},
     player(e){return e.balls.find(b=>b.id===e.manual?.playerId);},
     sync(e){const m=e.manual;if(m&&(m.epoch!==e.presentationEpoch||m.role!==this.player(e)?.role)){const sameRound=m.epoch===e.presentationEpoch;this.attach(e,m.clock);if(sameRound){e.manual.pointer=m.pointer;e.manual.selected=m.selected;e.manual.message='命运重启 · 手动待命与未发指令已清空';}}return e.manual;},
-    blocked(e,ordinary=false){const m=this.sync(e),b=this.player(e);if(!m||!b||e.state!=='running'||e.ending||e.timeRewind?.active||b.hp<=0)return true;
+    blocked(e,ordinary=false,arcana=false){const m=this.sync(e),b=this.player(e);if(!m||!b||e.state!=='running'||e.ending||e.timeRewind?.active||b.hp<=0)return true;
       const clock=m.clock;if(clock&&(clock.stopRemaining>EPS||clock.stopSeen!==e.hitStopSerial&&e.hitStopDuration>0))return true;
-      if(G.World.absent(b,e)||b.kineticCycle?.side==='target')return true;
+      if(G.World.absent(b,e)||b.kineticCycle?.side==='target'&&!(arcana&&G.Priority?.armoredArcana(b)))return true;
       return ordinary&&(G.Temporal.silenced(b,e)||G.Arcana.busy(b));
     },
     angle(b,e,ordinary=true,dt=G.Constants.dt){const m=e.manual,a=Math.atan2(m.pointer.y-b.y,m.pointer.x-b.x);return ordinary?G.Aim.adjust(b,e,'manualMouse',a,dt):a;},
@@ -19,7 +19,7 @@
     switch(e,probe=false){if(this.blocked(e,true))return false;const b=this.player(e);if(!G.Awakening.active(b)){if(!probe)e.manual.message='觉醒前固定三连发';return false;}if(probe)return true;e.manual.selected=e.manual.selected==='sniper'?'scatter':'sniper';return true;},
     ready(e){const b=this.player(e),u=b?.arcana;if(!u||u.used||u.phase!=='idle'||!G.Awakening.active(b)||b.hp>b.maxHp*G.Arcana.ratio)return false;
       const t=G.World.targetFor(b,e);if(t?.type==='normal'&&['warning','blink','punch','punchRecovery'].includes(t.arcana?.phase))return false;return !!t&&!G.Arcana.protected(t,e,'ranger')&&b.role.sniperPhase==='idle'&&b.role.sniperPending===null&&!b.magnetic.anchored;},
-    ultimate(e,probe=false){if(this.blocked(e)||!this.ready(e))return false;const b=this.player(e),t=G.World.targetFor(b,e),angle=this.angle(b,e,false);
+    ultimate(e,probe=false){if(this.blocked(e,false,true)||!this.ready(e))return false;const b=this.player(e),t=G.World.targetFor(b,e),angle=this.angle(b,e,false);
       const threat={kind:'manual',id:-1,owner:t.id,angle,at:0},route=G.RangerArcana.route(b,threat,e,angle);
       if(!route){if(!probe)e.manual.message='光标方向没有合法侧闪落点';return false;}if(probe)return true;
       G.RangerArcana.begin(b,t,threat,route,e);e.manual.armed=false;e.manual.executing=false;return true;

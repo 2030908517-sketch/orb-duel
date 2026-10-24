@@ -5,13 +5,13 @@
   Game.Physics = {
     armored(ball){return ball.hp>0&&(Game.Priority?Game.Priority.armored(ball):!!Game.LaserBlade?.active(ball));},
     limit(ball) {
-      const length=Math.hypot(ball.vx,ball.vy),cap=(ball.motionSpeed||800)*(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1);
+      const length=Math.hypot(ball.vx,ball.vy),cap=(ball.motionSpeed||800)*(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1)*(Game.HolySeals?.speed(ball,Game.ArenaWalls?.current||Game.Priority?.current)||1);
       if(length>cap){ball.vx*=cap/length;ball.vy*=cap/length;}
     },
     normalizeSpeed(ball,dt=0) {
       if(ball.magnetic?.anchored){ball.vx=0;ball.vy=0;ball.inertia=0;return;}
       const length = Math.hypot(ball.vx, ball.vy);
-      const rate=(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1),speed=(ball.ghost?.lungeSpeed || ball.motionSpeed || ball.speed)*rate;
+      const rate=(ball.temporal?.rate??1)*(Game.Venom?.speedFactor(ball)||1)*(Game.HolySeals?.speed(ball,Game.ArenaWalls?.current||Game.Priority?.current)||1),speed=(ball.ghost?.lungeSpeed || ball.motionSpeed || ball.speed)*rate;
       if (!Number.isFinite(length) || length < 1e-6) { ball.vx = speed; ball.vy = 0; }
       else {
         const target=ball.inertia>dt&&!ball.motionSpeed?Math.max(100*rate,speed+(length-speed)*Math.exp(-dt*(ball.impactDrag||4)*rate)):speed;
@@ -46,7 +46,7 @@
       // A deterministic normal also resolves exactly coincident centers.
       if (distance < 1e-8) { dx = 1; dy = 0; distance = 1; }
       const nx = dx / distance, ny = dy / distance;
-      const inverseA = this.armored(a)?0:1 / a.mass, inverseB = this.armored(b)?0:1 / b.mass;
+      const inverseA = (this.armored(a)||Game.HolySeals?.casting(a,Game.ArenaWalls?.current||Game.Priority?.current)||Game.HolySeals?.rooted(a,Game.ArenaWalls?.current||Game.Priority?.current)||a.demonStasis?.until>Game.ArenaWalls?.current?.time)?0:1 / a.mass, inverseB = (this.armored(b)||Game.HolySeals?.casting(b,Game.ArenaWalls?.current||Game.Priority?.current)||Game.HolySeals?.rooted(b,Game.ArenaWalls?.current||Game.Priority?.current)||b.demonStasis?.until>Game.ArenaWalls?.current?.time)?0:1 / b.mass;
       if(inverseA+inverseB===0)return true;
       const correction = minDistance - Math.hypot(b.x - a.x, b.y - a.y) + 0.02;
       a.x -= nx * correction * inverseA / (inverseA + inverseB);

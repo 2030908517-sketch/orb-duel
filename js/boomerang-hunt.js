@@ -53,9 +53,9 @@ const H=G.BladeHunt={
    this.cue(e,b,'relay',{x:(a.x+other.x)/2,y:(a.y+other.y)/2},{angle});e.sound('bladeCatch',a.x);e.sound('throw',a.x);G.Characters.returnBlade(other,b,e);
   }
  },
- reward(b,e,count=Math.min(2,b.character.caughtInCast)){if(b.hp<=0||e.ending)return;b.character.catchPower=count>=2?1.4:1.2;b.character.catchUntil=e.time+this.config.rewardLife;e.signal(b,count>=2?'双刃重斩就绪':'单刃重斩就绪','bladeCatch');this.cue(e,b,'catch',b,{count});},
+ reward(b,e,count=Math.min(2,b.character.caughtInCast)){if(b.hp<=0||e.ending)return;b.character.catchPower=count>=2?1.4:1.2;b.character.catchUntil=e.time+this.config.rewardLife;e.signal(b,count>=2?'双刃重斩就绪':'单刃重斩就绪',G.BladeDance?.active(b)?'arcDanceCatch':'bladeCatch');this.cue(e,b,'catch',b,{count});},
  inArc(b,t,e,s){const dx=t.x-b.x,dy=t.y-b.y,d=Math.hypot(dx,dy),r=b.radius+this.config.slashReach;if(d>r+t.radius)return false;const delta=Math.abs(Math.atan2(Math.sin(Math.atan2(dy,dx)-s.angle),Math.cos(Math.atan2(dy,dx)-s.angle))),half=s.count>=2?this.config.doubleHalfAngle:this.config.singleHalfAngle;return delta<=half+Math.asin(Math.min(1,t.radius/(d||1)))&&this.clear(b,t,e);},
- startSwing(b,t,e,dance=false){const state=this.state(b);if(state.swing||b.character.catchUntil<=e.time)return false;state.swing={at:e.time,angle:Math.atan2(t.y-b.y,t.x-b.x),count:b.character.catchPower>=1.4?2:1,struck:false,dance};b.character.catchUntil=0;e.sound(state.swing.count>=2?'bladeTwinWhoosh':'bladeSlashWhoosh',b.x);return true;},
+ startSwing(b,t,e,dance=false){const state=this.state(b);if(state.swing||b.character.catchUntil<=e.time)return false;state.swing={at:e.time,angle:Math.atan2(t.y-b.y,t.x-b.x),count:b.character.catchPower>=1.4?2:1,struck:false,dance};b.character.catchUntil=0;e.sound(dance?'arcDanceSlash':state.swing.count>=2?'bladeTwinWhoosh':'bladeSlashWhoosh',b.x);return true;},
  beforeMove(b,dt,e){
   if(b.type!=='boomerang')return;const state=this.state(b),c=this.config;
   if(b.hp<=0||e.ending||G.World.absent(b,e)){state.swing=null;state.plan=null;return;}
@@ -78,7 +78,7 @@ const H=G.BladeHunt={
  hit(h,e){
   if(h.source.type!=='boomerang')return;
   if(h.kind==='boomerang'&&h.bladeSling&&h.actual+h.blocked>0&&!h.avoided){G.Roles.heavyImpact(h.source,h,e,'bladeImpact','bladeHeavyHit',0,this.config.slingStop);this.cue(e,h.source,'slingHit',h.target,{angle:h.angle,blocked:!h.actual,life:.28});}
-  if(h.kind==='bladeSlash'&&h.actual+h.blocked>0&&!h.avoided){G.Roles.heavyImpact(h.source,h,e,'bladeImpact',h.slashCount>=2?'bladeTwinHit':'bladeSlashHit',h.slashCount>=2?155:90,h.slashCount>=2?.06:.045);this.cue(e,h.source,'slashHit',h.target,{angle:h.angle,count:h.slashCount,blocked:!h.actual});}
+  if(h.kind==='bladeSlash'&&h.actual+h.blocked>0&&!h.avoided){G.Roles.heavyImpact(h.source,h,e,'bladeImpact',G.BladeDance?.active(h.source)?'arcDanceCut':h.slashCount>=2?'bladeTwinHit':'bladeSlashHit',h.slashCount>=2?155:90,h.slashCount>=2?.06:.045);this.cue(e,h.source,'slashHit',h.target,{angle:h.angle,count:h.slashCount,blocked:!h.actual});}
   if(h.kind==='boomerang'&&h.bladeCross&&h.actual+h.blocked>0&&!h.avoided){const plan=h.source.character.bladeHunt?.plan;if(!plan||plan.id!==h.bladeCast||plan.crossDone)return;plan.crossHits=plan.crossHits.filter(v=>e.time-v.at<=this.config.crossWindow);const other=plan.crossHits.find(v=>v.slot!==h.bladeSlot&&v.target===h.target.id);if(other){plan.crossDone=true;this.cue(e,h.source,'cross',h.target,{angle:h.angle});}plan.crossHits.push({slot:h.bladeSlot,target:h.target.id,at:e.time});}
  },
  retire(b){if(b.type!=='boomerang')return;b.character.bladeRemaining=0;b.character.caughtInCast=0;b.character.catchUntil=0;const s=b.character.bladeHunt;if(s){s.plan=null;s.swing=null;}},

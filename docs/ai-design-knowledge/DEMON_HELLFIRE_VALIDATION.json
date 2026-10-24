@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-22",
+  "tests": [
+    {
+      "name": "unbranded extracts; marked binds; full shield blocks extraction",
+      "pass": true
+    },
+    {
+      "name": "body marks, full immunity does not mark",
+      "pass": true
+    },
+    {
+      "name": "soul maximum75, no progress from distance; timeout returns",
+      "pass": true
+    },
+    {
+      "name": "binding constrains flesh, unbranded does not",
+      "pass": true
+    },
+    {
+      "name": "rend is orb contact, not line contact; cooldown prevents repeats",
+      "pass": true
+    },
+    {
+      "name": "pierce pauses CD and motion; loss affects attributable output only",
+      "pass": true
+    },
+    {
+      "name": "gate relay interior spawn and second pierce only after first bound",
+      "pass": true
+    },
+    {
+      "name": "genuine pierce swept soul hit and no duplicate",
+      "pass": true
+    },
+    {
+      "name": "shield and ghost block pierce control; armor keeps priority",
+      "pass": true
+    },
+    {
+      "name": "assimilation native actor, allegiance, no awakening/Arcana; death and rebirth",
+      "pass": true
+    },
+    {
+      "name": "all registered roles use native base skills, finite state and no awakening",
+      "pass": true
+    },
+    {
+      "name": "servant does not sustain victory; owner death clears",
+      "pass": true
+    },
+    {
+      "name": "cleanup/reset/rewind and cage wall retain role-independent semantics",
+      "pass": true
+    },
+    {
+      "name": "four entries isolated HP, enemy automatic and Team ownership",
+      "pass": true
+    },
+    {
+      "name": "non-demon deterministic regression against task backup",
+      "pass": true
+    },
+    {
+      "name": "new native actor cannot damage owner or gain contact resources from ally",
+      "pass": true
+    },
+    {
+      "name": "true rend native reflection and venom life accounting",
+      "pass": true
+    },
+    {
+      "name": "real time rewind clears native servant and preserves spent use",
+      "pass": true
+    },
+    {
+      "name": "team friend rejection, single ownership and real obstacle",
+      "pass": true
+    },
+    {
+      "name": "manual player cannot cast during demon stasis; cleanse releases ordinary status",
+      "pass": true
+    },
+    {
+      "name": "orbit energy and caught-slash window pause with stasis",
+      "pass": true
+    },
+    {
+      "name": "guaranteed hellfire assimilation with world freeze, no gate/claw",
+      "pass": true
+    },
+    {
+      "name": "pause and reset stop cinematic; silence does not interrupt",
+      "pass": true
+    },
+    {
+      "name": "manual inputs blocked throughout cinematic",
+      "pass": true
+    }
+  ],
+  "passed": 24,
+  "total": 24
+}

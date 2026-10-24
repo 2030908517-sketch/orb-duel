@@ -1,0 +1,1643 @@
+{
+  "version": "20261013-ghost1",
+  "records": [
+    {
+      "types": [
+        "normal",
+        "normal"
+      ],
+      "seed": "team-isolation-normal-normal",
+      "seconds": 18,
+      "hash": "9767a1b6ce16369986ce05d7d98019ee33a3b2a249eeb595de7c9d7c8813baaa"
+    },
+    {
+      "types": [
+        "normal",
+        "vampire"
+      ],
+      "seed": "team-isolation-normal-vampire",
+      "seconds": 18,
+      "hash": "248889c4039adc7fcf3b717d19acd7ce4b3350c59a718f7327f98434e67b84fb"
+    },
+    {
+      "types": [
+        "normal",
+        "accelerator"
+      ],
+      "seed": "team-isolation-normal-accelerator",
+      "seconds": 18,
+      "hash": "9b6ad414acd047534fc0075a3da9a69be174d3e6ca9b3f95c8c2f61969a4b9e2"
+    },
+    {
+      "types": [
+        "normal",
+        "reflector"
+      ],
+      "seed": "team-isolation-normal-reflector",
+      "seconds": 18,
+      "hash": "ba357b92edc7b2234ffe3037deca7b2473c64f31695ca1dc42dd6a96aee8cc19"
+    },
+    {
+      "types": [
+        "normal",
+        "shield"
+      ],
+      "seed": "team-isolation-normal-shield",
+      "seconds": 18,
+      "hash": "b94137856f419c1bbb804ab93a98759e58c50ebdd756b61f214160ac3fbcdc81"
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": "team-isolation-normal-ranger",
+      "seconds": 18,
+      "hash": "5bf304c05ba517dfd3b47f00f8f7b3151d9463b1c3bfa57385aa0bb30bfee4e3"
+    },
+    {
+      "types": [
+        "normal",
+        "trapper"
+      ],
+      "seed": "team-isolation-normal-trapper",
+      "seconds": 18,
+      "hash": "8936067ccc00c4d4437d29840f48b12bbb58ace1697d246016ee9682b89065e6"
+    },
+    {
+      "types": [
+        "normal",
+        "boomerang"
+      ],
+      "seed": "team-isolation-normal-boomerang",
+      "seconds": 18,
+      "hash": "57103241b2858cd33e73b3c06ad8322e3d6aafafe022d882f0269672bb4817c7"
+    },
+    {
+      "types": [
+        "normal",
+        "laser"
+      ],
+      "seed": "team-isolation-normal-laser",
+      "seconds": 18,
+      "hash": "999ef84afb0272ce7c0b45caf28fb8d7e5e8fbd3ba225d0adbbb40472bcd7c97"
+    },
+    {
+      "types": [
+        "normal",
+        "ghost"
+      ],
+      "seed": "team-isolation-normal-ghost",
+      "seconds": 18,
+      "hash": "cc3c543174afbe2c11f1cbe64f65402dcea7fdc5e19ef07f2e9a6610eaa1b124"
+    },
+    {
+      "types": [
+        "normal",
+        "magnet"
+      ],
+      "seed": "team-isolation-normal-magnet",
+      "seconds": 18,
+      "hash": "af1a101bc16b623c3cbba0857275faba6a6d3f2a1af3f6a5bdc07dcba846fb64"
+    },
+    {
+      "types": [
+        "normal",
+        "time"
+      ],
+      "seed": "team-isolation-normal-time",
+      "seconds": 18,
+      "hash": "3fa12645ee06c7238be17029d1dc29a3a161f27c87157c101c8c1c715a42418d"
+    },
+    {
+      "types": [
+        "normal",
+        "venom"
+      ],
+      "seed": "team-isolation-normal-venom",
+      "seconds": 18,
+      "hash": "f36c141415ba10c206790bf2f772363f33495a48339580bf43565c1e4c9c4352"
+    },
+    {
+      "types": [
+        "vampire",
+        "normal"
+      ],
+      "seed": "team-isolation-vampire-normal",
+      "seconds": 18,
+      "hash": "7965506d45d8772b4f025644f6936ff2173e3a43d49e15e8bab682950a57eb3b"
+    },
+    {
+      "types": [
+        "vampire",
+        "vampire"
+      ],
+      "seed": "team-isolation-vampire-vampire",
+      "seconds": 18,
+      "hash": "7eb25521dc3de192ff818d728ce21abee2758b26cf6a795efee6b229ff1a9972"
+    },
+    {
+      "types": [
+        "vampire",
+        "accelerator"
+      ],
+      "seed": "team-isolation-vampire-accelerator",
+      "seconds": 18,
+      "hash": "23341b43c892ad58838978c9110806ffa0350d0b74b16011d310fbef3d502e30"
+    },
+    {
+      "types": [
+        "vampire",
+        "reflector"
+      ],
+      "seed": "team-isolation-vampire-reflector",
+      "seconds": 18,
+      "hash": "ec748cf68f1acf225b6de4651d3c10fd6fd749eecbaccde479355713cf73fe29"
+    },
+    {
+      "types": [
+        "vampire",
+        "shield"
+      ],
+      "seed": "team-isolation-vampire-shield",
+      "seconds": 18,
+      "hash": "45138f61ce84ad0317825abd80597ee5fd632468236ebcff6a3a14a5efa29004"
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": "team-isolation-vampire-ranger",
+      "seconds": 18,
+      "hash": "843e3882090cba8b00d0df2d727523a2720bf9329d49b493f08004bd0fdbf155"
+    },
+    {
+      "types": [
+        "vampire",
+        "trapper"
+      ],
+      "seed": "team-isolation-vampire-trapper",
+      "seconds": 18,
+      "hash": "b7699cfbc79f4f77e8b5a163d0b7268eae02274d43fcc810f6ea901ccf87995e"
+    },
+    {
+      "types": [
+        "vampire",
+        "boomerang"
+      ],
+      "seed": "team-isolation-vampire-boomerang",
+      "seconds": 18,
+      "hash": "9d874d4010fee71ca1bc1b8790681c3a997322b16ce24c7c9fe52758dd7390ae"
+    },
+    {
+      "types": [
+        "vampire",
+        "laser"
+      ],
+      "seed": "team-isolation-vampire-laser",
+      "seconds": 18,
+      "hash": "ae95bd9834d07f74fe6212b4f30b92f67ecfaf1d9dbcd9691780ab71fadcbe69"
+    },
+    {
+      "types": [
+        "vampire",
+        "ghost"
+      ],
+      "seed": "team-isolation-vampire-ghost",
+      "seconds": 18,
+      "hash": "2c63b1ec942283bc8bb428a4a461dba1927f1755b6ce44538020637a76e068b3"
+    },
+    {
+      "types": [
+        "vampire",
+        "magnet"
+      ],
+      "seed": "team-isolation-vampire-magnet",
+      "seconds": 18,
+      "hash": "0af0f15a906a665fb96a30c9e53e5e11af3ae83b68b6d5790985b0d24bd240e1"
+    },
+    {
+      "types": [
+        "vampire",
+        "time"
+      ],
+      "seed": "team-isolation-vampire-time",
+      "seconds": 18,
+      "hash": "6d29b304eade455511ff0d649c9b5e292e6db12d57bc4c0780c399813187b2be"
+    },
+    {
+      "types": [
+        "vampire",
+        "venom"
+      ],
+      "seed": "team-isolation-vampire-venom",
+      "seconds": 18,
+      "hash": "da3278f6b59e8528a86b7d59d3b1645cbb54f65967477e71a470cf54160ad937"
+    },
+    {
+      "types": [
+        "accelerator",
+        "normal"
+      ],
+      "seed": "team-isolation-accelerator-normal",
+      "seconds": 18,
+      "hash": "5f60dd6d36e8cc1353ca603bf3d97cf1cf5b5ace7baf3e51863ef20c028d5650"
+    },
+    {
+      "types": [
+        "accelerator",
+        "vampire"
+      ],
+      "seed": "team-isolation-accelerator-vampire",
+      "seconds": 18,
+      "hash": "4f1d7946bac04a9a884d846c4653039b042a88131bf84b70b1eca2ce9d78260c"
+    },
+    {
+      "types": [
+        "accelerator",
+        "accelerator"
+      ],
+      "seed": "team-isolation-accelerator-accelerator",
+      "seconds": 18,
+      "hash": "0e4c8850f663577c22154619e7e69671b3e04caed57234027d937d89df6fe860"
+    },
+    {
+      "types": [
+        "accelerator",
+        "reflector"
+      ],
+      "seed": "team-isolation-accelerator-reflector",
+      "seconds": 18,
+      "hash": "9bff8858f54728b0d66e6f512561341af406e040dbcb6b98539650f5f593ee78"
+    },
+    {
+      "types": [
+        "accelerator",
+        "shield"
+      ],
+      "seed": "team-isolation-accelerator-shield",
+      "seconds": 18,
+      "hash": "c403e691c167f9c5bf6aca36f54660c15bc6603a9da9ebaf0ec8285d925b737f"
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": "team-isolation-accelerator-ranger",
+      "seconds": 18,
+      "hash": "dcdb0335f8e8f3156451f679b770848303de84e05cacd5468c54fc402a6d7982"
+    },
+    {
+      "types": [
+        "accelerator",
+        "trapper"
+      ],
+      "seed": "team-isolation-accelerator-trapper",
+      "seconds": 18,
+      "hash": "fa6b97c1f422c4f6ed40baaadbc5a22caba1352c630bf9bcca0ebc786d44201b"
+    },
+    {
+      "types": [
+        "accelerator",
+        "boomerang"
+      ],
+      "seed": "team-isolation-accelerator-boomerang",
+      "seconds": 18,
+      "hash": "82138b1ff5fed2107bbadb88e7081b230ea8624d7dcfd69a814e04fe1541189d"
+    },
+    {
+      "types": [
+        "accelerator",
+        "laser"
+      ],
+      "seed": "team-isolation-accelerator-laser",
+      "seconds": 18,
+      "hash": "d77e8a94b83ec98f0b6b443ef2447ee1cd6f0977ad544d6b0e10ff6189c8549e"
+    },
+    {
+      "types": [
+        "accelerator",
+        "ghost"
+      ],
+      "seed": "team-isolation-accelerator-ghost",
+      "seconds": 18,
+      "hash": "7cbe4cc9f02b7d2bfb45611105bdf99fa349f263218d4070776d30cd19673025"
+    },
+    {
+      "types": [
+        "accelerator",
+        "magnet"
+      ],
+      "seed": "team-isolation-accelerator-magnet",
+      "seconds": 18,
+      "hash": "e2f8df10a51be8ff721ed4089318144b5af31c3d03cc773851e6a578d08ca787"
+    },
+    {
+      "types": [
+        "accelerator",
+        "time"
+      ],
+      "seed": "team-isolation-accelerator-time",
+      "seconds": 18,
+      "hash": "27764ac5bbfd787f824fb053f22914534d0c84b434b6df1d60accd8ad2b5b4ca"
+    },
+    {
+      "types": [
+        "accelerator",
+        "venom"
+      ],
+      "seed": "team-isolation-accelerator-venom",
+      "seconds": 18,
+      "hash": "8125009a57a68f07b688836762b891db85fc6ffdc6995062229b9d5ef88ac31f"
+    },
+    {
+      "types": [
+        "reflector",
+        "normal"
+      ],
+      "seed": "team-isolation-reflector-normal",
+      "seconds": 18,
+      "hash": "30629cf241019a5bc51cdcdd7c0f2b747f6cae710f076c6ee3a4ffa0b10590cc"
+    },
+    {
+      "types": [
+        "reflector",
+        "vampire"
+      ],
+      "seed": "team-isolation-reflector-vampire",
+      "seconds": 18,
+      "hash": "348d30265de35d82ac7dfe2244249bcaba59c4e63e4809455502f3510558d844"
+    },
+    {
+      "types": [
+        "reflector",
+        "accelerator"
+      ],
+      "seed": "team-isolation-reflector-accelerator",
+      "seconds": 18,
+      "hash": "08a3fda883f022e943e1252643ffa8805c0100f11e6e9e2dc2876761173ac8f2"
+    },
+    {
+      "types": [
+        "reflector",
+        "reflector"
+      ],
+      "seed": "team-isolation-reflector-reflector",
+      "seconds": 18,
+      "hash": "9c6727d9aff28829c25d040e32e381ea233a53c03acf2a79d1679d01800c0241"
+    },
+    {
+      "types": [
+        "reflector",
+        "shield"
+      ],
+      "seed": "team-isolation-reflector-shield",
+      "seconds": 18,
+      "hash": "754173b09d28fddf800087b4a621f0d73e8ab0429e9b9a3fec9076b6e2145e5c"
+    },
+    {
+      "types": [
+        "reflector",
+        "ranger"
+      ],
+      "seed": "team-isolation-reflector-ranger",
+      "seconds": 18,
+      "hash": "5b2412c62826dfc1257d53aece1d06affd8d6a5d8715e9c06e25663f4e8ce11e"
+    },
+    {
+      "types": [
+        "reflector",
+        "trapper"
+      ],
+      "seed": "team-isolation-reflector-trapper",
+      "seconds": 18,
+      "hash": "bf215e8d003596aaecd1d240ee5bbcdd91d5fdeb98af98e16c28802c64264303"
+    },
+    {
+      "types": [
+        "reflector",
+        "boomerang"
+      ],
+      "seed": "team-isolation-reflector-boomerang",
+      "seconds": 18,
+      "hash": "6ee83bf90b8a60c832f59c98f1c8eee12ff93ba2ab99fc07884aa141e5b87cec"
+    },
+    {
+      "types": [
+        "reflector",
+        "laser"
+      ],
+      "seed": "team-isolation-reflector-laser",
+      "seconds": 18,
+      "hash": "6f5040b8fd653ca31ebba171aff29ce21a85da7358d44ca3055752aae955b2bb"
+    },
+    {
+      "types": [
+        "reflector",
+        "ghost"
+      ],
+      "seed": "team-isolation-reflector-ghost",
+      "seconds": 18,
+      "hash": "1271498743ce6f1f72121572c3c7a6a0f3a113ddf04921ef26ce7f76be23bebc"
+    },
+    {
+      "types": [
+        "reflector",
+        "magnet"
+      ],
+      "seed": "team-isolation-reflector-magnet",
+      "seconds": 18,
+      "hash": "b670c29f6f23583ad80b947e51809aaedb069d2694709e29e594de1701265af0"
+    },
+    {
+      "types": [
+        "reflector",
+        "time"
+      ],
+      "seed": "team-isolation-reflector-time",
+      "seconds": 18,
+      "hash": "7541405cef5ca73ebbe5842b6009aacdc978e7814b67bb9df925e948d5417bbb"
+    },
+    {
+      "types": [
+        "reflector",
+        "venom"
+      ],
+      "seed": "team-isolation-reflector-venom",
+      "seconds": 18,
+      "hash": "ea832c3714e0598e17b2b95bd2b0b954ca36cd2945ffee91f8a57b99510863d4"
+    },
+    {
+      "types": [
+        "shield",
+        "normal"
+      ],
+      "seed": "team-isolation-shield-normal",
+      "seconds": 18,
+      "hash": "50e0384a79ea09128b63685612f531a13a4db04f76aa378fa5169e66bcb382dd"
+    },
+    {
+      "types": [
+        "shield",
+        "vampire"
+      ],
+      "seed": "team-isolation-shield-vampire",
+      "seconds": 18,
+      "hash": "624000114335e4328e13b3e66612a6cdbfe88d9ecebf9505338e646626d1d52a"
+    },
+    {
+      "types": [
+        "shield",
+        "accelerator"
+      ],
+      "seed": "team-isolation-shield-accelerator",
+      "seconds": 18,
+      "hash": "a67123af7425397c026bc31adfe66ba6ae6fc81acb565f64af4e1618a2a74466"
+    },
+    {
+      "types": [
+        "shield",
+        "reflector"
+      ],
+      "seed": "team-isolation-shield-reflector",
+      "seconds": 18,
+      "hash": "6a42454004b96a67957dce05fb246ef3969a95a53102ac0201cff3e3f1e84449"
+    },
+    {
+      "types": [
+        "shield",
+        "shield"
+      ],
+      "seed": "team-isolation-shield-shield",
+      "seconds": 18,
+      "hash": "2aad49622deb779c471169e1a056e5caa427c661f72a1fafec1fbe31172843a4"
+    },
+    {
+      "types": [
+        "shield",
+        "ranger"
+      ],
+      "seed": "team-isolation-shield-ranger",
+      "seconds": 18,
+      "hash": "b35e8887e6dbb48702ca6dbfc992ea7ffb4a9aa8671bc39e4f11e65cc11ecf9f"
+    },
+    {
+      "types": [
+        "shield",
+        "trapper"
+      ],
+      "seed": "team-isolation-shield-trapper",
+      "seconds": 18,
+      "hash": "4fa151ca057ec7779dc7aef42f7114c9b15ab182add42a175f5aa86e0b62ed2a"
+    },
+    {
+      "types": [
+        "shield",
+        "boomerang"
+      ],
+      "seed": "team-isolation-shield-boomerang",
+      "seconds": 18,
+      "hash": "bdab6c537bd597aae38d80b4e1c2038a589982d08035f9d2e99f329b5874004d"
+    },
+    {
+      "types": [
+        "shield",
+        "laser"
+      ],
+      "seed": "team-isolation-shield-laser",
+      "seconds": 18,
+      "hash": "5582d846743bf881f378d69831658b8a96c5836ab36ada3f2627e6e8caacc9b5"
+    },
+    {
+      "types": [
+        "shield",
+        "ghost"
+      ],
+      "seed": "team-isolation-shield-ghost",
+      "seconds": 18,
+      "hash": "f36cb8dae210ec8af35d6a1d3314679302b8c1a5fcd0c096f20dbc8b3597d547"
+    },
+    {
+      "types": [
+        "shield",
+        "magnet"
+      ],
+      "seed": "team-isolation-shield-magnet",
+      "seconds": 18,
+      "hash": "b1b87ec448cb3c2c13c655aeaf4cb66067556ba3a2b66a9aba3dec8c017a9d92"
+    },
+    {
+      "types": [
+        "shield",
+        "time"
+      ],
+      "seed": "team-isolation-shield-time",
+      "seconds": 18,
+      "hash": "5566ae5fb59444a42091ed8033dcee440d8ff869d8097a54703952b5f0292c80"
+    },
+    {
+      "types": [
+        "shield",
+        "venom"
+      ],
+      "seed": "team-isolation-shield-venom",
+      "seconds": 18,
+      "hash": "9934d11585a50a57d2db858bbb4e9243938dfa488ad9e2144e33267aac16b12d"
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": "team-isolation-ranger-normal",
+      "seconds": 18,
+      "hash": "654d7e5230fce398664d1421b1878d1d168746246b892b1841daad69d4785f43"
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": "team-isolation-ranger-vampire",
+      "seconds": 18,
+      "hash": "9c6385edf3584308e549cfb1fa8bd2b55b30b037659e72c6e4611d7107e447e0"
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": "team-isolation-ranger-accelerator",
+      "seconds": 18,
+      "hash": "112f86fb2c558cc09d35046b5d06760522b156d2a18a12aed768655c40e4e3b3"
+    },
+    {
+      "types": [
+        "ranger",
+        "reflector"
+      ],
+      "seed": "team-isolation-ranger-reflector",
+      "seconds": 18,
+      "hash": "184b5a063ed4b68c6db3b692aab79f1eb66b84a581dd5090385a27402bcb4969"
+    },
+    {
+      "types": [
+        "ranger",
+        "shield"
+      ],
+      "seed": "team-isolation-ranger-shield",
+      "seconds": 18,
+      "hash": "6b2ae92b0e4e8e3cdbf081c0ecd889c70e7fb5380f698478c0ffc44ac571864a"
+    },
+    {
+      "types": [
+        "ranger",
+        "ranger"
+      ],
+      "seed": "team-isolation-ranger-ranger",
+      "seconds": 18,
+      "hash": "866b7ae480d264bd5f9f90479299357a8c48b008984d315baad28805faadf8f5"
+    },
+    {
+      "types": [
+        "ranger",
+        "trapper"
+      ],
+      "seed": "team-isolation-ranger-trapper",
+      "seconds": 18,
+      "hash": "5fead1649ed6d315453a29f4ace4a55948592cd8e7028998872fbea45acda0b4"
+    },
+    {
+      "types": [
+        "ranger",
+        "boomerang"
+      ],
+      "seed": "team-isolation-ranger-boomerang",
+      "seconds": 18,
+      "hash": "aa2b32b4ec1a5c09e42bddbfb06dc86c836e037c7629bb7abb74b7c36628855f"
+    },
+    {
+      "types": [
+        "ranger",
+        "laser"
+      ],
+      "seed": "team-isolation-ranger-laser",
+      "seconds": 18,
+      "hash": "e031089d24510b277782343a8f0e348f1320b29e4eee06db03d23b89a644ae75"
+    },
+    {
+      "types": [
+        "ranger",
+        "ghost"
+      ],
+      "seed": "team-isolation-ranger-ghost",
+      "seconds": 18,
+      "hash": "e50ba6ea9ef863924ec884a9555584a5ca258ad39772cbab280f580a15f982fe"
+    },
+    {
+      "types": [
+        "ranger",
+        "magnet"
+      ],
+      "seed": "team-isolation-ranger-magnet",
+      "seconds": 18,
+      "hash": "f0cfdc1ea47531a0c486e904513026ff2e4f2a58636662c523fc112da9d5d2d0"
+    },
+    {
+      "types": [
+        "ranger",
+        "time"
+      ],
+      "seed": "team-isolation-ranger-time",
+      "seconds": 18,
+      "hash": "faf31762ba266cdaa30eb5f7cb66d9fc96f3daf7aa957cf42f4c43f3a258a02f"
+    },
+    {
+      "types": [
+        "ranger",
+        "venom"
+      ],
+      "seed": "team-isolation-ranger-venom",
+      "seconds": 18,
+      "hash": "93d521944c264d75bef8b785d52adc1a60f6df19c1908483cc894b2efb5fe375"
+    },
+    {
+      "types": [
+        "trapper",
+        "normal"
+      ],
+      "seed": "team-isolation-trapper-normal",
+      "seconds": 18,
+      "hash": "6fe18d957d8d7810d3a5f703eb3b9eefc8ccda00e8ff8f992018918240a7ad2e"
+    },
+    {
+      "types": [
+        "trapper",
+        "vampire"
+      ],
+      "seed": "team-isolation-trapper-vampire",
+      "seconds": 18,
+      "hash": "a67cc3a074de9d83cc9a9ae8df600b24324a00f2fde1e6a805b941457b42995d"
+    },
+    {
+      "types": [
+        "trapper",
+        "accelerator"
+      ],
+      "seed": "team-isolation-trapper-accelerator",
+      "seconds": 18,
+      "hash": "07f0ee921e115974aecd6dfb10a5d3d32ce77c64fdb97e862c3bca99b8106137"
+    },
+    {
+      "types": [
+        "trapper",
+        "reflector"
+      ],
+      "seed": "team-isolation-trapper-reflector",
+      "seconds": 18,
+      "hash": "dbf4a9d4839f6a7d38b940913545584fee6185460236e1eceaaee43be5ccb565"
+    },
+    {
+      "types": [
+        "trapper",
+        "shield"
+      ],
+      "seed": "team-isolation-trapper-shield",
+      "seconds": 18,
+      "hash": "c49f68dd475a86d51a02a003a8a449fb84fa7b8a6ff0bda5f072ec7ea9dc9265"
+    },
+    {
+      "types": [
+        "trapper",
+        "ranger"
+      ],
+      "seed": "team-isolation-trapper-ranger",
+      "seconds": 18,
+      "hash": "7eeb12f4db597778a5ea71426f51b5c5a590476e770c11302d87f6e6b844d447"
+    },
+    {
+      "types": [
+        "trapper",
+        "trapper"
+      ],
+      "seed": "team-isolation-trapper-trapper",
+      "seconds": 18,
+      "hash": "8bdd350ab8db6fa865c1e6e7892301bd3aef58e233c135525ce9890c33361f05"
+    },
+    {
+      "types": [
+        "trapper",
+        "boomerang"
+      ],
+      "seed": "team-isolation-trapper-boomerang",
+      "seconds": 18,
+      "hash": "65d0255fbb4ce03e2ca5f52732c2f6e795377d878b7de16fa5876a55c3f2c15b"
+    },
+    {
+      "types": [
+        "trapper",
+        "laser"
+      ],
+      "seed": "team-isolation-trapper-laser",
+      "seconds": 18,
+      "hash": "52654eef345b20acd9713abfb664b68c9d49b0f561c7d85a93fd1d5a9a5b79ca"
+    },
+    {
+      "types": [
+        "trapper",
+        "ghost"
+      ],
+      "seed": "team-isolation-trapper-ghost",
+      "seconds": 18,
+      "hash": "bdac74c833f3a3468ed5bccc8671e8df3f79f78eeacdf9f6f747f8281a03c1ef"
+    },
+    {
+      "types": [
+        "trapper",
+        "magnet"
+      ],
+      "seed": "team-isolation-trapper-magnet",
+      "seconds": 18,
+      "hash": "73f1aad1db76077f822beb026785f2df5441c6f89aa6adcdb0482ed41450b13d"
+    },
+    {
+      "types": [
+        "trapper",
+        "time"
+      ],
+      "seed": "team-isolation-trapper-time",
+      "seconds": 18,
+      "hash": "1f8a12fe37107a1678ed17722d44afa9ecd2640dc8c42c464cd5867c61a491a3"
+    },
+    {
+      "types": [
+        "trapper",
+        "venom"
+      ],
+      "seed": "team-isolation-trapper-venom",
+      "seconds": 18,
+      "hash": "10623fc307980b76b010ad641cd9824fa8b206956d527b3163251b07126a3555"
+    },
+    {
+      "types": [
+        "boomerang",
+        "normal"
+      ],
+      "seed": "team-isolation-boomerang-normal",
+      "seconds": 18,
+      "hash": "d451857db6c37730890e7688604f70f9509c3e31fa7834a28ffecdbf1bf5cf64"
+    },
+    {
+      "types": [
+        "boomerang",
+        "vampire"
+      ],
+      "seed": "team-isolation-boomerang-vampire",
+      "seconds": 18,
+      "hash": "ea00af729e2f81d294cc6bc985d9a1c49c184d8846fd5e57442c707e2f8c2883"
+    },
+    {
+      "types": [
+        "boomerang",
+        "accelerator"
+      ],
+      "seed": "team-isolation-boomerang-accelerator",
+      "seconds": 18,
+      "hash": "0c7754488d69dbfc7938833ea4655d3e231b3f135567e21be4e5e5fc31a6eaf5"
+    },
+    {
+      "types": [
+        "boomerang",
+        "reflector"
+      ],
+      "seed": "team-isolation-boomerang-reflector",
+      "seconds": 18,
+      "hash": "255dfa4be19f56535cdb2968be2308869fdfa3efeed997e74e741394e2fde687"
+    },
+    {
+      "types": [
+        "boomerang",
+        "shield"
+      ],
+      "seed": "team-isolation-boomerang-shield",
+      "seconds": 18,
+      "hash": "9a590b954cebbe5e13eed5e7a0917c80596157b87a8f3f367f5ef5975d85e13e"
+    },
+    {
+      "types": [
+        "boomerang",
+        "ranger"
+      ],
+      "seed": "team-isolation-boomerang-ranger",
+      "seconds": 18,
+      "hash": "dfa27ea362bd996788378951664dfb857ea88af101accd53811bede9184bf0f2"
+    },
+    {
+      "types": [
+        "boomerang",
+        "trapper"
+      ],
+      "seed": "team-isolation-boomerang-trapper",
+      "seconds": 18,
+      "hash": "8c4c5e0cba25fe311f1b1e5785de99b6019eb7372f1eadd3ade0cc382acf8d13"
+    },
+    {
+      "types": [
+        "boomerang",
+        "boomerang"
+      ],
+      "seed": "team-isolation-boomerang-boomerang",
+      "seconds": 18,
+      "hash": "d969e4d9d0501000200e9fe13160750c0ac9137c07cd14b6a13f981367ea5d58"
+    },
+    {
+      "types": [
+        "boomerang",
+        "laser"
+      ],
+      "seed": "team-isolation-boomerang-laser",
+      "seconds": 18,
+      "hash": "163146ee785c5ae6ddadc3cabd264e589aaa8629f95d16fd7f421d4007f3f059"
+    },
+    {
+      "types": [
+        "boomerang",
+        "ghost"
+      ],
+      "seed": "team-isolation-boomerang-ghost",
+      "seconds": 18,
+      "hash": "04fb6f994cce529d4402a5f3f5331ae0b5610fc617ef6510a1285d5b74bce58e"
+    },
+    {
+      "types": [
+        "boomerang",
+        "magnet"
+      ],
+      "seed": "team-isolation-boomerang-magnet",
+      "seconds": 18,
+      "hash": "4ac8fa919562fe37ce3a0e6507c7c7fb7862f75597e476ca647b34e600191dae"
+    },
+    {
+      "types": [
+        "boomerang",
+        "time"
+      ],
+      "seed": "team-isolation-boomerang-time",
+      "seconds": 18,
+      "hash": "69627a37e3a7b0ff019d251283da37251d328f8ade193914d60a92588404b7ee"
+    },
+    {
+      "types": [
+        "boomerang",
+        "venom"
+      ],
+      "seed": "team-isolation-boomerang-venom",
+      "seconds": 18,
+      "hash": "e6a1189c3c3b64c8c0c68db111d4ce949bf783f3955d23dbbe9199de4b9c3334"
+    },
+    {
+      "types": [
+        "laser",
+        "normal"
+      ],
+      "seed": "team-isolation-laser-normal",
+      "seconds": 18,
+      "hash": "6029e64d2f825c85c0e837f00aa3437e44a2ed5e098c3ce62f49647c1f2acd72"
+    },
+    {
+      "types": [
+        "laser",
+        "vampire"
+      ],
+      "seed": "team-isolation-laser-vampire",
+      "seconds": 18,
+      "hash": "52477e7ad134b5653f48d108900cc242b2e07dfc53483010d5dbb10b0126b47d"
+    },
+    {
+      "types": [
+        "laser",
+        "accelerator"
+      ],
+      "seed": "team-isolation-laser-accelerator",
+      "seconds": 18,
+      "hash": "57c0e1593fe0adc58b1ae991a26ae9253b50306485088881f776f18c1953c092"
+    },
+    {
+      "types": [
+        "laser",
+        "reflector"
+      ],
+      "seed": "team-isolation-laser-reflector",
+      "seconds": 18,
+      "hash": "64536b2f58d4b3f3238198ab28917a1569ce37cca4dfab21fe99c2d5a6c253a3"
+    },
+    {
+      "types": [
+        "laser",
+        "shield"
+      ],
+      "seed": "team-isolation-laser-shield",
+      "seconds": 18,
+      "hash": "acb98cc3bb04279278a5054854d539799317f91b788b532c16a041832bd8b399"
+    },
+    {
+      "types": [
+        "laser",
+        "ranger"
+      ],
+      "seed": "team-isolation-laser-ranger",
+      "seconds": 18,
+      "hash": "c70216044086a61ae6cff20b836e686d429573df0b3045348005b890611bf387"
+    },
+    {
+      "types": [
+        "laser",
+        "trapper"
+      ],
+      "seed": "team-isolation-laser-trapper",
+      "seconds": 18,
+      "hash": "a44c7cd476040066ccfd1f3af244374e18eb1fc24807ecd37bba661edc666435"
+    },
+    {
+      "types": [
+        "laser",
+        "boomerang"
+      ],
+      "seed": "team-isolation-laser-boomerang",
+      "seconds": 18,
+      "hash": "8647e436f16b5d1bc117765b4861cac64164852c8cba39f4e003d7f1913a8406"
+    },
+    {
+      "types": [
+        "laser",
+        "laser"
+      ],
+      "seed": "team-isolation-laser-laser",
+      "seconds": 18,
+      "hash": "de35fc0e394a14b4fac0d275ac795e2bd63bf083e35a23b4282b53c4140dd107"
+    },
+    {
+      "types": [
+        "laser",
+        "ghost"
+      ],
+      "seed": "team-isolation-laser-ghost",
+      "seconds": 18,
+      "hash": "1c8907354207d48c9b05ca8867509308fa96bedf054c9438f780f1b1731a2a83"
+    },
+    {
+      "types": [
+        "laser",
+        "magnet"
+      ],
+      "seed": "team-isolation-laser-magnet",
+      "seconds": 18,
+      "hash": "ba70bd88760241077c12ff5a1b1ca32ee5a21183d252a48df65cfb299ad0664c"
+    },
+    {
+      "types": [
+        "laser",
+        "time"
+      ],
+      "seed": "team-isolation-laser-time",
+      "seconds": 18,
+      "hash": "e9daaef377689884a31f1d1a98aea70eaa4492211f570d2b5c313872a92f5663"
+    },
+    {
+      "types": [
+        "laser",
+        "venom"
+      ],
+      "seed": "team-isolation-laser-venom",
+      "seconds": 18,
+      "hash": "751421b64d732b18b89d58125ef18145eebf3989810319327b5ddda8e87bf89d"
+    },
+    {
+      "types": [
+        "ghost",
+        "normal"
+      ],
+      "seed": "team-isolation-ghost-normal",
+      "seconds": 18,
+      "hash": "7b6b3dcdc7ddb8f798618b9a626b641004bd25f6aa9b36d7597af631010e6310"
+    },
+    {
+      "types": [
+        "ghost",
+        "vampire"
+      ],
+      "seed": "team-isolation-ghost-vampire",
+      "seconds": 18,
+      "hash": "ef791a3cddc3b7bb44d3e25c6f0a9c4125d25d08171c319dac457093872ac2ee"
+    },
+    {
+      "types": [
+        "ghost",
+        "accelerator"
+      ],
+      "seed": "team-isolation-ghost-accelerator",
+      "seconds": 18,
+      "hash": "85e2ba345305e6d45d0920f0aee0e37ec19e153cc4aed37d886226538e0b777d"
+    },
+    {
+      "types": [
+        "ghost",
+        "reflector"
+      ],
+      "seed": "team-isolation-ghost-reflector",
+      "seconds": 18,
+      "hash": "e603ed798c23ec0ca68839543b004ce6577f70480710b253c527fe679ab6a23e"
+    },
+    {
+      "types": [
+        "ghost",
+        "shield"
+      ],
+      "seed": "team-isolation-ghost-shield",
+      "seconds": 18,
+      "hash": "cda7849795f834692d1a5526f5477263162b464c7a686638d4ef3ee52bb8147e"
+    },
+    {
+      "types": [
+        "ghost",
+        "ranger"
+      ],
+      "seed": "team-isolation-ghost-ranger",
+      "seconds": 18,
+      "hash": "ced492de49f5657b365395b5cbb2162b40416c58914099b330aab9c9abf41ea5"
+    },
+    {
+      "types": [
+        "ghost",
+        "trapper"
+      ],
+      "seed": "team-isolation-ghost-trapper",
+      "seconds": 18,
+      "hash": "bf3918cc06e7c8484ae94b06f310925b8c9d4296c06731dc5c6e7f3c73d295d5"
+    },
+    {
+      "types": [
+        "ghost",
+        "boomerang"
+      ],
+      "seed": "team-isolation-ghost-boomerang",
+      "seconds": 18,
+      "hash": "0db1c0e45463bb057d4eeb23be96f93e38b710d7e1f8ab7dd04a2c301bf8bf18"
+    },
+    {
+      "types": [
+        "ghost",
+        "laser"
+      ],
+      "seed": "team-isolation-ghost-laser",
+      "seconds": 18,
+      "hash": "c687471c85d1bdb6f896362676c5e9f65700814c2cc3354d6f90b6306fa9d039"
+    },
+    {
+      "types": [
+        "ghost",
+        "ghost"
+      ],
+      "seed": "team-isolation-ghost-ghost",
+      "seconds": 18,
+      "hash": "b00a2d39e033481914d13f86783f1324559f0d6630c83ee85153f08ba56fb758"
+    },
+    {
+      "types": [
+        "ghost",
+        "magnet"
+      ],
+      "seed": "team-isolation-ghost-magnet",
+      "seconds": 18,
+      "hash": "8c78914967014836afb2189d011ad42685959d54096ee8fd17c6a068e7411f3d"
+    },
+    {
+      "types": [
+        "ghost",
+        "time"
+      ],
+      "seed": "team-isolation-ghost-time",
+      "seconds": 18,
+      "hash": "2b1c18d4d7e0d9f1ccdae1cfa79524950223e93f923659539046a25804596079"
+    },
+    {
+      "types": [
+        "ghost",
+        "venom"
+      ],
+      "seed": "team-isolation-ghost-venom",
+      "seconds": 18,
+      "hash": "5cff975ee681080324da2edc925ff1d8bd350333db7d34568f4b57eb094b3aba"
+    },
+    {
+      "types": [
+        "magnet",
+        "normal"
+      ],
+      "seed": "team-isolation-magnet-normal",
+      "seconds": 18,
+      "hash": "7236dbc7a91af0b5d236c6bce5f84dd2fa008e1fd235debfe2aa75dc919b16a6"
+    },
+    {
+      "types": [
+        "magnet",
+        "vampire"
+      ],
+      "seed": "team-isolation-magnet-vampire",
+      "seconds": 18,
+      "hash": "818df09fa1e67d590923fd9aca6b56f817184217c77f253a4bdc75fb2bf7db9e"
+    },
+    {
+      "types": [
+        "magnet",
+        "accelerator"
+      ],
+      "seed": "team-isolation-magnet-accelerator",
+      "seconds": 18,
+      "hash": "2406b7ca258b3984b26c4523d91784e797a5534bcec2199870d84fb32713325c"
+    },
+    {
+      "types": [
+        "magnet",
+        "reflector"
+      ],
+      "seed": "team-isolation-magnet-reflector",
+      "seconds": 18,
+      "hash": "bd820a19041cfc7a37331497a4b76ad451a0f57faca96ebdbf636b38c8cab514"
+    },
+    {
+      "types": [
+        "magnet",
+        "shield"
+      ],
+      "seed": "team-isolation-magnet-shield",
+      "seconds": 18,
+      "hash": "efe23c92b0551bedd40293c412a67c44e82c1aa8efa1bfe0290519aeaf0df923"
+    },
+    {
+      "types": [
+        "magnet",
+        "ranger"
+      ],
+      "seed": "team-isolation-magnet-ranger",
+      "seconds": 18,
+      "hash": "78eab5cdefe0da554910b9b0eb52d515a72d3e8ac44320edadb3f22508763923"
+    },
+    {
+      "types": [
+        "magnet",
+        "trapper"
+      ],
+      "seed": "team-isolation-magnet-trapper",
+      "seconds": 18,
+      "hash": "275a1e1514773f332bd499caf9fdb9752712b75e593e04c3976ccbba79c6de8b"
+    },
+    {
+      "types": [
+        "magnet",
+        "boomerang"
+      ],
+      "seed": "team-isolation-magnet-boomerang",
+      "seconds": 18,
+      "hash": "d934825c6d8c2ea9e149ddafd07932683b3e478ca85c1d11b242be241c70ee5c"
+    },
+    {
+      "types": [
+        "magnet",
+        "laser"
+      ],
+      "seed": "team-isolation-magnet-laser",
+      "seconds": 18,
+      "hash": "ce106085144af5e552b5eb4a055b8abdf25d96d798db67fa6283a61c3aedb37f"
+    },
+    {
+      "types": [
+        "magnet",
+        "ghost"
+      ],
+      "seed": "team-isolation-magnet-ghost",
+      "seconds": 18,
+      "hash": "5b0705249f37cc5314dee733676baeebe491fa8329fab75f416e6c7402c44356"
+    },
+    {
+      "types": [
+        "magnet",
+        "magnet"
+      ],
+      "seed": "team-isolation-magnet-magnet",
+      "seconds": 18,
+      "hash": "e79cafb634e7087c215eeef60989a249d0669d2a24c3d7d2b1908648dc72867b"
+    },
+    {
+      "types": [
+        "magnet",
+        "time"
+      ],
+      "seed": "team-isolation-magnet-time",
+      "seconds": 18,
+      "hash": "53a88b2ade6e972c6998768294dd866313845dc1591ad85d5af262bffb06f782"
+    },
+    {
+      "types": [
+        "magnet",
+        "venom"
+      ],
+      "seed": "team-isolation-magnet-venom",
+      "seconds": 18,
+      "hash": "187761d9254f156c3498e8fbc262bf40b24d7dc07b1ba3b1b2805f0b13430992"
+    },
+    {
+      "types": [
+        "time",
+        "normal"
+      ],
+      "seed": "team-isolation-time-normal",
+      "seconds": 18,
+      "hash": "0cef0b6f42b53ee8ea1a5e3d1fc0a7dea7166d614a408e020601a9f633e5c6eb"
+    },
+    {
+      "types": [
+        "time",
+        "vampire"
+      ],
+      "seed": "team-isolation-time-vampire",
+      "seconds": 18,
+      "hash": "929f9d76d708d9b180958afe181f8ed1b83af6b4403d9aed17d86e1e8bbba761"
+    },
+    {
+      "types": [
+        "time",
+        "accelerator"
+      ],
+      "seed": "team-isolation-time-accelerator",
+      "seconds": 18,
+      "hash": "b261ba6a3d06fdbaa458f9c7bd931f3e0fcc061d92666ca5157bed7c86ca0da7"
+    },
+    {
+      "types": [
+        "time",
+        "reflector"
+      ],
+      "seed": "team-isolation-time-reflector",
+      "seconds": 18,
+      "hash": "6a6f57c900ee59417e7539cd6740a5466481d2590344eb29b87c5239654530ca"
+    },
+    {
+      "types": [
+        "time",
+        "shield"
+      ],
+      "seed": "team-isolation-time-shield",
+      "seconds": 18,
+      "hash": "5ff37d11c9dad3fcec8348395ec685b16cfa20ec9a61e46f2c81ac7c93078288"
+    },
+    {
+      "types": [
+        "time",
+        "ranger"
+      ],
+      "seed": "team-isolation-time-ranger",
+      "seconds": 18,
+      "hash": "3b02982b15d48d7779256e2503d96cf97ff086dbb7a6a7d9d7b5ee55a99e4162"
+    },
+    {
+      "types": [
+        "time",
+        "trapper"
+      ],
+      "seed": "team-isolation-time-trapper",
+      "seconds": 18,
+      "hash": "df678b7532467f6a3145f08ecf5c754591bb19bd2fb6f2c374a26e2e03f19561"
+    },
+    {
+      "types": [
+        "time",
+        "boomerang"
+      ],
+      "seed": "team-isolation-time-boomerang",
+      "seconds": 18,
+      "hash": "9d6e477b37c8b30fffa1ffd7b842312f5114ce8936adbdf079660f142e70d8a9"
+    },
+    {
+      "types": [
+        "time",
+        "laser"
+      ],
+      "seed": "team-isolation-time-laser",
+      "seconds": 18,
+      "hash": "60acf9c17e0349d1f016571a022e1a029d9e9fb1d64ef5d0618ef00f5243185f"
+    },
+    {
+      "types": [
+        "time",
+        "ghost"
+      ],
+      "seed": "team-isolation-time-ghost",
+      "seconds": 18,
+      "hash": "5f80f697141af185ed8a5863aeabd74c497096ad695bff36615b63c52da15004"
+    },
+    {
+      "types": [
+        "time",
+        "magnet"
+      ],
+      "seed": "team-isolation-time-magnet",
+      "seconds": 18,
+      "hash": "97412138a0983411b460209de5dae40aa01c1612c15c42bfb2001594054b06c2"
+    },
+    {
+      "types": [
+        "time",
+        "time"
+      ],
+      "seed": "team-isolation-time-time",
+      "seconds": 18,
+      "hash": "cda5948fcd763a6938cc464ed548526b8e0e85a4a37187abc55ddcf46e256cc2"
+    },
+    {
+      "types": [
+        "time",
+        "venom"
+      ],
+      "seed": "team-isolation-time-venom",
+      "seconds": 18,
+      "hash": "c07937dfa6dc22adfe902d92b8e2d44102a23e848d796333f1e085afe9a867b3"
+    },
+    {
+      "types": [
+        "venom",
+        "normal"
+      ],
+      "seed": "team-isolation-venom-normal",
+      "seconds": 18,
+      "hash": "5658505087ecf9c7a62c97843fac8cd5736b282bf1948149fcf7278631e7643d"
+    },
+    {
+      "types": [
+        "venom",
+        "vampire"
+      ],
+      "seed": "team-isolation-venom-vampire",
+      "seconds": 18,
+      "hash": "cda93a108087fd2261ef2c21e365094a669054d9f0164e15aa4eb6c1444beb44"
+    },
+    {
+      "types": [
+        "venom",
+        "accelerator"
+      ],
+      "seed": "team-isolation-venom-accelerator",
+      "seconds": 18,
+      "hash": "453af832d35b3605c917aac6608a74ba6dd9ca0b2fbe4286172156966416faf6"
+    },
+    {
+      "types": [
+        "venom",
+        "reflector"
+      ],
+      "seed": "team-isolation-venom-reflector",
+      "seconds": 18,
+      "hash": "ba73d2884d578a98e75d82e3cbc8cdd700a74b55608bbb4bd2f0ab66ef17a354"
+    },
+    {
+      "types": [
+        "venom",
+        "shield"
+      ],
+      "seed": "team-isolation-venom-shield",
+      "seconds": 18,
+      "hash": "4e1f183dba13ae7d715d2794f1e414508b42eada1c3bafe914baa0459ab99008"
+    },
+    {
+      "types": [
+        "venom",
+        "ranger"
+      ],
+      "seed": "team-isolation-venom-ranger",
+      "seconds": 18,
+      "hash": "2c652380eaac83121fe99d681dfcb6f2321fa051b3f3a8ed9be69de6a51237b2"
+    },
+    {
+      "types": [
+        "venom",
+        "trapper"
+      ],
+      "seed": "team-isolation-venom-trapper",
+      "seconds": 18,
+      "hash": "ee95a6c25623f94ed219003167af453f632011748c9d66e9e66ac53e7545bc5a"
+    },
+    {
+      "types": [
+        "venom",
+        "boomerang"
+      ],
+      "seed": "team-isolation-venom-boomerang",
+      "seconds": 18,
+      "hash": "e29713c84cde287a32973dd2c34f08e95c0811367b374d96f7180322c00f5c05"
+    },
+    {
+      "types": [
+        "venom",
+        "laser"
+      ],
+      "seed": "team-isolation-venom-laser",
+      "seconds": 18,
+      "hash": "33bc2ca618109a5db447f762899e9ff284495317fff0d353b6be94119248053f"
+    },
+    {
+      "types": [
+        "venom",
+        "ghost"
+      ],
+      "seed": "team-isolation-venom-ghost",
+      "seconds": 18,
+      "hash": "3c60c0497215dbe933efc069fb134f8778104d9562cecf6395a99d1d6bc42ada"
+    },
+    {
+      "types": [
+        "venom",
+        "magnet"
+      ],
+      "seed": "team-isolation-venom-magnet",
+      "seconds": 18,
+      "hash": "103be56c634615153de87bff7de15067fed8d1e2fa88db757c4bc8e7eb7db13e"
+    },
+    {
+      "types": [
+        "venom",
+        "time"
+      ],
+      "seed": "team-isolation-venom-time",
+      "seconds": 18,
+      "hash": "5bef2f6e5517de4cfed2dd891e13997a5753d8ecbeaf36c7385b81c80203756b"
+    },
+    {
+      "types": [
+        "venom",
+        "venom"
+      ],
+      "seed": "team-isolation-venom-venom",
+      "seconds": 18,
+      "hash": "34729657c77104527c09bc4f66834149016d8e10b37c422b5fdff28ca254989b"
+    },
+    {
+      "types": [
+        "normal",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-normal",
+      "seconds": null,
+      "hash": "64fc7003158c62d7650314463b1131f934ba9356937cf62b06ddb43c28b9e59c"
+    },
+    {
+      "types": [
+        "vampire",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-vampire",
+      "seconds": null,
+      "hash": "91701a7f8fd5382ee9af9cf0a0b2032b95840f92eee9021695191575e5ec93b9"
+    },
+    {
+      "types": [
+        "accelerator",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-accelerator",
+      "seconds": null,
+      "hash": "854919c3060e09667382353e86e63984a9af235683d1f3d622d69a9cdbf6b0e1"
+    },
+    {
+      "types": [
+        "reflector",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-reflector",
+      "seconds": null,
+      "hash": "e62a37f1edd829c367d3d2d2b84931a0cc77e7a56059f9bc2d7f3670b100e5aa"
+    },
+    {
+      "types": [
+        "shield",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-shield",
+      "seconds": null,
+      "hash": "9056951f2a964a34e813cb682bbb7195f8a609dafc5e9966fe3b933748936a32"
+    },
+    {
+      "types": [
+        "ranger",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-ranger",
+      "seconds": null,
+      "hash": "c169f82736c697a49d2182bda944880fbd8b11ef5cb8073898d81db4d3f087a0"
+    },
+    {
+      "types": [
+        "trapper",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-trapper",
+      "seconds": null,
+      "hash": "3edbc2afefe992ce755a16ae439c2c71bb38cc82997a6fedf813d78e6bd95d22"
+    },
+    {
+      "types": [
+        "boomerang",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-boomerang",
+      "seconds": null,
+      "hash": "85f902d3a3e8b2ffaa9e1e3ae2425e5512939f9302443108a8219ab7bbcda948"
+    },
+    {
+      "types": [
+        "laser",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-laser",
+      "seconds": null,
+      "hash": "20480bf621e696a142310188a08c08d520595bfe333f28a2aa884ad1ae6a2d1b"
+    },
+    {
+      "types": [
+        "ghost",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-ghost",
+      "seconds": null,
+      "hash": "4811e08df449d1689fbf1abef3dd1a9d2a36d4346de71a9c4c7a0f4f4c986c13"
+    },
+    {
+      "types": [
+        "magnet",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-magnet",
+      "seconds": null,
+      "hash": "42bf902597bca3b5b37a247e4501e4d39db6fb385e675ac7275fdf98d3075e7b"
+    },
+    {
+      "types": [
+        "time",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-time",
+      "seconds": null,
+      "hash": "44dc14e83cbf9e3d9116c540f885d1533a8903bdcca1fb3e0f266e36829aafb7"
+    },
+    {
+      "types": [
+        "venom",
+        "ghost"
+      ],
+      "seed": "team-full-isolation-venom",
+      "seconds": null,
+      "hash": "5d0064f3ab3653fe57c20b8d12ebbbddf310edd6859a3ebeecba8fed07f84d77"
+    }
+  ]
+}

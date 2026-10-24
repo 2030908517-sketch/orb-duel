@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "groups": 29,
+  "results": [
+    {
+      "name": "four native entries, isolated HP and automatic enemies, no demon player",
+      "pass": true
+    },
+    {
+      "name": "brand, actual HP extraction, full shield and immunity do not extract",
+      "pass": true
+    },
+    {
+      "name": "old execution is gone: repeated body hits never add an extra damage packet",
+      "pass": true
+    },
+    {
+      "name": "orbit maximum radius and continuous motion, independent loss recovery",
+      "pass": true
+    },
+    {
+      "name": "straight rope contact excludes body origin and has cooldown",
+      "pass": true
+    },
+    {
+      "name": "tug bypasses normal shield/reduction; royal priority and invulnerability are preserved",
+      "pass": true
+    },
+    {
+      "name": "same batch ordinary plus true damage correctly allocates HP, shields and overkill",
+      "pass": true
+    },
+    {
+      "name": "loss affects melee, projectile, trap, DOT equally; unrelated self/environment unchanged",
+      "pass": true
+    },
+    {
+      "name": "reflection is scaled by the reflecting host loss, not an unowned environment source",
+      "pass": true
+    },
+    {
+      "name": "recovery reaches zero without bonus damage and shared maximum15% weakness",
+      "pass": true
+    },
+    {
+      "name": "double gates relay; second prefers line and lock does not track after lock",
+      "pass": true
+    },
+    {
+      "name": "strong tug angular impulse changes future orbit, never teleports or changes max reach",
+      "pass": true
+    },
+    {
+      "name": "cage is preserved, soul reflects and never passes through its wall",
+      "pass": true
+    },
+    {
+      "name": "normal silence/cleanse/relocation release, Arcana is silence exempt",
+      "pass": true
+    },
+    {
+      "name": "real cut creates servant only on geometry hit and respects immunity/miss",
+      "pass": true
+    },
+    {
+      "name": "servant real contact, no overlap spam, normal shield and max4 attacks/24 raw",
+      "pass": true
+    },
+    {
+      "name": "venom delayed damage still receives true tug through native30% protection",
+      "pass": true
+    },
+    {
+      "name": "source/host death, absence, end and reset clear souls and pending attacks",
+      "pass": true
+    },
+    {
+      "name": "time death rewind clears soul, loss and servant without refunding spent Arcana",
+      "pass": true
+    },
+    {
+      "name": "team owner exclusivity, friend filter and obstacles",
+      "pass": true
+    },
+    {
+      "name": "Team legacy damage path applies true tug with reduction/shield and no friendly fire",
+      "pass": true
+    },
+    {
+      "name": "native auto Arcana enters all necessary phases and terminates",
+      "pass": true
+    },
+    {
+      "name": "second gate real line sweep strengthens loss and cannot strike twice",
+      "pass": true
+    },
+    {
+      "name": "cage blocks demon touching a line from the opposite side; pause freezes loss",
+      "pass": true
+    },
+    {
+      "name": "status panel reports real loss without NaN and production cues have no null requests",
+      "pass": true
+    },
+    {
+      "name": "new physical wall shortens rope but does not reset the loss ledger",
+      "pass": true
+    },
+    {
+      "name": "reflection samples weakness at batch entry rather than amplifying the new debuff in the same batch",
+      "pass": true
+    },
+    {
+      "name": "non-demon native simulations identical to this task backup",
+      "pass": true
+    },
+    {
+      "name": "non-demon Team simulation identical to task backup",
+      "pass": true
+    }
+  ]
+}

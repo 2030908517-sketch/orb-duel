@@ -1,0 +1,1346 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "scenes": [
+        {
+          "phase": "pursuit",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "pursuit"
+          ]
+        },
+        {
+          "phase": "spit",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "toxinSpit"
+          ]
+        },
+        {
+          "phase": "spill",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "toxinSpit",
+            "poison",
+            "toxinSplash"
+          ]
+        },
+        {
+          "phase": "clock",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "mirrorCatch"
+          ]
+        },
+        {
+          "phase": "blade",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "mirrorCatch"
+          ]
+        },
+        {
+          "phase": "catch",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "netArm",
+            "netArm",
+            "mineCatch"
+          ]
+        },
+        {
+          "phase": "blast",
+          "found": true,
+          "stop": 0.06,
+          "cues": [
+            "netArm",
+            "mineBlast",
+            "mineHit"
+          ]
+        },
+        {
+          "phase": "dynamic",
+          "found": true,
+          "stop": 0,
+          "cues": [
+            "awakening"
+          ]
+        },
+        {
+          "phase": "holy",
+          "found": true,
+          "stop": 0.04,
+          "cues": [
+            "holyLand",
+            "holyHit",
+            "holyCharge"
+          ]
+        }
+      ]
+    },
+    {
+      "profiles": 113,
+      "cues": {
+        "wall": {
+          "rms": 0.015120750328382516,
+          "peak": 0.33306410908699036,
+          "earlyFrequency": 680,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ball": {
+          "rms": 0.03462557828580242,
+          "peak": 0.5045249462127686,
+          "earlyFrequency": 180,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "heavy": {
+          "rms": 0.04101510944340708,
+          "peak": 0.5324815511703491,
+          "earlyFrequency": 140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shot": {
+          "rms": 0.012789103364764387,
+          "peak": 0.32335397601127625,
+          "earlyFrequency": 1120,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shotHit": {
+          "rms": 0.024846104803278028,
+          "peak": 0.4913117587566376,
+          "earlyFrequency": 620,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "trap": {
+          "rms": 0.014712422405152841,
+          "peak": 0.23161469399929047,
+          "earlyFrequency": 300,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "explosion": {
+          "rms": 0.027597425104445614,
+          "peak": 0.43306922912597656,
+          "earlyFrequency": 460,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "chain": {
+          "rms": 0.02881485795992874,
+          "peak": 0.24251826107501984,
+          "earlyFrequency": 320,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "heal": {
+          "rms": 0.017641767184243522,
+          "peak": 0.20187342166900635,
+          "earlyFrequency": 680,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shield": {
+          "rms": 0.02468397320016598,
+          "peak": 0.31917843222618103,
+          "earlyFrequency": 1360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "break": {
+          "rms": 0.02963753506105594,
+          "peak": 0.44587740302085876,
+          "earlyFrequency": 1560,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "reflect": {
+          "rms": 0.01584014143458014,
+          "peak": 0.31262511014938354,
+          "earlyFrequency": 1120,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "charge": {
+          "rms": 0.02496674857026059,
+          "peak": 0.21493558585643768,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.0000018242042505004753
+        },
+        "dash": {
+          "rms": 0.02652802321394767,
+          "peak": 0.4147999584674835,
+          "earlyFrequency": 420,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ready": {
+          "rms": 0.0132995349444187,
+          "peak": 0.17771591246128082,
+          "earlyFrequency": 740,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "stance": {
+          "rms": 0.017684534571952105,
+          "peak": 0.23169225454330444,
+          "earlyFrequency": 720,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "counter": {
+          "rms": 0.02407518052845734,
+          "peak": 0.39747390151023865,
+          "earlyFrequency": 1120,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "counterHit": {
+          "rms": 0.028151507727677192,
+          "peak": 0.4542745351791382,
+          "earlyFrequency": 660,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shieldHit": {
+          "rms": 0.01516644221086553,
+          "peak": 0.2876157760620117,
+          "earlyFrequency": 1140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ricochet": {
+          "rms": 0.007652573609362591,
+          "peak": 0.1506468504667282,
+          "earlyFrequency": 1460,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "disarm": {
+          "rms": 0.016246357647119528,
+          "peak": 0.289713591337204,
+          "earlyFrequency": 1500,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "combo": {
+          "rms": 0.03825994675687885,
+          "peak": 0.49549102783203125,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "throw": {
+          "rms": 0.010312309800057939,
+          "peak": 0.1612846702337265,
+          "earlyFrequency": 860,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "return": {
+          "rms": 0.009596750775453397,
+          "peak": 0.14114519953727722,
+          "earlyFrequency": 480,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "returnHit": {
+          "rms": 0.02343040843940913,
+          "peak": 0.4325317442417145,
+          "earlyFrequency": 400,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "laser": {
+          "rms": 0.02236952192123216,
+          "peak": 0.3334183096885681,
+          "earlyFrequency": 640,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "laserHit": {
+          "rms": 0.029800824618124087,
+          "peak": 0.4831089675426483,
+          "earlyFrequency": 400,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "poison": {
+          "rms": 0.01312488710178349,
+          "peak": 0.15125371515750885,
+          "earlyFrequency": 340,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "poisonHit": {
+          "rms": 0.006901565816513956,
+          "peak": 0.11435583978891373,
+          "earlyFrequency": 460,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "awakenHit": {
+          "rms": 0.04256057257525619,
+          "peak": 0.5201406478881836,
+          "earlyFrequency": 180,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "bloodPulse": {
+          "rms": 0.028074504003825648,
+          "peak": 0.3595685362815857,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "thunderHit": {
+          "rms": 0.03619441959954461,
+          "peak": 0.43956857919692993,
+          "earlyFrequency": 280,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "revengeHit": {
+          "rms": 0.03572002392702255,
+          "peak": 0.4876651167869568,
+          "earlyFrequency": 540,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "fortressBlast": {
+          "rms": 0.032442517743204,
+          "peak": 0.4374423623085022,
+          "earlyFrequency": 380,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "volley": {
+          "rms": 0.022199365726957392,
+          "peak": 0.40004831552505493,
+          "earlyFrequency": 1280,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetBlast": {
+          "rms": 0.0243525797373775,
+          "peak": 0.3840809464454651,
+          "earlyFrequency": 1120,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "moonCut": {
+          "rms": 0.020887664442295447,
+          "peak": 0.32802313566207886,
+          "earlyFrequency": 740,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "beamAwake": {
+          "rms": 0.04035795848119531,
+          "peak": 0.4401263892650604,
+          "earlyFrequency": 380,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "corrosion": {
+          "rms": 0.013492326620297711,
+          "peak": 0.20331266522407532,
+          "earlyFrequency": 260,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "awakening": {
+          "rms": 0.03329414578994025,
+          "peak": 0.195799320936203,
+          "earlyFrequency": 440,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.000002761014232148984
+        },
+        "toxinBurst": {
+          "rms": 0.029906542907749713,
+          "peak": 0.38246026635169983,
+          "earlyFrequency": 300,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "wallSlam": {
+          "rms": 0.03723213104172937,
+          "peak": 0.40040162205696106,
+          "earlyFrequency": 340,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "bladeCatch": {
+          "rms": 0.015827408273885027,
+          "peak": 0.2463388442993164,
+          "earlyFrequency": 1280,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "fistRelease": {
+          "rms": 0.016404694030934922,
+          "peak": 0.21182067692279816,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "fistHit": {
+          "rms": 0.03175458973926289,
+          "peak": 0.3918806314468384,
+          "earlyFrequency": 460,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "bloodCharge": {
+          "rms": 0.01981603162648806,
+          "peak": 0.18422773480415344,
+          "earlyFrequency": 100,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "bloodFinish": {
+          "rms": 0.02627500139567013,
+          "peak": 0.2608204483985901,
+          "earlyFrequency": 160,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shieldBash": {
+          "rms": 0.029472150443955094,
+          "peak": 0.4035893678665161,
+          "earlyFrequency": 320,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "pressureRelease": {
+          "rms": 0.030716026314210634,
+          "peak": 0.3531276285648346,
+          "earlyFrequency": 300,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.0000047721416014395305
+        },
+        "reload": {
+          "rms": 0.01076355222635225,
+          "peak": 0.1034684032201767,
+          "earlyFrequency": 1280,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "heavyShot": {
+          "rms": 0.028820149322389108,
+          "peak": 0.40772587060928345,
+          "earlyFrequency": 420,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "laserLock": {
+          "rms": 0.011338679851483827,
+          "peak": 0.13345393538475037,
+          "earlyFrequency": 920,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "cannon": {
+          "rms": 0.030590680036111755,
+          "peak": 0.25637683272361755,
+          "earlyFrequency": 400,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.26810001571265674
+        },
+        "mirrorCatch": {
+          "rms": 0.01273960364095118,
+          "peak": 0.2207982838153839,
+          "earlyFrequency": 1780,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mirrorRelease": {
+          "rms": 0.02187486315407484,
+          "peak": 0.27539563179016113,
+          "earlyFrequency": 1080,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "netArm": {
+          "rms": 0.004136620423056642,
+          "peak": 0.06806579232215881,
+          "earlyFrequency": 680,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "netTrigger": {
+          "rms": 0.01629839042371297,
+          "peak": 0.2766000032424927,
+          "earlyFrequency": 600,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "chainBlast": {
+          "rms": 0.030950717779210643,
+          "peak": 0.3787996768951416,
+          "earlyFrequency": 140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "salvoCharge": {
+          "rms": 0.011990386613599998,
+          "peak": 0.11165030300617218,
+          "earlyFrequency": 1440,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "salvoShot": {
+          "rms": 0.015222102241791153,
+          "peak": 0.2298280894756317,
+          "earlyFrequency": 1140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "heavyShotHit": {
+          "rms": 0.027482186977262447,
+          "peak": 0.3047321140766144,
+          "earlyFrequency": 500,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "pressureCharge": {
+          "rms": 0.015613831069378274,
+          "peak": 0.2528371214866638,
+          "earlyFrequency": 840,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "pressureHit": {
+          "rms": 0.026522243884122554,
+          "peak": 0.3407829701900482,
+          "earlyFrequency": 240,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "beamGrind": {
+          "rms": 0.010196361216976675,
+          "peak": 0.18116658926010132,
+          "earlyFrequency": 800,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "largeHit": {
+          "rms": 0.031106354820307,
+          "peak": 0.39205753803253174,
+          "earlyFrequency": 360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "bladeHeavyHit": {
+          "rms": 0.025412544790876092,
+          "peak": 0.3377949595451355,
+          "earlyFrequency": 960,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mirrorAim": {
+          "rms": 0.012007061810198364,
+          "peak": 0.12706275284290314,
+          "earlyFrequency": 1140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mirrorStrike": {
+          "rms": 0.02720045572943109,
+          "peak": 0.3723830282688141,
+          "earlyFrequency": 1080,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "chainHit": {
+          "rms": 0.02806603941235018,
+          "peak": 0.31038492918014526,
+          "earlyFrequency": 300,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "cannonHit": {
+          "rms": 0.024728170092271577,
+          "peak": 0.40317484736442566,
+          "earlyFrequency": 320,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "guardHeavy": {
+          "rms": 0.02403365995636907,
+          "peak": 0.37523338198661804,
+          "earlyFrequency": 880,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "toxinCharge": {
+          "rms": 0.014894759366271144,
+          "peak": 0.14163656532764435,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "toxinSpread": {
+          "rms": 0.021119817056790936,
+          "peak": 0.22413349151611328,
+          "earlyFrequency": 220,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "toxinErupt": {
+          "rms": 0.02832271536664639,
+          "peak": 0.3277745544910431,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "holySeal": {
+          "rms": 0.02035904067988474,
+          "peak": 0.13952003419399261,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.00004072835583925991
+        },
+        "holyWard": {
+          "rms": 0.014613345062777944,
+          "peak": 0.11521187424659729,
+          "earlyFrequency": 160,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "holyCharge": {
+          "rms": 0.033527171221835864,
+          "peak": 0.27454641461372375,
+          "earlyFrequency": 100,
+          "tailEnergy": 0,
+          "duration": 1.5499999999999998,
+          "lateEnergy": 0.12443036909191556
+        },
+        "holyWave": {
+          "rms": 0.016130067929239673,
+          "peak": 0.1147199273109436,
+          "earlyFrequency": 140,
+          "tailEnergy": 0,
+          "duration": 2.8,
+          "lateEnergy": 3.773987172260067
+        },
+        "holyFall": {
+          "rms": 0.009750519663535068,
+          "peak": 0.06836874783039093,
+          "earlyFrequency": 340,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.029251208958983532
+        },
+        "holyLand": {
+          "rms": 0.02314831556100639,
+          "peak": 0.24873748421669006,
+          "earlyFrequency": 200,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "pursuit": {
+          "rms": 0.008238432057164395,
+          "peak": 0.1439230889081955,
+          "earlyFrequency": 620,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "toxinSpit": {
+          "rms": 0.008268581736679688,
+          "peak": 0.14931249618530273,
+          "earlyFrequency": 460,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "toxinSplash": {
+          "rms": 0.010441182295137881,
+          "peak": 0.12038715928792953,
+          "earlyFrequency": 220,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mineCatch": {
+          "rms": 0.011055788836025674,
+          "peak": 0.14482448995113373,
+          "earlyFrequency": 900,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mineBlast": {
+          "rms": 0.02817204586644186,
+          "peak": 0.29559600353240967,
+          "earlyFrequency": 280,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "mineHit": {
+          "rms": 0.026560609224980696,
+          "peak": 0.30103325843811035,
+          "earlyFrequency": 300,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "shardHit": {
+          "rms": 0.0032697296758102184,
+          "peak": 0.06555058062076569,
+          "earlyFrequency": 1140,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "holyHit": {
+          "rms": 0.026747776381742958,
+          "peak": 0.3032117784023285,
+          "earlyFrequency": 220,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "holyTouch": {
+          "rms": 0.0034211049092479984,
+          "peak": 0.05055313929915428,
+          "earlyFrequency": 160,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "holyWater": {
+          "rms": 0.003420361844756396,
+          "peak": 0.04705536365509033,
+          "earlyFrequency": 1080,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ghostCharge": {
+          "rms": 0.01408182207780181,
+          "peak": 0.1226053535938263,
+          "earlyFrequency": 560,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ghostPhase": {
+          "rms": 0.021663728235357994,
+          "peak": 0.16027215123176575,
+          "earlyFrequency": 360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ghostReturn": {
+          "rms": 0.012891967935516366,
+          "peak": 0.13165175914764404,
+          "earlyFrequency": 240,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ghostFear": {
+          "rms": 0.011522938798032728,
+          "peak": 0.1759188026189804,
+          "earlyFrequency": 700,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "ghostLunge": {
+          "rms": 0.015090063534598045,
+          "peak": 0.21483272314071655,
+          "earlyFrequency": 640,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "soulBurst": {
+          "rms": 0.03722961354962078,
+          "peak": 0.3402230441570282,
+          "earlyFrequency": 360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.00010884562728057937
+        },
+        "soulHit": {
+          "rms": 0.02570385357910681,
+          "peak": 0.3801499009132385,
+          "earlyFrequency": 360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetFocus": {
+          "rms": 0.011503597019699581,
+          "peak": 0.11274906992912292,
+          "earlyFrequency": 520,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetGraze": {
+          "rms": 0.014050578969802493,
+          "peak": 0.24175049364566803,
+          "earlyFrequency": 400,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetCharge": {
+          "rms": 0.01543088885311906,
+          "peak": 0.16771091520786285,
+          "earlyFrequency": 220,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetPull": {
+          "rms": 0.028527311311076265,
+          "peak": 0.26011359691619873,
+          "earlyFrequency": 220,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetPush": {
+          "rms": 0.031730529103029294,
+          "peak": 0.37207481265068054,
+          "earlyFrequency": 500,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetReverse": {
+          "rms": 0.03756442706003765,
+          "peak": 0.4060228168964386,
+          "earlyFrequency": 440,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetCrush": {
+          "rms": 0.028870583967470807,
+          "peak": 0.34535014629364014,
+          "earlyFrequency": 360,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "magnetWall": {
+          "rms": 0.03452729621604748,
+          "peak": 0.3605755567550659,
+          "earlyFrequency": 320,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "timeErode": {
+          "rms": 0.007452335089912469,
+          "peak": 0.13721586763858795,
+          "earlyFrequency": 660,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "timeField": {
+          "rms": 0.017011956805304793,
+          "peak": 0.16265280544757843,
+          "earlyFrequency": 1060,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "clockCharge": {
+          "rms": 0.015528150127774705,
+          "peak": 0.17974822223186493,
+          "earlyFrequency": 1320,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "clockThrow": {
+          "rms": 0.012608569335999204,
+          "peak": 0.18886063992977142,
+          "earlyFrequency": 1520,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "clockBlast": {
+          "rms": 0.03867821855566877,
+          "peak": 0.40830114483833313,
+          "earlyFrequency": 500,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.0000047119888879834205
+        },
+        "timeSilence": {
+          "rms": 0.014066043627459907,
+          "peak": 0.22478105127811432,
+          "earlyFrequency": 840,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "timeInterrupt": {
+          "rms": 0.007693758656912277,
+          "peak": 0.12289872765541077,
+          "earlyFrequency": 1100,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0
+        },
+        "victory": {
+          "rms": 0.035025134427332585,
+          "peak": 0.20094755291938782,
+          "earlyFrequency": 520,
+          "tailEnergy": 0,
+          "duration": 1,
+          "lateEnergy": 0.00008094250412500465
+        }
+      },
+      "stress": {
+        "passed": true,
+        "dense": {
+          "enabled": true,
+          "available": true,
+          "contextState": "running",
+          "activeVoices": 8,
+          "played": {
+            "wall": 0,
+            "ball": 0,
+            "heavy": 0,
+            "shot": 0,
+            "shotHit": 0,
+            "trap": 0,
+            "explosion": 0,
+            "chain": 0,
+            "heal": 0,
+            "shield": 0,
+            "break": 0,
+            "reflect": 0,
+            "charge": 0,
+            "dash": 0,
+            "ready": 0,
+            "stance": 0,
+            "counter": 0,
+            "counterHit": 0,
+            "shieldHit": 0,
+            "ricochet": 0,
+            "disarm": 0,
+            "combo": 1,
+            "throw": 0,
+            "return": 0,
+            "returnHit": 0,
+            "laser": 0,
+            "laserHit": 0,
+            "poison": 0,
+            "poisonHit": 0,
+            "awakenHit": 0,
+            "bloodPulse": 0,
+            "thunderHit": 1,
+            "revengeHit": 0,
+            "fortressBlast": 0,
+            "volley": 0,
+            "magnetBlast": 0,
+            "moonCut": 0,
+            "beamAwake": 1,
+            "corrosion": 0,
+            "awakening": 1,
+            "toxinBurst": 0,
+            "wallSlam": 1,
+            "bladeCatch": 0,
+            "fistRelease": 0,
+            "fistHit": 1,
+            "bloodCharge": 0,
+            "bloodFinish": 0,
+            "shieldBash": 0,
+            "pressureRelease": 1,
+            "reload": 0,
+            "heavyShot": 0,
+            "laserLock": 0,
+            "cannon": 0,
+            "mirrorCatch": 0,
+            "mirrorRelease": 0,
+            "netArm": 0,
+            "netTrigger": 0,
+            "chainBlast": 0,
+            "salvoCharge": 0,
+            "salvoShot": 0,
+            "heavyShotHit": 0,
+            "pressureCharge": 0,
+            "pressureHit": 0,
+            "beamGrind": 0,
+            "largeHit": 0,
+            "bladeHeavyHit": 0,
+            "mirrorAim": 0,
+            "mirrorStrike": 0,
+            "chainHit": 0,
+            "cannonHit": 0,
+            "guardHeavy": 0,
+            "toxinCharge": 0,
+            "toxinSpread": 0,
+            "toxinErupt": 0,
+            "holySeal": 0,
+            "holyWard": 0,
+            "holyCharge": 0,
+            "holyWave": 0,
+            "holyFall": 0,
+            "holyLand": 0,
+            "pursuit": 0,
+            "toxinSpit": 0,
+            "toxinSplash": 0,
+            "mineCatch": 0,
+            "mineBlast": 0,
+            "mineHit": 0,
+            "shardHit": 0,
+            "holyHit": 0,
+            "holyTouch": 0,
+            "holyWater": 0,
+            "ghostCharge": 0,
+            "ghostPhase": 0,
+            "ghostReturn": 0,
+            "ghostFear": 0,
+            "ghostLunge": 0,
+            "soulBurst": 0,
+            "soulHit": 0,
+            "magnetFocus": 0,
+            "magnetGraze": 0,
+            "magnetCharge": 0,
+            "magnetPull": 0,
+            "magnetPush": 0,
+            "magnetReverse": 0,
+            "magnetCrush": 0,
+            "magnetWall": 0,
+            "timeErode": 0,
+            "timeField": 0,
+            "clockCharge": 0,
+            "clockThrow": 0,
+            "clockBlast": 0,
+            "timeSilence": 0,
+            "timeInterrupt": 0,
+            "victory": 1
+          },
+          "lastCue": "pressureRelease"
+        },
+        "muted": {
+          "enabled": false,
+          "available": true,
+          "contextState": "running",
+          "activeVoices": 0,
+          "played": {
+            "wall": 0,
+            "ball": 0,
+            "heavy": 0,
+            "shot": 0,
+            "shotHit": 0,
+            "trap": 0,
+            "explosion": 0,
+            "chain": 0,
+            "heal": 0,
+            "shield": 0,
+            "break": 0,
+            "reflect": 0,
+            "charge": 0,
+            "dash": 0,
+            "ready": 0,
+            "stance": 0,
+            "counter": 0,
+            "counterHit": 0,
+            "shieldHit": 0,
+            "ricochet": 0,
+            "disarm": 0,
+            "combo": 1,
+            "throw": 0,
+            "return": 0,
+            "returnHit": 0,
+            "laser": 0,
+            "laserHit": 0,
+            "poison": 0,
+            "poisonHit": 0,
+            "awakenHit": 0,
+            "bloodPulse": 0,
+            "thunderHit": 1,
+            "revengeHit": 0,
+            "fortressBlast": 0,
+            "volley": 0,
+            "magnetBlast": 0,
+            "moonCut": 0,
+            "beamAwake": 1,
+            "corrosion": 0,
+            "awakening": 1,
+            "toxinBurst": 0,
+            "wallSlam": 1,
+            "bladeCatch": 0,
+            "fistRelease": 0,
+            "fistHit": 1,
+            "bloodCharge": 0,
+            "bloodFinish": 0,
+            "shieldBash": 0,
+            "pressureRelease": 1,
+            "reload": 0,
+            "heavyShot": 0,
+            "laserLock": 0,
+            "cannon": 0,
+            "mirrorCatch": 0,
+            "mirrorRelease": 0,
+            "netArm": 0,
+            "netTrigger": 0,
+            "chainBlast": 0,
+            "salvoCharge": 0,
+            "salvoShot": 0,
+            "heavyShotHit": 0,
+            "pressureCharge": 0,
+            "pressureHit": 0,
+            "beamGrind": 0,
+            "largeHit": 0,
+            "bladeHeavyHit": 0,
+            "mirrorAim": 0,
+            "mirrorStrike": 0,
+            "chainHit": 0,
+            "cannonHit": 0,
+            "guardHeavy": 0,
+            "toxinCharge": 0,
+            "toxinSpread": 0,
+            "toxinErupt": 0,
+            "holySeal": 0,
+            "holyWard": 0,
+            "holyCharge": 0,
+            "holyWave": 0,
+            "holyFall": 0,
+            "holyLand": 0,
+            "pursuit": 0,
+            "toxinSpit": 0,
+            "toxinSplash": 0,
+            "mineCatch": 0,
+            "mineBlast": 0,
+            "mineHit": 0,
+            "shardHit": 0,
+            "holyHit": 0,
+            "holyTouch": 0,
+            "holyWater": 0,
+            "ghostCharge": 0,
+            "ghostPhase": 0,
+            "ghostReturn": 0,
+            "ghostFear": 0,
+            "ghostLunge": 0,
+            "soulBurst": 0,
+            "soulHit": 0,
+            "magnetFocus": 0,
+            "magnetGraze": 0,
+            "magnetCharge": 0,
+            "magnetPull": 0,
+            "magnetPush": 0,
+            "magnetReverse": 0,
+            "magnetCrush": 0,
+            "magnetWall": 0,
+            "timeErode": 0,
+            "timeField": 0,
+            "clockCharge": 0,
+            "clockThrow": 0,
+            "clockBlast": 0,
+            "timeSilence": 0,
+            "timeInterrupt": 0,
+            "victory": 1
+          },
+          "lastCue": "pressureRelease"
+        }
+      }
+    },
+    {
+      "file": "index.html",
+      "width": 1920,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "index.html",
+      "width": 1366,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "index.html",
+      "width": 960,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "team.html",
+      "width": 1920,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "team.html",
+      "width": 1366,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "team.html",
+      "width": 960,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "startPauseResumeReset": true,
+      "speed4": true,
+      "stableArena": true
+    },
+    {
+      "file": "index.html",
+      "width": 1500,
+      "allChangedRoleCardsReadable": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "allChangedRoleCardsReadable": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "allChangedRoleCardsReadable": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "allChangedRoleCardsReadable": true
+    },
+    {
+      "file": "index.html",
+      "resultStable": true,
+      "noPostResultDamage": true
+    },
+    {
+      "file": "team.html",
+      "resultStable": true,
+      "noPostResultDamage": true
+    }
+  ],
+  "errors": []
+}

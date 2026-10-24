@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "checks": 257,
+  "version": "20261017-cleanse1",
+  "note": "Targeted cleanse, FIFO persistence and 80% slow checks across all three modes; no balance batches."
+}

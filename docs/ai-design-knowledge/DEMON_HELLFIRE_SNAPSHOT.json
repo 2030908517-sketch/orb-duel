@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-22",
+  "files": {
+    "js/demon.js": "635dcb81e5bb12d4fd1ddd78db2add224101381ff5fd8a9d1a480274b4983f6e",
+    "js/demon-arcana.js": "4bb977b36c115555f3f9cc766535d79593c1527c275e33389e7614dec7bbc4a1",
+    "js/demon-render.js": "9cc32ff3a777ee4d38c7fc5f823636855bc84d9d1c3590a71cd4c3677b0113b8",
+    "js/demon-runtime.js": "791dd4af4f185e8f67c05c7f1344493c1f83d50264dcfdeebde39ad7069a56f5",
+    "js/renderer.js": "06066bad577521f455b6166187ca464e327e906c1e2fe476568c20555d843dbc"
+  }
+}

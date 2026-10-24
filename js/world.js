@@ -22,7 +22,7 @@
       const target=this.targetFor(ball,engine);if(!target)return;
       const mode=options.mode||'shot';if(mode==='boomerang')return G.Characters.throwBlade(ball,engine,options);const speed=options.speed||ball.def.shotSpeed;
       const radius=options.radius||ball.def.shotRadius,angle=options.angle??(G.Aim.direct(ball,target,engine,'projectile',speed)+(options.angleOffset||0)),distance=ball.radius+radius+2;
-      const shot={id:engine.nextWorldId++,mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:options.maxBounces??(mode==='counter'?0:1),sniper:!!options.sniper,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy,storedCounter:!!options.storedCounter};
+      const shot={id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),mode,owner:ball.id,x:ball.x+Math.cos(angle)*distance,y:ball.y+Math.sin(angle)*distance,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius,bounces:0,maxBounces:options.maxBounces??(mode==='counter'?0:1),sniper:!!options.sniper,expires:engine.time+(options.life||ball.def.shotLife),color:ball.def.color,raw:options.raw??G.Combat.rollAttack(ball,engine,options.damage??ball.def.shotDamage,mode),charged:false,heavy:!!options.heavy,storedCounter:!!options.storedCounter};
       if(ball.combatBounds)shot.combatBounds={...ball.combatBounds};
       if(G.Physics.constrain(shot)){shot.bounces++;this.ricochet(shot,engine);}
       engine.projectiles.push(shot);if(mode!=='counter')G.Spectacle?.emit(engine,ball,mode==='boomerang'?'moon':'volley',{angle,life:.3,sound:false});if(mode!=='counter')ball.stats.shotsFired++;
@@ -37,7 +37,7 @@
     placeTrap(ball,engine){
       const spec=G.Awakening.trapOptions(ball),position=G.Trapper?G.Trapper.placement(ball,engine,spec.radius):G.Roles.trapPosition(ball,engine);if(!position)return false;const owned=engine.traps.filter(t=>t.owner===ball.id);
       if(owned.length>=spec.cap){const oldest=owned.reduce((a,n)=>n.id<a.id?n:a);engine.traps=engine.traps.filter(t=>t!==oldest);}
-      engine.traps.push({id:engine.nextWorldId++,owner:ball.id,x:position.x,y:position.y,radius:spec.radius,blastRadius:spec.blastRadius,chainRange:spec.chainRange,armedAt:engine.time+spec.armDelay,expires:engine.time+spec.life,color:ball.def.color,raw:G.Combat.rollAttack(ball,engine,spec.damage,'trap')});
+      engine.traps.push({id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),owner:ball.id,x:position.x,y:position.y,radius:spec.radius,blastRadius:spec.blastRadius,chainRange:spec.chainRange,armedAt:engine.time+spec.armDelay,expires:engine.time+spec.life,color:ball.def.color,raw:G.Combat.rollAttack(ball,engine,spec.damage,'trap')});
       if(Math.hypot(position.x-ball.x,position.y-ball.y)>10)engine.effects.push({kind:'roster',style:'mineDeploy',owner:ball.id,x:ball.x,y:ball.y,endX:position.x,endY:position.y,color:ball.def.color,angle:0,age:0,life:spec.armDelay});ball.stats.trapsPlaced++;engine.sound('trap',ball.x);engine.ring(ball.x,ball.y,ball.def.color,22);engine.log(engine.label(ball)+'布置陷阱 · '+spec.armDelay+'s 后生效');return engine.traps.at(-1);
     },
     pool(ball,engine,point=null,options={}){
@@ -83,7 +83,7 @@
         if(!owner || owner.hp<=0 || engine.time>shot.expires){G.Aim?.result(shot,engine,false);if(mode==='boomerang')G.Characters.bladeRemoved(shot,owner,engine,false);continue;}
         const oldX=shot.x,oldY=shot.y;let ended=false;
         if(mode==='boomerang')G.Characters.moveBlade(shot,owner,engine,dt);
-        else if(['venom','shard','blade','satellite'].includes(mode))ended=G.Flyers.move(shot,engine,dt).ended;
+        else if(['venom','shard','blade','satellite','holyLance'].includes(mode))ended=G.Flyers.move(shot,engine,dt).ended;
         else if(G.ArenaWalls?G.ArenaWalls.integrate(shot,engine,dt):G.Physics.integrate(shot,dt)){shot.bounces++;this.ricochet(shot,engine);engine.burst(shot.x,shot.y,shot.color,2);}
         if(shot.bounces>(shot.maxBounces??1)){G.Aim?.result(shot,engine,false);continue;}
         const candidates=[];
@@ -101,8 +101,8 @@
         if(first?.target){
           const reflected=G.Roles.intercept(shot,first.target,engine);if(reflected){if(!reflected.absorbed)nextShots.push(reflected);continue;}
           G.Aim?.result(shot,engine,true);
-          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,adaptiveId:shot.adaptiveId,kind:mode==='venom'?'poisonShot':mode==='blade'?'boomerang':shot.noMirror&&mode==='shot'?'counter':mode,noReflect:!!shot.noReflect||mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx),angle:Math.atan2(shot.vy,shot.vx),heavyShot:!!shot.heavy,sniperShot:!!shot.sniper,storedCounter:!!shot.storedCounter,calibrationShot:shot.calibrationEligible?shot:null,calibrationIgnored:!!shot.calibrationIgnored,poisonUnit:shot.poisonUnit,poisonLife:shot.poisonLife,mirrorReturn:!!shot.noMirror});
-          if(shot.danceOwner===undefined)engine.ring(shot.x,shot.y,shot.color,22);
+          engine.pendingAttacks.push(mode==='boomerang'?G.Characters.bladePacket(shot,owner,first.target,engine):{source:owner,target:first.target,raw:shot.raw,heat:shot.heat,adaptiveId:shot.adaptiveId,kind:mode==='venom'?'poisonShot':mode==='blade'?'boomerang':shot.noMirror&&mode==='shot'?'counter':mode,noReflect:!!shot.noReflect||mode==='counter',incomingAngle:Math.atan2(-shot.vy,-shot.vx),angle:Math.atan2(shot.vy,shot.vx),heavyShot:!!shot.heavy,sniperShot:!!shot.sniper,storedCounter:!!shot.storedCounter,calibrationShot:shot.calibrationEligible?shot:null,calibrationIgnored:!!shot.calibrationIgnored,poisonUnit:shot.poisonUnit,poisonLife:shot.poisonLife,mirrorReturn:!!shot.noMirror});
+          if(shot.danceOwner===undefined&&mode!=='holyLance')engine.ring(shot.x,shot.y,shot.color,22);
           if(mode!=='boomerang')continue;
           shot.hitIds.push(first.key);if(shot.bladeSling){G.Characters.bladeRemoved(shot,owner,engine,false);continue;}
         }

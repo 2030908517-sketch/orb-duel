@@ -19,7 +19,7 @@
       }else if(u.phase==='debtCharge'){
         if(!t){this.finishDebt(b,e);return;}
         if(e.time<u.until-.16)u.aim=G.World.aim(b,t,820,Math.max(0,u.until-e.time));
-        if(e.time+1e-9>=u.until){const spend=Math.min(u.debtSpend,u.debt);e.arcanaWorld.defense.bolts.push({id:e.nextWorldId++,owner:b.id,target:t.id,x:b.x,y:b.y,origin:{x:b.x,y:b.y},angle:u.aim,vx:Math.cos(u.aim)*820,vy:Math.sin(u.aim)*820,radius:10,raw:Math.min(18,6+spend*.28),spend,until:e.time+.6,history:[]});u.phase='debtRecovery';u.until=e.time+.55;this.event(b,e,'debtRelease','arcDebtRelease',b,{angle:u.aim,life:.55});b.vx=Math.cos(u.returnAngle)*b.speed*b.temporal.rate;b.vy=Math.sin(u.returnAngle)*b.speed*b.temporal.rate;}return;
+        if(e.time+1e-9>=u.until){const spend=Math.min(u.debtSpend,u.debt);e.arcanaWorld.defense.bolts.push({...(e.demonWorld?{heat:1}:{}),id:e.nextWorldId++,owner:b.id,target:t.id,x:b.x,y:b.y,origin:{x:b.x,y:b.y},angle:u.aim,vx:Math.cos(u.aim)*820,vy:Math.sin(u.aim)*820,radius:10,raw:Math.min(18,6+spend*.28),spend,until:e.time+.6,history:[]});u.phase='debtRecovery';u.until=e.time+.55;this.event(b,e,'debtRelease','arcDebtRelease',b,{angle:u.aim,life:.55});b.vx=Math.cos(u.returnAngle)*b.speed*b.temporal.rate;b.vy=Math.sin(u.returnAngle)*b.speed*b.temporal.rate;}return;
       }else if(u.phase==='debtRecovery'){if(e.time>=u.until)this.finishDebt(b,e);return;}
       if(u.used||b.hp>b.maxHp*G.Arcana.ratio||!G.Awakening.active(b)||!t)return;
       if(G.Awakening.dashing(b,e)||b.awakening.chargeUntil>e.time){u.waiting='等待当前动作';return;}
@@ -67,7 +67,7 @@
     releaseBounds(e){for(const o of [...e.balls,...e.projectiles,...e.timeClocks])delete o.combatBounds;},
     world(e,dt){const w=e.arcanaWorld?.defense;if(!w)return;w.bolts=w.bolts.filter(p=>{const b=e.balls.find(b=>b.id===p.owner&&b.hp>0);if(!b||e.time>=p.until)return false;const ox=p.x,oy=p.y,bounds=w.fortress?.bounds||{left:0,right:C.width,top:0,bottom:C.height};const wall=G.ArenaWalls?.hit(p.x,p.y,Math.cos(p.angle),Math.sin(p.angle),p.radius||4,e),travel=Math.min(Math.hypot(p.vx,p.vy)*dt,wall?.distance??Infinity);p.x+=Math.cos(p.angle)*travel;p.y+=Math.sin(p.angle)*travel;
         const intersections=e.balls.filter(t=>t.hp>0&&G.World.enemy(b,t,e)).map(t=>({t,at:G.World.sweep(p,ox,oy,t,e)})).filter(v=>v.at!==Infinity).sort((a,b)=>a.at-b.at);
-        const hit=intersections[0];if(hit){p.x=ox+(p.x-ox)*hit.at;p.y=oy+(p.y-oy)*hit.at;e.pendingAttacks.push({source:b,target:hit.t,kind:'arcDebt',raw:p.raw,angle:p.angle,point:{x:p.x,y:p.y},debtSpend:p.spend,healRatio:0});return false;}
+        const hit=intersections[0];if(hit){p.x=ox+(p.x-ox)*hit.at;p.y=oy+(p.y-oy)*hit.at;e.pendingAttacks.push({source:b,target:hit.t,kind:'arcDebt',raw:p.raw,heat:p.heat,angle:p.angle,point:{x:p.x,y:p.y},debtSpend:p.spend,healRatio:0});return false;}
         if(e.tick%2===0){p.history.unshift({x:p.x,y:p.y});p.history.length=Math.min(14,p.history.length);}return (wall?.distance??Infinity)>Math.hypot(p.vx,p.vy)*dt&&p.x>=bounds.left&&p.x<=bounds.right&&p.y>=bounds.top&&p.y<=bounds.bottom;});
     },
     endCombat(e){const w=e.arcanaWorld?.defense;if(!w)return;if(w.fortress){const b=e.balls.find(b=>w.fortress.owners.includes(b.id));if(b)this.event(b,e,'royalDissolve',null,b,{life:.65,bounds:{...w.fortress.bounds}});}w.fortress=null;w.bolts=[];w.returns=[];this.releaseBounds(e);for(const b of e.balls)if(this.handles(b)){b.arcana.royalActive=false;b.arcana.royalShield=0;b.arcana.predictUntil=0;if(b.arcana.phase==='debtCharge')this.finishDebt(b,e);}},

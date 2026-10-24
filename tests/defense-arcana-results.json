@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "checks": 68475,
+  "comparisons": 2,
+  "fixtures": [
+    {
+      "enemy": "normal",
+      "time": 7.5,
+      "collisions": 4
+    },
+    {
+      "enemy": "accelerator",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "vampire",
+      "time": 7.5,
+      "collisions": 6
+    },
+    {
+      "enemy": "ranger",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "laser",
+      "time": 7.5,
+      "collisions": 3
+    },
+    {
+      "enemy": "ghost",
+      "time": 7.5,
+      "collisions": 3
+    },
+    {
+      "enemy": "charge",
+      "time": 7.5,
+      "collisions": 1
+    },
+    {
+      "enemy": "orbital",
+      "time": 7.5,
+      "collisions": 3
+    },
+    {
+      "enemy": "time",
+      "time": 7.5,
+      "collisions": 4
+    },
+    {
+      "enemy": "magnet",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "reflector",
+      "time": 7.5,
+      "collisions": 3
+    },
+    {
+      "enemy": "shield",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "venom",
+      "time": 7.5,
+      "collisions": 2
+    },
+    {
+      "enemy": "trapper",
+      "time": 7.5,
+      "collisions": 4
+    },
+    {
+      "enemy": "boomerang",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "holy",
+      "time": 7.5,
+      "collisions": 5
+    },
+    {
+      "enemy": "demon",
+      "time": 7.5,
+      "collisions": 4
+    },
+    {
+      "enemy": "storm",
+      "time": 7.5,
+      "collisions": 6
+    }
+  ],
+  "note": "Mechanics and deterministic state only; no subjective audio or aesthetic claim."
+}

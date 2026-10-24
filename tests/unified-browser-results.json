@@ -1,0 +1,156 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "frames": [
+        {
+          "type": "normal",
+          "found": true,
+          "steps": 1,
+          "time": 0.004166666666666667,
+          "style": "fistHit",
+          "powerHits": 1
+        },
+        {
+          "type": "ranger",
+          "found": true,
+          "steps": 128,
+          "time": 0.5333333333333333,
+          "style": "salvoMuzzle",
+          "powerHits": 0
+        },
+        {
+          "type": "laser",
+          "found": true,
+          "steps": 221,
+          "time": 0.9208333333333333,
+          "style": "beamContact",
+          "powerHits": 1
+        },
+        {
+          "type": "shield",
+          "found": true,
+          "steps": 86,
+          "time": 0.35833333333333334,
+          "style": "pressureWave",
+          "powerHits": 0
+        },
+        {
+          "type": "vampire",
+          "found": true,
+          "steps": 565,
+          "time": 2.3541666666666665,
+          "style": "bloodFinish",
+          "powerHits": 1
+        },
+        {
+          "type": "accelerator",
+          "found": true,
+          "steps": 192,
+          "time": 0.8,
+          "style": "kineticHit",
+          "powerHits": 1
+        },
+        {
+          "type": "reflector",
+          "found": true,
+          "steps": 131,
+          "time": 0.5458333333333333,
+          "style": "mirrorStrike",
+          "powerHits": 2
+        },
+        {
+          "type": "trapper",
+          "found": true,
+          "steps": 48,
+          "time": 0.2,
+          "style": "groundBurst",
+          "powerHits": 1
+        },
+        {
+          "type": "boomerang",
+          "found": true,
+          "steps": 1,
+          "time": 0.004166666666666667,
+          "style": "bladeImpact",
+          "powerHits": 1
+        },
+        {
+          "type": "venom",
+          "found": true,
+          "steps": 61,
+          "time": 0.25416666666666665,
+          "style": "toxinRipple",
+          "powerHits": 1
+        },
+        {
+          "type": "bigDamage",
+          "found": true,
+          "steps": 1,
+          "time": 20.004166666666666,
+          "style": "largeHit",
+          "powerHits": 1
+        }
+      ]
+    },
+    {
+      "audioProfiles": 75,
+      "audioPassed": true
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        1100,
+        720
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "state": "ended",
+      "time": 23.895833333333332,
+      "layoutPassed": true
+    }
+  ]
+}

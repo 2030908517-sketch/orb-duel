@@ -1,0 +1,187 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "layout": {
+        "overflow": false,
+        "clipped": [],
+        "cards": [
+          [
+            405,
+            203
+          ],
+          [
+            405,
+            203
+          ],
+          [
+            405,
+            203
+          ],
+          [
+            405,
+            203
+          ]
+        ]
+      },
+      "winnerTeam": 0,
+      "time": 35.53333333333333,
+      "paused": true,
+      "reset": true,
+      "mapSwitch": true,
+      "modeSwitch": true,
+      "arenaStable": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "layout": {
+        "overflow": false,
+        "clipped": [],
+        "cards": [
+          [
+            313,
+            203
+          ],
+          [
+            313,
+            203
+          ],
+          [
+            313,
+            203
+          ],
+          [
+            313,
+            203
+          ]
+        ]
+      },
+      "winnerTeam": 1,
+      "time": 41.675,
+      "paused": true,
+      "reset": true,
+      "mapSwitch": true,
+      "modeSwitch": true,
+      "arenaStable": true
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "layout": {
+        "overflow": false,
+        "clipped": [],
+        "cards": [
+          [
+            211,
+            304
+          ],
+          [
+            211,
+            304
+          ],
+          [
+            211,
+            304
+          ],
+          [
+            211,
+            304
+          ]
+        ]
+      },
+      "winnerTeam": 1,
+      "time": 43.916666666666664,
+      "paused": true,
+      "reset": true,
+      "mapSwitch": true,
+      "modeSwitch": true,
+      "arenaStable": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "layout": {
+        "overflow": false,
+        "clipped": [],
+        "cards": [
+          [
+            172,
+            322
+          ],
+          [
+            172,
+            322
+          ],
+          [
+            172,
+            322
+          ],
+          [
+            172,
+            322
+          ]
+        ]
+      },
+      "winnerTeam": 0,
+      "time": 33.725,
+      "paused": true,
+      "reset": true,
+      "mapSwitch": true,
+      "modeSwitch": true,
+      "arenaStable": true
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "layout": {
+        "overflow": false,
+        "clipped": [],
+        "cards": [
+          [
+            137,
+            322
+          ],
+          [
+            137,
+            322
+          ],
+          [
+            137,
+            322
+          ],
+          [
+            137,
+            322
+          ]
+        ]
+      },
+      "winnerTeam": 1,
+      "time": 37.2625,
+      "paused": true,
+      "reset": true,
+      "mapSwitch": true,
+      "modeSwitch": true,
+      "arenaStable": true
+    },
+    {
+      "actualAudio": true,
+      "wallCues": 11,
+      "shotCues": 3,
+      "pausedVoices": 0
+    }
+  ]
+}

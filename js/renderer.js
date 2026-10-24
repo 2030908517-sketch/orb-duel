@@ -179,7 +179,7 @@
         c.beginPath();c.moveTo(trap.x,trap.y-6);c.lineTo(trap.x+6,trap.y);c.lineTo(trap.x,trap.y+6);c.lineTo(trap.x-6,trap.y);c.closePath();c.stroke();
         this.circle(trap.x,trap.y,2);c.fillStyle=armed?'#ffe4e6':trap.color;c.fill();c.restore();
       }
-      for(const shot of engine.projectiles) {if(['comet','arcBlood','arcPierce'].includes(shot.mode))continue;
+      for(const shot of engine.projectiles) {if(['comet','arcBlood','arcPierce','holyLance'].includes(shot.mode))continue;
         if(G.RangerView?.flyer(this,shot)||G.TacticsView?.flyer(this,shot,engine))continue;
         if(shot.mode==='boomerang'){
           c.save();if(shot.history?.length){c.beginPath();c.moveTo(shot.x,shot.y);for(const p of shot.history)c.lineTo(p.x,p.y);c.strokeStyle=shot.returning?'#fff5b470':shot.color+'70';c.lineWidth=1.6;c.stroke();}c.translate(shot.x,shot.y);c.rotate(engine.time*20);c.strokeStyle=shot.returning?'#fff5b4':shot.color;c.lineWidth=3;c.lineCap='round';c.beginPath();c.moveTo(-7,4);c.lineTo(0,-4);c.lineTo(7,4);c.stroke();c.restore();continue;
@@ -355,7 +355,8 @@
     else if(m.shape==='bar'){c.moveTo(-1.7,3);c.lineTo(-1.7,-1.2);c.quadraticCurveTo(0,-4.2,1.7,-1.2);c.lineTo(1.7,3);c.closePath();}
     else if(m.shape==='bolt'){c.moveTo(1,-3.2);c.lineTo(-2.2,.4);c.lineTo(.7,.4);c.lineTo(-1.1,3.2);}
     else if(m.shape==='cross'){c.moveTo(-2.4,-2.4);c.lineTo(2.4,2.4);c.moveTo(2.4,-2.4);c.lineTo(-2.4,2.4);}
-    else if(m.shape==='brand'){c.moveTo(0,-3.2);c.lineTo(2.8,2.4);c.lineTo(-2.8,2.4);c.closePath();c.moveTo(0,-.5);c.lineTo(0,1);}
+    else if(m.shape==='holyBrand'){c.moveTo(0,-4);c.lineTo(0,4);c.moveTo(-2.6,-1.4);c.lineTo(2.6,-1.4);}
+    else if(m.shape==='brand'){c.moveTo(0,-3.8);c.lineTo(0,3.8);c.moveTo(-2.5,1.2);c.lineTo(2.5,1.2);}
     else if(m.shape==='magnet'){c.arc(0,-.6,2.5,0,Math.PI);c.moveTo(-2.5,-.6);c.lineTo(-2.5,-2.8);c.moveTo(2.5,-.6);c.lineTo(2.5,-2.8);}
     else if(m.shape==='arc'){c.arc(0,0,3.2,-1.15,1.15);}
     else if(m.shape==='shield'){c.moveTo(-2.8,-2.5);c.lineTo(2.8,-2.5);c.lineTo(2.3,.8);c.quadraticCurveTo(1.7,2.4,0,3.3);c.quadraticCurveTo(-1.7,2.4,-2.3,.8);c.closePath();}

@@ -95,7 +95,7 @@
         G.Ranger.init(b);if(b.role.sniperPhase!=='idle'||b.role.sniperPending!==null){u.waiting='等待当前狙击';return;}
         u.waiting=G.Arcana.protected(t,e,'ranger');if(u.waiting)return;
         u.waiting='警戒 · 等待来袭';for(const threat of this.threats(b,e)){const route=this.route(b,threat,e);if(!route){u.waiting='警戒 · 等待闪避空间';continue;}
-          const attacker=e.balls.find(v=>v.id===threat.owner&&v.hp>0);if(attacker&&!G.Arcana.protected(attacker,e,'ranger')){this.begin(b,attacker,threat,route,e);break;}}
+          const source=e.balls.find(v=>v.id===threat.owner&&v.hp>0),attacker=source?.demonServant?(G.World.targetFor(b,e)||source):source;if(attacker&&!G.Arcana.protected(attacker,e,'ranger')){this.begin(b,attacker,threat,route,e);break;}}
         return;
       }
       if(!t){G.Arcana.finish(b,e);return;}
@@ -117,7 +117,7 @@
     },
     finish(b,e){b.motionSpeed=0;b.inertia=0;G.Physics.normalizeSpeed(b);G.Ranger.reload(b,e);},
     fire(b,e){const u=b.arcana,a=u.aim,nx=Math.cos(a),ny=Math.sin(a),radius=5.5;
-      const p={id:e.nextWorldId++,owner:b.id,mode:'arcPierce',noMirror:true,noMagnet:true,x:clamp(b.x+nx*(b.radius+radius+2),radius,C.width-radius),y:clamp(b.y+ny*(b.radius+radius+2),radius,C.height-radius),vx:nx*this.bulletSpeed,vy:ny*this.bulletSpeed,speed:this.bulletSpeed,radius,range:580,travel:0,bounces:0,maxBounces:0,expires:e.time+.65,raw:G.Arcana.defs.ranger.raw*e.heatMultiplier,history:[],color:b.def.color};
+      const p={id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:b.id,mode:'arcPierce',noMirror:true,noMagnet:true,x:clamp(b.x+nx*(b.radius+radius+2),radius,C.width-radius),y:clamp(b.y+ny*(b.radius+radius+2),radius,C.height-radius),vx:nx*this.bulletSpeed,vy:ny*this.bulletSpeed,speed:this.bulletSpeed,radius,range:580,travel:0,bounces:0,maxBounces:0,expires:e.time+.65,raw:G.Arcana.defs.ranger.raw*e.heatMultiplier,history:[],color:b.def.color};
       e.projectiles.push(p);b.stats.shotsFired++;u.phase='counterRecovery';u.until=e.time+.32;b.motionSpeed=0;
       this.event(b,e,'release','arcRangerShot',p,{style:'counterMuzzle',angle:a,life:.65});G.Roles.shove(b,a+Math.PI,125,.5);b.hitVisual={age:0,life:.20,angle:a+Math.PI,power:1.3};
       G.Presentation?.note(e,'arcana.ranger.release',{actorId:b.id,projectileId:p.id,angle:a});
@@ -126,7 +126,7 @@
       const ox=p.x,oy=p.y,move=G.Flyers.move(p,e,dt);p.history.unshift({x:ox,y:oy});p.history.length=Math.min(15,p.history.length);
       const hit=e.balls.filter(t=>t.hp>0&&G.World.enemy(b,t,e)&&!G.Ghost.phased(t)).map(t=>({t,at:G.World.sweep(p,ox,oy,t)})).filter(v=>v.at!==Infinity).sort((a,b)=>a.at-b.at)[0];
       if(hit){p.x=ox+(p.x-ox)*hit.at;p.y=oy+(p.y-oy)*hit.at;const reflected=G.Roles.intercept(p,hit.t,e);if(reflected)return reflected.absorbed?null:reflected;
-        e.pendingAttacks.push({source:b,target:hit.t,kind:'arcPierce',raw:p.raw,bypassShield:true,shatterShield:true,healRatio:0,noReflect:!!p.noReflect,angle:Math.atan2(p.vy,p.vx),point:{x:p.x,y:p.y},incomingAngle:Math.atan2(-p.vy,-p.vx)});return null;
+        e.pendingAttacks.push({source:b,target:hit.t,kind:'arcPierce',raw:p.raw,heat:p.heat,bypassShield:true,shatterShield:true,healRatio:0,noReflect:!!p.noReflect,angle:Math.atan2(p.vy,p.vx),point:{x:p.x,y:p.y},incomingAngle:Math.atan2(-p.vy,-p.vx)});return null;
       }
       if(move.ended)G.Arcana.effect(e,b,'counterMiss',p,{angle:Math.atan2(p.vy,p.vx),life:.30});return move.ended?null:p;
     },

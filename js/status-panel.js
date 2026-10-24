@@ -2,7 +2,30 @@
  'use strict';const G=root.OrbDuel;
  // Shared, read-only inventory of actor effects. Skill cooldowns stay in their existing slots.
  G.StatusPanel={
-  stats(b,e){const awake=G.Awakening.status(b,e);return {core:[{label:'攻击',value:G.Combat.attackValue(b,e).toFixed(1)},{label:'速度',value:Math.round(Math.hypot(b.vx,b.vy))}],awake:awake.find(s=>s.label==='觉醒'),ultimate:e.mode==='arcana'?G.Arcana?.status(b,e):null,arcana:e.mode==='arcana',extra:[...(G.Skills[b.type]?.status?.(b,e)||[]),...awake.filter(s=>s.label!=='觉醒')].slice(0,6)};},
+  // Limited card space: actionable resources and timers precede visible world counts.
+  priority:{
+   normal:['拳势','蓄力','追击CD','追击','拳劲'],
+   vampire:['血能','血契','追猎','汲取','链伤','返还CD','已回复'],
+   accelerator:['动能','冲刺冷却','无敌','蓄力','速限','撞墙/敌','累计返速'],
+   storm:['电荷','引雷CD','雷暴CD','导电','雷伤','电解伤'],
+   charge:['电荷','放电CD','雷化','电弧伤','短路伤','带电点'],
+   orbital:['轨道能','超新星CD','星核','卫星','彗星伤','爆发伤'],
+   demon:['献祭魂力','地狱降临','双爪CD','魔爪CD','双门CD','钉刑','扯魂伤','魔爪伤','契魂','烙印','魂线'],
+   reflector:['蓄能','姿态CD','姿态','即时返还','反击命中'],
+   shield:['压力','护盾','充能','盾时','蓄力','波伤'],
+   ranger:['校准','弹匣','装填','模式','散布','狙/重伤'],
+   trapper:['节点','布置','置换','雷伤','捕获','扫线','返还CD'],
+   boomerang:['接刃','投掷','武器','招式','刃伤','返还CD'],
+   laser:['电容','散热','短喷','热刃','阶段','主炮'],
+   ghost:['虚化CD','虚化余时','魂影','形态','恐吓/跳','魂爆'],
+   holy:['守护CD','裁决CD','阵径/余时','天使'],
+   magnet:['吸力','脉冲CD','过载CD','极性','牵引命中','墙撞命中'],
+   time:['领域CD','时钟CD','沉默时','移/CD缓','侵蚀/跳','爆炸伤'],
+   venom:['侵蚀进化','麻痹进化','喷吐CD','毒池CD','双毒上限','侵蚀/跳','施毒间隔','同巢共鸣','毒液三态']
+  },
+  prioritize(b,rows,limit=Infinity){const order=this.priority[b.type]||[],rank=label=>{const i=order.indexOf(label);return i<0?order.length:i;};return rows.map((row,i)=>({row,i})).sort((a,c)=>rank(a.row.label)-rank(c.row.label)||a.i-c.i).slice(0,limit).map(v=>v.row);},
+  resourceFields(b,e){if(b.type!=='venom')return [];const rows=[{label:'毒池CD',value:Math.max(0,b.nextPool-e.time).toFixed(1)+'s'}];if(G.VenomEvolution&&(G.Awakening.active(b)||b.venomEvolution)){const cap=Math.round(G.VenomEvolution.config.cap*100);for(const [type,label] of [['erosion','侵蚀进化'],['paralysis','麻痹进化']])rows.push({label,value:'+'+G.VenomEvolution.percent(b,type)+'% / '+cap+'%'});}return rows;},
+  stats(b,e){const awake=G.Awakening.status(b,e);return {core:[{label:'攻击',value:G.Combat.attackValue(b,e).toFixed(1)},{label:'速度',value:Math.round(Math.hypot(b.vx,b.vy))}],awake:awake.find(s=>s.label==='觉醒'),ultimate:e.mode==='arcana'?G.Arcana?.status(b,e):null,arcana:e.mode==='arcana',extra:this.prioritize(b,[...(G.Skills[b.type]?.status?.(b,e)||[]),...this.resourceFields(b,e),...awake.filter(s=>s.label!=='觉醒')],6)};},
   fillStats(meta,b,e,make){const s=this.stats(b,e);meta.style.setProperty('--orb-color',b.def.color);const core=document.createElement('div');core.className='stats-core';const stages=document.createElement('div');stages.className='stats-stages'+(s.arcana?' has-arcana':'');const skills=document.createElement('div');skills.className='stats-skills';core.append(...s.core.map(make));const awake=make(s.awake);awake.classList.add('awakening-stat');stages.append(awake);if(s.arcana){const ult=make(s.ultimate||{label:'奥义',value:''});ult.classList.add('arcana-stat');stages.append(ult);}for(let i=0;i<6;i++){const chip=make(s.extra[i]||{label:'',value:''});if(!s.extra[i])chip.classList.add('empty-slot');skills.append(chip);}meta.replaceChildren(core,stages,skills);},
   collect(b,e){if(b.hp<=0)return ['停止行动'];const out=[],t=e.time,r=b.role,a=b.awakening,c=b.character,active=until=>Number.isFinite(until)&&until>t+1e-8;
    const add=s=>{if(s&&!out.includes(s))out.push(s)},timed=(name,until)=>{if(active(until))add(name+' '+(until-t).toFixed(1)+'s')};
@@ -11,7 +34,7 @@
    if(G.Ghost.phased(b))timed('虚化无敌',b.ghost.until);
    if(G.Awakening.dashing(b,e))timed('冲刺无敌',a.dashUntil);
    if(G.Arcana?.immune(b))add('奥义无敌');
-   if(G.Combat.reduction(b,e)>0)add('免伤 30%');
+   if(G.Combat.reduction(b,e)>0)add('免伤 30%');if(G.DemonHell?.active(b,e))add('硬体 50%');
    if(b.role.jetActive)add('激光短喷');if(b.role.jetFree)add('免费短喷就绪');
    if(b.shield>0)add('护盾 '+b.shield.toFixed(1)+(active(b.shieldUntil)?' · '+(b.shieldUntil-t).toFixed(1)+'s':''));
    if(b.arcana?.royalActive&&b.arcana.royalShield>0)add('王城专属盾 '+b.arcana.royalShield.toFixed(1)+(active(b.arcana.royalUntil)?' · '+(b.arcana.royalUntil-t).toFixed(1)+'s':''));
@@ -28,7 +51,7 @@
    if(G.Venom?.inMist(b,e)&&!G.Physics.armored(b)&&!G.World.absent(b,e))add('毒雾瞄准扰动');
    const conductive=effects(e.chargeWorld?.conductive||[]);if(conductive.length)timed('导电',Math.max(...conductive.map(v=>v.until)));
    const staticMarks=effects(e.cosmicWorld?.marks||[]).filter(v=>v.stacks>0);if(staticMarks.length)add('电解印记 '+staticMarks.reduce((sum,v)=>sum+v.stacks,0)+' · '+(Math.max(...staticMarks.map(v=>v.until))-t).toFixed(1)+'s');
-   const brands=effects(e.demonWorld?.marks||[]);if(brands.length)timed('地狱烙印',Math.max(...brands.map(v=>v.until)));const chains=effects(e.demonWorld?.chains||[]);if(chains.length)timed('魂锁',Math.max(...chains.map(v=>v.until)));
+   const brands=effects(e.demonWorld?.marks||[]);if(brands.length)timed('地狱烙印',Math.max(...brands.map(v=>v.until)));const souls=(e.demonWorld?.souls||[]).filter(s=>s.target===b.id&&e.balls.some(o=>o.id===s.owner&&o.hp>0));for(const soul of souls){if(soul.loss>0)add('失魂 '+Math.round(soul.loss*100)+'% · 伤害−'+Math.round((1-G.Demon.outputFactor(b,e))*100)+'%');if(soul.state==='servant')timed('契魂追猎',soul.until);}
    add(G.Holy?.burnStatus(b,e));add(G.Adaptive?.status(b,e));
    const debt=G.VenomArcana?.state(b);if(debt?.active||debt?.pool>0){add('万毒缓蚀');add('伤害池 '+debt.pool.toFixed(1)+' · 下跳'+G.VenomArcana.amount(debt.pool).toFixed(1));if(debt.pool>=b.hp)add('缓蚀致死风险');}
    const gear=G.Overdrive?.state(b);if(gear?.active)add('动能轮回');

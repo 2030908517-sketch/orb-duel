@@ -3,7 +3,7 @@
   const G=root.OrbDuel,C=G.Constants,EPS=1e-9;
   const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
   G.Holy={
-    fresh(){return {path:[],last:null,triangleReady:0,nextJudgement:Infinity,chargeUntil:0,casts:0,triangles:0,lightHits:0,touchHits:0,waterDamage:0,outsideTime:0,nextWard:0,wards:0,burnDamage:0,nextImpact:{}};},
+    fresh(){return {path:[],last:null,triangleReady:0,nextJudgement:Infinity,chargeUntil:0,casts:0,triangles:0,lightHits:0,touchHits:0,waterDamage:0,burnDamage:0,nextImpact:{}};},
     reset(e){e.holyWorld=e.balls.some(b=>b.type==='holy')?{water:[],zones:[],lights:[],burns:[],waterHits:{},zoneHits:{},judgementHits:{},judgementCounts:{},touchHits:{},judgementTouches:{},nextLandSound:0}:null;},
     activate(b,e){b.holy.nextJudgement=e.time+1;},
     update(b,dt,e){
@@ -16,14 +16,7 @@
       if(e.holyWorld)e.holyWorld.lights=e.holyWorld.lights.filter(l=>l.owner!==b.id||l.kind!=='judgement'||l.landed);return cast;
     },
     retire(b,e){if(!b.holy||!e.holyWorld)return;b.holy.path=[];b.holy.last=null;b.holy.chargeUntil=0;for(const key of ['water','zones','lights','burns'])e.holyWorld[key]=e.holyWorld[key].filter(v=>v.owner!==b.id);},
-    ward(b,e,dt){
-      const s=b.holy,t=e.time,inside=e.holyWorld.zones.some(z=>z.owner===b.id&&z.expires>t&&dist(b,z)<=z.radius);
-      s.outsideTime=inside?0:Math.min(b.def.wardDelay,s.outsideTime+dt*b.temporal.rate);
-      if(b.shield>0&&t+EPS>=b.shieldUntil)b.shield=0;
-      if(inside||s.outsideTime+EPS<b.def.wardDelay||t+EPS<s.nextWard||b.shield>0||G.Temporal.silenced(b,e))return;
-      b.shield=b.def.wardAmount;b.shieldUntil=t+b.def.wardLife;s.nextWard=t+b.def.wardPeriod;s.outsideTime=0;s.wards++;
-      engineSignal(b,e,'神圣庇护 · 5盾','holyWard');e.ring(b.x,b.y,b.def.color,42);
-    },
+    ward(b,e,dt){if(b.shield>0&&e.time+EPS>=b.shieldUntil)b.shield=0;},
     contact(a,b,e){
       if(e.state!=='running'||!e.holyWorld)return;
       for(const [source,target] of [[a,b],[b,a]]){
@@ -104,7 +97,7 @@
       // Bound reservations: retry later rather than overlap or build a match-long backlog.
       let when=synchronized?at:null;for(let delay=0;when===null&&delay<=(kind==='judgement'?24:8);delay++){const candidate=at+delay*.08;if(this.lightFits(point,e,candidate,kind)){when=candidate;break;}}
       if(when===null)return null;
-      const l={id:e.nextWorldId++,owner:b.id,adaptiveId:kind==='zone'?e.holyWorld.zones.find(z=>z.id===group)?.adaptiveId:b.holy.judgementAdaptiveId,x:point.x,y:point.y,kind,group,at:when,warningAt:when-(kind==='judgement'?.42:.28),expires:when+b.def.lightLife,radius:b.def.lightRadius,raw,touchRaw:(kind==='judgement'?b.def.judgementTouchDamage:b.def.lightTouchDamage)*e.heatMultiplier,color:b.def.color,landed:false};e.holyWorld.lights.push(l);return l;
+      const l={id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:b.id,adaptiveId:kind==='zone'?e.holyWorld.zones.find(z=>z.id===group)?.adaptiveId:b.holy.judgementAdaptiveId,x:point.x,y:point.y,kind,group,at:when,warningAt:when-(kind==='judgement'?.42:.28),expires:when+b.def.lightLife,radius:b.def.lightRadius,raw,touchRaw:(kind==='judgement'?b.def.judgementTouchDamage:b.def.lightTouchDamage)*e.heatMultiplier,color:b.def.color,landed:false};e.holyWorld.lights.push(l);return l;
     },
     judgement(b,e){
       const s=b.holy,w=e.holyWorld;if(!w)return;const corner=Math.floor(e.rng.next()*4),grid=b.def.lightRadius*2+20,cols=Math.ceil(C.width/grid),rows=Math.ceil(C.height/grid),group=e.nextWorldId++;
@@ -134,11 +127,6 @@
           }
         }
       }
-      for(const z of w.zones)if(t+EPS>=z.nextLight){z.nextLight=t+1.1;const b=alive(z.owner),count=Math.max(3,Math.min(12,Math.ceil(Math.PI*z.radius*z.radius/14000)));let emitted=0;
-        // A wave shares one warning and landing instant; crowded slots are omitted, never staggered.
-        for(let i=0;i<count;i++){const drop=this.spacedPoint(z,e,t+.28);if(drop&&this.light(b,e,drop.point,'zone',z.id,drop.at,b.def.lightDamage*e.heatMultiplier,true))emitted++;}
-        if(emitted)e.sound('holyFall',z.x);
-      }
       for(const l of w.lights){if(t+EPS<l.at)continue;const landing=!l.landed;l.landed=true;const b=alive(l.owner);if(!b)continue;
         if(landing){e.effects.push({kind:'holyLanding',id:l.id,x:l.x,y:l.y,radius:l.radius,age:0,life:.28});if(t+EPS>=w.nextLandSound){w.nextLandSound=t+.45;e.sound('holyLand',l.x);}}
         for(const target of e.balls){if(!G.World.enemy(b,target,e)||target.hp<=0||G.Ghost.phased(target)||dist(l,target)>l.radius+target.radius)continue;
@@ -147,12 +135,12 @@
             if(t+EPS<(w.touchHits[touchKey]||0)||l.kind==='judgement'&&(w.judgementTouches[groupKey]||0)>=4)continue;
             w.touchHits[touchKey]=t+b.def.lightTouchInterval;
             if(l.kind==='judgement')w.judgementTouches[groupKey]=(w.judgementTouches[groupKey]||0)+1;
-            e.pendingAttacks.push({source:b,target,raw:l.touchRaw,kind:'holyTouch',adaptiveId:l.adaptiveId,point:{x:l.x,y:l.y},holyGroup:l.group});continue;
+            e.pendingAttacks.push({source:b,target,raw:l.touchRaw,heat:l.heat,kind:'holyTouch',adaptiveId:l.adaptiveId,point:{x:l.x,y:l.y},holyGroup:l.group});continue;
           }
           if(l.kind==='zone'){const key=l.group+':'+target.id;if(t+EPS<(w.zoneHits[key]||0))continue;w.zoneHits[key]=t+.45;}
           else{const key=l.group+':'+target.id,count=w.judgementCounts[key]||0;if(count>=3||t+EPS<(w.judgementHits[key]||0))continue;w.judgementCounts[key]=count+1;w.judgementHits[key]=t+.35;}
           w.touchHits[touchKey]=t+b.def.lightTouchInterval;
-          e.pendingAttacks.push({source:b,target,raw:l.raw,adaptiveId:l.adaptiveId,kind:l.kind==='zone'?'holyLight':'holyJudgement',point:{x:l.x,y:l.y},holyGroup:l.group});
+          e.pendingAttacks.push({source:b,target,raw:l.raw,heat:l.heat,adaptiveId:l.adaptiveId,kind:l.kind==='zone'?'holyLight':'holyJudgement',point:{x:l.x,y:l.y},holyGroup:l.group});
         }
       }
       // Bound per-field clocks by living, unexpired groups rather than a match-long history.
@@ -177,9 +165,6 @@
 
     },
     status(b,e){const s=b.holy,w=e.holyWorld,z=w?.zones.filter(z=>z.owner===b.id).at(-1);return [
-      {label:'庇护盾',value:b.shield.toFixed(1)+'/'+b.def.wardAmount},
-      {label:'庇护CD',value:Math.max(0,s.nextWard-e.time).toFixed(1)+'s'},
-      {label:'离圈计时',value:s.outsideTime.toFixed(1)+'/'+b.def.wardDelay+'s'},
       {label:'阵径/余时',value:z?Math.round(z.radius)+'/'+Math.max(0,z.expires-e.time).toFixed(1)+'s':'未成阵'},
       {label:G.Awakening.active(b)?'阵/裁伤':'圣光伤',value:(b.def.lightDamage*e.heatMultiplier).toFixed(1)+(G.Awakening.active(b)?'/'+(b.def.judgementDamage*e.heatMultiplier).toFixed(1):'')},
       {label:'裁决CD',value:G.Awakening.active(b)?s.chargeUntil?'蓄势':w?.lights.some(l=>l.owner===b.id&&l.kind==='judgement')?'光雨中':Math.max(0,s.nextJudgement-e.time).toFixed(1)+'s':'未觉醒'}

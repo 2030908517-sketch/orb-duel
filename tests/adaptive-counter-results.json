@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "version": "previous demon2",
+      "matches": 24,
+      "demonWins": 3,
+      "draws": 0,
+      "clawHits": 69,
+      "executions": 15,
+      "casts": 114,
+      "wholeCastMisses": null,
+      "maxDuration": 51.74166666666667
+    },
+    {
+      "version": "adaptive1",
+      "matches": 24,
+      "demonWins": 5,
+      "draws": 1,
+      "clawHits": 97,
+      "executions": 26,
+      "casts": 112,
+      "wholeCastMisses": 44,
+      "maxDuration": 50.75
+    }
+  ],
+  "note": "Same twelve seeds, both starting sides; focused counterplay sample, not roster balance."
+}

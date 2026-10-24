@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": 108458,
+  "matches": 140,
+  "pulledSpeed": 690,
+  "pushedSpeed": 780,
+  "wallDamage": [
+    2.5,
+    6.944444444444445,
+    15.625
+  ],
+  "flyers": [
+    "bullet",
+    "blade",
+    "clock"
+  ],
+  "laserExcluded": true,
+  "delaySeconds": 2,
+  "domainSlowPercent": 80
+}

@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "predictHUD": true,
+      "fourNodes": true,
+      "sixStaticLinks": true,
+      "farthestDynamic": true,
+      "pause": true,
+      "reset": true
+    }
+  ],
+  "errors": []
+}

@@ -23,7 +23,7 @@
     }
     checkEnd(){
       if(this.ending||this.state==='ended')return;
-      const live=[0,1].filter(team=>this.balls.some(b=>b.team===team&&b.hp>1e-8));
+      const live=[0,1].filter(team=>this.balls.some(b=>b.team===team&&!b.demonServant&&b.hp>1e-8));
       if(live.length<2)this.beginEnding(live.length?live[0]:'draw',live.length?T.names[live[0]]+'获胜 · 敌队全灭':'两队同时全灭 · 平局',C.width/2,live.length?live[0]:'draw');
     }
     snapshot(){const s=super.snapshot();return {...s,mode:this.mode,mapId:this.mapId,width:C.width,height:C.height,winnerTeam:this.winnerTeam,obstacles:this.obstacles.map(o=>({...o})),balls:s.balls.map((b,i)=>({...b,team:this.balls[i].team,teamTarget:this.balls[i].teamTarget}))};}
@@ -39,17 +39,19 @@
       if (this.time >= C.heatStart && !this.heatAnnounced) { this.heatAnnounced = true; this.log('加热阶段 · 攻击伤害逐渐提升'); }
       if (this.time >= C.decayStart && !this.decayAnnounced) { this.decayAnnounced = true; this.log('决胜阶段 · 存活小球每秒流失 3 点生命'); }
       for(const ball of this.balls) {if(ball.hp<=0)continue;ball.previousX=ball.x;ball.previousY=ball.y;}
-      G.Team.acquire(this);G.Ghost.prepare(this);G.Temporal.begin(this,dt);G.Trapper?.prepare(this);G.Demon?.forces(this,dt);
+      G.Team.acquire(this);G.Demon?.freezeStep?.(this,dt);G.Ghost.prepare(this);G.Temporal.begin(this,dt);G.Trapper?.prepare(this);G.Demon?.forces(this,dt);
       for (const ball of this.balls) {
         if(ball.hp<=0)continue;
         ball.flash = Math.max(0, ball.flash - dt);
         if(ball.hitVisual)ball.hitVisual.age+=dt;
+        if(G.Demon?.frozen?.(ball,this))continue;
         G.Characters.update(ball,this);G.Magnet.settle(ball,this);G.Roles.update(ball,this);G.Recovery.pressure(ball,this);G.Awakening.update(ball,dt*ball.temporal.rate,this);
         if(!G.Temporal.silenced(ball,this)||ball.type==='accelerator'||G.DefenseArcana?.guardActive(ball,this))G.Skills[ball.type]?.update?.(ball, dt*ball.temporal.rate, this);
       }
       G.Arcana?.update(this,dt);
       for (const ball of this.balls) {
         if(ball.hp<=0)continue;
+        if(G.Demon?.frozen?.(ball,this))continue;
         G.BladeHunt?.beforeMove(ball,dt,this);
         if (G.Arcana?.customMove(ball)?G.Arcana.move(ball,dt,this):G.Charge?.flowing(ball)?G.Charge.move(ball,dt,this):G.Physics.integrate(ball, dt)) {
           this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);
@@ -92,7 +94,7 @@
         if (!overlap) break;
       }
       for (const ball of this.balls) if (ball.hp>0&&G.Physics.constrain(ball)){this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);}
-      G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Cosmic?.world(this);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
+      G.Demon?.constrainHosts?.(this);G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Cosmic?.world(this);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
       G.Combat.resolveBatch(this.pendingAttacks,this,this.contactPairs);G.Adaptive?.observe(this);
       this.checkEnd();if(this.ending||this.state==='ended')return;this.retire();
       if (this.time >= C.decayStart) for (const ball of this.balls) if(ball.hp>0)G.Combat.applyDamage(ball, C.decayPerSecond * dt, this, { bypassShield: true, bypassInvulnerability:true, silent: true });

@@ -4,6 +4,20 @@
  const P=G.Priority={
   current:null,
   protected(b){return !!b.arcana;},
+  armoredArcana(b){return !!b?.arcana&&['normal','ranger','laser'].includes(b.type);},
+  clearControls(b,e){
+   // Release incoming controls only. Damage statuses, world walls and skill resources survive.
+   if(b.kineticCycle?.side==='target'){const owner=e.balls.find(v=>v.id===b.kineticCycle.owner);if(owner)G.Overdrive?.finish(owner,e);}
+   G.Demon?.clearStatus(b);
+   for(const s of e.demonWorld?.souls||[])if(s.target===b.id){s.bound=false;s.binding=false;}
+   if(e.arcanaWorld?.defense)e.arcanaWorld.defense.returns=e.arcanaWorld.defense.returns.filter(v=>v.target!==b.id);
+   for(const m of e.traps||[])if(m.captureTarget===b.id){m.captureUntil=0;m.captureTarget=null;m.captureStarted=0;m.captureBlockedUntil=e.time+.6;}
+   if(e.livingVenom)e.livingVenom.binds=e.livingVenom.binds.filter(v=>v.target!==b.id);
+   if(b.poison?.layers){b.poison.layers=b.poison.layers.filter(v=>v.type!=='paralysis');G.Venom.sync(b,e);}
+   b.temporal.silenceUntil=0;G.Temporal.releaseControl(b);
+   b.stagger=null;b.magneticMark=null;b.inertia=0;b.impactDrag=0;
+   b.role.cutSlowUntil=0;b.role.cutSlowActive=false;
+  },
   armored(b){if(!b||b.hp<=0)return false;return !!G.LaserBlade?.active(b)||b.type==='normal'&&['blink','punch','punchRecovery'].includes(b.arcana?.phase)||b.type==='ranger'&&b.arcana?.phase==='counterCharge';},
   attackLevel(h,e){return e.mode==='arcana'&&(h.priority==='arcana'||/^arc[A-Z]/.test(h.kind||'')||h.prison)?1:0;},
   shieldPacket(h,e){const u=h.target.arcana;if(e.mode!=='arcana'||!u?.royalActive||u.royalShield<=0)return h;const rank=h.shatterShield?2:h.bypassShield?1:0;if(!rank)return h;const reduced=this.attackLevel(h,e)?rank-1:0;return {...h,bypassShield:reduced>=1,shatterShield:false};},
@@ -18,13 +32,13 @@
  };
  if(!G.Arcana?.health||!G.DefenseArcana||!G.RangerArcana)return;
  const copy=G.Arcana.copy;G.Arcana.copy=function(type){const extra={normal:'正式执行阶段霸体，不额外无敌。',ranger:'仅奥义瞄准阶段霸体，可受伤。',shield:'专属盾抵抗普通穿盾/破盾；敌方奥义的穿盾/破盾降低一级，本体仍可受控制。',accelerator:'动能轮回每局一次；沉默不阻止准备冲刺及正式释放，普通技能与时间减速规则保留。',venom:'伤害池不属于中毒，净化和沉默不能清除或暂停；本体仍可受控制。',reflector:'清算牵引不受普通净化、沉默和运动控制覆盖，霸体目标免疫牵引。'};return copy.call(this,type)+(extra[type]?' '+extra[type]:'');};
- const commit=G.Arcana.commit;G.Arcana.commit=function(b,e){const rate=b.temporal.rate,cd=b.temporal.cooldownRate;commit.call(this,b,e);if(['accelerator','venom','shield','reflector'].includes(b.type)){const now=b.temporal.rate||1;b.vx*=rate/now;b.vy*=rate/now;b.temporal.rate=rate;b.temporal.cooldownRate=cd;}};
+ const commit=G.Arcana.commit;G.Arcana.commit=function(b,e){const rate=b.temporal.rate,cd=b.temporal.cooldownRate;if(P.armoredArcana(b))P.clearControls(b,e);commit.call(this,b,e);if(['accelerator','venom','shield','reflector'].includes(b.type)){const now=b.temporal.rate||1;b.vx*=rate/now;b.vy*=rate/now;b.temporal.rate=rate;b.temporal.cooldownRate=cd;}};
  G.Temporal.controlImmune=function(b,e){return G.World.absent(b,e)||P.armored(b);};
  // Arcana timers are world clocks, even when ordinary actor clocks are slowed.
  const slow=G.Arcana.slow;G.Arcana.slow=function(b,e,lost){if(P.protected(b))return;return slow.call(this,b,e,lost);};
  const interrupt=G.Arcana.interrupt;G.Arcana.interrupt=function(b,e,reason){if(P.protected(b)&&['silence','control','slow','cleanse','dispel','lock','ordinary'].includes(reason))return false;return interrupt.call(this,b,e,reason);};
  const prepare=G.DefenseArcana.prepare;G.DefenseArcana.prepare=function(e,dt){P.current=e;return prepare.call(this,e,dt);};
- const brace=G.RangerArcana.brace;G.RangerArcana.brace=function(b,t,e){const result=brace.call(this,b,t,e);G.Temporal.releaseControl(b);return result;};
+ const charge=G.RangerArcana.prepareCharge;G.RangerArcana.prepareCharge=function(b,t,e){P.clearControls(b,e);return charge.call(this,b,t,e);};
  const clearCages=G.Trapper.clear;G.Trapper.clear=function(e,cause={}){if(!P.canRemove({priority:'arcana'},e,cause))return false;clearCages.call(this,e);return true;};
  const clear=G.World.clearTrap;G.World.clearTrap=function(v,b,e,options={}){if(!P.canRemove(v,e,options))return false;clear.call(this,v,b,e);return true;};
  // Prediction is an Arcana right, while ordinary reflector stance remains silence-sensitive.

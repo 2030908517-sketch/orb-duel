@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORB DUEL · 魂线机制实验</title><link rel="stylesheet" href="style.css"></head>
+<body><header><div><small>ORB DUEL / MECHANIC STUDY</small><h1>灵魂与魂线 <span>实验原型</span></h1></div><a href="README.md">实验规则与未决问题 ↗</a></header>
+<p class="notice">独立隔离 · 不含伤害、觉醒或奥义 · 以下参数与行为均不是正式设计</p>
+<main><section class="stage"><div class="toolbar"><button id="pause">暂停 · Space</button><button id="step">单帧 · N</button><button id="extract">重新抽离</button><button id="reset">重置 · R</button><button id="export">导出记录</button></div>
+<canvas id="arena" width="720" height="680" aria-label="魂线实验竞技场"></canvas>
+<div class="legend"><span class="blue">● 肉身</span><span class="pale">◌ 灵魂</span><span class="red">● 恶魔（可拖动）</span><span>触线：线变红</span></div>
+<div id="metrics" class="metrics"></div><canvas id="chart" width="720" height="140" aria-label="最近12世界秒长度与距离曲线"></canvas><p class="hint">曲线：<b class="red">抽取长度 L</b> / <b class="blue">实际距离 d</b>。两者分开记账；靠近不会清空L。</p>
+</section><aside><h2>实时参数</h2><label class="seed">种子<input id="seed" value="soul-001" maxlength="48"></label><label class="seed">观察预设<select id="preset"><option value="default">基础拉扯</option><option value="reclaim">快速回收</option><option value="contact">容易接触</option><option value="persist">零回收 / 长度保持</option></select></label>
+<div id="params"></div><div class="flags"><label><input id="follow" type="checkbox">恶魔跟随光标（移动有速度限制）</label><label><input id="fixed" type="checkbox">固定肉身（不结算肉身间碰撞）</label><label><input id="recover" type="checkbox">暂停回收（观察L与d解耦）</label></div>
+<p class="hint">拖动红球仅用于摆放；暂停后也可拖动。初始长度与种子重置后生效，其余滑块即时生效。归魂后按“重新抽离”继续。</p><h2>事件时间线 <small>世界秒</small></h2><div id="events" role="log"></div></aside></main>
+<footer>魂身不挡路；魂线为软约束实验。没有障碍、多恶魔、真实防御或胜负判定。<a href="README.md">完整边界</a></footer>
+<script src="../../js/config.js"></script><script src="../../js/physics.js"></script><script src="model.js"></script><script src="app.js"></script></body></html>

@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "checks": 142885,
+  "matches": 140,
+  "pullWallDamage": [
+    1,
+    2.777777777777778,
+    6.25
+  ],
+  "actualAttractionContacts": {
+    "plain": 14,
+    "compensated": 24
+  },
+  "movingTargetDamage": {
+    "base": 438.1452858187257,
+    "awake": 815.7101793985812
+  },
+  "flyersChecked": [
+    "ordinaryBullet",
+    "heavyShell",
+    "counterBlade",
+    "capturedMirrorReturn",
+    "boomerang",
+    "flyingClock"
+  ],
+  "phaseDamageImmune": true,
+  "phaseCrossesBodies": true,
+  "materializationSafe": true,
+  "awakeningLunges": 3
+}

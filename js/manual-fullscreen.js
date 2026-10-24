@@ -55,7 +55,7 @@
           const label=key==='nextCast'?(state===t.hunt?'追猎冷却':t.type==='vampire'?'血契冷却':'冲刺冷却'):timerNames[key];
           return label?[{label,value:Math.max(0,state[key]-e.time).toFixed(1)+'s'}]:[];
         });
-        const fields=[...cooldown,...clocks.filter(c=>!cooldown.some(n=>n.label===c.label)),...other],key=t.type+JSON.stringify(fields);
+        const fields=G.StatusPanel.prioritize(t,[...cooldown,...clocks.filter(c=>!cooldown.some(n=>n.label===c.label)),...other,...G.StatusPanel.resourceFields(t,e)]),key=t.type+JSON.stringify(fields);
         if(key!==this.enemyKey){this.enemyKey=key;this.enemyView.replaceChildren();this.rows(this.enemyView,'技能冷却与角色机制',fields);}
       }
       this.fit();

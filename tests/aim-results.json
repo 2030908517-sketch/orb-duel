@@ -1,0 +1,142 @@
+{
+  "passed": true,
+  "controlledShots": 4500,
+  "scope": "stationary shooter, moving 235-speed target, wall bounces; one full projectile lifetime per shot",
+  "results": [
+    {
+      "kind": "ranger",
+      "distance": 70,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 70,
+      "calibration": 1,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 70,
+      "calibration": 2,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 70,
+      "calibration": 3,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "venom",
+      "distance": 70,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 150,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 269,
+      "hitRate": 89.7,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 150,
+      "calibration": 1,
+      "shots": 300,
+      "hits": 298,
+      "hitRate": 99.3,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 150,
+      "calibration": 2,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 150,
+      "calibration": 3,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "venom",
+      "distance": 150,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 205,
+      "hitRate": 68.3,
+      "missPools": 95
+    },
+    {
+      "kind": "ranger",
+      "distance": 240,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 275,
+      "hitRate": 91.7,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 240,
+      "calibration": 1,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 240,
+      "calibration": 2,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "ranger",
+      "distance": 240,
+      "calibration": 3,
+      "shots": 300,
+      "hits": 300,
+      "hitRate": 100,
+      "missPools": 0
+    },
+    {
+      "kind": "venom",
+      "distance": 240,
+      "calibration": 0,
+      "shots": 300,
+      "hits": 152,
+      "hitRate": 50.7,
+      "missPools": 148
+    }
+  ]
+}

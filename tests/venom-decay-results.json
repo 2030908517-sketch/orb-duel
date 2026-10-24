@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "checks": 107,
+  "version": "20261017-venom1",
+  "note": "Deterministic damage conservation, threshold, damage types, poison continuity, rewind and mode boundaries; no balance batches."
+}

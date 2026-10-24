@@ -5,7 +5,7 @@ const D=G.BladeDance={
  handles(b){return b.type==='boomerang'&&!!b.arcana;},active(b){return !!b.arcana?.dance?.active;},state(b){return b.arcana?.dance;},
  point(b,p,r=b.radius){const q=b.cageBounds&&G.Trapper?G.Trapper.bounds(b):b.combatBounds||{left:0,right:C.width,top:0,bottom:C.height};return{x:clamp(p.x,q.left+r+1,q.right-r-1),y:clamp(p.y,q.top+r+1,q.bottom-r-1)};},
  event(b,e,type,extra={}){const s=this.state(b);if(!s)return;s.events.push({type,at:e.time,x:b.x,y:b.y,angle:angle(b.vx,b.vy),round:s.round,...extra});s.events=s.events.filter(v=>e.time-v.at<1);G.Presentation?.note(e,'arcana.dance',{actorId:b.id,stage:type,round:s.round,...extra});},
- begin(b,t,e){A.commit(b,e);const u=b.arcana;u.phase='danceWind';u.target=t.id;u.dance={active:true,started:e.time,phaseAt:e.time,round:0,side:1,meet:{x:b.x,y:b.y},bodyGoal:{x:b.x,y:b.y},heading:angle(b.vx,b.vy),speed:Math.hypot(b.vx,b.vy),events:[],path:[],hits:{},catches:0,relays:0,lastCatch:-99,lost:0,next:0,savedCatchUntil:b.character.catchUntil,savedCatchPower:b.character.catchPower,launches:[0,0],queue:[],attackSlot:0,orbitSide:1,orbitCenter:this.point(b,t,68),radiusKick:0,catchFlow:null,exchanges:0,catchMask:0,orbitRadius:this.config.outerRadius,tightness:0};G.Temporal.releaseControl(b);b.motionSpeed=Math.max(b.speed,u.dance.speed);this.event(b,e,'wind');e.sound('return',b.x);},
+ begin(b,t,e){A.commit(b,e);const u=b.arcana;u.phase='danceWind';u.target=t.id;u.dance={active:true,started:e.time,phaseAt:e.time,round:0,side:1,meet:{x:b.x,y:b.y},bodyGoal:{x:b.x,y:b.y},heading:angle(b.vx,b.vy),speed:Math.hypot(b.vx,b.vy),events:[],path:[],hits:{},catches:0,relays:0,lastCatch:-99,lost:0,next:0,savedCatchUntil:b.character.catchUntil,savedCatchPower:b.character.catchPower,launches:[0,0],queue:[],attackSlot:0,orbitSide:1,orbitCenter:this.point(b,t,68),radiusKick:0,catchFlow:null,exchanges:0,catchMask:0,orbitRadius:this.config.outerRadius,tightness:0};G.Temporal.releaseControl(b);b.motionSpeed=Math.max(b.speed,u.dance.speed);this.event(b,e,'wind');e.sound('arcDanceWind',b.x);},
  blades(b,e){return e.projectiles.filter(p=>p.danceOwner===b.id&&!p.danceRemoved);},
  launch(b,t,e){const s=this.state(b);if(!t){this.finish(b,e);return;}s.phaseAt=e.time;s.round=1;s.attackSlot=0;b.character.bladeLost=false;b.character.caughtInCast=0;this.launchBlade(b,t,e,0,false);if(G.Awakening.active(b))this.launchBlade(b,t,e,1,true);},
  launchBlade(b,t,e,slot,guide=false){const s=this.state(b),c=this.config;if(!t||s.launches[slot]>=c.rounds)return;
@@ -24,7 +24,7 @@ const D=G.BladeDance={
   }
   const travel=Math.hypot(control.x-p.x,control.y-p.y)+Math.hypot(end.x-control.x,end.y-control.y),duration=guide?clamp(travel/c.bladeSpeed,.30,.50):clamp(travel/c.bladeSpeed,.34,cycle===1?.68:.58),heading=angle(control.x-p.x,control.y-p.y);
   Object.assign(p,{danceOwner:b.id,danceRound:cycle,danceSlot:slot,danceRole:guide?'guide':'attack',danceLaunchedAt:e.time,danceOrigin:{x:b.x,y:b.y},danceSide:side,danceControl:{...control},danceEnd:{...end},priority:'arcana',speed:c.bladeSpeed,vx:Math.cos(heading)*c.bladeSpeed,vy:Math.sin(heading)*c.bladeSpeed,expires:e.time+c.roundDeadline+.2,turnAt:e.time+duration,curve:{start:{x:p.x,y:p.y},control,end,started:e.time,duration}});
-  this.event(b,e,'release',{side,slot,role:p.danceRole});e.sound('throw',b.x);
+  this.event(b,e,'release',{side,slot,role:p.danceRole});e.sound('arcDanceThrow',b.x);
  },
  update(b,t,e,dt){const u=b.arcana,c=this.config,s=this.state(b);if(!s?.active){if(!u.used&&b.hp<=b.maxHp*A.ratio&&G.Awakening.active(b)&&t){if(b.character.bladeRemaining>0){u.waiting='等待接刃';return;}this.begin(b,t,e);}return;}
   if(b.hp<=0||e.ending||e.state!=='running'){this.finish(b,e,true);return;}
@@ -41,7 +41,7 @@ const D=G.BladeDance={
   s.radiusKick*=Math.exp(-dt*3.8);
   const ready=s.queue.filter(v=>e.time>=v.at);s.queue=s.queue.filter(v=>e.time<v.at);
   for(const v of ready)if(t&&G.World.targetable(t,e)){s.attackSlot=v.slot;s.exchanges++;s.relays++;for(const p of this.blades(b,e))if(p.danceSlot!==v.slot){p.danceRole='guide';p.turnAt=Math.min(p.turnAt,Math.max(e.time+.05,p.danceLaunchedAt+.30));}this.launchBlade(b,t,e,v.slot);}
-  if(!this.blades(b,e).length&&!s.queue.length){if(!s.next)s.next=e.time+.035;if(e.time>=s.next){u.phase='danceRecover';s.phaseAt=e.time;this.event(b,e,s.lost?'releaseEnd':'finale');if(!s.lost){e.sound('bladeCatch',b.x);e.sound('moonCut',b.x);}}}else s.next=0;
+  if(!this.blades(b,e).length&&!s.queue.length){if(!s.next)s.next=e.time+.035;if(e.time>=s.next){u.phase='danceRecover';s.phaseAt=e.time;this.event(b,e,s.lost?'releaseEnd':'finale');if(!s.lost){e.sound('arcDanceFinale',b.x);}}}else s.next=0;
   for(const p of blades)if(!p.danceRemoved&&e.time-p.danceLaunchedAt>c.roundDeadline){G.Characters.bladeRemoved(p,b,e,false);e.projectiles=e.projectiles.filter(v=>v!==p);}
  },
  steer(v,goal,speed,maxTurn,dt){const heading=angle(v.vx,v.vy),desired=angle(goal.x-v.x,goal.y-v.y),a=turn(heading,desired,maxTurn*dt),old=Math.hypot(v.vx,v.vy),n=old+(speed-old)*(1-Math.exp(-dt*7));v.vx=Math.cos(a)*n;v.vy=Math.sin(a)*n;},
@@ -63,7 +63,7 @@ const D=G.BladeDance={
   b.motionSpeed=Math.max(b.speed,Math.hypot(b.vx,b.vy));b.inertia=0;b.impactDrag=0;this.integrate(b,b,e,dt);s.heading=angle(b.vx,b.vy);s.speed=Math.hypot(b.vx,b.vy);if(e.tick%3===0){s.path.unshift({x:b.x,y:b.y,at:e.time});s.path.length=Math.min(22,s.path.length);}return false;
  },
  bladeMove(p,b,e,dt){const s=this.state(b),c=this.config;if(!s?.active){p.expires=-1;return;}
-  if(!p.returning&&e.time>=p.turnAt){p.returning=true;p.danceRole='guide';s.meet=this.point(b,{x:b.x+b.vx*.12,y:b.y+b.vy*.12});this.event(b,e,'pull',{slot:p.danceSlot});e.sound('return',p.x);}
+  if(!p.returning&&e.time>=p.turnAt){p.returning=true;p.danceRole='guide';s.meet=this.point(b,{x:b.x+b.vx*.12,y:b.y+b.vy*.12});this.event(b,e,'pull',{slot:p.danceSlot});e.sound('arcDanceReturn',p.x);}
   let goal;if(p.returning){const dx=b.x-p.x,dy=b.y-p.y,d=Math.hypot(dx,dy)||1,bend=p.danceSide*clamp((d-40)*.30,0,30);goal={x:b.x*.7+s.meet.x*.3+b.vx*.07-dy/d*bend,y:b.y*.7+s.meet.y*.3+b.vy*.07+dx/d*bend};}
   else{const q=p.curve,ox=clamp((b.x-p.danceOrigin.x)*c.bodyCoupling,-34,34),oy=clamp((b.y-p.danceOrigin.y)*c.bodyCoupling,-34,34);q.control.x=p.danceControl.x+ox;q.control.y=p.danceControl.y+oy;q.end.x=p.danceEnd.x+ox*.28;q.end.y=p.danceEnd.y+oy*.28;
    const u=clamp((e.time-q.started)/q.duration+.16,0,1),v=1-u;goal={x:v*v*q.start.x+2*v*u*q.control.x+u*u*q.end.x,y:v*v*q.start.y+2*v*u*q.control.y+u*u*q.end.y};}
@@ -82,7 +82,7 @@ A.health.boomerang=D.config.hp;A.defs.boomerang={name:'回天·双生轮舞',raw
 const skill=G.Skills.boomerang.update;G.Skills.boomerang.update=function(b,dt,e){if(D.active(b)||D.handles(b)&&!b.arcana.used&&b.hp<=b.maxHp*A.ratio&&G.Awakening.active(b))return;return skill.call(this,b,dt,e);};
 const move=G.Characters.moveBlade;G.Characters.moveBlade=function(p,b,e,dt){return p.danceOwner!==undefined?D.bladeMove(p,b,e,dt):move.call(this,p,b,e,dt);};
 const packet=G.Characters.bladePacket;G.Characters.bladePacket=function(p,b,t,e){const h=packet.call(this,p,b,t,e);return p.danceOwner!==undefined?D.packet(p,b,t,e,h):h;};
-const characterHit=G.Characters.hit;G.Characters.hit=function(h,e){characterHit.call(this,h,e);if(h.dance&&h.feedback)h.feedback.presented=true;if(h.dance&&h.actual+h.blocked>0&&D.state(h.source)){D.event(h.source,e,'cut',{x:h.target.x,y:h.target.y,angle:h.angle,blocked:!h.actual});e.sound(h.actual?'moonCut':'shieldHit',h.target.x);}};
+const characterHit=G.Characters.hit;G.Characters.hit=function(h,e){characterHit.call(this,h,e);if(h.dance&&h.feedback)h.feedback.presented=true;if(h.dance&&h.actual+h.blocked>0&&D.state(h.source)){D.event(h.source,e,'cut',{x:h.target.x,y:h.target.y,angle:h.angle,blocked:!h.actual});e.sound(h.actual?'arcDanceCut':'shieldHit',h.target.x);}};
 const removed=G.Characters.bladeRemoved;G.Characters.bladeRemoved=function(p,b,e,caught){if(p.danceRemoved)return;removed.call(this,p,b,e,caught);if(p.danceOwner!==undefined&&b)D.caught(p,b,e,caught);};
 // A physical contact starts the existing weapon swing instead of adding body damage.
 const contacts=G.Combat.contactAttacks;G.Combat.contactAttacks=function(...args){const e=args[2];return contacts.apply(this,args).filter(h=>{

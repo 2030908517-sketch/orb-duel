@@ -1,0 +1,95 @@
+{
+  "controlledCases": 1320,
+  "warmup": 0.1,
+  "description": "Stationary full-calibration shooter; transverse moving target and wall rebounds; identical seeds, actual swept projectile hits. Reference uses previous exact interception. This is an aim comparison, not match balance.",
+  "rows": [
+    {
+      "speed": 150,
+      "tracking": false,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 150,
+      "tracking": true,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 235,
+      "tracking": false,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 235,
+      "tracking": true,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 365,
+      "tracking": false,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 365,
+      "tracking": true,
+      "advanced": false,
+      "hits": 83,
+      "shots": 120,
+      "rate": 69.2
+    },
+    {
+      "speed": 560,
+      "tracking": false,
+      "advanced": false,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 560,
+      "tracking": true,
+      "advanced": false,
+      "hits": 89,
+      "shots": 120,
+      "rate": 74.2
+    },
+    {
+      "speed": 235,
+      "tracking": true,
+      "advanced": true,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 365,
+      "tracking": true,
+      "advanced": true,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    },
+    {
+      "speed": 560,
+      "tracking": true,
+      "advanced": true,
+      "hits": 120,
+      "shots": 120,
+      "rate": 100
+    }
+  ]
+}

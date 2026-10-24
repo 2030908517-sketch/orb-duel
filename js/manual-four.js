@@ -51,7 +51,7 @@
   M.secondary=function(e,probe=false){const b=this.player(e);if(!F.owns(b,e))return secondary.call(this,e,probe);if(this.blocked(e,true))return false;return F.secondary(b,e,probe);};
   M.middle=function(e,probe=false){if(this.blocked(e,true))return false;return F.middle(this.player(e),e,probe);};
   M.ready=function(e){const b=this.player(e);return F.owns(b,e)?F.arcanaReady(b,e):ready.call(this,e);};
-  M.ultimate=function(e,probe=false){const b=this.player(e);if(!F.owns(b,e))return ultimate.call(this,e,probe);if(this.blocked(e)||!F.arcanaReady(b,e))return false;if(probe)return true;const t=F.target(b,e);if(b.type==='laser')G.LaserBlade.beginArcana(b,t,e);else if(b.type==='boomerang')G.BladeDance.begin(b,t,e);else return false;return true;};
+  M.ultimate=function(e,probe=false){const b=this.player(e);if(!F.owns(b,e))return ultimate.call(this,e,probe);if(this.blocked(e,false,true)||!F.arcanaReady(b,e))return false;if(probe)return true;const t=F.target(b,e);if(b.type==='laser')G.LaserBlade.beginArcana(b,t,e);else if(b.type==='boomerang')G.BladeDance.begin(b,t,e);else return false;return true;};
   M.panel=function(e){const b=this.player(e);return F.owns(b,e)?F.panel(b,e):panel.call(this,e);};
   A.arcanaUpdate=function(b,t,e,dt){if(F.owns(b,e)){if(b.type==='laser'){if(G.LaserBlade.active(b))G.LaserBlade.arcanaUpdate(b,t||F.target(b,e),e,dt);return true;}if(b.type==='boomerang'&&!G.BladeDance.active(b))return true;}return arcana.call(this,b,t,e,dt);};
   const track=G.Aim.track;G.Aim.track=function(b,t,e,key,speed,delay,rate,dt,...rest){if(F.owns(b,e)&&['venom','laser','clock'].includes(key))return F.track(b,e,key,rate,dt);return track.call(this,b,t,e,key,speed,delay,rate,dt,...rest);};

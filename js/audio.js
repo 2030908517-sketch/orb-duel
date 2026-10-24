@@ -87,6 +87,7 @@
     demonChain:{duration:.22,cooldown:.18,priority:4,noise:{gain:.11,decay:.025,cutoff:2800},layers:[['triangle',1550,620,.14],['sine',120,90,.11]]},
     demonTension:{duration:1,attack:.06,cooldown:.7,priority:4,cutoff:1800,noise:{gain:.08,attack:.06,decay:.55,cutoff:1400},layers:[['sine',65,130,.16],['triangle',460,920,.075,.1,.75],['sine',130,260,.05,.15,.8]]},
     demonExecute:{duration:.5,cooldown:.22,priority:6,cutoff:2500,reverb:{seconds:.15,gain:.07},noise:{gain:.24,decay:.06,cutoff:2200},layers:[['sine',165,33,.38],['triangle',1100,160,.16,0,.13],['sine',80,30,.12,.04,.4]]},
+    demonSoulCut:{"duration":0.43,"body":0.008,"cooldown":0.22,"priority":5,"cutoff":3400,"reverb":{"seconds":0.12,"gain":0.05},"noise":{"gain":0.17,"decay":0.019,"cutoff":2900},"layers":[["sine",240,80,0.17,0,0.2],["triangle",1810,1240,0.065,0,0.07],["sine",960,620,0.05,0.025,0.34]]},
     demonBreak:{duration:.22,cooldown:.2,priority:4,noise:{gain:.1,decay:.024,cutoff:2400},layers:[['triangle',970,230,.13],['sine',145,65,.14]]},
     wall:{duration:.065,cooldown:.065,priority:0,layers:[['triangle',780,440,.5]]},
     ball:{duration:.16,cooldown:.1,priority:2,layers:[['sine',210,65,.65],['triangle',420,140,.22]]},
@@ -215,6 +216,29 @@
     timeInterrupt:{duration:.12,cooldown:.2,priority:5,noise:{gain:.12,decay:.02,cutoff:1900},layers:[['triangle',1450,190,.18]]},
     victory:{duration:.56,cooldown:.6,priority:7,layers:[['sine',523,523,.25],['sine',659,659,.24,.12],['triangle',784,1047,.22,.24]]}
   };
+  // Distinct action identities; the shared synth and mix remain authoritative.
+  Object.assign(profiles,{
+    demonExtract:{"duration":0.38,"attack":0.012,"cooldown":0.18,"priority":4,"cutoff":2100,"noise":{"gain":0.2,"attack":0.008,"decay":0.12,"cutoff":1700},"layers":[["sine",210,90,0.14,0,0.22],["triangle",330,710,0.06,0.035,0.25],["sine",84,125,0.07,0.1,0.23]]},
+    demonNailWarn:{"duration":0.44,"attack":0.035,"cooldown":0.28,"priority":4,"cutoff":3500,"noise":{"gain":0.045,"decay":0.06,"cutoff":2800},"layers":[["triangle",920,1280,0.06,0,0.25],["sine",1860,2090,0.035,0.035,0.3],["sine",120,95,0.08,0.22,0.15]]},
+    demonGateEcho:{"duration":0.46,"attack":0.018,"cooldown":0.35,"priority":4,"cutoff":1600,"reverb":{"seconds":0.12,"gain":0.04},"noise":{"gain":0.12,"decay":0.17,"cutoff":1150},"layers":[["sine",78,145,0.16],["triangle",300,170,0.06,0.08,0.2]]},
+    demonNailLaunch:{"duration":0.22,"cooldown":0.16,"priority":5,"cutoff":4000,"noise":{"gain":0.22,"decay":0.035,"cutoff":3600},"layers":[["triangle",1850,520,0.055,0,0.09],["sine",210,85,0.13,0,0.16]]},
+    demonNailImpact:{"duration":0.39,"body":0.012,"cooldown":0.18,"priority":6,"cutoff":3600,"reverb":{"seconds":0.1,"gain":0.035},"noise":{"gain":0.21,"decay":0.014,"cutoff":3400},"layers":[["sine",175,52,0.22,0,0.16],["triangle",2310,1760,0.075,0,0.065],["sine",1387,1270,0.055,0.015,0.26],["sine",887,790,0.045,0.02,0.32]]},
+    demonRend:{"duration":0.32,"body":0.012,"cooldown":0.2,"priority":5,"cutoff":2800,"noise":{"gain":0.26,"decay":0.043,"cutoff":2400},"layers":[["sine",137,47,0.21,0,0.16],["sawtooth",390,115,0.045,0.012,0.09],["triangle",265,150,0.09,0.06,0.19]]},
+    demonFireCharge:{"duration":0.48,"attack":0.1,"cooldown":0.4,"priority":4,"cutoff":1200,"noise":{"gain":0.13,"attack":0.09,"decay":0.35,"cutoff":1000},"layers":[["sine",56,100,0.09],["triangle",140,235,0.035,0.08,0.32]]},
+    demonHellfire:{"duration":1.02,"attack":0.035,"cooldown":0.8,"priority":5,"cutoff":1900,"noise":{"gain":0.26,"attack":0.025,"decay":0.38,"cutoff":1450},"layers":[["sawtooth",78,53,0.055,0,0.8],["sine",145,71,0.12,0,0.48],["triangle",320,190,0.035,0.12,0.35]]},
+    demonFireSever:{"duration":0.69,"body":0.025,"cooldown":0.4,"priority":8,"cutoff":2200,"reverb":{"seconds":0.16,"gain":0.065},"noise":{"gain":0.24,"decay":0.085,"cutoff":1800},"layers":[["sine",125,30,0.33,0,0.46],["triangle",760,210,0.065,0,0.13],["sine",340,98,0.08,0.075,0.24],["sine",68,41,0.09,0.16,0.4]]},
+    demonAssimilate:{"duration":0.62,"attack":0.09,"cooldown":0.45,"priority":4,"cutoff":1800,"reverb":{"seconds":0.15,"gain":0.04},"noise":{"gain":0.065,"attack":0.05,"decay":0.28,"cutoff":1500},"layers":[["sine",170,76,0.12],["triangle",390,220,0.04,0.06,0.4],["sine",610,305,0.025,0.18,0.34]]},
+    demonReform:{"duration":0.73,"attack":0.18,"cooldown":0.55,"priority":4,"cutoff":1700,"noise":{"gain":0.1,"attack":0.14,"decay":0.45,"cutoff":1350},"layers":[["sine",72,185,0.13],["triangle",205,460,0.045,0.1,0.45],["sine",110,220,0.04,0.16,0.4]]},
+    demonReformEnd:{"duration":0.3,"body":0.02,"cooldown":0.25,"priority":4,"cutoff":2300,"noise":{"gain":0.1,"decay":0.035,"cutoff":2000},"layers":[["sine",190,92,0.16,0,0.23],["triangle",530,350,0.045,0.02,0.2]]},
+    demonServantDeath:{"duration":0.48,"cooldown":0.3,"priority":5,"cutoff":2500,"noise":{"gain":0.19,"decay":0.075,"cutoff":2200},"layers":[["triangle",750,190,0.08,0,0.22],["sine",180,49,0.19,0,0.34],["sine",360,63,0.035,0.035,0.32]]},
+    demonReturn:{"duration":0.3,"attack":0.035,"cooldown":0.18,"priority":3,"cutoff":1900,"noise":{"gain":0.055,"attack":0.025,"decay":0.16,"cutoff":1500},"layers":[["sine",460,240,0.075],["sine",190,310,0.06,0.04,0.2]]},
+    laserCharge:{"duration":0.66,"attack":0.06,"cooldown":0.45,"priority":3,"cutoff":2600,"noise":{"gain":0.035,"attack":0.04,"decay":0.38,"cutoff":2100},"layers":[["sine",280,650,0.09],["triangle",560,1300,0.025,0.09,0.42],["sine",1120,1620,0.015,0.22,0.36]]},
+    laserJet:{"duration":0.18,"body":0.008,"cooldown":0.16,"priority":4,"cutoff":3100,"noise":{"gain":0.28,"decay":0.028,"cutoff":2800},"layers":[["sine",155,68,0.19,0,0.12],["triangle",580,200,0.035,0,0.08]]},
+    toxinBind:{"duration":0.3,"attack":0.008,"cooldown":0.3,"priority":4,"cutoff":1100,"noise":{"gain":0.14,"decay":0.06,"cutoff":820},"layers":[["triangle",245,85,0.11,0,0.2],["sine",120,75,0.12,0.06,0.2],["sine",390,180,0.035,0.04,0.13]]},
+    toxinSwarm:{"duration":0.46,"attack":0.045,"cooldown":0.4,"priority":4,"cutoff":1800,"noise":{"gain":0.14,"attack":0.03,"decay":0.24,"cutoff":1500},"layers":[["sawtooth",130,185,0.035,0,0.31],["triangle",310,390,0.025,0.1,0.3]]},
+    toxinRetract:{"duration":0.2,"attack":0.015,"cooldown":0.18,"priority":2,"cutoff":1200,"noise":{"gain":0.09,"attack":0.01,"decay":0.075,"cutoff":950},"layers":[["sine",250,100,0.08,0,0.16],["triangle",420,180,0.022,0.02,0.13]]},
+    toxinBindBreak:{"duration":0.21,"cooldown":0.2,"priority":3,"cutoff":1800,"noise":{"gain":0.17,"decay":0.022,"cutoff":1550},"layers":[["triangle",460,125,0.075,0,0.08],["sine",110,58,0.1,0.025,0.16]]}
+  });
   G.Audio = class Audio {
     static profiles = profiles;
     constructor(){
@@ -249,8 +273,8 @@
         if(kind==='holyTouch'&&latest.has('holyHit'))continue;
         if(kind==='holyLand'&&latest.has('holyHit'))continue;
         if(kind==='mineBlast'&&latest.has('mineHit'))continue;
-        if(started>=(mix?.maxPerBatch||4))break;if(kind==='heavy'&&ordered.some(e=>['largeHit','fistHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','pressureHit','shieldBash','thunderHit','guardHeavy','toxinErupt','heavyShotHit'].includes(e.kind)))continue;
-        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake','fistHit','shieldBash','cannon','heavyShot','chainBlast','largeHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','guardHeavy','toxinErupt'].includes(e.kind))))continue;
+        if(started>=(mix?.maxPerBatch||4))break;if(kind==='heavy'&&ordered.some(e=>['largeHit','fistHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','pressureHit','shieldBash','thunderHit','guardHeavy','toxinErupt','arcDanceCut','arcDanceFinale','demonRend','demonNailImpact','demonFireSever','demonSoulCut','heavyShotHit'].includes(e.kind)))continue;
+        if(kind==='ball' && (latest.has('heavy') || latest.has('explosion') || latest.has('laserHit') || latest.has('counterHit') || ordered.some(e=>['awakenHit','thunderHit','revengeHit','fortressBlast','magnetBlast','beamAwake','fistHit','shieldBash','cannon','heavyShot','chainBlast','largeHit','bladeHeavyHit','bladeSlashHit','bladeTwinHit','mirrorStrike','chainHit','cannonHit','guardHeavy','toxinErupt','arcDanceCut','arcDanceFinale','demonRend','demonNailImpact','demonFireSever','demonSoulCut'].includes(e.kind))))continue;
         const policy=info(kind);if(now-(this.lastPlayed[kind]??-Infinity)<Math.max(profiles[kind].cooldown,policy.minGap||0))continue;
         if(policy.tier==='R'&&now-(this.lastRepeatAt??-Infinity)<.10)continue;
         if([...this.voices].filter(v=>v.kind===kind).length>=info(kind).maxSame)continue;

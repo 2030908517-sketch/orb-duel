@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "checks": 131,
+  "note": "Deterministic absence, target waiting, time-control exceptions and requested numbers; no balance batches."
+}

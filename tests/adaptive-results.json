@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": 423,
+  "defenseOpening": 1.5,
+  "shieldDurationCap": 0.5,
+  "mirrorDurationCap": 0.4,
+  "dashMissSpeedReturn": 10,
+  "emptyDashCruiseCap": 295,
+  "timeRate": 0.1,
+  "clockDamage": 12,
+  "wholeRoundOutcomes": true,
+  "waitingCap": 1.2
+}

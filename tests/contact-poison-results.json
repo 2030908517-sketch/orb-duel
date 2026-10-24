@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "checks": 89,
+  "version": "20261017-poison2",
+  "note": "Per-target contact ICD, normal contact damage, independent pool/spit, shield boundary, snapshot/reset and three modes; no balance batches."
+}

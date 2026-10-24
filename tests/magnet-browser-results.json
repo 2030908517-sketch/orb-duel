@@ -1,0 +1,157 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "frames": [
+        {
+          "phase": "pull",
+          "found": true,
+          "time": 0.49583333333333335,
+          "damage": 17.593724672910497,
+          "pullHits": 1,
+          "wallHits": 0,
+          "flyers": 0,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "push",
+          "found": true,
+          "time": 0.4166666666666667,
+          "damage": 11.44310788793532,
+          "pullHits": 0,
+          "wallHits": 1,
+          "flyers": 0,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "bullet",
+          "found": true,
+          "time": 0.07916666666666666,
+          "damage": 0,
+          "pullHits": 0,
+          "wallHits": 0,
+          "flyers": 1,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "blade",
+          "found": true,
+          "time": 0.07916666666666666,
+          "damage": 0,
+          "pullHits": 0,
+          "wallHits": 0,
+          "flyers": 1,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "clock",
+          "found": true,
+          "time": 0.07916666666666666,
+          "damage": 0,
+          "pullHits": 0,
+          "wallHits": 0,
+          "flyers": 1,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "capture",
+          "found": true,
+          "time": 0.6583333333333333,
+          "damage": 26.01433409174968,
+          "pullHits": 1,
+          "wallHits": 0,
+          "flyers": 0,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "reverse",
+          "found": true,
+          "time": 0.9249999999999999,
+          "damage": 23.985611455124513,
+          "pullHits": 1,
+          "wallHits": 0,
+          "flyers": 0,
+          "enemyRate": 1,
+          "erosion": 0
+        },
+        {
+          "phase": "erode",
+          "found": true,
+          "time": 0.8208333333333333,
+          "damage": 1.2,
+          "pullHits": 0,
+          "wallHits": 0,
+          "flyers": 0,
+          "enemyRate": 0.2,
+          "erosion": 1.2
+        }
+      ]
+    },
+    {
+      "audioProfiles": 88,
+      "audioPassed": true
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "state": "ended",
+      "time": 29.608333333333334,
+      "overloads": 1,
+      "erosion": 23.999999999999993,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "state": "ended",
+      "time": 37.2375,
+      "overloads": 1,
+      "erosion": 23.999999999999993,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "state": "ended",
+      "time": 35.75,
+      "overloads": 1,
+      "erosion": 24.315981116332065,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": "ended",
+      "time": 22.329166666666666,
+      "overloads": 1,
+      "erosion": 15.599999999999996,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "state": "ended",
+      "time": 38.55833333333333,
+      "overloads": 1,
+      "erosion": 26.39999999999999,
+      "layoutPassed": true
+    }
+  ]
+}

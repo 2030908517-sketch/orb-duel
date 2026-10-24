@@ -1,0 +1,176 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "frames": [
+        {
+          "phase": "pass",
+          "found": true,
+          "time": 0.42916666666666664,
+          "ghostHp": 110,
+          "phased": true,
+          "fearHits": 1,
+          "lunges": 0,
+          "soulBursts": 0,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "bullet",
+          "found": true,
+          "time": 0.2,
+          "ghostHp": 110,
+          "phased": true,
+          "fearHits": 0,
+          "lunges": 0,
+          "soulBursts": 0,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "wall",
+          "found": true,
+          "time": 0.041666666666666664,
+          "ghostHp": 110,
+          "phased": true,
+          "fearHits": 0,
+          "lunges": 0,
+          "soulBursts": 0,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "lunge",
+          "found": true,
+          "time": 0.8291666666666666,
+          "ghostHp": 110,
+          "phased": true,
+          "fearHits": 2,
+          "lunges": 2,
+          "soulBursts": 0,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "soul",
+          "found": true,
+          "time": 1.9833333333333334,
+          "ghostHp": 110,
+          "phased": false,
+          "fearHits": 5,
+          "lunges": 3,
+          "soulBursts": 1,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "pullWall",
+          "found": true,
+          "time": 0.4583333333333333,
+          "phased": false,
+          "pullWalls": 1,
+          "pullBonus": 0,
+          "flyers": 0
+        },
+        {
+          "phase": "compensation",
+          "found": true,
+          "time": 1.2541666666666667,
+          "phased": false,
+          "pullWalls": 1,
+          "pullBonus": 0.12,
+          "flyers": 0
+        },
+        {
+          "phase": "counter",
+          "found": true,
+          "time": 0.07916666666666666,
+          "phased": false,
+          "pullWalls": 0,
+          "pullBonus": 0,
+          "flyers": 1
+        }
+      ]
+    },
+    {
+      "audioProfiles": 97,
+      "audioPassed": true
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "state": "ended",
+      "time": 54.295833333333334,
+      "phases": 6,
+      "fearHits": 15,
+      "soulBursts": 4,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "state": "ended",
+      "time": 40.96666666666667,
+      "phases": 3,
+      "fearHits": 3,
+      "soulBursts": 1,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "state": "ended",
+      "time": 50.28333333333333,
+      "phases": 5,
+      "fearHits": 14,
+      "soulBursts": 3,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": "ended",
+      "time": 40.9375,
+      "phases": 5,
+      "fearHits": 12,
+      "soulBursts": 2,
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "state": "ended",
+      "time": 41.7,
+      "phases": 4,
+      "fearHits": 8,
+      "soulBursts": 2,
+      "layoutPassed": true
+    },
+    {
+      "liveBonusViewport": 390,
+      "bonus": 0.12,
+      "liveValuePassed": true
+    },
+    {
+      "liveBonusViewport": 320,
+      "bonus": 0.12,
+      "liveValuePassed": true
+    }
+  ]
+}

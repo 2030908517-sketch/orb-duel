@@ -34,13 +34,13 @@
       document.addEventListener('visibilitychange',()=>this.clear());
     }
     clear(){clearTimeout(this.mouseTimer);this.mouseTimer=null;this.mousePending=null;this.buttons.clear();this.chordConsumed=false;}
-    mouseCommand(button){const e=this.engine;if(M.blocked(e))return;if(button===1){M.middle?.(e);return;}if(G.ManualFour?.automatic(M.player(e))){button===0?M.fire(e):M.switch(e);return;}
+    mouseCommand(button){const e=this.engine;if(M.blocked(e,false,true))return;if(button===1){M.middle?.(e);return;}if(G.ManualFour?.automatic(M.player(e))){button===0?M.fire(e):M.switch(e);return;}
       this.buttons.add(button);if(this.chordConsumed)return;
       if(this.mousePending&&this.mousePending.button!==button&&this.buttons.size===2){clearTimeout(this.mouseTimer);this.mouseTimer=null;this.mousePending=null;this.chordConsumed=true;M.ultimate(e);return;}
       if(this.mousePending)return;const epoch=e.presentationEpoch;this.mousePending={button};
       this.mouseTimer=setTimeout(()=>{this.mouseTimer=null;this.mousePending=null;if(epoch===e.presentationEpoch&&!M.blocked(e))button===0?M.fire(e):M.switch(e);},35);
     }
-    update(){const e=this.engine,m=M.sync(e),s=M.info(e);document.body.classList.toggle('manual-input-active',['running','paused'].includes(e.state));if(s.blocked)this.clear();
+    update(){const e=this.engine,m=M.sync(e),s=M.info(e);document.body.classList.toggle('manual-input-active',['running','paused'].includes(e.state));if(s.blocked&&M.blocked(e,false,true))this.clear();
       if(e.state==='ready'){document.getElementById('overlay-description').textContent='选择玩家角色和敌人后开始；身体移动全自动。';document.getElementById('config-note').textContent='玩家可选八个已接入角色；敌方保持原有自动AI。';}
       for(const actor of e.balls)document.getElementById('fighter-'+actor.id)?.style.setProperty('--manual-role-color',actor.def.color);
       const note=document.querySelector('.arena-note span');if(note)note.textContent='自动运动 · 鼠标瞄准与施放技能';

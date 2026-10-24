@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "originalVersion": "20261013-ghost1",
+  "exactSnapshotComparisons": 49,
+  "excludedChangedCases": 133,
+  "excludedTypes": [
+    "ghost",
+    "normal",
+    "ranger",
+    "venom",
+    "reflector",
+    "trapper"
+  ],
+  "exclusionReason": "Explicit character upgrades change these historical hashes; current behavior is checked by verify-tactics.cjs and the individual role suites.",
+  "dimensions": [
+    360,
+    340
+  ],
+  "teamAdaptersLoaded": false
+}

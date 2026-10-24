@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 5,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 4,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 5,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 4,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 3,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "baseReload": 5.2,
+      "injuredCone": "21°",
+      "synchronousColumns": 4,
+      "warningAndLanding": true,
+      "soundSameTick": true,
+      "readable": true,
+      "pauseReset": true
+    }
+  ],
+  "errors": []
+}

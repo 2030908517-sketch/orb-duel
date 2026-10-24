@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "syntaxFiles": 43,
+  "changedExistingJs": [
+    "audio.js",
+    "engine.js",
+    "renderer.js",
+    "skills.js"
+  ],
+  "addedJs": [
+    "presentation.js"
+  ],
+  "unchangedJsCount": 35,
+  "roleMechanicsAndParametersUnchanged": true,
+  "skillInstalledAndSourceIdentical": true,
+  "pathsChecked": true
+}

@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-22",
+  "tests": [
+    {
+      "name": "servant initial and rebuilt HP exactly50",
+      "pass": true
+    },
+    {
+      "name": "ranger evades real servant attack but charges at demon",
+      "pass": true
+    },
+    {
+      "name": "ranger still evades demon attacks normally",
+      "pass": true
+    },
+    {
+      "name": "all native offensive target selectors prefer demon, servants remain legal real hits",
+      "pass": true
+    },
+    {
+      "name": "normal and laser AI can activate from soul stasis; CD resumes",
+      "pass": true
+    },
+    {
+      "name": "ranger AI can counter during stasis when a real threat approaches",
+      "pass": true
+    },
+    {
+      "name": "armor entry releases incoming binds and controls, preserves erosion and walls",
+      "pass": true
+    },
+    {
+      "name": "new controls cannot replace existing armor; expired controls do not return after end",
+      "pass": true
+    },
+    {
+      "name": "unarmored Arcana do not gain cleanse rights",
+      "pass": true
+    },
+    {
+      "name": "kinetic control ends through native lifecycle before armored Arcana starts",
+      "pass": true
+    },
+    {
+      "name": "manual armored ultimates allowed under stasis; ordinary keys, pause and hitstop blocked",
+      "pass": true
+    },
+    {
+      "name": "ranger charge armor clears controls added between dodge and brace",
+      "pass": true
+    },
+    {
+      "name": "laser jet follow-up selects reachable demon before servant threat",
+      "pass": true
+    }
+  ],
+  "passed": 13,
+  "total": 13
+}

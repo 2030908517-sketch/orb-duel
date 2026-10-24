@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": 156059,
+  "matches": 150,
+  "maxDuration": 113.22916666666667,
+  "maps": [
+    "open",
+    "pillars",
+    "cover"
+  ],
+  "roster": 18,
+  "friendlyFire": false,
+  "teamElimination": true,
+  "obstacleBoundaries": true,
+  "targetLocks": true,
+  "clockVariants": 9
+}

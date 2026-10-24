@@ -7,7 +7,7 @@
           b.vx=Math.cos(angle)*speed;b.vy=Math.sin(angle)*speed;b.inertia=.3;s.pursuitUntil=e.time+.28;s.pursuitTarget=target.id;s.nextPursuit=e.time+7;s.pursuits=(s.pursuits||0)+1;delete s.nearMisses[target.id];
           e.signal(b,'擦肩回身 · 追击','pursuit');e.effects.push({kind:'tactic',style:'pursuit',x:b.x,y:b.y,angle,color:b.def.color,age:0,life:.28});
     },
-    update(e){for(const b of e.balls){if(b.type!=='normal'||b.hp<=0||G.Arcana?.busy(b))continue;const s=b.role,t=e.time;
+    update(e){for(const b of e.balls){if(b.type!=='normal'||b.hp<=0||G.Demon?.frozen?.(b,e)||G.Arcana?.busy(b))continue;const s=b.role,t=e.time;
       if(s.pursuitUntil&&t>=s.pursuitUntil){s.pursuitUntil=0;b.inertia=0;G.Physics.normalizeSpeed(b);}
       for(const target of e.balls){if(!G.World.enemy(b,target,e)||target.hp<=0||G.Ghost.phased(target)){if(s.nearMisses)delete s.nearMisses[target.id];continue;}
         s.nearMisses||={};const old=s.nearMisses[target.id],dx=target.x-b.x,dy=target.y-b.y,d=Math.hypot(dx,dy),edge=b.radius+target.radius,key=b.id<target.id?b.id+':'+target.id:target.id+':'+b.id,pair=e.pairs.get(key);

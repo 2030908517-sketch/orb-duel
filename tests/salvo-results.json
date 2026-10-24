@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": 82,
+  "calibrationCap": 3,
+  "spreadDegrees": [
+    9,
+    6,
+    3,
+    0
+  ],
+  "reload": 4,
+  "sniperSpeed": 800,
+  "sniperDamage": 21,
+  "venomCooldown": 9,
+  "holyAttack": 7.5
+}

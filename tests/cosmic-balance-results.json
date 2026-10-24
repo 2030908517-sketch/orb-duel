@@ -1,0 +1,185 @@
+{
+  "records": [
+    {
+      "role": "storm",
+      "matches": 96,
+      "wins": 51,
+      "draws": 12,
+      "scorePercent": 59.375,
+      "skillHits": 1165,
+      "opponents": {
+        "normal": {
+          "wins": 5,
+          "draws": 1,
+          "matches": 6
+        },
+        "vampire": {
+          "wins": 5,
+          "draws": 0,
+          "matches": 6
+        },
+        "accelerator": {
+          "wins": 0,
+          "draws": 1,
+          "matches": 6
+        },
+        "orbital": {
+          "wins": 4,
+          "draws": 2,
+          "matches": 6
+        },
+        "demon": {
+          "wins": 4,
+          "draws": 0,
+          "matches": 6
+        },
+        "reflector": {
+          "wins": 2,
+          "draws": 1,
+          "matches": 6
+        },
+        "shield": {
+          "wins": 2,
+          "draws": 1,
+          "matches": 6
+        },
+        "ranger": {
+          "wins": 4,
+          "draws": 1,
+          "matches": 6
+        },
+        "trapper": {
+          "wins": 4,
+          "draws": 0,
+          "matches": 6
+        },
+        "boomerang": {
+          "wins": 3,
+          "draws": 0,
+          "matches": 6
+        },
+        "laser": {
+          "wins": 2,
+          "draws": 1,
+          "matches": 6
+        },
+        "ghost": {
+          "wins": 5,
+          "draws": 1,
+          "matches": 6
+        },
+        "holy": {
+          "wins": 6,
+          "draws": 0,
+          "matches": 6
+        },
+        "magnet": {
+          "wins": 3,
+          "draws": 2,
+          "matches": 6
+        },
+        "time": {
+          "wins": 1,
+          "draws": 0,
+          "matches": 6
+        },
+        "venom": {
+          "wins": 1,
+          "draws": 1,
+          "matches": 6
+        }
+      }
+    },
+    {
+      "role": "orbital",
+      "matches": 96,
+      "wins": 42,
+      "draws": 13,
+      "scorePercent": 50.520833333333336,
+      "skillHits": 1546,
+      "opponents": {
+        "normal": {
+          "wins": 1,
+          "draws": 1,
+          "matches": 6
+        },
+        "vampire": {
+          "wins": 3,
+          "draws": 1,
+          "matches": 6
+        },
+        "accelerator": {
+          "wins": 1,
+          "draws": 1,
+          "matches": 6
+        },
+        "storm": {
+          "wins": 0,
+          "draws": 2,
+          "matches": 6
+        },
+        "demon": {
+          "wins": 2,
+          "draws": 1,
+          "matches": 6
+        },
+        "reflector": {
+          "wins": 0,
+          "draws": 0,
+          "matches": 6
+        },
+        "shield": {
+          "wins": 4,
+          "draws": 2,
+          "matches": 6
+        },
+        "ranger": {
+          "wins": 5,
+          "draws": 0,
+          "matches": 6
+        },
+        "trapper": {
+          "wins": 3,
+          "draws": 1,
+          "matches": 6
+        },
+        "boomerang": {
+          "wins": 4,
+          "draws": 0,
+          "matches": 6
+        },
+        "laser": {
+          "wins": 4,
+          "draws": 0,
+          "matches": 6
+        },
+        "ghost": {
+          "wins": 3,
+          "draws": 1,
+          "matches": 6
+        },
+        "holy": {
+          "wins": 4,
+          "draws": 0,
+          "matches": 6
+        },
+        "magnet": {
+          "wins": 2,
+          "draws": 2,
+          "matches": 6
+        },
+        "time": {
+          "wins": 6,
+          "draws": 0,
+          "matches": 6
+        },
+        "venom": {
+          "wins": 0,
+          "draws": 1,
+          "matches": 6
+        }
+      }
+    }
+  ],
+  "note": "Three held-out seeds, both starting sides, non-mirror opponents; initial small-sample balance only."
+}

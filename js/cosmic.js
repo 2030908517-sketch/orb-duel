@@ -10,7 +10,7 @@
     strike(b,t,e,awake){const s=b.cosmic,id=G.Adaptive?.begin(b,awake?'stormAwake':'storm',e),charged=!awake&&s.charge>=3;
       if(charged)s.charge=0;const count=awake?3:1,base=G.Awakening.predict(t,.4),angle=Math.atan2(t.vy,t.vx),spread=awake?48:0;
       for(let i=0;i<count;i++){const offset=(i-1)*spread;const p={x:clamp(base.x+Math.cos(angle+Math.PI/2)*offset,27,C.width-27),y:clamp(base.y+Math.sin(angle+Math.PI/2)*offset,27,C.height-27)};
-        e.cosmicWorld.strikes.push({id:e.nextWorldId++,owner:b.id,adaptiveId:id,x:p.x,y:p.y,originX:b.x,originY:b.y,target:t.id,offset,lockAt:e.time+.26+i*.38,locked:false,at:e.time+.42+i*.38,warningAt:e.time+i*.38,radius:awake?27:25,raw:(awake?3.8:charged?7.4:4.9)*e.heatMultiplier,charged,awake});}
+        e.cosmicWorld.strikes.push({id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:b.id,adaptiveId:id,x:p.x,y:p.y,originX:b.x,originY:b.y,target:t.id,offset,lockAt:e.time+.26+i*.38,locked:false,at:e.time+.42+i*.38,warningAt:e.time+i*.38,radius:awake?27:25,raw:(awake?3.8:charged?7.4:4.9)*e.heatMultiplier,charged,awake});}
       G.Adaptive?.close(b,id);e.sound(awake?'stormGather':'stormWarn',b.x);e.signal(b,awake?'雷暴接力 · 三点锁定':charged?'强雷蓄势':'引雷锁定','miss');
     },
 
@@ -26,7 +26,7 @@
     },
     world(e){if(e.state!=='running')return;const w=e.cosmicWorld;w.marks=w.marks.filter(m=>m.until>e.time&&e.balls.some(b=>b.id===m.owner&&b.hp>0)&&e.balls.some(b=>b.id===m.target&&b.hp>0));
       w.strikes=w.strikes.filter(v=>{const b=e.balls.find(b=>b.id===v.owner&&b.hp>0);if(!b)return false;if(!v.locked&&e.time>=v.warningAt){const target=e.balls.find(t=>t.id===v.target&&t.hp>0);if(target&&e.time<v.lockAt){const q=G.Awakening.predict(target,Math.min(.4,Math.max(0,v.at-e.time))),a=Math.atan2(target.vy,target.vx),nx=clamp(q.x+Math.cos(a+Math.PI/2)*v.offset,27,C.width-27),ny=clamp(q.y+Math.sin(a+Math.PI/2)*v.offset,27,C.height-27),dx=nx-v.x,dy=ny-v.y,d=Math.hypot(dx,dy)||1,k=Math.min(1,360*(G.Venom?.aimControl(b,e).rate??1)*C.dt/d);v.x+=dx*k;v.y+=dy*k;}if(e.time>=v.lockAt)v.locked=true;}if(e.time<v.at)return true;
-        for(const t of e.balls)if(G.World.enemy(b,t,e)&&t.hp>0&&dist(v,t)<=t.radius+v.radius&&G.Mines.freeLine({x:v.originX,y:v.originY},v,e))e.pendingAttacks.push({source:b,target:t,kind:'stormBolt',adaptiveId:v.adaptiveId,raw:v.raw,point:v,charged:v.charged});
+        for(const t of e.balls)if(G.World.enemy(b,t,e)&&t.hp>0&&dist(v,t)<=t.radius+v.radius&&G.Mines.freeLine({x:v.originX,y:v.originY},v,e))e.pendingAttacks.push({source:b,target:t,kind:'stormBolt',adaptiveId:v.adaptiveId,raw:v.raw,heat:v.heat,point:v,charged:v.charged});
         this.effect(e,b,'lightning',v,{originX:v.x,originY:0,radius:v.radius,life:.32,charged:v.charged});e.sound('stormCrash',v.x);e.burst(v.x,v.y,b.def.color,10);return false;});
 
     },

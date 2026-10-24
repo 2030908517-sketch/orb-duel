@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "seedPrefix": "holy-feel5-unseen",
+  "matches": 208,
+  "score": 0.39663461538461536,
+  "maxTime": 54.52916666666667,
+  "results": {
+    "normal": {
+      "wins": 2,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.1875
+    },
+    "vampire": {
+      "wins": 5,
+      "draws": 0,
+      "matches": 16,
+      "score": 0.3125
+    },
+    "accelerator": {
+      "wins": 11,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.75
+    },
+    "reflector": {
+      "wins": 5,
+      "draws": 3,
+      "matches": 16,
+      "score": 0.40625
+    },
+    "shield": {
+      "wins": 1,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.125
+    },
+    "ranger": {
+      "wins": 6,
+      "draws": 1,
+      "matches": 16,
+      "score": 0.40625
+    },
+    "trapper": {
+      "wins": 5,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.375
+    },
+    "boomerang": {
+      "wins": 8,
+      "draws": 1,
+      "matches": 16,
+      "score": 0.53125
+    },
+    "laser": {
+      "wins": 6,
+      "draws": 0,
+      "matches": 16,
+      "score": 0.375
+    },
+    "ghost": {
+      "wins": 12,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.8125
+    },
+    "magnet": {
+      "wins": 2,
+      "draws": 2,
+      "matches": 16,
+      "score": 0.1875
+    },
+    "time": {
+      "wins": 4,
+      "draws": 0,
+      "matches": 16,
+      "score": 0.25
+    },
+    "venom": {
+      "wins": 7,
+      "draws": 0,
+      "matches": 16,
+      "score": 0.4375
+    }
+  },
+  "sourceHash": "f67ea6d8f0b35db8658e3ea3f5c74f516a42b3d436367919d9e0fd28645b604d"
+}

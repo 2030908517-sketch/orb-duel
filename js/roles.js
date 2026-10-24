@@ -7,7 +7,7 @@
     update(ball,engine){const r=ball.role;if(r.bloodMark&&r.bloodMark.until<engine.time)r.bloodMark=null;G.VampireHunt?.update(ball,engine);},
     effect(ball,engine,style,point=ball,angle=Math.atan2(ball.vy,ball.vx),life=.4){engine.effects.push({kind:'roster',style,owner:ball.id,x:point.x,y:point.y,angle,color:ball.def.color,age:0,life});},
     wave(ball,engine,raw,angle,kind,reach=90,width=25){
-      engine.waves.push({id:engine.nextWorldId++,owner:ball.id,x:ball.x,y:ball.y,originX:ball.x,originY:ball.y,angle,speed:kind==='fistWave'?620:390,travel:0,reach,width,baseWidth:width,push:kind==='pressureWave'?190:0,raw,kind,color:ball.def.color,hitIds:[],expires:engine.time+reach/(kind==='fistWave'?620:390)});
+      engine.waves.push({id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),owner:ball.id,x:ball.x,y:ball.y,originX:ball.x,originY:ball.y,angle,speed:kind==='fistWave'?620:390,travel:0,reach,width,baseWidth:width,push:kind==='pressureWave'?190:0,raw,kind,color:ball.def.color,hitIds:[],expires:engine.time+reach/(kind==='fistWave'?620:390)});
       this.effect(ball,engine,kind,ball,angle,.42);engine.sound(kind==='fistWave'?'fistRelease':'pressureRelease',ball.x);
     },
     updateWaves(engine,dt){
@@ -18,7 +18,7 @@
         for(const target of engine.balls){if(!G.World.enemy(w.owner,target,engine)||target.hp<=0||G.Ghost.phased(target)||w.hitIds.includes(target.id))continue;
           const dx=target.x-w.originX,dy=target.y-w.originY,forward=dx*nx+dy*ny,lateral=Math.abs(-dx*ny+dy*nx);
           if(forward>=-target.radius&&forward<=w.travel+target.radius&&lateral<=w.width+target.radius&&G.World.intersects({x:w.x,y:w.y,radius:w.width},old.x,old.y,target)){
-            w.hitIds.push(target.id);engine.pendingAttacks.push({source:owner,target,raw:w.raw,kind:w.kind,adaptiveId:w.adaptiveId,angle:w.angle,push:w.push});
+            w.hitIds.push(target.id);engine.pendingAttacks.push({source:owner,target,raw:w.raw,heat:w.heat,kind:w.kind,adaptiveId:w.adaptiveId,angle:w.angle,push:w.push});
           }
         }live.push(w);
       }engine.waves=live;
@@ -36,19 +36,19 @@
     finishImpacts(hits,engine){
       const targets=new Map();
       for(const hit of hits){
-        if(hit.actual>=15&&!hit.feedback){
+        if(hit.actual>=15&&!hit.feedback&&hit.kind!=='holyLance'&&hit.kind!=='arcHolyJudge'){
           const physical=['contact','shot','counter','boomerang'].includes(hit.kind),style=hit.kind==='laser'?'beamImpact':hit.kind==='reflection'?'mirrorStrike':hit.kind==='boomerang'?'bladeImpact':hit.kind==='toxinBurst'||hit.kind==='poison'?'toxinErupt':hit.kind==='chain'||hit.kind==='bloodFinish'?'bloodFinish':'largeHit';
           this.heavyImpact(hit.source,hit,engine,style,style==='beamImpact'?'cannonHit':style==='mirrorStrike'?'mirrorStrike':style==='bladeImpact'?'bladeHeavyHit':style==='toxinErupt'?'toxinErupt':style==='bloodFinish'?'bloodFinish':'largeHit',physical?110:0,.055);
         }
         if(!hit.feedback){G.Spectacle?.hit(engine,hit);continue;}
-        if(hit.actual>=15){hit.feedback.stop=Math.max(hit.feedback.stop,Math.min(.075,.055+(hit.actual-15)*.001));hit.feedback.power=2.3+Math.min(.6,(hit.actual-15)/30);}
+        if(hit.actual>=15&&!hit.kind.startsWith('demon')&&!hit.kind.startsWith('arcSoul')){hit.feedback.stop=Math.max(hit.feedback.stop,Math.min(.075,.055+(hit.actual-15)*.001));hit.feedback.power=2.3+Math.min(.6,(hit.actual-15)/30);}
         const previous=targets.get(hit.target);if(!previous||hit.feedback.push>previous.feedback.push||hit.feedback.push===previous.feedback.push&&hit.actual>previous.actual)targets.set(hit.target,hit);
       }
       for(const hit of targets.values()){
         const {source:ball,target,feedback:f}=hit,angle=hit.angle??(hit.impact?Math.atan2(hit.impact.ny,hit.impact.nx):Math.atan2(target.y-(hit.point?.y??ball.y),target.x-(hit.point?.x??ball.x)));
         if(f.push){const push=Math.min(480,f.push*1.35+hit.actual*5);this.shove(target,angle,push,1.05);target.impactDrag=2.2;}target.hitVisual={age:.045,life:.24,angle,power:f.power};
-        const dedicatedArcana=!!hit.dance||engine.mode==='arcana'&&['arcDebt','arcSonic','arcBlood','arcPierce','arcBite','arcTide','arcCage'].includes(hit.kind);if(!dedicatedArcana){engine.impact(target.x,target.y,ball.def.color,2);engine.burst(target.x,target.y,ball.def.color,14);}if(!f.presented)engine.hitStop(f.stop);if(!hit.actual){f.style='guardImpact';f.cue='guardHeavy';}
-        const number=engine.effects.findLast(e=>e.kind==='text'&&e.damageTarget===target.id);if(number){number.strong=true;number.color='#fff0a4';}if(!f.presented){this.effect(ball,engine,f.style,target,angle,.34);engine.sound(f.cue,target.x);}ball.stats.powerHits++;
+        const dedicatedArcana=!!hit.soulProxy||hit.kind.startsWith('arcSoul')||!!hit.dance||engine.mode==='arcana'&&['arcDebt','arcSonic','arcBlood','arcPierce','arcBite','arcTide','arcCage'].includes(hit.kind);if(!dedicatedArcana){engine.impact(target.x,target.y,ball.def.color,2);engine.burst(target.x,target.y,ball.def.color,14);}if(!f.presented)engine.hitStop(f.stop);if(!hit.actual&&!hit.soulProxy&&!hit.kind.startsWith('arcSoul')){f.style='guardImpact';f.cue='guardHeavy';}
+        const number=engine.effects.findLast(e=>e.kind==='text'&&e.damageTarget===target.id);if(number){number.strong=true;number.color='#fff0a4';}if(!f.presented){const point=hit.soulProxy?hit.point:target;this.effect(ball,engine,f.style,point,angle,.34);engine.sound(f.cue,point.x);}ball.stats.powerHits++;
       }
     },
     normalHit(ball,hit,engine){
@@ -63,7 +63,7 @@
       if(engine.state!=='running')return;const r=ball.role,spec=G.Awakening.shieldOptions(ball),enemy=G.World.targetFor(ball,engine);if(enemy)G.Aim.direct(ball,enemy,engine,'shield',390);
       if(ball.shield>0&&engine.time>=ball.shieldUntil){this.shieldEnd(ball,engine);ball.shield=0;}
       if((r.shieldRelease>0||r.shieldReserve>0)&&engine.state==='running'&&engine.time+1e-9>=r.shieldFireAt&&G.World.targetFor(ball,engine)){r.shieldAngle=G.Aim.direct(ball,G.World.targetFor(ball,engine),engine,'shield',390);this.wave(ball,engine,(r.shieldRelease*.7+r.shieldReserve*.5)*engine.heatMultiplier,r.shieldAngle,'pressureWave',230,32);engine.waves.at(-1).adaptiveId=r.shieldAdaptiveId;G.Adaptive?.close(ball,r.shieldAdaptiveId);engine.signal(ball,'堡垒震荡','miss');engine.burst(ball.x,ball.y,ball.def.color,18);r.shieldRelease=0;r.shieldReserve=0;r.shieldFireAt=0;ball.awakening.pendingBurst=false;}
-      if(!ball.arcana?.royalActive&&engine.time+1e-9>=ball.nextShield&&ball.shield<=0&&!r.shieldRelease&&!r.shieldReserve){if(!ball.arcana?.royalActive)r.pressure=0;ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration+(G.Adaptive?.duration(ball,'shield')||0);r.shieldAdaptiveId=G.Adaptive?.begin(ball,'shield',engine);ball.nextShield=engine.time+spec.period;engine.ring(ball.x,ball.y,ball.def.color,48);engine.sound('shield',ball.x);engine.log(engine.label(ball)+'屏障展开 · '+spec.amount+' 盾');}
+      if(!ball.arcana?.royalActive&&engine.time+1e-9>=ball.nextShield&&ball.shield<=0&&!G.HolySeals?.defense(ball,engine)&&!r.shieldRelease&&!r.shieldReserve){if(!ball.arcana?.royalActive)r.pressure=0;ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration+(G.Adaptive?.duration(ball,'shield')||0);r.shieldAdaptiveId=G.Adaptive?.begin(ball,'shield',engine);ball.nextShield=engine.time+spec.period;engine.ring(ball.x,ball.y,ball.def.color,48);engine.sound('shield',ball.x);engine.log(engine.label(ball)+'屏障展开 · '+spec.amount+' 盾');}
     },
     hit(hit,engine){
       const b=hit.source,t=hit.target,r=b.role;
@@ -97,7 +97,7 @@
       G.Temporal.releaseControl(ball);ball.inertia=ball.impactDrag=0;G.Physics.normalizeSpeed(ball);
       const removeTarget=(world,key)=>{if(world?.[key])world[key]=world[key].filter(v=>v.target!==ball.id);};
       removeTarget(engine.holyWorld,'burns');removeTarget(engine.cosmicWorld,'marks');removeTarget(engine.chargeWorld,'conductive');// Arcana forced movement is not a cleansable debuff.
-      if(engine.demonWorld){for(const c of engine.demonWorld.chains.filter(c=>c.target===ball.id)){const cast=engine.demonWorld.casts.find(v=>v.id===c.castId);if(cast){cast.finished??={};cast.finished[ball.id]=true;}}removeTarget(engine.demonWorld,'marks');removeTarget(engine.demonWorld,'chains');}
+      G.Demon?.cleanse(ball,engine);
       for(const trap of engine.traps)if(trap.captureTarget===ball.id){trap.captureTarget=null;trap.captureUntil=0;trap.captureStarted=0;}
     },
     finishChain(ball,engine){const a=ball.awakening;if(!a.chainActive)return;a.chainActive=false;a.chainUntil=0;a.nextPulse=Infinity;G.Adaptive?.close(ball,ball.role.chainAdaptiveId);a.chainRefund=G.Recovery.refund(ball,engine,'nextCast',1.2*Math.max(0,1-a.chainConnected/2.1),'血契中断',a);},
@@ -129,10 +129,10 @@
       if(t+1e-9<r.coolingUntil||engine.beams.some(beam=>beam.owner===ball.id))return;r.capacitor=Math.min(1,r.capacitor+dt/(ball.temporal.rate||1)*(ball.temporal.cooldownRate??ball.temporal.rate)/(awake?3.6:4.2));ball.nextLaser=t+(1-r.capacitor)*(awake?3.6:4.2);
       if(r.capacitor+1e-9>=1&&!G.ManualRoles?.owns(ball,engine)){if(G.Adaptive?.wait(ball,target,engine,'laser'))return;this.laserPrepare(ball,target,engine);}
     },
-    laserPrepare(ball,target,engine){const r=ball.role,t=engine.time,awake=G.Awakening.active(ball);r.laserAdaptiveId=G.Adaptive?.begin(ball,'laser',engine);const delay=.18+(awake?.55:.65),dest=G.Awakening.predict(target,delay),origin=G.Awakening.predict(ball,delay);ball.laser={origin,angle:ball.role.aimTracks.laser.angle,trackUntil:t+delay-.18,fireAt:t+delay,locked:false,awake};engine.sound('charge',ball.x);engine.signal(ball,'电容满载 · 瞄准','miss');},
+    laserPrepare(ball,target,engine){const r=ball.role,t=engine.time,awake=G.Awakening.active(ball);r.laserAdaptiveId=G.Adaptive?.begin(ball,'laser',engine);const delay=.18+(awake?.55:.65),dest=G.Awakening.predict(target,delay),origin=G.Awakening.predict(ball,delay);ball.laser={origin,angle:ball.role.aimTracks.laser.angle,trackUntil:t+delay-.18,fireAt:t+delay,locked:false,awake};engine.sound('laserCharge',ball.x);engine.signal(ball,'电容满载 · 瞄准','miss');},
     laserFire(ball,engine){
       const r=ball.role,l=ball.laser,awake=l.awake??G.Awakening.active(ball),ray=G.World.ray(ball,l.angle),raw=G.Combat.rollAttack(ball,engine,awake?22.2:ball.def.laserDamage,'laser');ball.stats.lasersFired++;G.Adaptive?.close(ball,r.laserAdaptiveId);r.capacitor=0;r.coolingUntil=engine.time+(awake?2.10:1.1);ball.nextLaser=r.coolingUntil+(awake?3.6:4.2);
-      if(awake){engine.beams.push({id:engine.nextWorldId++,owner:ball.id,adaptiveId:r.laserAdaptiveId,angle:l.angle,baseAngle:l.angle,sweep:(Math.sin(Math.atan2(G.World.targetFor(ball,engine)?.vy||0,G.World.targetFor(ball,engine)?.vx||0)-l.angle)>=0?1:-1)*.38,width:8,raw:raw*.28,started:engine.time,duration:.65,expires:engine.time+.65,nextPulse:engine.time,pulses:0,hitCounts:{},touched:false});for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&target.hp>0&&!G.Ghost.phased(target)&&G.World.distanceToRay(ray,target)<=target.radius+7){engine.pendingAttacks.push({source:ball,target,raw:raw*.88,kind:'laser',adaptiveId:r.laserAdaptiveId,angle:l.angle,beamId:engine.beams.at(-1).id,beamFirst:true,push:100,mainBeam:true});engine.beams.at(-1).hitCounts[target.id]=0;engine.beams.at(-1).touched=true;engine.beams.at(-1).initialIds=[target.id];}engine.sound('cannon',ball.x);this.effect(ball,engine,'cannon',ball,l.angle,.65);engine.signal(ball,'扫射重炮','miss');engine.impact(ball.x,ball.y,ball.def.color,1.7);}
+      if(awake){engine.beams.push({id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),owner:ball.id,adaptiveId:r.laserAdaptiveId,angle:l.angle,baseAngle:l.angle,sweep:(Math.sin(Math.atan2(G.World.targetFor(ball,engine)?.vy||0,G.World.targetFor(ball,engine)?.vx||0)-l.angle)>=0?1:-1)*.38,width:8,raw:raw*.28,started:engine.time,duration:.65,expires:engine.time+.65,nextPulse:engine.time,pulses:0,hitCounts:{},touched:false});for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&target.hp>0&&!G.Ghost.phased(target)&&G.World.distanceToRay(ray,target)<=target.radius+7){engine.pendingAttacks.push({source:ball,target,raw:raw*.88,kind:'laser',adaptiveId:r.laserAdaptiveId,angle:l.angle,beamId:engine.beams.at(-1).id,beamFirst:true,push:100,mainBeam:true});engine.beams.at(-1).hitCounts[target.id]=0;engine.beams.at(-1).touched=true;engine.beams.at(-1).initialIds=[target.id];}engine.sound('cannon',ball.x);this.effect(ball,engine,'cannon',ball,l.angle,.65);engine.signal(ball,'扫射重炮','miss');engine.impact(ball.x,ball.y,ball.def.color,1.7);}
       else{let touched=false;for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&target.hp>0&&!G.Ghost.phased(target)&&G.World.distanceToRay(ray,target)<=target.radius+ball.def.laserWidth){engine.pendingAttacks.push({source:ball,target,raw,kind:'laser',adaptiveId:r.laserAdaptiveId,angle:l.angle});touched=true;}const cleared=engine.traps.filter(trap=>G.World.enemy(ball,trap.owner,engine)&&trap.armedAt<=engine.time&&trap.expires>=engine.time&&G.World.distanceToRay(ray,trap)<=trap.radius+ball.def.laserWidth);for(const trap of cleared)G.World.clearTrap(trap,ball,engine);if(cleared.length)G.Adaptive?.good(ball,r.laserAdaptiveId);this.laserOutcome(ball,engine,touched||cleared.length>0);engine.effects.push({kind:'beam',...ray,color:ball.def.color,width:ball.def.laserWidth,age:0,life:.22});engine.sound('laser',ball.x);}
     },
     laserOutcome(ball,engine,touched){if(touched)ball.laserMisses=0;else if(++ball.laserMisses>=2){ball.laserMisses=0;G.Recovery.refund(ball,engine,'coolingUntil',.6,'重炮连续落空',ball.role);ball.nextLaser=ball.role.coolingUntil+(G.Awakening.active(ball)?3.6:4.2);}},
@@ -141,7 +141,7 @@
         if(engine.time>beam.expires+1e-9){this.laserOutcome(ball,engine,beam.touched);continue;}
         const progress=clamp((engine.time-beam.started)/beam.duration,0,1);beam.angle=beam.baseAngle+beam.sweep*progress;
         if(beam.pulses<6&&engine.time+1e-9>=beam.nextPulse){beam.pulses++;beam.nextPulse+=.12;const ray=G.World.ray(ball,beam.angle);
-          for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&target.hp>0&&!G.Ghost.phased(target)&&(beam.hitCounts[target.id]||0)<6&&G.World.distanceToRay(ray,target)<=target.radius+beam.width){const beamFirst=!beam.hitCounts[target.id]&&!beam.initialIds?.includes(target.id);beam.hitCounts[target.id]=(beam.hitCounts[target.id]||0)+1;beam.touched=true;engine.pendingAttacks.push({source:ball,target,raw:beam.raw/6,kind:'laser',adaptiveId:beam.adaptiveId,angle:beam.angle,push:35,beamFirst,beamId:beam.id});}
+          for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&target.hp>0&&!G.Ghost.phased(target)&&(beam.hitCounts[target.id]||0)<6&&G.World.distanceToRay(ray,target)<=target.radius+beam.width){const beamFirst=!beam.hitCounts[target.id]&&!beam.initialIds?.includes(target.id);beam.hitCounts[target.id]=(beam.hitCounts[target.id]||0)+1;beam.touched=true;engine.pendingAttacks.push({source:ball,target,raw:beam.raw/6,heat:beam.heat,kind:'laser',adaptiveId:beam.adaptiveId,angle:beam.angle,push:35,beamFirst,beamId:beam.id});}
           for(const trap of [...engine.traps])if(G.World.enemy(ball,trap.owner,engine)&&trap.armedAt<=engine.time&&trap.expires>=engine.time&&G.World.distanceToRay(ray,trap)<=trap.radius+beam.width){G.World.clearTrap(trap,ball,engine);G.Adaptive?.good(ball,beam.adaptiveId);beam.touched=true;}
         }live.push(beam);
       }engine.beams=live;

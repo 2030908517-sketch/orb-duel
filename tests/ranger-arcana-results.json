@@ -1,0 +1,278 @@
+{
+  "passed": true,
+  "checks": 12483,
+  "baselineComparisons": 4,
+  "matches": [
+    {
+      "pair": [
+        "ranger",
+        "normal"
+      ],
+      "seconds": 50.3875,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "normal",
+        "ranger"
+      ],
+      "seconds": 56.0375,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "accelerator"
+      ],
+      "seconds": 38.0125,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "accelerator",
+        "ranger"
+      ],
+      "seconds": 48.175,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "vampire"
+      ],
+      "seconds": 60.895833333333336,
+      "casts": [
+        0,
+        1
+      ],
+      "hits": [
+        0,
+        4
+      ]
+    },
+    {
+      "pair": [
+        "vampire",
+        "ranger"
+      ],
+      "seconds": 67.33333333333333,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        5,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "ranger"
+      ],
+      "seconds": 56.079166666666666,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "ranger"
+      ],
+      "seconds": 56.079166666666666,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "laser"
+      ],
+      "seconds": 30.195833333333333,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "laser",
+        "ranger"
+      ],
+      "seconds": 25.974999999999998,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "ghost"
+      ],
+      "seconds": 30.370833333333334,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "ghost",
+        "ranger"
+      ],
+      "seconds": 30.4,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "reflector"
+      ],
+      "seconds": 40.02916666666667,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "reflector",
+        "ranger"
+      ],
+      "seconds": 52.199999999999996,
+      "casts": [
+        0,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "magnet"
+      ],
+      "seconds": 27.7625,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "magnet",
+        "ranger"
+      ],
+      "seconds": 25.804166666666667,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "ranger",
+        "time"
+      ],
+      "seconds": 50.583333333333336,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "pair": [
+        "time",
+        "ranger"
+      ],
+      "seconds": 51.375,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    }
+  ],
+  "audioAuditioned": false
+}

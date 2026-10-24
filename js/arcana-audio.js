@@ -45,4 +45,13 @@
     arcBloodHit:{duration:.48,body:.028,cooldown:.08,priority:9,cutoff:2500,reverb:{seconds:.14,gain:.065},noise:{gain:.28,decay:.028,cutoff:2200},layers:[['triangle',1150,180,.14,0,.11],['sine',155,38,.31,.006,.36],['sine',72,34,.08,.025,.42]]},
     arcBloodReturn:{duration:.55,attack:.055,cooldown:.14,priority:6,cutoff:1100,layers:[['sine',115,165,.065],['sine',172,247,.04,.035,.48]]}
   });
+ Object.assign(G.Audio.profiles,{
+    arcDanceWind:{"duration":0.42,"attack":0.07,"cooldown":0.35,"priority":5,"cutoff":3000,"noise":{"gain":0.12,"attack":0.04,"decay":0.22,"cutoff":2400},"layers":[["sine",210,350,0.08],["triangle",950,620,0.04,0.06,0.28],["sine",530,780,0.025,0.13,0.24]]},
+    arcDanceThrow:{"duration":0.29,"cooldown":0.12,"priority":5,"cutoff":3500,"noise":{"gain":0.21,"decay":0.065,"cutoff":3100},"layers":[["triangle",1100,510,0.06,0,0.17],["sine",210,110,0.12,0,0.2],["sine",1770,1320,0.03,0.025,0.2]]},
+    arcDanceReturn:{"duration":0.33,"attack":0.025,"cooldown":0.18,"priority":4,"cutoff":2900,"noise":{"gain":0.12,"attack":0.018,"decay":0.15,"cutoff":2400},"layers":[["triangle",480,1030,0.045],["sine",920,1510,0.033,0.035,0.24],["sine",175,230,0.055,0,0.22]]},
+    arcDanceCatch:{"duration":0.23,"cooldown":0.14,"priority":5,"cutoff":3600,"noise":{"gain":0.11,"decay":0.015,"cutoff":3200},"layers":[["triangle",2170,1650,0.065,0,0.05],["sine",1020,910,0.06,0.01,0.17],["sine",175,95,0.11,0,0.15]]},
+    arcDanceSlash:{"duration":0.25,"cooldown":0.13,"priority":5,"cutoff":3300,"noise":{"gain":0.24,"decay":0.065,"cutoff":2900},"layers":[["triangle",820,350,0.055,0,0.14],["sine",195,90,0.13,0,0.19]]},
+    arcDanceCut:{"duration":0.28,"body":0.012,"cooldown":0.14,"priority":6,"cutoff":3500,"noise":{"gain":0.24,"decay":0.022,"cutoff":3000},"layers":[["sine",185,63,0.23,0,0.18],["triangle",1350,570,0.08,0,0.07],["sine",2020,1340,0.025,0.015,0.18]]},
+    arcDanceFinale:{"duration":0.63,"body":0.025,"cooldown":0.4,"priority":8,"cutoff":3000,"reverb":{"seconds":0.18,"gain":0.06},"noise":{"gain":0.23,"decay":0.065,"cutoff":2600},"layers":[["sine",145,39,0.3,0,0.4],["triangle",990,390,0.1,0,0.12],["sine",1350,930,0.055,0.04,0.35],["sine",2025,1510,0.025,0.08,0.3]]}
+  });
 })(typeof window!=='undefined'?window:globalThis);

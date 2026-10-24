@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "columnWidth": 35,
+  "columnLife": 0.9,
+  "touchInterval": 0.35,
+  "checks": 42119,
+  "matches": 112,
+  "teamMatches": 36,
+  "maxTime": 54.80833333333333,
+  "ghostAwakePeriod": 8,
+  "timeFormat": "00:00.00",
+  "triangle": {
+    "radius": 99.55558571071552,
+    "vertices": [
+      {
+        "x": 70,
+        "y": 70
+      },
+      {
+        "x": 234.6875,
+        "y": 80
+      },
+      {
+        "x": 155,
+        "y": 230
+      }
+    ]
+  },
+  "diagonalCorners": [
+    [
+      25.714285714285715,
+      24.285714285714285,
+      334.2857142857143,
+      315.7142857142857
+    ],
+    [
+      334.2857142857143,
+      24.285714285714285,
+      25.714285714285715,
+      315.7142857142857
+    ],
+    [
+      25.714285714285715,
+      315.7142857142857,
+      334.2857142857143,
+      24.285714285714285
+    ],
+    [
+      334.2857142857143,
+      315.7142857142857,
+      25.714285714285715,
+      24.285714285714285
+    ]
+  ],
+  "judgementHitBudget": 3,
+  "waterStaysFixed": true,
+  "holyImpactFeedback": true,
+  "lightSpacing": 51,
+  "spacingAcrossCasters": true,
+  "holyNonMirrorScore": 0.32211538461538464,
+  "clockVariants": 9
+}

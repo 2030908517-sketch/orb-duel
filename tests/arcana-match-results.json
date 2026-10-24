@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": 17361825,
+  "matches": 108,
+  "teamMatches": 18,
+  "testedTypes": [
+    "normal",
+    "accelerator",
+    "vampire"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "checks": 176792,
+  "lifecycleMatches": 196,
+  "movingTargetCases": 192,
+  "baselineAvailable": true,
+  "effectiveness": {
+    "before/ranger/base": {
+      "damage": 716.48,
+      "attacks": 144,
+      "hits": 128,
+      "meanDamage": 29.85
+    },
+    "before/ranger/awake": {
+      "damage": 559.17,
+      "attacks": 240,
+      "hits": 122,
+      "meanDamage": 23.3
+    },
+    "before/laser/base": {
+      "damage": 993.11,
+      "attacks": 45,
+      "hits": 41,
+      "meanDamage": 41.38
+    },
+    "before/laser/awake": {
+      "damage": 445.1,
+      "attacks": 47,
+      "hits": 34,
+      "meanDamage": 18.55
+    },
+    "current/ranger/base": {
+      "damage": 800.54,
+      "attacks": 144,
+      "hits": 139,
+      "meanDamage": 33.36
+    },
+    "current/ranger/awake": {
+      "damage": 1007.71,
+      "attacks": 168,
+      "hits": 144,
+      "meanDamage": 41.99
+    },
+    "current/laser/base": {
+      "damage": 1095.49,
+      "attacks": 46,
+      "hits": 45,
+      "meanDamage": 45.65
+    },
+    "current/laser/awake": {
+      "damage": 1317.59,
+      "attacks": 45,
+      "hits": 45,
+      "meanDamage": 54.9
+    }
+  }
+}

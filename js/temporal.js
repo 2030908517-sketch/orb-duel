@@ -90,7 +90,7 @@
       const spec=clock.castSpec||ball.def;this.domain(ball,engine,clock.x,clock.y,0,clock.castSpec||null);
       if(engine.timeDomains.at(-1))engine.timeDomains.at(-1).adaptiveId=clock.adaptiveId;let hit=false;
       for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&G.World.targetable(target,engine)&&Math.hypot(target.x-clock.x,target.y-clock.y)<=spec.blastRadius+target.radius&&(!G.ArenaWalls||G.ArenaWalls.clear(clock,target,engine))){
-        engine.pendingAttacks.push({source:ball,target,raw:clock.raw,kind:'timeBlast',adaptiveId:clock.adaptiveId,point:{x:clock.x,y:clock.y},noReflect:!!clock.noReflect});
+        engine.pendingAttacks.push({source:ball,target,raw:clock.raw,heat:clock.heat,kind:'timeBlast',adaptiveId:clock.adaptiveId,point:{x:clock.x,y:clock.y},noReflect:!!clock.noReflect});
         if(this.silence(target,ball,engine,spec.silenceDuration)){ball.stats.clocksHit++;hit=true;}
       }
       engine.effects.push({kind:'timeBurst',x:clock.x,y:clock.y,color:ball.def.color,age:0,life:.5,radius:spec.blastRadius});
@@ -119,8 +119,8 @@
       }
       engine.timeClocks=live;
     },
-    slowTimers(ball,engine,dt){
-      if(this.controlImmune(ball,engine))return;
+    slowTimers(ball,engine,dt,force=false){
+      if(!force&&this.controlImmune(ball,engine))return;
       const lost=dt*(1-ball.temporal.rate),cdLost=dt*(1-(ball.temporal.cooldownRate??ball.temporal.rate));if(lost<=0&&cdLost<=0)return;
       for(const [group,keys] of Object.entries(timers)){
         const state=group==='ball'?ball:ball[group];if(!state)continue;
@@ -137,7 +137,7 @@
       this.moveClocks(engine,dt);
       this.erode(engine);
       for(const ball of engine.balls){
-        if(engine.mode==='2v2'&&ball.hp<=0)continue;
+        if(engine.mode==='2v2'&&ball.hp<=0||G.Demon?.frozen?.(ball,engine))continue;
         const rate=(G.Ghost.phased(ball)||this.controlImmune(ball,engine))?1:engine.timeDomains.reduce((v,d)=>G.World.enemy(d.owner,ball,engine)&&d.armedAt<=engine.time&&Math.hypot(ball.x-d.x,ball.y-d.y)<=d.radius+ball.radius?Math.min(v,d.rate):v,1),old=ball.temporal.rate;ball.temporal.cooldownRate=(G.Ghost.phased(ball)||this.controlImmune(ball,engine))?1:engine.timeDomains.reduce((v,d)=>G.World.enemy(d.owner,ball,engine)&&d.armedAt<=engine.time&&Math.hypot(ball.x-d.x,ball.y-d.y)<=d.radius+ball.radius?Math.min(v,d.cooldownRate??d.rate):v,1);
         if(rate!==old){ball.vx*=rate/old;ball.vy*=rate/old;ball.temporal.rate=rate;G.Physics.limit(ball);}
         if(rate<1)for(const d of engine.timeDomains)if(d.armedAt<=engine.time&&G.World.enemy(d.owner,ball,engine)&&Math.hypot(ball.x-d.x,ball.y-d.y)<=d.radius+ball.radius){const owner=engine.balls.find(b=>b.id===d.owner);if(owner)G.Adaptive?.good(owner,d.adaptiveId);}
@@ -157,7 +157,7 @@
       if(s.castAt){
         if(t<s.castAt-.08)s.aim=tracked;
         if(t+1e-9>=s.castAt){const nx=Math.cos(s.aim),ny=Math.sin(s.aim),offset=ball.radius+10;
-          const bounds=ball.combatBounds;engine.timeClocks.push({id:engine.nextWorldId++,owner:ball.id,adaptiveId:s.clockAdaptiveId,x:Math.max((bounds?.left||0)+9,Math.min((bounds?.right??C.width)-9,ball.x+nx*offset)),y:Math.max((bounds?.top||0)+9,Math.min((bounds?.bottom??C.height)-9,ball.y+ny*offset)),radius:9,angle:s.aim,speed:ball.def.clockSpeed,range:ball.def.clockRange,travel:0,raw:G.Combat.rollAttack(ball,engine,ball.def.clockDamage,'timeBlast'),color:ball.def.color,started:t});
+          const bounds=ball.combatBounds;engine.timeClocks.push({id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),owner:ball.id,adaptiveId:s.clockAdaptiveId,x:Math.max((bounds?.left||0)+9,Math.min((bounds?.right??C.width)-9,ball.x+nx*offset)),y:Math.max((bounds?.top||0)+9,Math.min((bounds?.bottom??C.height)-9,ball.y+ny*offset)),radius:9,angle:s.aim,speed:ball.def.clockSpeed,range:ball.def.clockRange,travel:0,raw:G.Combat.rollAttack(ball,engine,ball.def.clockDamage,'timeBlast'),color:ball.def.color,started:t});
           G.Adaptive?.close(ball,s.clockAdaptiveId);s.castAt=0;ball.stats.clocksThrown++;engine.sound('clockThrow',ball.x);engine.signal(ball,'零时禁令 · 时钟出手','miss');
         }
       }else if(!G.ManualRoles?.owns(ball,engine)&&t+1e-9>=s.nextClock&&!G.Adaptive?.wait(ball,target,engine,'timeClock')){this.startClock(ball,engine,tracked);}

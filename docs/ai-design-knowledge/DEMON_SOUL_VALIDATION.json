@@ -1,0 +1,365 @@
+{
+  "date": "2026-10-21",
+  "baseCommit": "b2c3fe00a5186e196e0d5dbc6d4f3e7301572f18",
+  "workspace": "uncommitted local implementation; no push",
+  "mechanics": {
+    "passed": true,
+    "groups": 22,
+    "checks": [
+      {
+        "name": "native four entries, HP isolation and no new manual actor",
+        "passed": true
+      },
+      {
+        "name": "manual player controls coexist with automatic demon Arcana enemy",
+        "passed": true
+      },
+      {
+        "name": "mark qualification, life loss vs full shield, markless claw and normal expiration",
+        "passed": true
+      },
+      {
+        "name": "creation tick cannot execute; later shielded body hit executes once",
+        "passed": true
+      },
+      {
+        "name": "shared royal shield and reduction on soul; shield numbers at proxy",
+        "passed": true
+      },
+      {
+        "name": "soul reflection goes to demon; invulnerability and phase protect real host",
+        "passed": true
+      },
+      {
+        "name": "armor is not extraction immunity; cleanse and silence remove only ordinary soul",
+        "passed": true
+      },
+      {
+        "name": "soul movement does not accelerate flesh; overlap baseline, touch and flesh priority",
+        "passed": true
+      },
+      {
+        "name": "claw swept first flesh/soul hit once; first claw never hits own spawn",
+        "passed": true
+      },
+      {
+        "name": "dual gates are sequential, lock survives soul return, total raw <=22",
+        "passed": true
+      },
+      {
+        "name": "normal relocation clears; arcana teleport stays unless rope blocked; world clocks",
+        "passed": true
+      },
+      {
+        "name": "arcana start allows shield, no armor/reduction/invulnerability; failed claim consumes",
+        "passed": true
+      },
+      {
+        "name": "arcana reclaim includes HP direct/DOT/reflection, not shields/third party, counts attributed wall damage, normalizes heat",
+        "passed": true
+      },
+      {
+        "name": "arcana geometry budget caps at24 and immunity still spends only formed packets",
+        "passed": true
+      },
+      {
+        "name": "team one host one owner, friend filtering, obstacle and new cage sever",
+        "passed": true
+      },
+      {
+        "name": "end, source/host death, reset, snapshots and pause clear without damage or bonus",
+        "passed": true
+      },
+      {
+        "name": "harmless return does not spend execution; a real later claw may extract again",
+        "passed": true
+      },
+      {
+        "name": "soul return threshold uses a continuous 0.20s timer; no expiry damage",
+        "passed": true
+      },
+      {
+        "name": "third-party HP damage is not reclaim; shield/immune misses have no success accent",
+        "passed": true
+      },
+      {
+        "name": "ordinary CD is retained with minimum recovery, and Arcana keeps time-control rates",
+        "passed": true
+      },
+      {
+        "name": "unchanged non-demon native simulations match pre-edit backup exactly",
+        "passed": true
+      },
+      {
+        "name": "real death rewind disposes proxies and retains native spent-window rules",
+        "passed": true
+      }
+    ]
+  },
+  "regressions": {
+    "audioPolicy": {
+      "passed": true,
+      "checks": 295
+    },
+    "timePresence": {
+      "passed": true,
+      "checks": 131
+    },
+    "attackEnding": {
+      "passed": true,
+      "checks": 61
+    }
+  },
+  "historicalHashSuite": {
+    "name": "verify-duel-isolation.cjs",
+    "passed": false,
+    "case": "vampire/vampire",
+    "note": "Older hard-coded baseline excludes current native loading and upgrades; not rewritten. Three current native no-demon pair snapshots match the pre-edit backup.",
+    "beforeEditAlsoFails": true,
+    "beforeEditActual": "f42f8d9c1f4584dba0754524d19f3638c061e69ac8bb3c649f8fd2b59c264170"
+  },
+  "browser": {
+    "errors": [],
+    "fixtures": [
+      {
+        "name": "extract",
+        "observedPhases": [
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 992.5600888103247,
+          "shield": 0,
+          "souls": [
+            {
+              "x": 195.00000022935907,
+              "y": 170,
+              "q": 0
+            }
+          ],
+          "claws": [],
+          "sound": []
+        }
+      },
+      {
+        "name": "gates",
+        "observedPhases": [
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 978,
+          "shield": 0,
+          "souls": [],
+          "claws": [],
+          "sound": []
+        }
+      },
+      {
+        "name": "contract",
+        "observedPhases": [
+          "soulCharge",
+          "soulPull",
+          "soulHarvest",
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 986,
+          "shield": 0,
+          "souls": [],
+          "claws": [],
+          "sound": []
+        }
+      },
+      {
+        "name": "reclaim",
+        "observedPhases": [
+          "soulCharge",
+          "soulPull",
+          "soulHarvest",
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 1000,
+          "shield": 0,
+          "souls": [],
+          "claws": [],
+          "sound": []
+        }
+      },
+      {
+        "name": "claimBlocked",
+        "observedPhases": [
+          "soulCharge",
+          "soulClaim",
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 1000,
+          "shield": 44,
+          "souls": [],
+          "claws": [],
+          "sound": []
+        }
+      },
+      {
+        "name": "claimMiss",
+        "observedPhases": [
+          "soulCharge",
+          "soulClaim",
+          "idle"
+        ],
+        "last": {
+          "time": 5.033333333333333,
+          "phase": "idle",
+          "hp": 1000,
+          "shield": 0,
+          "souls": [],
+          "claws": [],
+          "sound": []
+        }
+      }
+    ],
+    "nativeClockCaptures": [
+      {
+        "name": "extract",
+        "frames": 14,
+        "realSeconds": 3.6024999999970198,
+        "simulatedSeconds": 3.5666666666666664,
+        "partialReclaimSamples": 0
+      },
+      {
+        "name": "gates",
+        "frames": 14,
+        "realSeconds": 3.60139999999702,
+        "simulatedSeconds": 3.5,
+        "partialReclaimSamples": 0
+      },
+      {
+        "name": "contract",
+        "frames": 14,
+        "realSeconds": 3.6009999999992544,
+        "simulatedSeconds": 3.4208333333333334,
+        "partialReclaimSamples": 0
+      },
+      {
+        "name": "reclaim",
+        "frames": 14,
+        "realSeconds": 3.6042000000000005,
+        "simulatedSeconds": 3.4875,
+        "partialReclaimSamples": 41
+      },
+      {
+        "name": "claimBlocked",
+        "frames": 14,
+        "realSeconds": 3.6023999999977643,
+        "simulatedSeconds": 3.5999999999999996,
+        "partialReclaimSamples": 0
+      },
+      {
+        "name": "claimMiss",
+        "frames": 14,
+        "realSeconds": 3.601699999997021,
+        "simulatedSeconds": 3.5999999999999996,
+        "partialReclaimSamples": 0
+      }
+    ],
+    "artifactDirectory": "../../work/demon-soul-review-20261021-v4",
+    "inspection": "Ordered keyframes and native Clock playback frame strips inspected at 360x340; WebM captured. No claim of subjective smoothness, sustained FPS or listening approval.",
+    "teamStill": "team-soul.png: owner team color/slot and same-host shield film inspected; not a full team-map visual audit"
+  },
+  "audio": {
+    "played": [
+      {
+        "kind": "demonSoulCut",
+        "presentationId": null,
+        "requestedTick": 1,
+        "audioTime": 0,
+        "tier": "A",
+        "gain": 0.926305,
+        "preview": false
+      },
+      {
+        "kind": "demonGrip",
+        "presentationId": null,
+        "requestedTick": 1,
+        "audioTime": 0,
+        "tier": "C",
+        "gain": 1.198141,
+        "preview": false
+      },
+      {
+        "kind": "demonGate",
+        "presentationId": null,
+        "requestedTick": 1,
+        "audioTime": 0,
+        "tier": "C",
+        "gain": 0.483596,
+        "preview": false
+      },
+      {
+        "kind": "demonChain",
+        "presentationId": null,
+        "requestedTick": 1,
+        "audioTime": 0,
+        "tier": "C",
+        "gain": 1.844469,
+        "preview": false
+      }
+    ],
+    "peak": 0.11440397799015045,
+    "rms": 0.008346348207565654,
+    "clipped": false,
+    "listened": false,
+    "normalCutCalibration": "Same waveform as calibrated demonExecute, gain reduced 3dB to A tier; actual consume path offline-rendered with dedup/cooldown/concurrency."
+  },
+  "notValidated": [
+    "global balance or win rates",
+    "all 18-role matchups and all team combinations",
+    "long-run performance",
+    "human audio audition"
+  ],
+  "sha256": {
+    "arcana.html": "a39e4607bf8dfc6a9d7b3cb538e7e9b73f6b9b7a184b92b00e2166ac4b296de7",
+    "index.html": "dbe061d544d7e846ea7ba534183cea8472f0d11fc9facc4de8d4981dea7c4abe",
+    "js/adaptive.js": "563bde4da2b5a57d7b97c224a4d64ec24fb02ab0ff0be3a713c02d1fe599c5db",
+    "js/arcana-defense.js": "0d1121634e51798d48fc28d12fff9a626216c7fcdc1b817309ed4aed9fa7d39d",
+    "js/arcana-ranger.js": "27fed92fe84e0edfc9d4f84fabdb5b7151bc00149654d71462e8f15a641da183",
+    "js/arcana.js": "279baf7eb3042d7ae6d6836fb2b930901998d5e8a0b4f9d1900c82db0112d65f",
+    "js/audio-mix.js": "6aec88aeb4895051a8d7c6cdc7c653503669b5d11b6382dda61750047406409e",
+    "js/audio.js": "3f0a6e3fd9d76a1787c966953e7dda6782b850837de1791906a65955a516c908",
+    "js/awakening.js": "fb7a6d98cf04931c7874e376a955590d92f3785b7305e92fc0ed6cdf1be82a28",
+    "js/characters.js": "591403de47b6dc04170e53908d19690cacf43412780e9a94b96d606194b75665",
+    "js/config.js": "580b7481339fe665eeed432b00a3948ceb6a3100d395fac2e59dce17b07841d0",
+    "js/cosmic.js": "7338b654a36a6d08f007f8678093dc31a15657699c1570bcbc3221b62fe33e2a",
+    "js/demon-arcana.js": "db79e37627b1a48e90f68c696a7590ce5cf4700774e6509c280f3807580af96e",
+    "js/demon-render.js": "d9ab2ae73ba6d6f3adf898257b947ef40b3893dd59d565e8b6014e845f3287f8",
+    "js/demon.js": "c3ee543dc6fb3bbbc4cfb1585378a5f578ffe7ef290480a86cd4583876a0e209",
+    "js/engine.js": "a54136dd761744acd7b448a519fafc012880b9c545e94e9d18cdd4734e49aa1a",
+    "js/flyers.js": "dd51f6022d96ce2a44dcf0a1100d0ee96aeea959870fc831f482c5ef87343c2b",
+    "js/ghost.js": "5f265d41e7fdae2b9b9442210a1c78fef73f6fe5d78815d860586c4fe9974834",
+    "js/holy.js": "3f1c6e690bad5f52baa4bbe8d457862b016718675cd1cad41c35ae358d05ee91",
+    "js/mines.js": "2e933efa09d9bb5150dda6f29823e91aa27979542376060bdc27b0eae66570e4",
+    "js/pact-toxin-art.js": "bf10f410d65b74152d1c48dcd402e843a49ff9b36ec4a8579236e455f2977268",
+    "js/roles.js": "3bac34c06088433246518aef25db38513d27769b3224a97a375a341b4dda249a",
+    "js/skills.js": "9b255b0733d7873694b1852b9c170a514bab2f14a41ddf7c7afa82225e9b5a7a",
+    "js/status-panel.js": "d30390080ed9df67b0e055dcaab69ea342f05c04dfec732797eb6850d49d7f98",
+    "js/stellar.js": "611263a2e7212d636b2fab65eb7e21c5a094428ad493a028323c415456fc7b61",
+    "js/team-app.js": "a2a746f23393a6b06a0ed84ae8ba2e5e2280c50c525bd7f7981feff392536801",
+    "js/temporal.js": "026e9580ffa4ecf242b06e9288b50d5cc9a4d87b161b2a268c12b09ff91ee818",
+    "js/time-rewind.js": "7de831a08eb53ef618fea34034e589fa792e6befc2be7c8fdb7ffb7046049ee4",
+    "js/trapper.js": "c3ddbc806579a4f05446476603b892fbebbf7fdacbaf8f1110bd1c6a75d055c3",
+    "js/world.js": "9af4e79f6b188603bfd308a5240411d13c26c824fd0a123a2aae72839985b2f7",
+    "manual.html": "749a4240ba72e3e7968c214b9efd509fdc7872078e53d50346039c582e121ac7",
+    "team.html": "7fc736c13e3e10b93b23f8a29f809c9ff263055a2cebbaf18e2dc02b1a61caea"
+  },
+  "mechanicsNotes": "Attributable host-caused wall HP damage counts toward reclaim, unlike ordinary reflection filtering. Natural decay has no host attack attribution."
+}

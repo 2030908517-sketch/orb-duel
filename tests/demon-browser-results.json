@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "pauseResumeReset": true,
+      "audioCues": true,
+      "readable": true
+    },
+    {
+      "scene": "warning",
+      "claws": 1,
+      "chains": 0,
+      "executions": 0,
+      "damage": 0
+    },
+    {
+      "scene": "claw",
+      "claws": 1,
+      "chains": 0,
+      "executions": 0,
+      "damage": 0
+    },
+    {
+      "scene": "chain",
+      "claws": 1,
+      "chains": 1,
+      "executions": 0,
+      "damage": 7.357025762274816
+    },
+    {
+      "scene": "execution",
+      "claws": 1,
+      "chains": 1,
+      "executions": 1,
+      "damage": 16.357025762274816
+    },
+    {
+      "scene": "gate-warning",
+      "claws": 2,
+      "chains": 0,
+      "executions": 0,
+      "damage": 0
+    },
+    {
+      "scene": "dual-chain",
+      "claws": 1,
+      "chains": 2,
+      "executions": 0,
+      "damage": 12.916869614226698
+    },
+    {
+      "scene": "dual",
+      "claws": 0,
+      "chains": 2,
+      "executions": 1,
+      "damage": 21.916869614226698
+    },
+    {
+      "cancelledDualHasNoLingeringWarning": true
+    }
+  ],
+  "audioProfiles": 128,
+  "errors": []
+}

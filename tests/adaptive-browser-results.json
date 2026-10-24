@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "openingDelay": true,
+      "pauseSpeedReset": true,
+      "statusReadable": true,
+      "arenaStable": true
+    }
+  ],
+  "httpBothModes": true,
+  "errors": []
+}

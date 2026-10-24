@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "ward": 5,
+      "burnStatus": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "ward": 5,
+      "burnStatus": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "ward": 5,
+      "burnStatus": true,
+      "pause": true,
+      "reset": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "ward": 5,
+      "burnStatus": true,
+      "pause": true,
+      "reset": true
+    }
+  ],
+  "errors": []
+}

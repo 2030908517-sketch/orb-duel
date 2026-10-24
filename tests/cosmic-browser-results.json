@@ -1,0 +1,104 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "seventeenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true,
+      "newAudioEvents": true
+    },
+    {
+      "scene": "stormWarn",
+      "damage": 0,
+      "strikes": 3,
+      "binary": 0,
+      "projectiles": 0,
+      "satellites": 0
+    },
+    {
+      "scene": "stormHit",
+      "damage": 7.399999999999977,
+      "strikes": 0,
+      "binary": 0,
+      "projectiles": 0,
+      "satellites": 0
+    },
+    {
+      "scene": "orbit",
+      "damage": 0,
+      "strikes": 0,
+      "binary": 0,
+      "projectiles": 0,
+      "satellites": 3
+    },
+    {
+      "scene": "binary",
+      "damage": 5.5,
+      "strikes": 0,
+      "binary": 1,
+      "projectiles": 0,
+      "satellites": 3
+    },
+    {
+      "scene": "guard",
+      "damage": 0,
+      "strikes": 0,
+      "binary": 0,
+      "projectiles": 0,
+      "satellites": 2
+    },
+    {
+      "scene": "venomSpray",
+      "damage": 0,
+      "strikes": 0,
+      "binary": 0,
+      "projectiles": 3,
+      "satellites": 0
+    }
+  ],
+  "audioProfiles": 141,
+  "httpBothModes": true,
+  "errors": []
+}

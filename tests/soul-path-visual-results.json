@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "maxDifference": 1,
+  "columnDifference": 2,
+  "stableRepeatedDraw": true,
+  "stableRecordedSection": true,
+  "paintedWidth": 42,
+  "fadeOnly": true,
+  "scenes": true,
+  "errors": []
+}

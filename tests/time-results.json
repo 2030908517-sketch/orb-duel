@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "checks": 303009,
+  "matches": 216,
+  "interruptedTypes": [
+    "normal",
+    "vampire",
+    "accelerator",
+    "storm",
+    "charge",
+    "orbital",
+    "demon",
+    "reflector",
+    "shield",
+    "ranger",
+    "trapper",
+    "boomerang",
+    "laser",
+    "ghost",
+    "holy",
+    "magnet",
+    "time",
+    "venom"
+  ],
+  "shieldWaveDamage": [
+    1.4,
+    3.9,
+    9.9
+  ],
+  "heavyTravelIn03s": [
+    135.32,
+    148.43,
+    164.83
+  ]
+}

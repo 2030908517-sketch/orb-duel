@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": 234,
+  "clockRuns": 18,
+  "testedTypes": [
+    "normal",
+    "accelerator",
+    "vampire"
+  ]
+}

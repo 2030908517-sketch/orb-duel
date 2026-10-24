@@ -1,0 +1,251 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "frames": [
+        {
+          "phase": "domain",
+          "found": true,
+          "time": 0.3541666666666667,
+          "enemyRate": 0.55,
+          "silenced": false,
+          "clocksHit": 0,
+          "interrupted": 0
+        },
+        {
+          "phase": "flight",
+          "found": true,
+          "time": 0.49166666666666664,
+          "enemyRate": 1,
+          "silenced": false,
+          "clocksHit": 0,
+          "interrupted": 0
+        },
+        {
+          "phase": "silence",
+          "found": true,
+          "time": 0.6833333333333333,
+          "enemyRate": 0.55,
+          "silenced": true,
+          "clocksHit": 1,
+          "interrupted": 1
+        },
+        {
+          "phase": "shield",
+          "found": true,
+          "time": 0.425,
+          "enemyRate": 1,
+          "silenced": false,
+          "clocksHit": 0,
+          "interrupted": 0,
+          "waveDamage": 8.5
+        }
+      ]
+    },
+    {
+      "audioProfiles": 81,
+      "audioPassed": true
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "state": "ended",
+      "time": 29.037499999999998,
+      "timeStats": {
+        "damage": 104.99999999999999,
+        "powerHits": 1,
+        "domainsCreated": 7,
+        "clocksThrown": 2,
+        "clocksHit": 2,
+        "silences": 2,
+        "interruptions": 0,
+        "healing": 0,
+        "absorbed": 0,
+        "reflected": 0,
+        "cdReturned": 0,
+        "shotsFired": 0,
+        "shotsHit": 0,
+        "trapsPlaced": 0,
+        "trapsTriggered": 0,
+        "trapsCleared": 0,
+        "heavyHits": 0,
+        "dashHits": 0,
+        "lasersFired": 0,
+        "lasersHit": 0,
+        "poolsPlaced": 0,
+        "poisonHits": 0,
+        "toxinBursts": 0,
+        "strongHits": 0,
+        "wallSlams": 0,
+        "bladesCaught": 0,
+        "bladeFinishers": 0,
+        "countersFired": 0,
+        "countersHit": 0
+      },
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "state": "ended",
+      "time": 27.95,
+      "timeStats": {
+        "damage": 104.99999999999999,
+        "powerHits": 0,
+        "domainsCreated": 6,
+        "clocksThrown": 2,
+        "clocksHit": 2,
+        "silences": 2,
+        "interruptions": 0,
+        "healing": 0,
+        "absorbed": 0,
+        "reflected": 0,
+        "cdReturned": 0,
+        "shotsFired": 0,
+        "shotsHit": 0,
+        "trapsPlaced": 0,
+        "trapsTriggered": 0,
+        "trapsCleared": 0,
+        "heavyHits": 0,
+        "dashHits": 0,
+        "lasersFired": 0,
+        "lasersHit": 0,
+        "poolsPlaced": 0,
+        "poisonHits": 0,
+        "toxinBursts": 0,
+        "strongHits": 0,
+        "wallSlams": 0,
+        "bladesCaught": 0,
+        "bladeFinishers": 0,
+        "countersFired": 0,
+        "countersHit": 0
+      },
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "state": "ended",
+      "time": 28.633333333333333,
+      "timeStats": {
+        "damage": 100.18563035918399,
+        "powerHits": 0,
+        "domainsCreated": 7,
+        "clocksThrown": 2,
+        "clocksHit": 2,
+        "silences": 2,
+        "interruptions": 0,
+        "healing": 0,
+        "absorbed": 0,
+        "reflected": 0,
+        "cdReturned": 0,
+        "shotsFired": 0,
+        "shotsHit": 0,
+        "trapsPlaced": 0,
+        "trapsTriggered": 0,
+        "trapsCleared": 0,
+        "heavyHits": 0,
+        "dashHits": 0,
+        "lasersFired": 0,
+        "lasersHit": 0,
+        "poolsPlaced": 0,
+        "poisonHits": 0,
+        "toxinBursts": 0,
+        "strongHits": 0,
+        "wallSlams": 0,
+        "bladesCaught": 0,
+        "bladeFinishers": 0,
+        "countersFired": 0,
+        "countersHit": 0
+      },
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": "ended",
+      "time": 25.329166666666666,
+      "timeStats": {
+        "damage": 105,
+        "powerHits": 2,
+        "domainsCreated": 6,
+        "clocksThrown": 2,
+        "clocksHit": 2,
+        "silences": 2,
+        "interruptions": 0,
+        "healing": 0,
+        "absorbed": 0,
+        "reflected": 0,
+        "cdReturned": 0,
+        "shotsFired": 0,
+        "shotsHit": 0,
+        "trapsPlaced": 0,
+        "trapsTriggered": 0,
+        "trapsCleared": 0,
+        "heavyHits": 0,
+        "dashHits": 0,
+        "lasersFired": 0,
+        "lasersHit": 0,
+        "poolsPlaced": 0,
+        "poisonHits": 0,
+        "toxinBursts": 0,
+        "strongHits": 0,
+        "wallSlams": 0,
+        "bladesCaught": 0,
+        "bladeFinishers": 0,
+        "countersFired": 0,
+        "countersHit": 0
+      },
+      "layoutPassed": true
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "state": "ended",
+      "time": 37.204166666666666,
+      "timeStats": {
+        "damage": 101.96183677846567,
+        "powerHits": 1,
+        "domainsCreated": 9,
+        "clocksThrown": 3,
+        "clocksHit": 3,
+        "silences": 3,
+        "interruptions": 0,
+        "healing": 0,
+        "absorbed": 0,
+        "reflected": 0,
+        "cdReturned": 0,
+        "shotsFired": 0,
+        "shotsHit": 0,
+        "trapsPlaced": 0,
+        "trapsTriggered": 0,
+        "trapsCleared": 0,
+        "heavyHits": 0,
+        "dashHits": 0,
+        "lasersFired": 0,
+        "lasersHit": 0,
+        "poolsPlaced": 0,
+        "poisonHits": 0,
+        "toxinBursts": 0,
+        "strongHits": 0,
+        "wallSlams": 0,
+        "bladesCaught": 0,
+        "bladeFinishers": 0,
+        "countersFired": 0,
+        "countersHit": 0
+      },
+      "layoutPassed": true
+    }
+  ]
+}

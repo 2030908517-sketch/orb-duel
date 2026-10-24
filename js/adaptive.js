@@ -37,7 +37,7 @@
     },
     snapshot(s){return {...s,levels:{...s.levels},rounds:s.rounds.map(r=>({...r})),waiting:Object.fromEntries(Object.entries(s.waiting).map(([k,v])=>[k,{...v}]))};},
     observe(e){if(e.state!=='running')return;
-      const objects=[...(e.cosmicWorld?.strikes||[]),...(e.cosmicWorld?.binary||[]),...(e.chargeWorld?.currents||[]),...(e.stellarWorld?.waves||[]),...e.projectiles,...e.waves,...e.beams,...e.pools,...e.timeClocks,...e.timeDomains,...e.ghostEchoes,...(e.holyWorld?.zones||[]),...(e.holyWorld?.lights||[]),...(e.demonWorld?.claws||[]),...(e.demonWorld?.chains||[])],live=new Set(objects.map(v=>v.adaptiveId).filter(Boolean));
+      const objects=[...(e.cosmicWorld?.strikes||[]),...(e.cosmicWorld?.binary||[]),...(e.chargeWorld?.currents||[]),...(e.stellarWorld?.waves||[]),...e.projectiles,...e.waves,...e.beams,...e.pools,...e.timeClocks,...e.timeDomains,...e.ghostEchoes,...(e.holyWorld?.zones||[]),...(e.holyWorld?.lights||[]),...(e.demonWorld?.claws||[]),...(e.demonWorld?.souls||[])],live=new Set(objects.map(v=>v.adaptiveId).filter(Boolean));
       for(const b of e.balls){if(G.Charge?.flowing(b))live.add(b.charge.adaptiveId);if(b.stellar?.volley)live.add(b.stellar.volley.adaptiveId);const s=this.state(b);if(b.hp<=0){s.rounds=[];s.waiting={};continue;}
         // Credit actually occupied immune geometry, without consuming incoming weapons.
         if(G.Ghost.phased(b)){const close=o=>Math.hypot(b.x-o.x,b.y-o.y)<=b.radius+(o.radius||13);

@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "errors": [],
+  "records": [
+    {
+      "sceneFrames": [
+        {
+          "type": "normal",
+          "steps": 1,
+          "time": 0.004166666666666667,
+          "effects": 39,
+          "projectiles": 0,
+          "waves": 1,
+          "beams": 0
+        },
+        {
+          "type": "ranger",
+          "steps": 128,
+          "time": 0.5333333333333333,
+          "effects": 42,
+          "projectiles": 4,
+          "waves": 0,
+          "beams": 0
+        },
+        {
+          "type": "laser",
+          "steps": 235,
+          "time": 0.9791666666666666,
+          "effects": 7,
+          "projectiles": 0,
+          "waves": 0,
+          "beams": 1
+        },
+        {
+          "type": "shield",
+          "steps": 99,
+          "time": 0.4125,
+          "effects": 19,
+          "projectiles": 0,
+          "waves": 1,
+          "beams": 0
+        }
+      ]
+    },
+    {
+      "audioProfiles": 65,
+      "audioPassed": true
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "state": "running",
+      "time": 20.9625,
+      "awake": [
+        true,
+        true
+      ],
+      "overflow": false,
+      "clips": []
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "state": "running",
+      "time": 21.016666666666666,
+      "awake": [
+        true,
+        true
+      ],
+      "overflow": false,
+      "clips": []
+    }
+  ],
+  "scope": "browser rendering, offline audio, main controls and layout; no balance evaluation"
+}

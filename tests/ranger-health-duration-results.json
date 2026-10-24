@@ -1,0 +1,444 @@
+{
+  "summary": {
+    "rangerHp": 224,
+    "sample": 36,
+    "mean": 52.9681712962963,
+    "median": 53.264583333333334,
+    "min": 38.579166666666666,
+    "max": 71.83333333333333
+  },
+  "matches": [
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 49.62916666666666,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 0,
+      "seconds": 55.1125,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 61.84166666666667,
+      "casts": [
+        0,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 1,
+      "seconds": 62.74583333333333,
+      "casts": [
+        0,
+        0
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 2,
+      "seconds": 63.07083333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 2,
+      "seconds": 57.8625,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 3,
+      "seconds": 55.3625,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 3,
+      "seconds": 60.55416666666667,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 4,
+      "seconds": 47.266666666666666,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 4,
+      "seconds": 46.30416666666667,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "normal"
+      ],
+      "seed": 5,
+      "seconds": 57.55833333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "normal",
+        "ranger"
+      ],
+      "seed": 5,
+      "seconds": 51.93333333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 41.82083333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 0,
+      "seconds": 38.625,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 40.93333333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 1,
+      "seconds": 45.5375,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 2,
+      "seconds": 41.9875,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 2,
+      "seconds": 41.395833333333336,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 3,
+      "seconds": 41.28333333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 3,
+      "seconds": 50.5375,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 4,
+      "seconds": 47.483333333333334,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 4,
+      "seconds": 41.358333333333334,
+      "casts": [
+        0,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "accelerator"
+      ],
+      "seed": 5,
+      "seconds": 38.579166666666666,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "accelerator",
+        "ranger"
+      ],
+      "seed": 5,
+      "seconds": 39.15833333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 56.3375,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 0,
+      "seconds": 60.8625,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 57.104166666666664,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 1,
+      "seconds": 71.72083333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 2,
+      "seconds": 71.83333333333333,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 2,
+      "seconds": 67.9,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 3,
+      "seconds": 52.958333333333336,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 3,
+      "seconds": 62.025,
+      "casts": [
+        1,
+        0
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 4,
+      "seconds": 60.579166666666666,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 4,
+      "seconds": 63.891666666666666,
+      "casts": [
+        1,
+        0
+      ]
+    },
+    {
+      "types": [
+        "ranger",
+        "vampire"
+      ],
+      "seed": 5,
+      "seconds": 50.12916666666666,
+      "casts": [
+        1,
+        1
+      ]
+    },
+    {
+      "types": [
+        "vampire",
+        "ranger"
+      ],
+      "seed": 5,
+      "seconds": 53.57083333333333,
+      "casts": [
+        1,
+        1
+      ]
+    }
+  ]
+}

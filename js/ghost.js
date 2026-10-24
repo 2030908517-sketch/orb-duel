@@ -4,7 +4,7 @@
   G.Ghost={
     record(ball,dt,e){const g=ball.ghost;if(!g.trace)return;g.traceTime+=dt;g.trace.push({t:g.traceTime,x:ball.x,y:ball.y,segments:[{x:ball.previousX,y:ball.previousY,endX:ball.x,endY:ball.y,u0:0,u1:1}]});},
     touches(segments,target,radius){return segments.some(s=>{const tx=target.previousX??target.x,ty=target.previousY??target.y,dx=target.x-tx,dy=target.y-ty;return G.World.intersects({x:s.endX,y:s.endY,radius},s.x,s.y,{radius:target.radius,previousX:tx+dx*s.u0,previousY:ty+dy*s.u0,x:tx+dx*s.u1,y:ty+dy*s.u1});});},
-    echo(ball,e){const g=ball.ghost;if(!g.trace||g.trace.length<2)return;e.ghostEchoes??=[];const start=g.trace[0];e.ghostEchoes.push({id:e.nextWorldId++,owner:ball.id,adaptiveId:g.adaptiveId,started:e.time,duration:g.traceTime,path:g.trace,x:start.x,y:start.y,radius:ball.radius,cursor:1,elapsed:0,nextFear:{},burst:g.exitBurst?(5+Math.min(3,g.scares))*e.heatMultiplier:0});ball.stats.echoes=(ball.stats.echoes||0)+1;e.signal(ball,'魂影回响 · 重走虚化','ghostEcho');},
+    echo(ball,e){const g=ball.ghost;if(!g.trace||g.trace.length<2)return;e.ghostEchoes??=[];const start=g.trace[0];e.ghostEchoes.push({id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:ball.id,adaptiveId:g.adaptiveId,started:e.time,duration:g.traceTime,path:g.trace,x:start.x,y:start.y,radius:ball.radius,cursor:1,elapsed:0,nextFear:{},burst:g.exitBurst?(5+Math.min(3,g.scares))*e.heatMultiplier:0});ball.stats.echoes=(ball.stats.echoes||0)+1;e.signal(ball,'魂影回响 · 重走虚化','ghostEcho');},
     replay(echo,age){const path=echo.path,from=echo.elapsed,to=Math.min(echo.duration,Math.max(from,age)),segments=[];let i=echo.cursor;
       while(i<path.length){const frame=path[i],previous=path[i-1],span=frame.t-previous.t;if(previous.t>to+1e-9)break;
         for(const s of frame.segments){const a=previous.t+s.u0*span,b=previous.t+s.u1*span,lo=Math.max(a,from),hi=Math.min(b,to);if(hi-lo<=1e-10)continue;const q0=(lo-a)/(b-a),q1=(hi-a)/(b-a),dx=s.endX-s.x,dy=s.endY-s.y;segments.push({x:s.x+dx*q0,y:s.y+dy*q0,endX:s.x+dx*q1,endY:s.y+dy*q1,u0:(lo-from)/(to-from),u1:(hi-from)/(to-from)});}
@@ -14,7 +14,7 @@
     },
     updateEchoes(e){if(e.state!=='running')return;const live=[];for(const echo of e.ghostEchoes||[]){const owner=e.balls.find(b=>b.id===echo.owner&&b.hp>0);if(!owner)continue;const segments=this.replay(echo,e.time-echo.started);
         for(const target of e.balls){if(!G.World.enemy(owner,target,e)||target.hp<=0||e.time+1e-9<(echo.nextFear[target.id]||0))continue;const motion=segments.length?segments:[{x:echo.x,y:echo.y,endX:echo.x,endY:echo.y,u0:0,u1:1}];if(!this.touches(motion,target,echo.radius))continue;echo.nextFear[target.id]=e.time+owner.def.fearInterval;e.pendingAttacks.push({source:owner,target,raw:owner.def.fearDamage*e.heatMultiplier,kind:'fear',adaptiveId:echo.adaptiveId,echo:true,point:{x:echo.x,y:echo.y}});}
-        if(echo.elapsed+1e-9>=echo.duration){if(echo.burst){for(const target of e.balls)if(G.World.enemy(owner,target,e)&&target.hp>0&&Math.hypot(target.x-echo.x,target.y-echo.y)<=95+target.radius)e.pendingAttacks.push({source:owner,target,raw:echo.burst,kind:'soulBurst',adaptiveId:echo.adaptiveId,echo:true,point:{x:echo.x,y:echo.y}});e.effects.push({kind:'soulBurst',owner:owner.id,x:echo.x,y:echo.y,color:owner.def.color,age:0,life:.55,radius:95});e.sound('soulBurst',echo.x);owner.stats.echoBursts=(owner.stats.echoBursts||0)+1;}}else live.push(echo);
+        if(echo.elapsed+1e-9>=echo.duration){if(echo.burst){for(const target of e.balls)if(G.World.enemy(owner,target,e)&&target.hp>0&&Math.hypot(target.x-echo.x,target.y-echo.y)<=95+target.radius)e.pendingAttacks.push({source:owner,target,raw:echo.burst,heat:echo.heat,kind:'soulBurst',adaptiveId:echo.adaptiveId,echo:true,point:{x:echo.x,y:echo.y}});e.effects.push({kind:'soulBurst',owner:owner.id,x:echo.x,y:echo.y,color:owner.def.color,age:0,life:.55,radius:95});e.sound('soulBurst',echo.x);owner.stats.echoBursts=(owner.stats.echoBursts||0)+1;}}else live.push(echo);
       }e.ghostEchoes=live;
     },
     phased(ball){return ball.hp>0&&ball.ghost?.phase==='phased';},
@@ -31,7 +31,7 @@
       }else{engine.sound('ghostReturn',ball.x);engine.effects.push({kind:'ghostShift',owner:ball.id,x:ball.x,y:ball.y,color:ball.def.color,age:0,life:.3});}
       g.exitBurst=false;G.Physics.normalizeSpeed(ball);
     },
-    prepare(engine){for(const ball of engine.balls){if(ball.type!=='ghost'||ball.hp<=0)continue;const g=ball.ghost;
+    prepare(engine){for(const ball of engine.balls){if(ball.type!=='ghost'||ball.hp<=0||G.Demon?.frozen?.(ball,engine))continue;const g=ball.ghost;
       if(g.phase==='phased'&&engine.time+1e-9>=g.until)this.finish(ball,engine);
       else if(g.phase==='warning'&&engine.time+1e-9>=g.until){if(G.Temporal.silenced(ball,engine)){g.phase='solid';g.until=0;}else this.enter(ball,engine);}
     }},

@@ -7,7 +7,7 @@
     returning(b,s,p,e){if(s.phase==='return')return;s.phase='return';s.x=p.x;s.y=p.y;s.projectileId=null;s.energy=0;s.returnedAt=e.time;s.history=[];},
     detach(p,e){if(p.stellarOwner===undefined)return;const b=e.balls.find(b=>b.id===p.stellarOwner),s=b?.stellar?.satellites[p.slot];if(s&&s.projectileId===p.id)this.returning(b,s,p,e);},
     launch(b,s,t,e,options={}){const speed=options.rebirth?620:500+Math.min(1.35,s.energy)*85,raw=options.rebirth?b.def.rebirthDamage:b.def.cometDamage+Math.min(1.35,s.energy)*b.def.cometEnergyDamage;
-      const angle=options.angle??G.Aim.direct({...b,x:s.x,y:s.y,radius:6},t,e,'comet:'+s.slot,speed),p={id:e.nextWorldId++,owner:b.id,stellarOwner:b.id,slot:s.slot,mode:'comet',x:s.x,y:s.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius:6,bounces:0,maxBounces:2,expires:e.time+1.25,raw:raw*e.heatMultiplier,color:b.def.color,history:[],adaptiveId:options.adaptiveId,volleyId:options.volleyId,awake:G.Awakening.active(b),rebirth:!!options.rebirth};
+      const angle=options.angle??G.Aim.direct({...b,x:s.x,y:s.y,radius:6},t,e,'comet:'+s.slot,speed),p={id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:b.id,stellarOwner:b.id,slot:s.slot,mode:'comet',x:s.x,y:s.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,speed,radius:6,bounces:0,maxBounces:2,expires:e.time+1.25,raw:raw*e.heatMultiplier,color:b.def.color,history:[],adaptiveId:options.adaptiveId,volleyId:options.volleyId,awake:G.Awakening.active(b),rebirth:!!options.rebirth};
       s.phase='flight';s.projectileId=p.id;s.history=[];e.projectiles.push(p);b.stats.cometsFired=(b.stats.cometsFired||0)+1;this.effect(e,b,'launch',p,{angle,life:.25});e.sound('cometLaunch',p.x);
     },
     beginNova(b,e){const a=b.stellar;a.phase='recall';a.started=e.time;a.until=e.time+1.4;a.volley=null;a.novaId=G.Adaptive?.begin(b,'supernova',e);a.nextNova=e.time+b.def.novaPeriod;
@@ -16,7 +16,7 @@
     },
     collapse(b,e){const a=b.stellar;a.phase='collapse';a.started=e.time;a.until=e.time+.9;for(const s of a.satellites){s.phase='collapse';s.startRadius=Math.hypot(s.x-b.x,s.y-b.y)||38+s.slot*9;s.angle=Math.atan2(s.y-b.y,s.x-b.x);s.history=[];}},
     nova(b,e){const a=b.stellar;a.phase='rebirth';a.started=e.time;a.until=e.time+.28;const reach=Math.hypot(C.width,C.height)*.73;
-      e.stellarWorld.waves.push({id:e.nextWorldId++,owner:b.id,x:b.x,y:b.y,radius:0,previous:0,reach,speed:510,raw:b.def.novaDamage*e.heatMultiplier,hitIds:[],adaptiveId:a.novaId,until:e.time+reach/510+.1});this.effect(e,b,'nova',b,{life:.65,radius:reach});e.signal(b,'超新星 · 星核爆发','starNova');e.hitStop(.065);e.burst(b.x,b.y,b.def.color,22);
+      e.stellarWorld.waves.push({id:e.nextWorldId++,...(e.demonWorld?{heat:e.heatMultiplier}:{}),owner:b.id,x:b.x,y:b.y,radius:0,previous:0,reach,speed:510,raw:b.def.novaDamage*e.heatMultiplier,hitIds:[],adaptiveId:a.novaId,until:e.time+reach/510+.1});this.effect(e,b,'nova',b,{life:.65,radius:reach});e.signal(b,'超新星 · 星核爆发','starNova');e.hitStop(.065);e.burst(b.x,b.y,b.def.color,22);
     },
     update(b,dt,e){if(e.state!=='running'||G.Temporal.silenced(b,e))return;const a=b.stellar,t=G.World.targetFor(b,e);if(!t)return;for(const sat of a.satellites)G.Aim.direct({...b,x:sat.x,y:sat.y,radius:6},t,e,'comet:'+sat.slot,500+Math.min(1.35,sat.energy)*85);G.Aim.direct(b,t,e,'rebirth',620);
       if(G.Awakening.active(b)&&!Number.isFinite(a.nextNova))a.nextNova=e.time+.9;
@@ -49,7 +49,7 @@
       const contacts=e.balls.filter(t=>G.World.enemy(b,t,e)&&t.hp>0&&!G.Ghost.phased(t)).map(t=>({target:t,u:G.World.sweep(p,ox,oy,t)})).filter(v=>v.u!==Infinity).sort((a,b)=>a.u-b.u);
       const first=contacts[0];if(!first)return p;p.x=ox+(p.x-ox)*first.u;p.y=oy+(p.y-oy)*first.u;
       const reflected=G.Roles.intercept(p,first.target,e);if(reflected)return reflected.absorbed?null:reflected;
-      e.pendingAttacks.push({source:b,target:first.target,kind:'comet',raw:p.raw,adaptiveId:p.adaptiveId,point:{x:p.x,y:p.y},angle:Math.atan2(p.vy,p.vx),volleyId:p.volleyId,stellarSlot:p.slot,stellarAwake:p.awake,stellarOriginal:p.stellarOwner===b.id,noReflect:!!p.noReflect});
+      e.pendingAttacks.push({source:b,target:first.target,kind:'comet',raw:p.raw,heat:p.heat,adaptiveId:p.adaptiveId,point:{x:p.x,y:p.y},angle:Math.atan2(p.vy,p.vx),volleyId:p.volleyId,stellarSlot:p.slot,stellarAwake:p.awake,stellarOriginal:p.stellarOwner===b.id,noReflect:!!p.noReflect});
       this.effect(e,b,'burst',p,{life:.38});e.sound('cometImpact',p.x);this.detach(p,e);return null;
     },
     world(e,dt){if(e.state!=='running')return;for(const b of e.balls)if(b.stellar&&b.hp>0)for(const s of b.stellar.satellites)this.satelliteWorld(b,s,e,dt);
@@ -57,7 +57,7 @@
       e.stellarWorld.waves=e.stellarWorld.waves.filter(w=>{const b=e.balls.find(b=>b.id===w.owner&&b.hp>0);if(!b||e.time>w.until)return false;w.previous=w.radius;w.radius=Math.min(w.reach,w.radius+w.speed*dt);
         for(const t of e.balls){if(!G.World.enemy(b,t,e)||t.hp<=0||G.Ghost.phased(t)||G.Awakening.dashing(t,e)||w.hitIds.includes(t.id)||!G.Mines.freeLine(w,t,e))continue;
           const d=Math.hypot(t.x-w.x,t.y-w.y),old=Math.hypot(t.previousX-w.x,t.previousY-w.y);
-          if(Math.min(d,old)<=w.radius+t.radius+8&&Math.max(d,old)>=w.previous-t.radius-8){w.hitIds.push(t.id);e.pendingAttacks.push({source:b,target:t,kind:'supernova',raw:w.raw,adaptiveId:w.adaptiveId,angle:Math.atan2(t.y-w.y,t.x-w.x),point:{x:w.x,y:w.y}});}}
+          if(Math.min(d,old)<=w.radius+t.radius+8&&Math.max(d,old)>=w.previous-t.radius-8){w.hitIds.push(t.id);e.pendingAttacks.push({source:b,target:t,kind:'supernova',raw:w.raw,heat:w.heat,adaptiveId:w.adaptiveId,angle:Math.atan2(t.y-w.y,t.x-w.x),point:{x:w.x,y:w.y}});}}
         return w.radius<w.reach;});
     },
     hit(h,e){const b=h.source;if(!b.stellar||h.actual+h.blocked<=0)return;

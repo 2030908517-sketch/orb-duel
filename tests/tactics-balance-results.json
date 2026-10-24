@@ -1,0 +1,760 @@
+{
+  "scope": "five held-out seeds, both starting sides, 13 non-mirror opponents per role; coarse role comparison, not proof of equal strength",
+  "records": [
+    {
+      "role": "venom",
+      "before": {
+        "matches": 130,
+        "won": 70,
+        "draws": 12,
+        "score": 0.5846153846153846,
+        "damagePerSecond": 3.9696538999895377,
+        "opponents": {
+          "normal": {
+            "wins": 8,
+            "draws": 1,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 8,
+            "draws": 0,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 2,
+            "draws": 2,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 7,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 6,
+            "draws": 1,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 4,
+            "draws": 3,
+            "matches": 10
+          },
+          "time": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      },
+      "after": {
+        "matches": 130,
+        "won": 61,
+        "draws": 6,
+        "score": 0.49230769230769234,
+        "damagePerSecond": 3.868097876640714,
+        "opponents": {
+          "normal": {
+            "wins": 7,
+            "draws": 0,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 7,
+            "draws": 2,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 1,
+            "draws": 0,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 2,
+            "draws": 1,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 8,
+            "draws": 0,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 0,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "time": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      }
+    },
+    {
+      "role": "trapper",
+      "before": {
+        "matches": 130,
+        "won": 57,
+        "draws": 16,
+        "score": 0.5,
+        "damagePerSecond": 3.821125899214934,
+        "opponents": {
+          "normal": {
+            "wins": 3,
+            "draws": 1,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 5,
+            "draws": 2,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 3,
+            "draws": 2,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 6,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 9,
+            "draws": 1,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 3,
+            "draws": 1,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 2,
+            "draws": 2,
+            "matches": 10
+          },
+          "time": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 3,
+            "draws": 1,
+            "matches": 10
+          }
+        }
+      },
+      "after": {
+        "matches": 130,
+        "won": 60,
+        "draws": 11,
+        "score": 0.5038461538461538,
+        "damagePerSecond": 3.7116426268120675,
+        "opponents": {
+          "normal": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 6,
+            "draws": 1,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 1,
+            "draws": 0,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 5,
+            "draws": 2,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 10,
+            "draws": 0,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 2,
+            "draws": 1,
+            "matches": 10
+          },
+          "time": {
+            "wins": 4,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          }
+        }
+      }
+    },
+    {
+      "role": "ranger",
+      "before": {
+        "matches": 130,
+        "won": 63,
+        "draws": 10,
+        "score": 0.5230769230769231,
+        "damagePerSecond": 3.788816034907702,
+        "opponents": {
+          "normal": {
+            "wins": 8,
+            "draws": 0,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 4,
+            "draws": 3,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 5,
+            "draws": 2,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 7,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 7,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 9,
+            "draws": 0,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 0,
+            "draws": 3,
+            "matches": 10
+          },
+          "time": {
+            "wins": 0,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      },
+      "after": {
+        "matches": 130,
+        "won": 53,
+        "draws": 4,
+        "score": 0.4230769230769231,
+        "damagePerSecond": 3.7019254070518897,
+        "opponents": {
+          "normal": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 7,
+            "draws": 0,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 6,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 8,
+            "draws": 1,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 0,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 0,
+            "draws": 1,
+            "matches": 10
+          },
+          "time": {
+            "wins": 0,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 5,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      }
+    },
+    {
+      "role": "normal",
+      "before": {
+        "matches": 130,
+        "won": 60,
+        "draws": 14,
+        "score": 0.5153846153846153,
+        "damagePerSecond": 3.4495338926601526,
+        "opponents": {
+          "vampire": {
+            "wins": 2,
+            "draws": 0,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 6,
+            "draws": 2,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 2,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 6,
+            "draws": 1,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 8,
+            "draws": 1,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 1,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 6,
+            "draws": 3,
+            "matches": 10
+          },
+          "time": {
+            "wins": 8,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 1,
+            "draws": 1,
+            "matches": 10
+          }
+        }
+      },
+      "after": {
+        "matches": 130,
+        "won": 60,
+        "draws": 18,
+        "score": 0.5307692307692308,
+        "damagePerSecond": 3.6917663603889967,
+        "opponents": {
+          "vampire": {
+            "wins": 1,
+            "draws": 1,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "reflector": {
+            "wins": 6,
+            "draws": 3,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 2,
+            "draws": 3,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 6,
+            "draws": 2,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 6,
+            "draws": 2,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 8,
+            "draws": 0,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 2,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 3,
+            "draws": 1,
+            "matches": 10
+          },
+          "time": {
+            "wins": 10,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      }
+    },
+    {
+      "role": "reflector",
+      "before": {
+        "matches": 130,
+        "won": 50,
+        "draws": 17,
+        "score": 0.45,
+        "damagePerSecond": 3.3075316503164864,
+        "opponents": {
+          "normal": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 1,
+            "draws": 1,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 5,
+            "draws": 2,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 3,
+            "draws": 3,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 7,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 2,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 6,
+            "draws": 2,
+            "matches": 10
+          },
+          "time": {
+            "wins": 1,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 4,
+            "draws": 1,
+            "matches": 10
+          }
+        }
+      },
+      "after": {
+        "matches": 130,
+        "won": 69,
+        "draws": 14,
+        "score": 0.5846153846153846,
+        "damagePerSecond": 3.378049472677715,
+        "opponents": {
+          "normal": {
+            "wins": 1,
+            "draws": 3,
+            "matches": 10
+          },
+          "vampire": {
+            "wins": 1,
+            "draws": 1,
+            "matches": 10
+          },
+          "accelerator": {
+            "wins": 5,
+            "draws": 2,
+            "matches": 10
+          },
+          "shield": {
+            "wins": 5,
+            "draws": 1,
+            "matches": 10
+          },
+          "ranger": {
+            "wins": 7,
+            "draws": 0,
+            "matches": 10
+          },
+          "trapper": {
+            "wins": 9,
+            "draws": 0,
+            "matches": 10
+          },
+          "boomerang": {
+            "wins": 8,
+            "draws": 1,
+            "matches": 10
+          },
+          "laser": {
+            "wins": 3,
+            "draws": 0,
+            "matches": 10
+          },
+          "ghost": {
+            "wins": 4,
+            "draws": 2,
+            "matches": 10
+          },
+          "holy": {
+            "wins": 2,
+            "draws": 2,
+            "matches": 10
+          },
+          "magnet": {
+            "wins": 6,
+            "draws": 2,
+            "matches": 10
+          },
+          "time": {
+            "wins": 9,
+            "draws": 0,
+            "matches": 10
+          },
+          "venom": {
+            "wins": 9,
+            "draws": 0,
+            "matches": 10
+          }
+        }
+      }
+    }
+  ]
+}

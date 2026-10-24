@@ -24,12 +24,7 @@
         c.globalAlpha=fade*.17;c.strokeStyle='#e8f5f1';c.lineWidth=.8;c.beginPath();c.moveTo(x-dx*.18+nx*3,y-dy*.18+ny*3);c.quadraticCurveTo(x+nx*5,y+ny*5,x+dx*.18+nx*3,y+dy*.18+ny*3);c.stroke();
       }
       c.globalAlpha=1;
-      for(const z of w.zones){const fade=Math.min(1,(z.expires-t)/.7),age=t-z.started;c.globalAlpha=fade;const vertices=z.vertices;
-        renderer.circle(z.x,z.y,z.radius);c.fillStyle='#edf4ff08';c.fill();c.strokeStyle='#edf4ff8a';c.lineWidth=1.3;c.setLineDash([3,7]);c.lineDashOffset=-age*7;c.stroke();c.setLineDash([]);
-        c.strokeStyle='#f0f5ff';c.lineWidth=1.6;c.beginPath();c.moveTo(vertices[0].x,vertices[0].y);for(const p of vertices.slice(1))c.lineTo(p.x,p.y);c.closePath();c.stroke();c.fillStyle='#f3f7ff0b';c.fill();
-        for(const p of vertices){renderer.circle(p.x,p.y,5+Math.sin(age*5)*.5);c.fillStyle='#f0f5ff';c.fill();this.cross(c,p.x,p.y,9,'#ffffff',1);}
-        this.cross(c,z.x,z.y,9,'#f3f7ff',1.2);
-      }
+      for(const z of w.zones)G.HolyAngelView?.floor(renderer,e,z);
       for(const l of w.lights){if(l.landed||t<l.warningAt)continue;const f=Math.min(1,(t-l.warningAt)/(l.at-l.warningAt));c.globalAlpha=.38+f*.48;c.strokeStyle=l.kind==='judgement'?'#ffffff':'#dfebff';c.lineWidth=1.2;
         renderer.circle(l.x,l.y,l.radius+8-f*5);c.stroke();this.cross(c,l.x,l.y,4+f*3,'#ffffff',1.3);c.fillStyle='#edf4ff12';c.fill();}
       c.restore();

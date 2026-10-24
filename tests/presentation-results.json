@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": 434,
+  "replayRuns": 4,
+  "stepsPerRun": 4800,
+  "preTaskBaselineCompared": true,
+  "testedTypes": [
+    "normal",
+    "accelerator",
+    "vampire"
+  ],
+  "scope": "presentation isolation; not roster balance"
+}

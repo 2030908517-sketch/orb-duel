@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "eighteenChoices": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "scene": "wallCurrent",
+      "damage": 0,
+      "phase": "body",
+      "comets": 0,
+      "satellites": 0,
+      "currents": 2
+    },
+    {
+      "scene": "grounding",
+      "damage": 5.5,
+      "phase": "body",
+      "comets": 0,
+      "satellites": 0,
+      "currents": 0
+    },
+    {
+      "scene": "lightningForm",
+      "damage": 0,
+      "phase": "flow",
+      "comets": 0,
+      "satellites": 0,
+      "currents": 0
+    },
+    {
+      "scene": "orbit",
+      "damage": 0,
+      "phase": "orbit",
+      "comets": 0,
+      "satellites": 3,
+      "currents": 0
+    },
+    {
+      "scene": "comets",
+      "damage": 0,
+      "phase": "orbit",
+      "comets": 3,
+      "satellites": 3,
+      "currents": 0
+    },
+    {
+      "scene": "collapse",
+      "damage": 0,
+      "phase": "collapse",
+      "comets": 0,
+      "satellites": 3,
+      "currents": 0
+    },
+    {
+      "scene": "core",
+      "damage": 0,
+      "phase": "core",
+      "comets": 0,
+      "satellites": 3,
+      "currents": 0
+    },
+    {
+      "scene": "nova",
+      "damage": 0,
+      "phase": "rebirth",
+      "comets": 0,
+      "satellites": 3,
+      "currents": 0
+    },
+    {
+      "scene": "rebirth",
+      "damage": 10,
+      "phase": "orbit",
+      "comets": 3,
+      "satellites": 3,
+      "currents": 0
+    }
+  ],
+  "audioProfiles": 159,
+  "errors": []
+}

@@ -33,10 +33,10 @@
   const M=G.ManualControl={...R,
     attach(e,clock){const m=R.attach(e,clock);m.heavyReady=false;m.pursuitOffer=null;A.owns(this.player(e),e);return m;},
     sync(e){const m=R.sync(e);m.heavyReady??=false;m.pursuitOffer??=null;A.owns(this.player(e),e);return m;},
-    blocked(e,ordinary=false){this.sync(e);const b=this.player(e);if(b?.type==='ranger')return R.blocked(e,ordinary);const m=e.manual;
+    blocked(e,ordinary=false,arcana=false){this.sync(e);const b=this.player(e);if(b?.type==='ranger')return R.blocked(e,ordinary,arcana);const m=e.manual;
       if(!m||!b||e.state!=='running'||e.ending||e.timeRewind?.active||b.hp<=0)return true;
       const c=m.clock;if(c&&(c.stopRemaining>EPS||c.stopSeen!==e.hitStopSerial&&e.hitStopDuration>0))return true;
-      if(b.kineticCycle?.side==='target'||G.World.absent(b,e)&&!G.VampireArcana.active(b))return true;
+      if(b.kineticCycle?.side==='target'&&!(arcana&&G.Priority?.armoredArcana(b))||G.World.absent(b,e)&&!G.VampireArcana.active(b))return true;
       return ordinary&&(G.Temporal.silenced(b,e)||G.Arcana.busy(b)||G.VampireHunt.busy(b));
     },
     point(e,x,y){if(this.blocked(e))return false;e.manual.pointer={x,y};return true;},
@@ -59,7 +59,7 @@
       if(b.type==='vampire'){if(!A.chainReady(b,e))return false;if(probe)return true;G.Roles.startChain(b,e);return true;}
       if(b.type==='trapper'){const n=A.selected(b,e);if(!A.canSwap(b,n,e))return false;if(probe)return true;G.Trapper.swap(b,n,e);return true;}return false;
     },
-    ultimate(e,probe=false){if(this.blocked(e))return false;const b=this.player(e);if(b.type==='ranger')return R.ultimate(e,probe);
+    ultimate(e,probe=false){if(this.blocked(e,false,true))return false;const b=this.player(e);if(b.type==='ranger')return R.ultimate(e,probe);
       if(b.type==='trapper'&&e.manual.armed){if(probe)return true;e.manual.armed=false;G.Trapper.arcanaUpdate(b,e);return true;}
       if(!this.ready(e))return false;if(probe)return true;if(b.type==='trapper'){e.manual.armed=true;G.Trapper.arcanaUpdate(b,e);return true;}
       const t=e.balls.find(t=>G.World.enemy(b,t,e)&&t.hp>0);G.Arcana.start(b,t,e);return true;

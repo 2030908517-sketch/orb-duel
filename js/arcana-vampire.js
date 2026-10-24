@@ -37,7 +37,7 @@
       this.event(b,e,h.actual>0?'seaHit':'seaBlock',h.actual>0?'arcSeaHit':'guardHeavy',h.target,{angle:h.angle,life:.5});G.Roles.heavyImpact(b,h,e,'arcanaBloodContact',h.actual>0?'arcSeaHit':'guardHeavy',65,0);h.feedback.presented=true;if(h.actual>0)G.Arcana.stop(e,h.actual>=15?.06:.035);
     },
     // Waves bank real HP-drain; only the visible rebirth applies the capped heal.
-    settleHeal(b,e){const u=b.arcana;if(!u||u.healSettled||b.hp<=0)return;u.healSettled=true;const amount=Math.min(Math.max(0,b.maxHp-b.hp),u.pendingHeal||0);u.pendingHeal=0;u.totalHealed=amount;b.hp+=amount;b.stats.healing+=amount;},
+    settleHeal(b,e){const u=b.arcana;if(!u||u.healSettled||b.hp<=0)return;u.healSettled=true;const amount=G.HolySeals?.canHeal(b,e)===false?0:Math.min(Math.max(0,b.maxHp-b.hp),u.pendingHeal||0);u.pendingHeal=0;u.totalHealed=amount;b.hp+=amount;b.stats.healing+=amount;},
     healed(){},
     finishStep(e){for(const b of e.balls)if(b.arcana?.phase==='bloodFinale'&&e.time+1e-9>=b.arcana.started+.85)this.settleHeal(b,e);},
     move(b){b.vx=b.vy=0;b.inertia=b.motionSpeed=0;return false;},

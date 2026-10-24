@@ -1,3 +1,7 @@
+## Demon: Soul Devour (2026-10-22)
+
+The Demon extracts a translucent host-coloured soul orb. Branded souls bind the host within a maximum-75 tether; reaching its limit causes tangential circling rather than repeated reflection. Soul Loss means complete actor/CD stasis, never damage reduction. Once Arcana is ready, the next normal gate cycle guarantees shield-piercing extraction followed by a body-piercing 3s stasis, then hellfire assimilation; the world keeps running. Enemies prefer the real Demon over its servants. A servant's death causes its former host 3s stasis; servant HP, basic skills and rebirth remain unchanged. See [gate-04](docs/ai-design-knowledge/DEMON_GATE04_UPDATE.md). Run `node tests/verify-demon-gate04.cjs`; prior tests/results are historical.
+
 # ORB DUEL — Automatic Orb Battle Simulator
 
 ## Manual skill duel (PC)
@@ -419,6 +423,7 @@ node tests/verify-sync.cjs
 node tests/verify-tactics.cjs
 node tests/measure-aim.cjs
 node tests/verify-engine.cjs --quick
+node tests/verify-holy-seals.cjs # current Holy independent Arcana, 31 focused checks
 node tests/verify-holy.cjs
 node tests/verify-holy-ward.cjs
 node tests/verify-ghost.cjs

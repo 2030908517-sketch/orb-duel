@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": 113,
+  "duelAndTeamBoundaries": true,
+  "realClawMovement": true,
+  "damageBudget": 22,
+  "chainLife": 3.2,
+  "dualWindup": 1,
+  "dashRecoveryCap": 285,
+  "clockVariants": 18,
+  "trackingAndHorizon": true,
+  "wallAndContactAcceleration": true
+}

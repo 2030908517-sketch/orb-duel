@@ -1,0 +1,656 @@
+{
+  "passed": true,
+  "checks": 98083,
+  "matches": [
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 34.62916666666666,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 45.34166666666667,
+      "winner": "draw",
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 33.32083333333333,
+      "winner": 1,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 19.05,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 42.47083333333333,
+      "winner": 1,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "normal",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 35.22083333333333,
+      "winner": 1,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 28.258333333333333,
+      "winner": "draw",
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 31.504166666666666,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 67.22916666666667,
+      "winner": "draw",
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 42.9375,
+      "winner": "draw",
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 33.733333333333334,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "accelerator",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 24.975,
+      "winner": "draw",
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 52.7375,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 26.7,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 42.44166666666666,
+      "winner": 1,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 33.125,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 82.75833333333333,
+      "winner": 0,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "1v1",
+      "types": [
+        "vampire",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 92.1375,
+      "winner": 1,
+      "casts": [
+        0,
+        0
+      ],
+      "hits": [
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 69.16666666666667,
+      "winner": "draw",
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 75.3625,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 33.3125,
+      "winner": 0,
+      "casts": [
+        0,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 42.13333333333333,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 61.329166666666666,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "normal",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 66.49166666666666,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 41.78333333333333,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 42.9375,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 79.75,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        0
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 66.125,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 46.7625,
+      "winner": 0,
+      "casts": [
+        0,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "accelerator",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 48.06666666666666,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        0
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "normal"
+      ],
+      "seed": 0,
+      "seconds": 74.0125,
+      "winner": "draw",
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        2,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "normal"
+      ],
+      "seed": 1,
+      "seconds": 73.79583333333333,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        1,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "accelerator"
+      ],
+      "seed": 0,
+      "seconds": 59.895833333333336,
+      "winner": 1,
+      "casts": [
+        1,
+        0
+      ],
+      "hits": [
+        1,
+        0
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "accelerator"
+      ],
+      "seed": 1,
+      "seconds": 47.516666666666666,
+      "winner": 1,
+      "casts": [
+        0,
+        1
+      ],
+      "hits": [
+        0,
+        1
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "vampire"
+      ],
+      "seed": 0,
+      "seconds": 105.26666666666667,
+      "winner": 0,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        2,
+        2
+      ]
+    },
+    {
+      "mode": "arcana",
+      "types": [
+        "vampire",
+        "vampire"
+      ],
+      "seed": 1,
+      "seconds": 112.36666666666666,
+      "winner": 1,
+      "casts": [
+        1,
+        1
+      ],
+      "hits": [
+        3,
+        3
+      ]
+    }
+  ],
+  "baselineComparisons": 5,
+  "audioListening": false
+}

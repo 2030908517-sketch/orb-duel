@@ -1,0 +1,398 @@
+{
+  "passed": true,
+  "version": "20261013-team-layout2",
+  "errors": [],
+  "unchangedFiles": [
+    "outputs\\orb-duel\\js\\app.js",
+    "outputs\\orb-duel\\js\\audio.js",
+    "outputs\\orb-duel\\js\\awakening.js",
+    "outputs\\orb-duel\\js\\characters.js",
+    "outputs\\orb-duel\\js\\config.js",
+    "outputs\\orb-duel\\js\\engine.js",
+    "outputs\\orb-duel\\js\\ghost.js",
+    "outputs\\orb-duel\\js\\magnet.js",
+    "outputs\\orb-duel\\js\\physics.js",
+    "outputs\\orb-duel\\js\\renderer.js",
+    "outputs\\orb-duel\\js\\roles.js",
+    "outputs\\orb-duel\\js\\skills.js",
+    "outputs\\orb-duel\\js\\spectacle.js",
+    "outputs\\orb-duel\\js\\team-engine.js",
+    "outputs\\orb-duel\\js\\team-maps.js",
+    "outputs\\orb-duel\\js\\team-runtime.js",
+    "outputs\\orb-duel\\js\\temporal.js",
+    "outputs\\orb-duel\\js\\world.js",
+    "outputs\\orb-duel\\index.html",
+    "outputs\\orb-duel\\styles.css"
+  ],
+  "records": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "arena": [
+        1219,
+        838.0625
+      ],
+      "previousArena": [
+        832,
+        572
+      ],
+      "displayWidthGain": 1.465,
+      "bounds": {
+        "blue": {
+          "x": 66,
+          "y": 150,
+          "w": 260,
+          "h": 1032.1875
+        },
+        "pink": {
+          "x": 1579,
+          "y": 150,
+          "w": 260,
+          "h": 762.5
+        },
+        "field": {
+          "x": 343,
+          "y": 151,
+          "w": 1219,
+          "h": 838.0625
+        }
+      },
+      "styles": {
+        "font": "18px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "arena": [
+        766,
+        526.625
+      ],
+      "previousArena": [
+        379,
+        260.5625
+      ],
+      "displayWidthGain": 2.021,
+      "bounds": {
+        "blue": {
+          "x": 55.5,
+          "y": 150,
+          "w": 220,
+          "h": 1032.1875
+        },
+        "pink": {
+          "x": 1075.5,
+          "y": 150,
+          "w": 220,
+          "h": 762.5
+        },
+        "field": {
+          "x": 292.5,
+          "y": 151,
+          "w": 766,
+          "h": 526.625
+        }
+      },
+      "styles": {
+        "font": "18px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        960,
+        720
+      ],
+      "arena": [
+        447,
+        307.3125
+      ],
+      "previousArena": [
+        376,
+        258.5
+      ],
+      "displayWidthGain": 1.189,
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "y": 149,
+          "w": 220,
+          "h": 1032.1875
+        },
+        "pink": {
+          "x": 709,
+          "y": 149,
+          "w": 220,
+          "h": 762.5
+        },
+        "field": {
+          "x": 249,
+          "y": 150,
+          "w": 447,
+          "h": 307.3125
+        }
+      },
+      "styles": {
+        "font": "18px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        800,
+        900
+      ],
+      "arena": [
+        751,
+        516.3125
+      ],
+      "displayWidthGain": null,
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "y": 757.3125,
+          "w": 370.5,
+          "h": 763.1875
+        },
+        "pink": {
+          "x": 398.5,
+          "y": 757.3125,
+          "w": 370.5,
+          "h": 493.5
+        },
+        "field": {
+          "x": 17,
+          "y": 150,
+          "w": 751,
+          "h": 516.3125
+        }
+      },
+      "styles": {
+        "font": "17px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        600,
+        800
+      ],
+      "arena": [
+        551,
+        378.8125
+      ],
+      "displayWidthGain": null,
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "y": 619.8125,
+          "w": 270.5,
+          "h": 1032.1875
+        },
+        "pink": {
+          "x": 298.5,
+          "y": 619.8125,
+          "w": 270.5,
+          "h": 762.5
+        },
+        "field": {
+          "x": 17,
+          "y": 150,
+          "w": 551,
+          "h": 378.8125
+        }
+      },
+      "styles": {
+        "font": "17px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "arena": [
+        353,
+        242.6875
+      ],
+      "displayWidthGain": null,
+      "bounds": {
+        "blue": {
+          "x": 10,
+          "y": 495.6875,
+          "w": 174,
+          "h": 1117
+        },
+        "pink": {
+          "x": 191,
+          "y": 495.6875,
+          "w": 174,
+          "h": 847
+        },
+        "field": {
+          "x": 11,
+          "y": 133,
+          "w": 353,
+          "h": 242.6875
+        }
+      },
+      "styles": {
+        "font": "16px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        320,
+        720
+      ],
+      "arena": [
+        283,
+        194.5625
+      ],
+      "displayWidthGain": null,
+      "bounds": {
+        "blue": {
+          "x": 10,
+          "y": 447.5625,
+          "w": 139,
+          "h": 1133.1875
+        },
+        "pink": {
+          "x": 156,
+          "y": 447.5625,
+          "w": 139,
+          "h": 847
+        },
+        "field": {
+          "x": 11,
+          "y": 133,
+          "w": 283,
+          "h": 194.5625
+        }
+      },
+      "styles": {
+        "font": "16px",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)",
+        "bg": "rgb(34, 50, 71)",
+        "opacity": "1",
+        "optionColor": "rgb(245, 248, 255)",
+        "optionBackground": "rgb(28, 41, 59)"
+      },
+      "disabled": {
+        "disabled": true,
+        "opacity": "1",
+        "color": "rgb(245, 248, 255)",
+        "fill": "rgb(245, 248, 255)"
+      },
+      "rosterValues": 13,
+      "paused": true,
+      "resultStable": true,
+      "reset": true,
+      "overflow": false
+    }
+  ]
+}

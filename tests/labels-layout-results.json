@@ -1,0 +1,2538 @@
+{
+  "passed": true,
+  "version": "20261013-labels3",
+  "errors": [],
+  "unchangedSimulationFiles": [
+    "audio.js",
+    "awakening.js",
+    "characters.js",
+    "config.js",
+    "engine.js",
+    "ghost.js",
+    "magnet.js",
+    "physics.js",
+    "renderer.js",
+    "roles.js",
+    "skills.js",
+    "spectacle.js",
+    "team-engine.js",
+    "team-maps.js",
+    "team-runtime.js",
+    "temporal.js",
+    "world.js"
+  ],
+  "records": [
+    {
+      "mode": "duel",
+      "viewport": [
+        1920,
+        930
+      ],
+      "arena": [
+        765,
+        722.5
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "arena": [
+        924,
+        872.65625
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        1366,
+        768
+      ],
+      "arena": [
+        594,
+        561
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        960,
+        720
+      ],
+      "arena": [
+        265,
+        250.265625
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        800,
+        900
+      ],
+      "arena": [
+        456,
+        430.65625
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        600,
+        800
+      ],
+      "arena": [
+        350,
+        330.546875
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        390,
+        844
+      ],
+      "arena": [
+        299,
+        282.375
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "duel",
+      "viewport": [
+        320,
+        720
+      ],
+      "arena": [
+        178,
+        168.109375
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "觉醒",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "roster": 13,
+      "liveState": "ended",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        1920,
+        930
+      ],
+      "arena": [
+        1265,
+        869.6875
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 24,
+          "width": 278,
+          "y": 150
+        },
+        "pink": {
+          "x": 1603,
+          "width": 278,
+          "y": 150
+        },
+        "arena": {
+          "x": 319,
+          "width": 1265,
+          "y": 151
+        },
+        "workspace": {
+          "x": 24,
+          "width": 1857,
+          "y": 150
+        },
+        "app": {
+          "x": 0,
+          "width": 1905,
+          "y": 0
+        }
+      },
+      "previousArena": {
+        "x": 452,
+        "y": 151,
+        "width": 1001,
+        "height": 688.1875
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "arena": [
+        1265,
+        869.6875
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 24,
+          "width": 278,
+          "y": 150
+        },
+        "pink": {
+          "x": 1603,
+          "width": 278,
+          "y": 150
+        },
+        "arena": {
+          "x": 319,
+          "width": 1265,
+          "y": 151
+        },
+        "workspace": {
+          "x": 24,
+          "width": 1857,
+          "y": 150
+        },
+        "app": {
+          "x": 0,
+          "width": 1905,
+          "y": 0
+        }
+      },
+      "previousArena": {
+        "x": 343,
+        "y": 151,
+        "width": 1219,
+        "height": 838.0625
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        1366,
+        768
+      ],
+      "arena": [
+        769,
+        528.6875
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 24,
+          "width": 250,
+          "y": 150
+        },
+        "pink": {
+          "x": 1077,
+          "width": 250,
+          "y": 150
+        },
+        "arena": {
+          "x": 291,
+          "width": 769,
+          "y": 151
+        },
+        "workspace": {
+          "x": 24,
+          "width": 1303,
+          "y": 150
+        },
+        "app": {
+          "x": 0,
+          "width": 1351,
+          "y": 0
+        }
+      },
+      "previousArena": {
+        "x": 292.5,
+        "y": 151,
+        "width": 766,
+        "height": 526.625
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        960,
+        720
+      ],
+      "arena": [
+        911,
+        626.3125
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "width": 450.5,
+          "y": 867.3125
+        },
+        "pink": {
+          "x": 478.5,
+          "width": 450.5,
+          "y": 867.3125
+        },
+        "arena": {
+          "x": 17,
+          "width": 911,
+          "y": 150
+        },
+        "workspace": {
+          "x": 16,
+          "width": 913,
+          "y": 149
+        },
+        "app": {
+          "x": 0,
+          "width": 945,
+          "y": 0
+        }
+      },
+      "previousArena": {
+        "x": 249,
+        "y": 150,
+        "width": 447,
+        "height": 307.3125
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        800,
+        900
+      ],
+      "arena": [
+        751,
+        516.3125
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "width": 370.5,
+          "y": 757.3125
+        },
+        "pink": {
+          "x": 398.5,
+          "width": 370.5,
+          "y": 757.3125
+        },
+        "arena": {
+          "x": 17,
+          "width": 751,
+          "y": 150
+        },
+        "workspace": {
+          "x": 16,
+          "width": 753,
+          "y": 149
+        },
+        "app": {
+          "x": 0,
+          "width": 785,
+          "y": 0
+        }
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        600,
+        800
+      ],
+      "arena": [
+        551,
+        378.8125
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 14,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 16,
+          "width": 270.5,
+          "y": 619.8125
+        },
+        "pink": {
+          "x": 298.5,
+          "width": 270.5,
+          "y": 619.8125
+        },
+        "arena": {
+          "x": 17,
+          "width": 551,
+          "y": 150
+        },
+        "workspace": {
+          "x": 16,
+          "width": 553,
+          "y": 149
+        },
+        "app": {
+          "x": 0,
+          "width": 585,
+          "y": 0
+        }
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        390,
+        844
+      ],
+      "arena": [
+        353,
+        242.6875
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 10,
+          "width": 174,
+          "y": 495.6875
+        },
+        "pink": {
+          "x": 191,
+          "width": 174,
+          "y": 495.6875
+        },
+        "arena": {
+          "x": 11,
+          "width": 353,
+          "y": 133
+        },
+        "workspace": {
+          "x": 10,
+          "width": 355,
+          "y": 132
+        },
+        "app": {
+          "x": 0,
+          "width": 375,
+          "y": 0
+        }
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    },
+    {
+      "mode": "team",
+      "viewport": [
+        320,
+        720
+      ],
+      "arena": [
+        283,
+        194.5625
+      ],
+      "labels": [
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒伤/层",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒爆",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "引爆CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "留池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "共鸣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "毒池",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "弹匣",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "装填",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "校准",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "枪阵",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "重弹伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "汲取",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "血契",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "链伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "已回复",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "返还CD",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "攻击",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "速度",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "护盾",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "充能",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "盾时",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "压力",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "蓄力",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        },
+        {
+          "text": "波伤",
+          "font": 12,
+          "color": "rgb(180, 195, 214)"
+        }
+      ],
+      "bounds": {
+        "blue": {
+          "x": 10,
+          "width": 139,
+          "y": 447.5625
+        },
+        "pink": {
+          "x": 156,
+          "width": 139,
+          "y": 447.5625
+        },
+        "arena": {
+          "x": 11,
+          "width": 283,
+          "y": 133
+        },
+        "workspace": {
+          "x": 10,
+          "width": 285,
+          "y": 132
+        },
+        "app": {
+          "x": 0,
+          "width": 305,
+          "y": 0
+        }
+      },
+      "roster": 13,
+      "liveState": "paused",
+      "stable": true,
+      "overflow": false
+    }
+  ]
+}

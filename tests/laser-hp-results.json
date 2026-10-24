@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": 8,
+  "arcanaHP": 210,
+  "classicHP": 105,
+  "teamHP": 105,
+  "awakeningHP": 105,
+  "arcanaThreshold": 63
+}

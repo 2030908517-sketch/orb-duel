@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": 311,
+  "wardAmount": 5,
+  "wardCooldown": 10,
+  "wardLifetime": 5,
+  "burnTicks": 6,
+  "diagonalBand": 0.5,
+  "modes": 2
+}

@@ -2,7 +2,7 @@
   'use strict';
   const G=root.OrbDuel;
   const defs={storm:{name:'雷暴接力',description:'每11.5秒锁定三处落点，各预警后按0.38秒间隔接力落雷、每处3.8基础伤害，命中积导电，可触发一次有限电解。'},charge:{name:'雷化·沿壁疾行',description:'4电荷与10秒冷却就绪后，下一次有效外墙撞击雷化1.75秒，以760速度沿墙过角移动；每敌最多两次电弧，导电延长跃迁距离。本体不参与球碰撞，仍承受实体、光束等伤害，结束向内凝聚回场。'},orbital:{name:'恒星坍缩·超新星',description:'15.5秒周期，召回三颗真实卫星并急旋收缩0.9秒，压缩星核0.2秒，再释放真实扩张的10伤冲击环、强击退与顿帧，每敌限中一次；随后释放三颗2.8伤重生彗星，反弹并返回恢复星环。无额外无敌，沉默中断坍缩；普通彗星实际命中附小范围星爆。'},
-    demon:{name:'地狱之门',description:'相对两侧地狱门成为攻击起点，每10秒围猎一轮，两爪各自预警、提前锁定并真实伸向预测落点，间隔0.26秒。带本源烙印的目标被同轮两爪抓获后收束1秒，触发一次双锁处刑；与普通处刑互斥，单轮每敌技能伤害上限22（随加热增长）。处刑不立即解除3.2秒物理魂锁，不追加控制时长，已处刑的锁链到期无终结伤害。门爪仍可躲开。'},
+    demon:{name:'地狱双门·拘魂',description:'醒后0.8秒首轮，每10秒接力双门；优先从目标运动后方的合法近处开门，门生成后朝向固定。首门生命实伤抽魂、有印束缚，次门真实魂钉穿刺6基础伤并施加1秒失魂静止（含CD），成功+1献祭魂力。未建立束缚则次门补抓。奥义使用后改为单门穿身钉，实伤静止2秒、不再抽魂。'},
     normal:{name:'破阵重拳',description:'觉醒恢复最多 8 生命，碰撞攻击 +25%；重拳有额外击退与短顿帧，并释放一次伤害 3.5 的短程定向拳劲。'},
     vampire:{name:'血契收束',description:'220 距离获取血链，260 距离外持续 0.12 秒才断开；预警失去目标不消血能。连接保存已有血印收束资格，每次有效汲取耗0.5血能（包括护盾吸收），七次成功后收束另耗0.5并直接碎盾；血契期间无霸体；断链仍按连接时长有限返还。'},
     accelerator:{name:'闪电突袭',description:'8.5 秒周期、0.7 秒预警，末段 0.12 秒锁定，其前持续更新反弹预瞄。900 速度起冲并持续衰减，可反弹、全程无敌；撞敌结束并传动能，首次撞墙追加有限伤害与独立强反馈。冲刺结束后巡航速度回落到82%，最多285，再逐渐积速；全程无接触自然耗尽只返最多10点实际损失巡航速度，不返冲刺CD。'},
@@ -35,8 +35,8 @@
       if(ball.type==='holy')G.Holy.activate(ball,engine);if(ball.type==='demon')G.Demon?.activate(ball,engine);
       G.Roles.activate(ball,engine);const venomOpening=ball.type==='venom'&&G.VenomVisual?.frame(ball,engine)?.opening;if(!venomOpening){engine.sound('awakening',ball.x);G.Spectacle?.emit(engine,ball,'awaken',{sound:false,radius:72,life:.65});
       engine.ring(ball.x,ball.y,ball.def.color,95);engine.burst(ball.x,ball.y,ball.def.color,22);}
-      if(ball.type==='normal'){const heal=Math.min(8,ball.maxHp-ball.hp);ball.hp+=heal;ball.stats.healing+=heal;if(heal)engine.float(ball.x,ball.y,'+'+heal.toFixed(1),ball.def.color);}
-      if(ball.type==='shield'&&!G.Temporal.silenced(ball,engine)){G.Adaptive?.cancel(ball,'shield');if(engine.time<1.5){ball.shield=0;ball.nextShield=1.5;}else{const spec=this.shieldOptions(ball);ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration+(G.Adaptive?.duration(ball,'shield')||0);ball.role.shieldAdaptiveId=G.Adaptive?.begin(ball,'shield',engine);ball.nextShield=engine.time+spec.period;}}
+      if(ball.type==='normal'){const heal=G.HolySeals?.canHeal(ball,engine)===false?0:Math.min(8,ball.maxHp-ball.hp);ball.hp+=heal;ball.stats.healing+=heal;if(heal)engine.float(ball.x,ball.y,'+'+heal.toFixed(1),ball.def.color);}
+      if(ball.type==='shield'&&!G.Temporal.silenced(ball,engine)&&!G.HolySeals?.defense(ball,engine)){G.Adaptive?.cancel(ball,'shield');if(engine.time<1.5){ball.shield=0;ball.nextShield=1.5;}else{const spec=this.shieldOptions(ball);ball.shield=spec.amount;ball.shieldUntil=engine.time+spec.duration+(G.Adaptive?.duration(ball,'shield')||0);ball.role.shieldAdaptiveId=G.Adaptive?.begin(ball,'shield',engine);ball.nextShield=engine.time+spec.period;}}
       if(ball.type==='ranger')ball.nextShot=Math.min(ball.nextShot,engine.time+.4);
       if(ball.type==='trapper')ball.nextTrap=Math.min(ball.nextTrap,engine.time+.4);
     },

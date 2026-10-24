@@ -59,15 +59,17 @@
       if (this.time >= C.heatStart && !this.heatAnnounced) { this.heatAnnounced = true; this.log('加热阶段 · 攻击伤害逐渐提升'); }
       if (this.time >= C.decayStart && !this.decayAnnounced) { this.decayAnnounced = true; this.log('决胜阶段 · 双方每秒流失 3 点生命'); }
       for(const ball of this.balls) {ball.previousX=ball.x;ball.previousY=ball.y;}
-      G.Ghost.prepare(this);G.Temporal.begin(this,dt);G.DefenseArcana?.prepare(this,dt);G.Trapper?.prepare(this);G.Demon?.forces(this,dt);
+      G.Demon?.freezeStep?.(this,dt);G.Ghost.prepare(this);G.Temporal.begin(this,dt);G.DefenseArcana?.prepare(this,dt);G.Trapper?.prepare(this);G.Demon?.forces(this,dt);
       for (const ball of this.balls) {
         ball.flash = Math.max(0, ball.flash - dt);
         if(ball.hitVisual)ball.hitVisual.age+=dt;
+        if(G.Demon?.frozen?.(ball,this))continue;
         G.Characters.update(ball,this);G.Magnet.settle(ball,this);G.Roles.update(ball,this);G.Recovery.pressure(ball,this);G.Awakening.update(ball,dt*ball.temporal.rate,this);
         if(!G.Temporal.silenced(ball,this)||ball.type==='accelerator'||G.DefenseArcana?.guardActive(ball,this))G.Skills[ball.type]?.update?.(ball, dt*ball.temporal.rate, this);
       }
       G.Arcana?.update(this,dt);
       for (const ball of this.balls) {
+        if(G.Demon?.frozen?.(ball,this))continue;
         G.BladeHunt?.beforeMove(ball,dt,this);
         if (G.Priority?.forced(ball,this)?G.Physics.integrate(ball,dt):G.Arcana?.customMove(ball)?G.Arcana.move(ball,dt,this):G.Charge?.flowing(ball)?G.Charge.move(ball,dt,this):G.Physics.integrate(ball, dt)) {
           this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);
@@ -83,9 +85,10 @@
         const distance = Math.hypot(b.x - a.x, b.y - a.y);
         if (distance > a.radius + b.radius + 1) pair.touching = false;
         if(G.Ghost.phased(a)||G.Ghost.phased(b)||G.Arcana?.noContact(a)||G.Arcana?.noContact(b)||G.Charge?.flowing(a)||G.Charge?.flowing(b)){pair.touching=false;continue;}
-        if(distance<=a.radius+b.radius&&!pair.touching&&this.time-pair.lastHit>=C.collisionCooldown&&G.Trapper?.contact(a,b,this)){pair.touching=true;pair.lastHit=this.time;continue;}
+        if(distance<=a.radius+b.radius&&!pair.touching&&this.time-pair.lastHit>=C.collisionCooldown&&G.World.enemy(a,b,this)&&G.Trapper?.contact(a,b,this)){pair.touching=true;pair.lastHit=this.time;continue;}
         const impact=G.Physics.contactInfo(a,b);
         if (G.Physics.resolve(a, b)) {
+          if(!G.World.enemy(a,b,this)){pair.touching=true;continue;}
           G.Overdrive?.contact(a,b,this);
           if(G.Ghost.justExited(a,this)||G.Ghost.justExited(b,this)){pair.touching=true;continue;}
           G.Magnet.touch(a,b,this);
@@ -110,13 +113,14 @@
         if (!overlap) break;
       }
       for (const ball of this.balls) if (G.Physics.constrain(ball)){this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);}
-      G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Cosmic?.world(this);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
+      G.Demon?.constrainHosts?.(this);G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Cosmic?.world(this);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
       G.Combat.resolveBatch(this.pendingAttacks,this,this.contactPairs);G.Adaptive?.observe(this);
       this.checkEnd();if(this.ending||this.state==='ended')return;
       if (this.time >= C.decayStart) for (const ball of this.balls) G.Combat.applyDamage(ball, C.decayPerSecond * dt, this, { bypassShield: true, bypassInvulnerability:true, silent: true });
       this.checkEnd();
     }
     beginEnding(winner,message,pan,winnerTeam){
+      G.Demon?.endCombat(this);
       if(this.ending||this.state==='ended')return;
       G.BladeHunt?.endCombat(this);G.LaserBlade?.endCombat(this);G.DefenseArcana?.endCombat(this);G.VampireHunt?.endCombat(this);G.Trapper?.clear(this,{reason:'end'});G.VampireArcana?.endCombat(this);
       for(const b of this.balls)if(b.hp<=1e-8)b.hp=0;
@@ -163,7 +167,7 @@
     }
     checkEnd() {
       if(this.ending||this.state==='ended')return;
-      const living=this.balls.filter(b=>b.hp>1e-8);
+      const living=this.balls.filter(b=>!b.demonServant&&b.hp>1e-8);
       if(living.length<=1){this.beginEnding(living.length?living[0].id:'draw',living.length?`${this.label(living[0])}获胜 · 对战结束`:'双方同时阵亡 · 平局',living.length?living[0].x:C.width/2);return;}
       G.Demon?.cleanup(this);G.Cosmic?.cleanup(this);G.Charge?.cleanup(this);G.Stellar?.cleanup(this);G.Arcana?.cleanup(this);
       if(this.ghostEchoes.length)this.ghostEchoes=this.ghostEchoes.filter(v=>this.balls.some(b=>b.id===v.owner&&b.hp>0));

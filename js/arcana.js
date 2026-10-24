@@ -27,7 +27,7 @@
         if(e.mode==='2v2'&&e.obstacles.some(o=>G.Team.overlaps(p,o,1)))continue;
         if(e.balls.some(v=>v!==b&&v!==t&&v.hp>0&&!G.Ghost.phased(v)&&Math.hypot(p.x-v.x,p.y-v.y)<v.radius+p.radius+1))continue;return p;
       }return null;},
-    blink(b,t,e){const p=this.near(t,b,e);if(!p)return false;const from={x:b.x,y:b.y};this.commit(b,e);b.arcana.returnAngle=Math.atan2(b.vy,b.vx);b.x=b.previousX=p.x;b.y=b.previousY=p.y;b.arcana.aim=Math.atan2(t.y-b.y,t.x-b.x);b.arcana.phase='blink';b.arcana.until=e.time+.085;b.charges=0;G.Pursuit.interrupt(b);b.vx=b.vy=0;b.inertia=0;
+    blink(b,t,e){const p=this.near(t,b,e);if(!p)return false;const from={x:b.x,y:b.y};this.commit(b,e);b.arcana.returnAngle=Math.atan2(b.vy,b.vx);G.Demon?.relocated(b,e);b.x=b.previousX=p.x;b.y=b.previousY=p.y;b.arcana.aim=Math.atan2(t.y-b.y,t.x-b.x);b.arcana.phase='blink';b.arcana.until=e.time+.085;b.charges=0;G.Pursuit.interrupt(b);b.vx=b.vy=0;b.inertia=0;
       this.effect(e,b,'blink',from,{endX:b.x,endY:b.y,angle:b.arcana.aim,life:1.25});e.sound('arcBlink',b.x);return true;
     },
     punch(b,t,e){const u=b.arcana;u.phase='punchRecovery';u.until=e.time+.13;
@@ -48,8 +48,10 @@
         e.projectiles.push({id:e.nextWorldId++,owner:b.id,mode:'arcBlood',noMirror:true,noMagnet:true,arcanaOwner:b.id,slot:p.slot,x:p.x,y:p.y,vx:Math.cos(angle)*300,vy:Math.sin(angle)*300,speed:300,radius:15,range:distance+100,travel:0,bounces:0,maxBounces:0,expires:e.time+delay+1.25,formedAt:e.time,armAt:e.time+delay,aimTarget:t.id,launched:false,color:b.def.color,raw:this.defs.vampire.raw*e.heatMultiplier,history:[]});
       }this.effect(e,b,'bloodSeal',center,{life:1.5});e.sound('arcBloodRelease',center.x);
     },
-    update(e,dt){if(e.state!=='running')return;for(const b of e.balls){const u=b.arcana;if(!u||b.hp<=0)continue;const t=u.target!==null?e.balls.find(t=>t.id===u.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e)):G.World.targetFor(b,e);
+    update(e,dt){if(e.state!=='running')return;for(const b of e.balls){const u=b.arcana;if(!u||b.hp<=0||G.Demon?.frozen?.(b,e)&&!G.Priority?.armoredArcana(b))continue;const t=u.target!==null?e.balls.find(t=>t.id===u.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e)):G.World.targetFor(b,e);
+        if(b.type==='holy'&&G.HolySeals)continue;if(G.HolySeals?.canStart(b,e)===false&&!u.used)continue;
         if(G.ManualRoles?.arcanaUpdate(b,t,e,dt))continue;
+        if(b.type==='demon'&&G.DemonArcana){G.DemonArcana.update(b,t,e,dt);continue;}
         // A prepared, target-dependent release waits for the locked actor to re-enter.
         const locked=e.balls.find(v=>v.id===u.target);
         if(G.World.absent(locked,e)&&['warning','counterStep','counterCharge','debtStep','debtWarning','laserFocus','laserForge'].includes(u.phase)){for(const key of ['started','until','lockAt'])if(Number.isFinite(u[key]))u[key]+=dt;continue;}
@@ -105,12 +107,12 @@
           if(this.immuneTarget(t,e))continue;w.hitIds.push(t.id);e.pendingAttacks.push({source:b,target:t,kind:'arcSonic',raw:w.raw,bypassShield:true,shatterShield:false,healRatio:0,angle:w.angle,point:{x:w.x,y:w.y}});
         }return w.travel<w.reach;});
     },
-    mixedDamage(target,total,ordinary,piercing,shatter,e){if(this.immuneTarget(target,e))return G.Combat.applyDamage(target,total,e,{bypassShield:true});
-      const reduction=1-G.Combat.reduction(target,e);total*=reduction;ordinary*=reduction;piercing*=reduction;
-      const old=target.shield,royal=G.DefenseArcana?.absorbRoyal(target,ordinary,e)||0,normalBlocked=Math.min(old,Math.max(0,ordinary-royal)),blocked=royal+normalBlocked;target.shield-=normalBlocked;target.stats.absorbed+=blocked;G.Roles.absorb(target,blocked,e);G.DefenseArcana?.afterAbsorb(target,e);if(shatter)G.DefenseArcana?.shatterRoyal(target,e);
+    mixedDamage(target,total,ordinary,piercing,shatter,e,trueRaw=0,trueOrdinary=0){if(this.immuneTarget(target,e))return G.Combat.applyDamage(target,total,e,{bypassShield:true});
+        const reduction=1-G.Combat.reduction(target,e),truePiercing=trueRaw-trueOrdinary;total=(total-trueRaw)*reduction+trueRaw;ordinary=(ordinary-trueOrdinary)*reduction+trueOrdinary;piercing=(piercing-truePiercing)*reduction+truePiercing;
+      const old=target.shield,royal=G.DefenseArcana?.absorbRoyal(target,ordinary,e)||0,normalBlocked=G.HolySeals?.defense(target,e)?0:Math.min(old,Math.max(0,ordinary-royal)),blocked=royal+normalBlocked;target.shield-=normalBlocked;target.stats.absorbed+=blocked;G.Roles.absorb(target,blocked,e);G.DefenseArcana?.afterAbsorb(target,e);if(shatter)G.DefenseArcana?.shatterRoyal(target,e);
       if(old>0&&(target.shield<=0||shatter)){target.shield=0;target.shieldUntil=0;if(target.type==='shield'&&G.Awakening.active(target)){target.awakening.pendingBurst=true;G.Roles.shieldEnd(target,e);}e.signal(target,'护盾破裂','break');e.burst(target.x,target.y,target.def.color,18);this.effect(e,target,'shatter',target,{life:.45});}
       const healthRaw=ordinary-blocked+piercing,result=G.Combat.applyDamage(target,healthRaw,e,{bypassShield:true,damageReduced:true});if(blocked)e.float(target.x,target.y+30,'盾 −'+blocked.toFixed(1),target.def.color);
-      return {...result,blocked,ordinaryRaw:ordinary,piercingRaw:piercing,ordinaryActual:healthRaw>0?result.actual*(ordinary-blocked)/healthRaw:0,piercingActual:healthRaw>0?result.actual*piercing/healthRaw:0};
+        return {...result,blocked,...(trueRaw?{trueAware:true,ordinaryScale:reduction}:{}),ordinaryRaw:ordinary,piercingRaw:piercing,ordinaryActual:healthRaw>0?result.actual*(ordinary-blocked)/healthRaw:0,piercingActual:healthRaw>0?result.actual*piercing/healthRaw:0};
     },
     hit(h,e){if(h.kind==='arcDebt'){G.DefenseArcana?.hit(h,e);return;}if(G.VampireArcana&&(h.prison||h.kind==='arcBite'||h.kind==='arcTide')){G.VampireArcana.hit(h,e);return;}if(h.kind==='arcPierce'){G.RangerArcana?.hit(h,e);return;}const b=h.source,u=b.arcana;if(!['arcFist','arcSonic','arcBlood'].includes(h.kind)||h.actual+h.blocked<=0||h.avoided)return;
       if(u){u.hits++;b.stats.arcanaHits=(b.stats.arcanaHits||0)+1;}

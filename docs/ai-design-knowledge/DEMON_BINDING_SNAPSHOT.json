@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-22",
+  "identity": "local production working files; remote HEAD not verified",
+  "before": "work/demon-binding-before-20261022",
+  "files": {
+    "js\\app.js": "30d7637ca41af223820806ebd9f220224becad3b4810031643da937d47421e76",
+    "js\\arcana.js": "3e7db279ec53e35fb65e6e6d675cc3cd6328e3a2bd626ab24e9b8aade50276d8",
+    "js\\config.js": "d6e08e3a0af6c3c917550c2f2020f9450f46860873216bf71e10218fc54dc004",
+    "js\\demon-arcana.js": "4488e18801dc61e795d404eefcc36aea20273def780e70575c4586d5790b573c",
+    "js\\demon-render.js": "0cb6ca304d80ab1e48fe41bf3adbdfbd865b44b0b5aa4234ec99878fbebeff9f",
+    "js\\demon.js": "55065b479b6db4b9c879cd83d7daa073a4021361bbcbdfb359eb7b3c7c4f2702",
+    "js\\engine.js": "8741c74c9dc58f66c35646ca33e8140e3631f1e8b7bb9f309cd3adef49dc0368",
+    "js\\ghost.js": "2104bb4b699acd614b5c11e764ce48d410d42476325013f9ea2f32655d381f91",
+    "js\\physics.js": "0e34921b70dce9f4f4d4490b46a41503c74bab06e059b4237ee8ceeb8ff6f92e",
+    "js\\pursuit.js": "b3ed901418656c2a6d1093f8e79de6879f3c5bf303c2e33604f50ffdef11a7ed",
+    "js\\skills.js": "d2362b1e995b43bba826cd74b68409ffc4548a77eea498a3ca95207e08aa7762",
+    "js\\team-engine.js": "f36f06377ae5e2b01f0f42b34d612168ec1bffae7eff8aaa87ef8f160fab246f",
+    "js\\temporal.js": "230816594e233f4361e413b9ef81345baacc4b59ad6312ae3986c793daf31ef3",
+    "js\\trapper.js": "008641a77c0f441e54912b6550f9791690173fe262d9ef1a7ee197d347fe3d6a",
+    "js\\demon-runtime.js": "1769c9cc1505fd10299064b9b648029913b1cde18c87aefe9d16ed84ac72865d",
+    "index.html": "52419de994db3806a9af70fa4d1d4237afc65c28af7f0c41a1c469019890e85c",
+    "arcana.html": "e574fbe7c61e83fcd4ac401d0ff04272c0eda28e5a2328bb5ccd7d5e2975523a",
+    "manual.html": "2b4b5343e39e8d51642c492267b52126fe129ed6338e0a89d29be568b9bdba55",
+    "team.html": "d8e135ebd0c028ecfcf32eea33fc3bd3189903bfc197e5d417475694b3c1223e"
+  }
+}

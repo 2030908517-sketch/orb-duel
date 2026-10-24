@@ -17,7 +17,7 @@
     },
     hit(engine,hit){
       const ball=hit.source;
-      if(hit.beamId!==undefined||hit.heavyShot||hit.kind==='timeBlast'||hit.kind==='timeErode'||hit.kind==='fear'||hit.kind==='shard'||hit.kind==='poisonShot'||['holyWater','holyLight','holyJudgement','holyTouch','holyBurn'].includes(hit.kind))return;
+      if(hit.beamId!==undefined||hit.heavyShot||hit.kind==='timeBlast'||hit.kind==='timeErode'||hit.kind==='fear'||hit.kind==='shard'||hit.kind==='poisonShot'||['holyWater','holyLight','holyJudgement','holyTouch','holyBurn','holySword','holySpear','holyLance','arcHolyJudge'].includes(hit.kind))return;
       if(!G.Awakening.active(ball))return;
       if(hit.actual<=0){if(hit.blocked>0)this.emit(engine,hit.target,'guard',{point:hit.target,sound:false,radius:36,life:.2});return;}
       const heavy=(hit.kind==='laser'&&hit.beamId===undefined)||hit.kind==='counter'||hit.heavyShot||hit.dash||(ball.type==='normal'&&hit.heavyContact);

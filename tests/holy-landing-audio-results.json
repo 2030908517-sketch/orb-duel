@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "profiles": 106,
+  "landingBefore": {
+    "rms": 0.01167663642898973,
+    "peak": 0.13185179233551025
+  },
+  "landingAfter": {
+    "rms": 0.021519411555508055,
+    "peak": 0.2869861423969269,
+    "earlyFrequency": 160,
+    "tailEnergy": 0,
+    "duration": 1,
+    "lateEnergy": 0
+  },
+  "rmsRatio": 1.8429460989366377,
+  "increaseDb": 5.310252669908261,
+  "synchronizedRowSounds": [
+    0.42083333333333334,
+    0.9208333333333333,
+    1.4208333333333334,
+    1.9208333333333334,
+    2.4208333333333334
+  ],
+  "stressPassed": true,
+  "mechanismFrames": 9,
+  "errors": []
+}

@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": 195,
+  "baseReload": 5.2,
+  "awakeReload": 4,
+  "woundedSniperCone": 21,
+  "ordinaryCone": 9,
+  "actualShotsOutsideOldCone": 31,
+  "zoneWavesSynchronized": true,
+  "zoneSpacing": 51,
+  "crowdedRounds": 5
+}

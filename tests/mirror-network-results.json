@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": 98,
+  "staticRange": 180,
+  "baseCap": 3,
+  "awakeCap": 4,
+  "predictionWindow": 0.12,
+  "warningWindow": 0.1
+}

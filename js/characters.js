@@ -39,7 +39,7 @@
       }
       if(hit.kind==='wallSlam'){b.stats.wallSlams++;engine.signal(b,'撞墙追击','miss',t);this.effect(engine,b,hit.point||t,'wallSlam',{angle:hit.wallAngle});G.Roles.heavyImpact(b,hit,engine,'wallCrack','wallSlam',0,.065);}
       if(b.type==='boomerang'){
-        if(hit.kind==='boomerang'&&(!hit.returning||hit.bladeHunt)&&!hit.markBonus){t.bladeMark={owner:b.id,until:engine.time+3.2,claimedTick:-1};engine.signal(b,'飞刃留印',hit.bladeSling?'miss':'shotHit');}
+        if(hit.kind==='boomerang'&&(!hit.returning||hit.bladeHunt)&&!hit.markBonus){t.bladeMark={owner:b.id,until:engine.time+3.2,claimedTick:-1};engine.signal(b,'飞刃留印',hit.dance||hit.bladeSling?'miss':'shotHit');}
         if(hit.kind==='boomerang'&&hit.markBonus){if(!hit.claimedBladeMark||t.bladeMark===hit.claimedBladeMark)t.bladeMark=null;if(hit.markBlade)hit.markBlade.bladeMarkUsed=true;b.stats.bladeFinishers++;engine.signal(b,hit.returning?'回刃斩印':'去刃斩印','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',35,.045);}
         if(!G.BladeHunt&&hit.kind==='contact'&&b.character.bladeRemaining===0&&b.character.catchUntil>engine.time){b.character.catchUntil=0;engine.signal(b,'接刃重击','miss',t);G.Roles.heavyImpact(b,hit,engine,'bladeImpact','bladeHeavyHit',155,.06);}
       }
@@ -89,7 +89,7 @@
     bladePacket(shot,owner,target,engine){
       const mark=target.bladeMark,normal=!!shot.bladeHunt,eligible=normal?!shot.bladeSling&&!shot.bladeMarkUsed:shot.returning,bonus=eligible&&mark?.owner===owner.id&&mark.until>=engine.time&&mark.claimedTick!==engine.tick;
       if(bonus)mark.claimedTick=engine.tick;
-      return {source:owner,target,raw:normal&&bonus?shot.raw*(shot.bladeSlot?G.BladeHunt.config.subMarkDamage:G.BladeHunt.config.mainMarkDamage)/(shot.bladeBase||(shot.bladeSlot?2.3:owner.def.shotDamage)):shot.raw*(bonus?1.5:1),claimedBladeMark:normal&&bonus?mark:null,markBlade:normal&&bonus?shot:null,kind:'boomerang',bladeHunt:normal,adaptiveId:shot.adaptiveId,returning:shot.returning,markBonus:!!bonus,angle:Math.atan2(shot.vy,shot.vx),bladeCross:shot.bladeHunt&&shot.bladePlan==='cross'&&!shot.returning,bladeCast:shot.castId,bladeSlot:shot.bladeSlot,bladeSling:!!shot.bladeSling};
+      return {source:owner,target,heat:shot.heat,raw:normal&&bonus?shot.raw*(shot.bladeSlot?G.BladeHunt.config.subMarkDamage:G.BladeHunt.config.mainMarkDamage)/(shot.bladeBase||(shot.bladeSlot?2.3:owner.def.shotDamage)):shot.raw*(bonus?1.5:1),claimedBladeMark:normal&&bonus?mark:null,markBlade:normal&&bonus?shot:null,kind:'boomerang',bladeHunt:normal,adaptiveId:shot.adaptiveId,returning:shot.returning,markBonus:!!bonus,angle:Math.atan2(shot.vy,shot.vx),bladeCross:shot.bladeHunt&&shot.bladePlan==='cross'&&!shot.returning,bladeCast:shot.castId,bladeSlot:shot.bladeSlot,bladeSling:!!shot.bladeSling};
     },
     bladeRemoved(shot,owner,engine,caught){
       if(!owner||shot.bladeHunt&&shot.bladeDisposed)return;if(shot.bladeHunt)shot.bladeDisposed=true;owner.character.bladeRemaining=Math.max(0,owner.character.bladeRemaining-1);
@@ -114,7 +114,7 @@
    const c=this.config,clock=this.timing(t,e);let p=t.poison;if(!p)p=t.poison={layers:[],progress:{erosion:0,paralysis:0},replaceAt:clock.replaceAt||0};
    const own=p.layers.filter(l=>l.type===type),other=p.layers.filter(l=>l.type!==type),shortest=xs=>xs.reduce((a,l)=>!a||l.until<a.until?l:a,null);
    const life=type==='paralysis'?c.paralysisLife:options.concentrated?c.concentratedLife:c.erosionLife;
-   const fresh=()=>({type,owner:b.id,created:e.time,until:e.time+life,raw:(G.Awakening.active(b)?c.awakeErosionDamage:c.erosionDamage)*e.heatMultiplier,noReflect:!!options.noReflect});
+   const fresh=()=>({...(e.demonWorld?{heat:e.heatMultiplier}:{}),type,owner:b.id,created:e.time,until:e.time+life,raw:(G.Awakening.active(b)?c.awakeErosionDamage:c.erosionDamage)*e.heatMultiplier,noReflect:!!options.noReflect});
    if(own.length>=c.typeCap){const l=shortest(own);Object.assign(l,fresh());t.venomChange={at:e.time,type,kind:'refresh'};return 'refresh';}
    if(p.layers.length<c.capacity){p.layers.push(fresh());p.progress={erosion:0,paralysis:0};t.venomChange={at:e.time,type,kind:'add'};return 'add';}
    if(!other.length)return false;
@@ -164,7 +164,7 @@
   },
   settle(b,e){
    const p=b.poison,clock=b.venomTiming;if(!p?.layers||!clock)return;
-   while(clock.nextPulse<=e.time+EPS){const at=clock.nextPulse;clock.nextPulse+=this.config.pulsePeriod;const groups=new Map();for(const l of p.layers){if(l.type!=='erosion'||l.created>at+EPS||l.until<=at+EPS)continue;const key=l.owner+':'+l.noReflect;let g=groups.get(key);if(!g)groups.set(key,g={owner:l.owner,noReflect:l.noReflect,raw:0});g.raw+=l.raw;}for(const g of groups.values()){const owner=e.balls.find(o=>o.id===g.owner&&o.hp>0);if(owner&&b.hp>0)e.pendingAttacks.push({source:owner,target:b,raw:g.raw*(G.LivingVenom?.erosionMultiplier(owner,b,e,at)||1),kind:'poison',noReflect:g.noReflect});}}
+   while(clock.nextPulse<=e.time+EPS){const at=clock.nextPulse;clock.nextPulse+=this.config.pulsePeriod;const groups=new Map();for(const l of p.layers){if(l.type!=='erosion'||l.created>at+EPS||l.until<=at+EPS)continue;const key=l.owner+':'+l.noReflect;let g=groups.get(key);if(!g)groups.set(key,g={owner:l.owner,noReflect:l.noReflect,raw:0,base:0});g.raw+=l.raw;g.base+=l.raw/(l.heat||e.heatMultiplier);}for(const g of groups.values()){const owner=e.balls.find(o=>o.id===g.owner&&o.hp>0);if(owner&&b.hp>0)e.pendingAttacks.push({source:owner,target:b,raw:g.raw*(G.LivingVenom?.erosionMultiplier(owner,b,e,at)||1),heat:g.raw/(g.base||g.raw),kind:'poison',noReflect:g.noReflect});}}
    const before=p.layers.length;this.sync(b,e);if(before!==(b.poison?.layers.length||0))b.venomChange={at:e.time,kind:'expire'};
   },
   world(e){

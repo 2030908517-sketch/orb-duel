@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "checks": 84,
+  "note": "Gameplay assertions; visual observation and subjective audio are separate."
+}

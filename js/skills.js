@@ -57,7 +57,7 @@
       if(!options.damageReduced)raw*=1-this.reduction(ball,engine);
       const oldShield=ball.shield;
       const royal=options.bypassShield?0:G.DefenseArcana?.absorbRoyal(ball,raw,engine)||0;
-      const normalBlocked=options.bypassShield?0:Math.min(ball.shield,Math.max(0,raw-royal)),blocked=royal+normalBlocked;
+      const normalBlocked=options.bypassShield||G.HolySeals?.defense(ball,engine)?0:Math.min(ball.shield,Math.max(0,raw-royal)),blocked=royal+normalBlocked;
       ball.shield = Math.max(0, ball.shield - normalBlocked);
       ball.stats.absorbed += blocked;G.Roles.absorb(ball,blocked,engine);
       G.DefenseArcana?.afterAbsorb(ball,engine);
@@ -72,27 +72,30 @@
         if (actual > 0) {
           const strong=options.strong===true;
           ball.hitVisual={age:0,life:.14,angle:Math.atan2(ball.vy,ball.vx),power:strong?1.4:1};
-          if(hpLoss>0){engine.float(ball.x,ball.y-25,'−'+hpLoss.toFixed(1),options.reflected?'#c7b5ff':'#f4d2d5',strong);const number=engine.effects.at(-1);if(number?.kind==='text')number.damageTarget=ball.id;}
+          if(hpLoss>0){engine.float((options.point||ball).x,(options.point||ball).y-25,'−'+hpLoss.toFixed(1),options.reflected?'#c7b5ff':'#f4d2d5',strong);const number=engine.effects.at(-1);if(number?.kind==='text')number.damageTarget=ball.id;}
 
           if(options.reflected)engine.sound('reflect',ball.x);
         }
         if(oldShield>0 && ball.shield===0 && blocked>0){engine.signal(ball,'护盾破裂','break');engine.sound('break',ball.x);engine.burst(ball.x,ball.y,ball.holy?ball.def.color:'#a1ffeb',18);engine.impact(ball.x,ball.y,ball.holy?ball.def.color:'#a1ffeb',1.4);}
-        if (blocked > 0) { engine.float(ball.x, ball.y + 30, '盾 −' + blocked.toFixed(1), ball.def.color); engine.ring(ball.x, ball.y, ball.def.color, 38); }
+        if (blocked > 0) { engine.float((options.point||ball).x, (options.point?options.point.y+22:ball.y+30), '盾 −' + blocked.toFixed(1), ball.def.color); engine.ring(ball.x, ball.y, ball.def.color, 38); }
       }
       return {actual,blocked,hpLoss,deferred:converted?.deferred||0};
     },
     contactAttacks(a,b,engine,impact=G.Physics.contactInfo(a,b)) {
-      if(G.Ghost.phased(a)||G.Ghost.phased(b)||G.Arcana?.noContact(a)||G.Arcana?.noContact(b)||(engine.mode==='2v2'&&!G.World.enemy(a,b,engine)))return [];
-      const attacks=[{source:a,target:b,raw:this.rollAttack(a,engine),kind:'contact',impact:{nx:impact.nx,ny:impact.ny,closing:impact.closing,forward:impact.aForward,speed:impact.aSpeed},dash:G.Awakening.dashing(a,engine)&&!a.awakening.dashHit},{source:b,target:a,raw:this.rollAttack(b,engine),kind:'contact',impact:{nx:-impact.nx,ny:-impact.ny,closing:impact.closing,forward:impact.bForward,speed:impact.bSpeed},dash:G.Awakening.dashing(b,engine)&&!b.awakening.dashHit}];
+      if(G.Ghost.phased(a)||G.Ghost.phased(b)||G.Arcana?.noContact(a)||G.Arcana?.noContact(b)||!G.World.enemy(a,b,engine))return [];
+      const attacks=[{source:a,target:b,raw:this.rollAttack(a,engine),kind:'contact',impact:{nx:impact.nx,ny:impact.ny,closing:impact.closing,forward:impact.aForward,speed:impact.aSpeed},dash:G.Awakening.dashing(a,engine)&&!a.awakening.dashHit},{source:b,target:a,raw:this.rollAttack(b,engine),kind:'contact',impact:{nx:-impact.nx,ny:-impact.ny,closing:impact.closing,forward:impact.bForward,speed:impact.bSpeed},dash:G.Awakening.dashing(b,engine)&&!b.awakening.dashHit}].filter(h=>!G.HolySeals?.contact(h.source,h.target,engine));
       G.Roles.prepareContacts(attacks,engine);for(const hit of attacks)if(hit.dash)G.Characters.dashContact(hit.source,hit.target,engine);
       for(const ball of [a,b])if(G.Awakening.dashing(ball,engine)){ball.awakening.dashHit=true;ball.awakening.stopAfterContact=true;}
       attacks.push(...G.Magnet.contactPackets(a,b,engine,impact));
-      attacks.push(...G.Characters.contactExtras(a,b,engine),...G.Characters.contactExtras(b,a,engine));return attacks;
+      attacks.push(...(!G.HolySeals?.contact(a,b,engine)?G.Characters.contactExtras(a,b,engine):[]),...(!G.HolySeals?.contact(b,a,engine)?G.Characters.contactExtras(b,a,engine):[]));return attacks.filter(h=>!G.Demon?.frozen?.(h.source,engine));
     },
     contact(a,b,engine) { this.resolveBatch(this.contactAttacks(a,b,engine),engine,[[a,b]]); },
     resolveBatch(packets,engine,contacts=[]) {
       if(engine.ending||engine.state==='ended')return;
       packets=packets.filter(p=>!G.World.absent(p.target,engine));
+      // Soul loss is sampled once at resolution for all attributed attack forms, including detached/DOT packets.
+      const outputFactors=new Map(engine.balls.map(b=>[b,G.Demon?.outputFactor(b,engine)??1]));
+      packets=packets.map(p=>{const f=p.source!==p.target?outputFactors.get(p.source)??1:1;return f<1?{...p,raw:p.raw*f}:p;});
       packets=packets.map(p=>G.Priority?.shieldPacket(p,engine)||p).map(p=>G.Venom.contactPacket(p,engine));
       G.DefenseArcana?.preempt(packets,engine);
       // Sample protective contact before simultaneous attacks consume the shield.
@@ -102,15 +105,18 @@
       const totals=new Map(),received=new Map(),returns=new Map(),heals=new Map();
       for(const hit of hits) totals.set(hit.target,(totals.get(hit.target)||0)+hit.raw);
       for(const [target,total] of totals){const group=hits.filter(h=>h.target===target),piercing=group.filter(h=>h.bypassShield).reduce((n,h)=>n+h.raw,0);
-        received.set(target,piercing||group.some(h=>h.shatterShield)?G.Arcana.mixedDamage(target,total,total-piercing,piercing,group.some(h=>h.shatterShield),engine):this.applyDamage(target,total,engine));}
+        const trueRaw=group.filter(h=>h.trueDamage).reduce((n,h)=>n+h.raw,0),trueOrdinary=group.filter(h=>h.trueDamage&&!h.bypassShield).reduce((n,h)=>n+h.raw,0);
+        received.set(target,piercing||trueRaw||group.some(h=>h.shatterShield)?G.Arcana.mixedDamage(target,total,total-piercing,piercing,group.some(h=>h.shatterShield),engine,trueRaw,trueOrdinary):this.applyDamage(target,total,engine,group.every(h=>h.soulProxy)?{point:group[0].point}:{}));}
       for(const hit of hits) {
         // Simultaneous overkill/absorption is allocated proportionally, not by iteration order.
         const share=hit.raw/totals.get(hit.target),result=received.get(hit.target);
-        if(result.piercingRaw!==undefined){const n=hit.bypassShield?result.piercingRaw:result.ordinaryRaw;hit.actual=(hit.bypassShield?result.piercingActual:result.ordinaryActual)*hit.raw/n;hit.blocked=hit.bypassShield?0:result.blocked*hit.raw/n;}else{hit.actual=result.actual*share;hit.blocked=result.blocked*share;}hit.avoided=(result.avoided||0)*share;
+        if(result.piercingRaw!==undefined){const n=hit.bypassShield?result.piercingRaw:result.ordinaryRaw,raw=hit.raw*(result.trueAware&&!hit.trueDamage?result.ordinaryScale:1);hit.actual=n>0?(hit.bypassShield?result.piercingActual:result.ordinaryActual)*raw/n:0;hit.blocked=hit.bypassShield||!n?0:result.blocked*raw/n;}else{hit.actual=result.actual*share;hit.blocked=result.blocked*share;}hit.avoided=(result.avoided||0)*share;
+        hit.hpLoss=(result.hpLoss??result.actual)*(result.trueAware?(result.actual>0?hit.actual/result.actual:0):share);hit.heat??=engine.heatMultiplier;
+        if(hit.soulProxy&&hit.point){const number=engine.effects.findLast(f=>f.kind==='text'&&f.damageTarget===hit.target.id&&f.age===0);if(number){number.x=hit.point.x;number.y=hit.point.y-18;}}
         hit.source.stats.damage+=hit.actual;G.Magnet.hit(hit,engine);G.Ghost.hit(hit,engine);G.Holy?.hit(hit,engine);G.Roles.hit(hit,engine);G.Characters.hit(hit,engine);G.Demon?.hit(hit,engine);G.Cosmic?.hit(hit,engine);G.Charge?.hit(hit,engine);G.Stellar?.hit(hit,engine);G.Arcana?.hit(hit,engine);
         const canReturn=!hit.noReflect&&hit.damageOrigin!=='wall'&&hit.kind!=='wallSlam'&&!(hit.kind==='magneticWall'&&hit.pullWall);
         if(canReturn)G.Skills[hit.target.type]?.onReceive?.(hit.target,hit,engine);
-        const reflection=canReturn?G.Skills[hit.target.type]?.reflection?.(hit.target,hit.actual,engine)||0:0;
+        const reflection=(canReturn?G.Skills[hit.target.type]?.reflection?.(hit.target,hit.actual,engine)||0:0)*(outputFactors.get(hit.target)??1);
         returns.set(hit.source,(returns.get(hit.source)||0)+reflection);
         hit.reflection=reflection;G.Adaptive?.hit(hit,engine);
         heals.set(hit.source,(heals.get(hit.source)||0)+(hit.healRatio!==undefined?hit.actual*hit.healRatio:(G.Skills[hit.source.type]?.healing?.(hit.source,hit.actual)||0)));
@@ -135,10 +141,10 @@
       for(const hit of hits)if(hit.source.type==='vampire'&&hit.kind==='bloodFinish'&&!hit.avoided&&hit.actual+hit.blocked>0)G.Roles.cleanse(hit.source,engine);
       let healed=0;
       for(const [ball,requested] of heals) if(ball.hp>0) {
-        const heal=Math.min(ball.maxHp-ball.hp,requested);
+        const heal=G.HolySeals?.canHeal(ball,engine)===false?0:Math.min(ball.maxHp-ball.hp,requested);
         if(heal>0) {ball.hp+=heal;ball.stats.healing+=heal;healed+=heal;if(!(G.VampireArcana?.active(ball)&&hits.some(h=>h.source===ball&&h.kind==='arcTide'&&h.actual>0&&h.healRatio>0))){engine.float(ball.x,ball.y+5,'+'+heal.toFixed(1),'#88efb2');engine.burst(ball.x,ball.y,'#88efb2',10);engine.ring(ball.x,ball.y,'#88efb2',42);engine.sound('heal',ball.x);}G.Arcana?.healed?.(ball,heal,requested,hits,engine);}
       }
-      for(const [a,b] of contacts) { G.Skills[a.type]?.onContact?.(a,engine); G.Skills[b.type]?.onContact?.(b,engine); }
+      for(const [a,b] of contacts) { if(!G.World.enemy(a,b,engine))continue; if(!G.Demon?.frozen?.(a,engine))G.Skills[a.type]?.onContact?.(a,engine); if(!G.Demon?.frozen?.(b,engine))G.Skills[b.type]?.onContact?.(b,engine); }
       // Keep impact-tick immunity through simultaneous damage and reflection.
       for(const ball of engine.balls)if(ball.awakening.stopAfterContact)G.Awakening.finishDash(ball,engine);
       if(contacts.length) {
@@ -150,10 +156,10 @@
       }
       // Keep combat-owned metadata for the lethal attack's bounded recovery.
       (engine.resolvedThisTick??=[]).push(...hits.filter(h=>h.actual>0).map(h=>({source:h.source.id,target:h.target.id,kind:h.kind,heavy:!!h.feedback,actual:h.actual})));
-      G.Demon?.afterBatch(engine);G.Cosmic?.afterBatch(engine);G.Stellar?.afterBatch(engine);G.DefenseArcana?.afterBatch(hits,engine);
+      G.Demon?.afterBatch(engine,hits);G.Cosmic?.afterBatch(engine);G.Stellar?.afterBatch(engine);G.DefenseArcana?.afterBatch(hits,engine);
       G.Presentation?.observeHits(hits,engine);
       for(const hit of hits.filter(p=>p.kind!=='contact' && p.kind!=='chain')) {
-        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',bladeSlash:'接刃斩击',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',stormBolt:'落雷命中',staticShock:'导电电解',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
+        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',bladeSlash:'接刃斩击',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holySword:'天使圣剑',holySpear:'天使圣枪',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',stormBolt:'落雷命中',staticShock:'导电电解',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
         if(hit.avoided>0)message+=' · 无敌抵消';if(hit.blocked>0)message+=' · 盾 −'+hit.blocked.toFixed(1);if(hit.reflection>0)message+=' · 反伤';engine.log(message);
       }
     }

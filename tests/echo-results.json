@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": 1324,
+  "ghostReplaysBothPhases": true,
+  "phaseWallRebound": true,
+  "echoFearDamage": 2.1,
+  "echoFearInterval": 0.25,
+  "sniperDamage": 21,
+  "hurtSniperCone": 21,
+  "rangerSpeed": 210,
+  "rangerContact": 6
+}

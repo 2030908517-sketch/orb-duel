@@ -1,0 +1,17 @@
+'use strict';const assert=require('assert/strict'),{load}=require('./verify-demon-descent.cjs'),G=load(),A=G.HolyAngel,P=G.HolyAngelMotion,R=G.HolyAngelRig;let checks=0;
+function scene(entry='arcana.html'){const Q=entry==='arcana.html'?G:load(entry),e=entry==='team.html'?new Q.TeamEngine(['holy','normal','normal','normal'],'reach08','open'):new Q.Engine(['holy','normal'],'reach08',{mode:entry==='index.html'?'classic':'arcana'});e.start();e.time=1;for(const b of e.balls)Object.assign(b,{hp:1000,maxHp:1000,vx:0,vy:0});const b=e.balls[0],t=e.balls[entry==='team.html'?2:1];Object.assign(b,{x:170,y:170});Object.assign(t,{x:250,y:170});Q.Holy.seal(b,e,{x:170,y:170,radius:100,vertices:[]});const z=e.holyWorld.zones[0];z.started=e.time-.66;z.expires=50;return{Q,e,b,t,z};}
+function pose(f,key,a,u){const q=f.Q.HolyAngel.config;Object.assign(f.z.angel,{phase:key,angle:a,facing:.36*Math.cos(a),elapsed:(key==='sword'?q.swordWind:q.spearWind)+(key==='sword'?q.swordSwing:q.spearThrust)*u});return f.Q.HolyAngel.pose(f.z,f.e);}
+function near(a,b){assert(Math.abs(a-b)<1e-7,`${a} != ${b}`);}
+{
+ const f=scene();for(const radius of [50,100,150]){f.z.radius=radius;for(const key of ['sword','spear']){let reach=0;for(const face of [-.36,0,.36])for(const time of [Math.PI/4.4,3*Math.PI/4.4])for(let a=0;a<Math.PI*2;a+=Math.PI/16)for(let i=0;i<=65;i++){f.e.time=time;Object.assign(f.z.angel,{phase:key,angle:a,facing:face,elapsed:i*.01});const p=A.pose(f.z,f.e),s=P.sample(f.z,f.e),h=s.arms[key],length=P.weaponLength(f.z,h,key),k=key==='sword'?1:A.config.spearTip;near(p.b.x,f.z.x+s.offset.x+h.grip.x*s.size+Math.cos(h.angle)*length*k);near(p.b.y,f.z.y+s.offset.y+h.grip.y*s.size+Math.sin(h.angle)*length*k);const r=Math.hypot(p.b.x-f.z.x,p.b.y-f.z.y);assert(r<=radius,`${key} outside circle: ${r}/${radius}, phase ${i*.01}`);reach=Math.max(reach,r);}assert(reach>=radius*.97,`${key} cannot approach circle: ${reach}/${radius}`);}}checks++;console.log('PASS full preparation/strike/recovery tips remain inside circle at three sizes, 32 headings and shallow turns, and approach its edge');
+}
+{
+ for(const key of ['sword','spear']){const f=scene();let found=false;for(let i=1;i<=24;i++){const p=pose(f,key,0,i/24),point={x:(p.a.x+p.b.x)/2,y:(p.a.y+p.b.y)/2};if(Math.hypot(point.x-f.z.x,point.y-f.z.y)>f.z.radius-3)continue;Object.assign(f.t,{x:point.x,y:point.y,previousX:point.x,previousY:point.y});f.z.angel.previousPose=null;A.sweep(f.b,f.z,f.e);assert.equal(f.e.pendingAttacks.length,1);A.sweep(f.b,f.z,f.e);assert.equal(f.e.pendingAttacks.length,1);found=true;break;}assert(found);}checks++;console.log('PASS physical blades hit once per cast');
+}
+{
+ const f=scene();pose(f,'spear',0,.75);Object.assign(f.t,{x:188,y:170,previousX:188,previousY:170,radius:4});const p=A.pose(f.z,f.e);assert(G.Holy.distanceToSegment(f.t,p.a,p.b)>f.t.radius+p.width+5);A.sweep(f.b,f.z,f.e);assert.equal(f.e.pendingAttacks.length,0);checks++;console.log('PASS former centre attack line cannot damage without physical weapon contact');
+}
+for(const entry of ['index.html','arcana.html','manual.html','team.html']){
+ const f=scene(entry);f.e.holyWorld.zones=[];for(let i=0;i<12;i++){f.e.time+=1;f.Q.Holy.updateWorld(f.e,1);assert.equal(f.b.shield,0);assert(!f.e.soundEvents.some(s=>s.kind==='holyWard'));}assert(!f.Q.Holy.status(f.b,f.e).some(v=>['庇护盾','庇护CD','离圈计时'].includes(v.label)));f.b.shield=5;f.b.shieldUntil=f.e.time+1;f.e.time+=2;f.Q.Holy.updateWorld(f.e,.1);assert.equal(f.b.shield,0);checks++;
+}
+console.log(JSON.stringify({passed:checks,total:7}));

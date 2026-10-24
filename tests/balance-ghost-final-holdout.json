@@ -1,0 +1,1319 @@
+{
+  "rulesVersion": "20261013-ghost1",
+  "rulesSha256": "9dab372b50a940190e0cca71e34b0e3cdd0697ad82257a828aa5049b55d66b0d",
+  "configSha256": "3c0c0cc9f7612b96dc35b296540c09309fcec6bfa7ca9dfb7e8fc22bb2abf589",
+  "seedPrefix": "ghost-final-holdout",
+  "seeds": 12,
+  "matches": 2028,
+  "minTime": 10.041666666666666,
+  "maxTime": 147.6125,
+  "elapsedSeconds": 26.893,
+  "aggregate": {
+    "normal": {
+      "score": 54.5,
+      "wins": 141,
+      "draws": 32,
+      "matches": 288,
+      "opponents": {
+        "vampire": 29.2,
+        "accelerator": 75,
+        "reflector": 68.8,
+        "shield": 52.1,
+        "ranger": 31.3,
+        "trapper": 45.8,
+        "boomerang": 54.2,
+        "laser": 54.2,
+        "ghost": 31.3,
+        "magnet": 77.1,
+        "time": 95.8,
+        "venom": 39.6
+      }
+    },
+    "vampire": {
+      "score": 54.9,
+      "wins": 151,
+      "draws": 14,
+      "matches": 288,
+      "opponents": {
+        "normal": 70.8,
+        "accelerator": 54.2,
+        "reflector": 91.7,
+        "shield": 18.8,
+        "ranger": 41.7,
+        "trapper": 37.5,
+        "boomerang": 54.2,
+        "laser": 66.7,
+        "ghost": 60.4,
+        "magnet": 68.8,
+        "time": 52.1,
+        "venom": 41.7
+      }
+    },
+    "accelerator": {
+      "score": 42.7,
+      "wins": 107,
+      "draws": 32,
+      "matches": 288,
+      "opponents": {
+        "normal": 25,
+        "vampire": 45.8,
+        "reflector": 66.7,
+        "shield": 47.9,
+        "ranger": 35.4,
+        "trapper": 39.6,
+        "boomerang": 50,
+        "laser": 50,
+        "ghost": 31.3,
+        "magnet": 39.6,
+        "time": 60.4,
+        "venom": 20.8
+      }
+    },
+    "reflector": {
+      "score": 36.1,
+      "wins": 88,
+      "draws": 32,
+      "matches": 288,
+      "opponents": {
+        "normal": 31.3,
+        "vampire": 8.3,
+        "accelerator": 33.3,
+        "shield": 33.3,
+        "ranger": 27.1,
+        "trapper": 47.9,
+        "boomerang": 62.5,
+        "laser": 20.8,
+        "ghost": 8.3,
+        "magnet": 77.1,
+        "time": 25,
+        "venom": 58.3
+      }
+    },
+    "shield": {
+      "score": 57.1,
+      "wins": 150,
+      "draws": 29,
+      "matches": 288,
+      "opponents": {
+        "normal": 47.9,
+        "vampire": 81.3,
+        "accelerator": 52.1,
+        "reflector": 66.7,
+        "ranger": 72.9,
+        "trapper": 47.9,
+        "boomerang": 62.5,
+        "laser": 50,
+        "ghost": 56.3,
+        "magnet": 35.4,
+        "time": 45.8,
+        "venom": 66.7
+      }
+    },
+    "ranger": {
+      "score": 54.7,
+      "wins": 151,
+      "draws": 13,
+      "matches": 288,
+      "opponents": {
+        "normal": 68.8,
+        "vampire": 58.3,
+        "accelerator": 64.6,
+        "reflector": 72.9,
+        "shield": 27.1,
+        "trapper": 79.2,
+        "boomerang": 66.7,
+        "laser": 87.5,
+        "ghost": 35.4,
+        "magnet": 22.9,
+        "time": 18.8,
+        "venom": 54.2
+      }
+    },
+    "trapper": {
+      "score": 51.9,
+      "wins": 138,
+      "draws": 23,
+      "matches": 288,
+      "opponents": {
+        "normal": 54.2,
+        "vampire": 62.5,
+        "accelerator": 60.4,
+        "reflector": 52.1,
+        "shield": 52.1,
+        "ranger": 20.8,
+        "boomerang": 62.5,
+        "laser": 45.8,
+        "ghost": 66.7,
+        "magnet": 20.8,
+        "time": 60.4,
+        "venom": 64.6
+      }
+    },
+    "boomerang": {
+      "score": 40.6,
+      "wins": 107,
+      "draws": 20,
+      "matches": 288,
+      "opponents": {
+        "normal": 45.8,
+        "vampire": 45.8,
+        "accelerator": 50,
+        "reflector": 37.5,
+        "shield": 37.5,
+        "ranger": 33.3,
+        "trapper": 37.5,
+        "laser": 56.3,
+        "ghost": 43.8,
+        "magnet": 14.6,
+        "time": 52.1,
+        "venom": 33.3
+      }
+    },
+    "laser": {
+      "score": 44.3,
+      "wins": 124,
+      "draws": 7,
+      "matches": 288,
+      "opponents": {
+        "normal": 45.8,
+        "vampire": 33.3,
+        "accelerator": 50,
+        "reflector": 79.2,
+        "shield": 50,
+        "ranger": 12.5,
+        "trapper": 54.2,
+        "boomerang": 43.8,
+        "ghost": 83.3,
+        "magnet": 8.3,
+        "time": 12.5,
+        "venom": 58.3
+      }
+    },
+    "ghost": {
+      "score": 56.3,
+      "wins": 149,
+      "draws": 26,
+      "matches": 288,
+      "opponents": {
+        "normal": 68.8,
+        "vampire": 39.6,
+        "accelerator": 68.8,
+        "reflector": 91.7,
+        "shield": 43.8,
+        "ranger": 64.6,
+        "trapper": 33.3,
+        "boomerang": 56.3,
+        "laser": 16.7,
+        "magnet": 43.8,
+        "time": 75,
+        "venom": 72.9
+      }
+    },
+    "magnet": {
+      "score": 56.3,
+      "wins": 142,
+      "draws": 40,
+      "matches": 288,
+      "opponents": {
+        "normal": 22.9,
+        "vampire": 31.3,
+        "accelerator": 60.4,
+        "reflector": 22.9,
+        "shield": 64.6,
+        "ranger": 77.1,
+        "trapper": 79.2,
+        "boomerang": 85.4,
+        "laser": 91.7,
+        "ghost": 56.3,
+        "time": 60.4,
+        "venom": 22.9
+      }
+    },
+    "time": {
+      "score": 47,
+      "wins": 128,
+      "draws": 15,
+      "matches": 288,
+      "opponents": {
+        "normal": 4.2,
+        "vampire": 47.9,
+        "accelerator": 39.6,
+        "reflector": 75,
+        "shield": 54.2,
+        "ranger": 81.3,
+        "trapper": 39.6,
+        "boomerang": 47.9,
+        "laser": 87.5,
+        "ghost": 25,
+        "magnet": 39.6,
+        "venom": 22.9
+      }
+    },
+    "venom": {
+      "score": 53.6,
+      "wins": 141,
+      "draws": 27,
+      "matches": 288,
+      "opponents": {
+        "normal": 60.4,
+        "vampire": 58.3,
+        "accelerator": 79.2,
+        "reflector": 41.7,
+        "shield": 33.3,
+        "ranger": 45.8,
+        "trapper": 35.4,
+        "boomerang": 66.7,
+        "laser": 41.7,
+        "ghost": 27.1,
+        "magnet": 77.1,
+        "time": 77.1
+      }
+    }
+  },
+  "results": {
+    "normal/normal": {
+      "left": 3,
+      "right": 0,
+      "draw": 9,
+      "totalTime": 469.83333333333337
+    },
+    "normal/vampire": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 470.07916666666665
+    },
+    "normal/accelerator": {
+      "left": 7,
+      "right": 3,
+      "draw": 2,
+      "totalTime": 333.6166666666667
+    },
+    "normal/reflector": {
+      "left": 7,
+      "right": 3,
+      "draw": 2,
+      "totalTime": 352.6083333333333
+    },
+    "normal/shield": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 533.9208333333333
+    },
+    "normal/ranger": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 367.2833333333333
+    },
+    "normal/trapper": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 364.04166666666674
+    },
+    "normal/boomerang": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 339.25416666666666
+    },
+    "normal/laser": {
+      "left": 9,
+      "right": 3,
+      "draw": 0,
+      "totalTime": 296.025
+    },
+    "normal/ghost": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 491.82499999999993
+    },
+    "normal/magnet": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 266.6875
+    },
+    "normal/time": {
+      "left": 11,
+      "right": 1,
+      "draw": 0,
+      "totalTime": 397.2583333333333
+    },
+    "normal/venom": {
+      "left": 2,
+      "right": 7,
+      "draw": 3,
+      "totalTime": 300.5833333333333
+    },
+    "vampire/normal": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 550.5166666666667
+    },
+    "vampire/vampire": {
+      "left": 5,
+      "right": 3,
+      "draw": 4,
+      "totalTime": 887.6624999999999
+    },
+    "vampire/accelerator": {
+      "left": 8,
+      "right": 2,
+      "draw": 2,
+      "totalTime": 357.68333333333334
+    },
+    "vampire/reflector": {
+      "left": 12,
+      "right": 0,
+      "draw": 0,
+      "totalTime": 513.3083333333333
+    },
+    "vampire/shield": {
+      "left": 2,
+      "right": 8,
+      "draw": 2,
+      "totalTime": 663
+    },
+    "vampire/ranger": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 418.8708333333334
+    },
+    "vampire/trapper": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 440.4291666666667
+    },
+    "vampire/boomerang": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 419.72916666666674
+    },
+    "vampire/laser": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 384.6166666666666
+    },
+    "vampire/ghost": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 490.69166666666666
+    },
+    "vampire/magnet": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 319.21666666666664
+    },
+    "vampire/time": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 530.3625
+    },
+    "vampire/venom": {
+      "left": 5,
+      "right": 6,
+      "draw": 1,
+      "totalTime": 406.55
+    },
+    "accelerator/normal": {
+      "left": 1,
+      "right": 9,
+      "draw": 2,
+      "totalTime": 312.53333333333336
+    },
+    "accelerator/vampire": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 447.2041666666666
+    },
+    "accelerator/accelerator": {
+      "left": 5,
+      "right": 2,
+      "draw": 5,
+      "totalTime": 525.5375
+    },
+    "accelerator/reflector": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 321.42500000000007
+    },
+    "accelerator/shield": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 449.70416666666665
+    },
+    "accelerator/ranger": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 301.08750000000003
+    },
+    "accelerator/trapper": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 298.075
+    },
+    "accelerator/boomerang": {
+      "left": 3,
+      "right": 6,
+      "draw": 3,
+      "totalTime": 313.1
+    },
+    "accelerator/laser": {
+      "left": 3,
+      "right": 8,
+      "draw": 1,
+      "totalTime": 290.8541666666667
+    },
+    "accelerator/ghost": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 450.89583333333337
+    },
+    "accelerator/magnet": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 266.8375
+    },
+    "accelerator/time": {
+      "left": 7,
+      "right": 2,
+      "draw": 3,
+      "totalTime": 423.4083333333333
+    },
+    "accelerator/venom": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 309.75416666666666
+    },
+    "reflector/normal": {
+      "left": 2,
+      "right": 7,
+      "draw": 3,
+      "totalTime": 457.8958333333333
+    },
+    "reflector/vampire": {
+      "left": 1,
+      "right": 9,
+      "draw": 2,
+      "totalTime": 488.61249999999995
+    },
+    "reflector/accelerator": {
+      "left": 1,
+      "right": 9,
+      "draw": 2,
+      "totalTime": 369.0958333333333
+    },
+    "reflector/reflector": {
+      "left": 1,
+      "right": 3,
+      "draw": 8,
+      "totalTime": 557.9041666666667
+    },
+    "reflector/shield": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 515.975
+    },
+    "reflector/ranger": {
+      "left": 1,
+      "right": 11,
+      "draw": 0,
+      "totalTime": 413.2541666666667
+    },
+    "reflector/trapper": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 388.6791666666667
+    },
+    "reflector/boomerang": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 340.9625
+    },
+    "reflector/laser": {
+      "left": 2,
+      "right": 8,
+      "draw": 2,
+      "totalTime": 352.56250000000006
+    },
+    "reflector/ghost": {
+      "left": 0,
+      "right": 12,
+      "draw": 0,
+      "totalTime": 504.89166666666665
+    },
+    "reflector/magnet": {
+      "left": 9,
+      "right": 1,
+      "draw": 2,
+      "totalTime": 213.27916666666667
+    },
+    "reflector/time": {
+      "left": 3,
+      "right": 8,
+      "draw": 1,
+      "totalTime": 484.95416666666665
+    },
+    "reflector/venom": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 322.48333333333335
+    },
+    "shield/normal": {
+      "left": 5,
+      "right": 4,
+      "draw": 3,
+      "totalTime": 517.6333333333332
+    },
+    "shield/vampire": {
+      "left": 10,
+      "right": 1,
+      "draw": 1,
+      "totalTime": 625.4624999999999
+    },
+    "shield/accelerator": {
+      "left": 6,
+      "right": 5,
+      "draw": 1,
+      "totalTime": 406.0458333333334
+    },
+    "shield/reflector": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 554.475
+    },
+    "shield/shield": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 635.6208333333334
+    },
+    "shield/ranger": {
+      "left": 8,
+      "right": 3,
+      "draw": 1,
+      "totalTime": 479.66666666666663
+    },
+    "shield/trapper": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 439.36249999999995
+    },
+    "shield/boomerang": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 413.2583333333333
+    },
+    "shield/laser": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 431.8291666666667
+    },
+    "shield/ghost": {
+      "left": 5,
+      "right": 6,
+      "draw": 1,
+      "totalTime": 595.6708333333333
+    },
+    "shield/magnet": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 304.775
+    },
+    "shield/time": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 493.37916666666655
+    },
+    "shield/venom": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 451.70416666666665
+    },
+    "ranger/normal": {
+      "left": 10,
+      "right": 1,
+      "draw": 1,
+      "totalTime": 412.1541666666667
+    },
+    "ranger/vampire": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 444.37916666666666
+    },
+    "ranger/accelerator": {
+      "left": 8,
+      "right": 3,
+      "draw": 1,
+      "totalTime": 314.675
+    },
+    "ranger/reflector": {
+      "left": 6,
+      "right": 5,
+      "draw": 1,
+      "totalTime": 405.62916666666666
+    },
+    "ranger/shield": {
+      "left": 3,
+      "right": 9,
+      "draw": 0,
+      "totalTime": 463.57500000000005
+    },
+    "ranger/ranger": {
+      "left": 0,
+      "right": 8,
+      "draw": 4,
+      "totalTime": 342.02083333333337
+    },
+    "ranger/trapper": {
+      "left": 7,
+      "right": 3,
+      "draw": 2,
+      "totalTime": 336.59166666666664
+    },
+    "ranger/boomerang": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 315.1791666666667
+    },
+    "ranger/laser": {
+      "left": 10,
+      "right": 2,
+      "draw": 0,
+      "totalTime": 302.10416666666663
+    },
+    "ranger/ghost": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 432.7833333333333
+    },
+    "ranger/magnet": {
+      "left": 2,
+      "right": 8,
+      "draw": 2,
+      "totalTime": 241.55833333333334
+    },
+    "ranger/time": {
+      "left": 3,
+      "right": 8,
+      "draw": 1,
+      "totalTime": 460.10833333333335
+    },
+    "ranger/venom": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 306.5083333333333
+    },
+    "trapper/normal": {
+      "left": 5,
+      "right": 5,
+      "draw": 2,
+      "totalTime": 333.0541666666667
+    },
+    "trapper/vampire": {
+      "left": 9,
+      "right": 3,
+      "draw": 0,
+      "totalTime": 470.7208333333333
+    },
+    "trapper/accelerator": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 327.3291666666667
+    },
+    "trapper/reflector": {
+      "left": 6,
+      "right": 5,
+      "draw": 1,
+      "totalTime": 361.55833333333334
+    },
+    "trapper/shield": {
+      "left": 6,
+      "right": 3,
+      "draw": 3,
+      "totalTime": 454.29166666666663
+    },
+    "trapper/ranger": {
+      "left": 1,
+      "right": 11,
+      "draw": 0,
+      "totalTime": 361.86249999999995
+    },
+    "trapper/trapper": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 353.93749999999994
+    },
+    "trapper/boomerang": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 322.6416666666666
+    },
+    "trapper/laser": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 303.5458333333333
+    },
+    "trapper/ghost": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 394.4625
+    },
+    "trapper/magnet": {
+      "left": 2,
+      "right": 8,
+      "draw": 2,
+      "totalTime": 237.7875
+    },
+    "trapper/time": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 438.7791666666667
+    },
+    "trapper/venom": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 339.0625
+    },
+    "boomerang/normal": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 332.44166666666666
+    },
+    "boomerang/vampire": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 434.8625
+    },
+    "boomerang/accelerator": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 302.6333333333333
+    },
+    "boomerang/reflector": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 301.4708333333333
+    },
+    "boomerang/shield": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 500.59166666666664
+    },
+    "boomerang/ranger": {
+      "left": 3,
+      "right": 9,
+      "draw": 0,
+      "totalTime": 324.40833333333336
+    },
+    "boomerang/trapper": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 316.675
+    },
+    "boomerang/boomerang": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 326.91666666666674
+    },
+    "boomerang/laser": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 302.5958333333333
+    },
+    "boomerang/ghost": {
+      "left": 4,
+      "right": 6,
+      "draw": 2,
+      "totalTime": 413.12083333333334
+    },
+    "boomerang/magnet": {
+      "left": 2,
+      "right": 9,
+      "draw": 1,
+      "totalTime": 219.53333333333333
+    },
+    "boomerang/time": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 422.8625
+    },
+    "boomerang/venom": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 317.70833333333326
+    },
+    "laser/normal": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 365.27500000000003
+    },
+    "laser/vampire": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 389.36249999999995
+    },
+    "laser/accelerator": {
+      "left": 3,
+      "right": 8,
+      "draw": 1,
+      "totalTime": 295.72083333333336
+    },
+    "laser/reflector": {
+      "left": 10,
+      "right": 2,
+      "draw": 0,
+      "totalTime": 358.87083333333334
+    },
+    "laser/shield": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 432.7166666666666
+    },
+    "laser/ranger": {
+      "left": 1,
+      "right": 11,
+      "draw": 0,
+      "totalTime": 313.99583333333334
+    },
+    "laser/trapper": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 302.21666666666664
+    },
+    "laser/boomerang": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 309.5875
+    },
+    "laser/laser": {
+      "left": 2,
+      "right": 4,
+      "draw": 6,
+      "totalTime": 286.04583333333335
+    },
+    "laser/ghost": {
+      "left": 11,
+      "right": 1,
+      "draw": 0,
+      "totalTime": 344.3583333333334
+    },
+    "laser/magnet": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 250.93333333333334
+    },
+    "laser/time": {
+      "left": 1,
+      "right": 11,
+      "draw": 0,
+      "totalTime": 444.37916666666666
+    },
+    "laser/venom": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 317.21250000000003
+    },
+    "ghost/normal": {
+      "left": 5,
+      "right": 4,
+      "draw": 3,
+      "totalTime": 463.47083333333336
+    },
+    "ghost/vampire": {
+      "left": 5,
+      "right": 7,
+      "draw": 0,
+      "totalTime": 530.7958333333333
+    },
+    "ghost/accelerator": {
+      "left": 7,
+      "right": 2,
+      "draw": 3,
+      "totalTime": 399.35
+    },
+    "ghost/reflector": {
+      "left": 9,
+      "right": 1,
+      "draw": 2,
+      "totalTime": 429.49166666666673
+    },
+    "ghost/shield": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 605.1375
+    },
+    "ghost/ranger": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 399.8083333333333
+    },
+    "ghost/trapper": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 392.0541666666667
+    },
+    "ghost/boomerang": {
+      "left": 6,
+      "right": 5,
+      "draw": 1,
+      "totalTime": 398.4166666666667
+    },
+    "ghost/laser": {
+      "left": 3,
+      "right": 9,
+      "draw": 0,
+      "totalTime": 335.5625
+    },
+    "ghost/ghost": {
+      "left": 2,
+      "right": 1,
+      "draw": 9,
+      "totalTime": 1156.7041666666669
+    },
+    "ghost/magnet": {
+      "left": 3,
+      "right": 4,
+      "draw": 5,
+      "totalTime": 342.75416666666666
+    },
+    "ghost/time": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 499.76250000000005
+    },
+    "ghost/venom": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 401.4875
+    },
+    "magnet/normal": {
+      "left": 0,
+      "right": 11,
+      "draw": 1,
+      "totalTime": 254.48333333333335
+    },
+    "magnet/vampire": {
+      "left": 3,
+      "right": 9,
+      "draw": 0,
+      "totalTime": 304.125
+    },
+    "magnet/accelerator": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 248.45000000000002
+    },
+    "magnet/reflector": {
+      "left": 1,
+      "right": 6,
+      "draw": 5,
+      "totalTime": 235.00416666666666
+    },
+    "magnet/shield": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 323.4625
+    },
+    "magnet/ranger": {
+      "left": 8,
+      "right": 1,
+      "draw": 3,
+      "totalTime": 279.5791666666667
+    },
+    "magnet/trapper": {
+      "left": 10,
+      "right": 2,
+      "draw": 0,
+      "totalTime": 240.27083333333331
+    },
+    "magnet/boomerang": {
+      "left": 11,
+      "right": 1,
+      "draw": 0,
+      "totalTime": 265.14583333333326
+    },
+    "magnet/laser": {
+      "left": 12,
+      "right": 0,
+      "draw": 0,
+      "totalTime": 227.60833333333335
+    },
+    "magnet/ghost": {
+      "left": 6,
+      "right": 4,
+      "draw": 2,
+      "totalTime": 331.7
+    },
+    "magnet/magnet": {
+      "left": 1,
+      "right": 6,
+      "draw": 5,
+      "totalTime": 271.1958333333333
+    },
+    "magnet/time": {
+      "left": 7,
+      "right": 5,
+      "draw": 0,
+      "totalTime": 369.84583333333336
+    },
+    "magnet/venom": {
+      "left": 1,
+      "right": 9,
+      "draw": 2,
+      "totalTime": 237.73333333333335
+    },
+    "time/normal": {
+      "left": 0,
+      "right": 12,
+      "draw": 0,
+      "totalTime": 412.39583333333337
+    },
+    "time/vampire": {
+      "left": 6,
+      "right": 5,
+      "draw": 1,
+      "totalTime": 572.3458333333332
+    },
+    "time/accelerator": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 419.19999999999993
+    },
+    "time/reflector": {
+      "left": 9,
+      "right": 2,
+      "draw": 1,
+      "totalTime": 452.14166666666665
+    },
+    "time/shield": {
+      "left": 8,
+      "right": 4,
+      "draw": 0,
+      "totalTime": 580.7083333333334
+    },
+    "time/ranger": {
+      "left": 11,
+      "right": 1,
+      "draw": 0,
+      "totalTime": 480.2041666666667
+    },
+    "time/trapper": {
+      "left": 4,
+      "right": 6,
+      "draw": 2,
+      "totalTime": 412.3083333333333
+    },
+    "time/boomerang": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 390.42083333333335
+    },
+    "time/laser": {
+      "left": 10,
+      "right": 2,
+      "draw": 0,
+      "totalTime": 423.49583333333334
+    },
+    "time/ghost": {
+      "left": 2,
+      "right": 10,
+      "draw": 0,
+      "totalTime": 506.3791666666666
+    },
+    "time/magnet": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 335.77916666666664
+    },
+    "time/time": {
+      "left": 4,
+      "right": 7,
+      "draw": 1,
+      "totalTime": 577.1
+    },
+    "time/venom": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 406.67916666666673
+    },
+    "venom/normal": {
+      "left": 4,
+      "right": 4,
+      "draw": 4,
+      "totalTime": 374.57916666666665
+    },
+    "venom/vampire": {
+      "left": 7,
+      "right": 4,
+      "draw": 1,
+      "totalTime": 520.5666666666666
+    },
+    "venom/accelerator": {
+      "left": 9,
+      "right": 3,
+      "draw": 0,
+      "totalTime": 284.4166666666667
+    },
+    "venom/reflector": {
+      "left": 4,
+      "right": 8,
+      "draw": 0,
+      "totalTime": 299.7791666666667
+    },
+    "venom/shield": {
+      "left": 5,
+      "right": 6,
+      "draw": 1,
+      "totalTime": 460.0041666666666
+    },
+    "venom/ranger": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 306.53333333333336
+    },
+    "venom/trapper": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 321.7
+    },
+    "venom/boomerang": {
+      "left": 8,
+      "right": 3,
+      "draw": 1,
+      "totalTime": 288.89583333333337
+    },
+    "venom/laser": {
+      "left": 6,
+      "right": 6,
+      "draw": 0,
+      "totalTime": 295.5125
+    },
+    "venom/ghost": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 393.05833333333334
+    },
+    "venom/magnet": {
+      "left": 6,
+      "right": 1,
+      "draw": 5,
+      "totalTime": 208.4208333333333
+    },
+    "venom/time": {
+      "left": 10,
+      "right": 1,
+      "draw": 1,
+      "totalTime": 380
+    },
+    "venom/venom": {
+      "left": 3,
+      "right": 7,
+      "draw": 2,
+      "totalTime": 355.80833333333334
+    }
+  },
+  "refunds": {
+    "normal": 0,
+    "vampire": 309.59047619047664,
+    "accelerator": 61,
+    "reflector": 0,
+    "shield": 0,
+    "ranger": 0,
+    "trapper": 134.08333333333354,
+    "boomerang": 639.8,
+    "laser": 0,
+    "ghost": 0,
+    "magnet": 0,
+    "time": 0,
+    "venom": 333.20000000000005
+  },
+  "distributionRulesSha256": "5c8b566102133940a4e87f87be229ff1b416559062419cf78537131887f04d29",
+  "distributionFiles": [
+    "config",
+    "physics",
+    "skills",
+    "world",
+    "characters",
+    "roles",
+    "awakening",
+    "temporal",
+    "magnet",
+    "ghost",
+    "engine"
+  ],
+  "distributionNote": "Input hash retained. Distribution changes since sampling are interruption cue/statistics, compact labels and normalized line endings; damage, motion and outcome rules are unchanged."
+}

@@ -66,7 +66,7 @@
     if(arena.style.width!==width+'px')arena.style.width=width+'px';
   }
   function updateUI() {
-    engine.balls.forEach((ball, i) => {
+    engine.balls.filter(b=>!b.demonServant).forEach((ball, i) => {
       $('name-' + i).textContent = ball.def.name;
       $('orb-dot-' + i).style.background = ball.def.color; $('orb-dot-' + i).style.boxShadow = `0 0 15px ${ball.def.color}33`;
       $('health-' + i).replaceChildren(document.createTextNode(roundHp(ball.hp) + ' '));
@@ -117,7 +117,7 @@
       $('overlay-title').textContent = winner ? engine.label(winner) + '获胜' : '势均力敌，双方平局';
       $('overlay-description').textContent = `${timeString(engine.time)} · ${engine.collisions} 次碰撞` + (winner ? ` · 剩余 ${winner.hp.toFixed(1)} 生命` : ' · 双方同时阵亡');
       $('overlay-start').textContent = '再战同一局  ↺';
-      $('result-summary').textContent = engine.balls.map(ball => `${ball.id === 0 ? '左方' : '右方'}：伤害 ${ball.stats.damage.toFixed(1)} / 回复 ${ball.stats.healing.toFixed(1)} / 护盾吸收 ${ball.stats.absorbed.toFixed(1)} / 反伤 ${ball.stats.reflected.toFixed(1)}`+(ball.stats.wallSlams?` / 撞墙追击 ${ball.stats.wallSlams}`:'')+(ball.stats.bladesCaught?` / 接刃 ${ball.stats.bladesCaught} / 斩印 ${ball.stats.bladeFinishers}`:'')+(ball.stats.shotsFired?` / ${ball.type==='boomerang'?'飞刃命中次数':'子弹命中'} ${ball.stats.shotsHit}${ball.type==='boomerang'?'':'/'+ball.stats.shotsFired}`:'')+(ball.stats.lasersFired?` / 光束命中 ${ball.stats.lasersHit}/${ball.stats.lasersFired}`:'')+(ball.stats.countersFired?` / 反击命中 ${ball.stats.countersHit}/${ball.stats.countersFired}`:'')+(ball.stats.poisonHits?` / 毒伤 ${ball.stats.poisonHits}`:'')+(ball.stats.trapsPlaced?` / 陷阱触发 ${ball.stats.trapsTriggered}/${ball.stats.trapsPlaced}`:'')).join('　｜　');
+      $('result-summary').textContent = engine.balls.filter(b=>!b.demonServant).map(ball => `${ball.id === 0 ? '左方' : '右方'}：伤害 ${ball.stats.damage.toFixed(1)} / 回复 ${ball.stats.healing.toFixed(1)} / 护盾吸收 ${ball.stats.absorbed.toFixed(1)} / 反伤 ${ball.stats.reflected.toFixed(1)}`+(ball.stats.wallSlams?` / 撞墙追击 ${ball.stats.wallSlams}`:'')+(ball.stats.bladesCaught?` / 接刃 ${ball.stats.bladesCaught} / 斩印 ${ball.stats.bladeFinishers}`:'')+(ball.stats.shotsFired?` / ${ball.type==='boomerang'?'飞刃命中次数':'子弹命中'} ${ball.stats.shotsHit}${ball.type==='boomerang'?'':'/'+ball.stats.shotsFired}`:'')+(ball.stats.lasersFired?` / 光束命中 ${ball.stats.lasersHit}/${ball.stats.lasersFired}`:'')+(ball.stats.countersFired?` / 反击命中 ${ball.stats.countersHit}/${ball.stats.countersFired}`:'')+(ball.stats.poisonHits?` / 毒伤 ${ball.stats.poisonHits}`:'')+(ball.stats.trapsPlaced?` / 陷阱触发 ${ball.stats.trapsTriggered}/${ball.stats.trapsPlaced}`:'')).join('　｜　');
     }
     fitArena();
   }

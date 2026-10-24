@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-22",
+  "tests": [
+    {
+      "name": "ordinary pierce stasis exactly1s; soul pin metadata survives impact effect expiry",
+      "pass": true
+    },
+    {
+      "name": "pierce defense rules and armor cleanse remove attached pin state",
+      "pass": true
+    },
+    {
+      "name": "rend retains3 true damage and1s cooldown, emits one short impact",
+      "pass": true
+    },
+    {
+      "name": "Arcana body pin remains3s and has independent pin metadata",
+      "pass": true
+    },
+    {
+      "name": "shared ordinary1v1, team, arcana and manual use1s without HP drift",
+      "pass": true
+    }
+  ],
+  "passed": 5,
+  "total": 5
+}

@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "testedTypes": [
+    "normal",
+    "accelerator",
+    "vampire"
+  ],
+  "records": [
+    {
+      "file": "index.html",
+      "width": 1500,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 390,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "index.html",
+      "width": 320,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 1500,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 390,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "file": "team.html",
+      "width": 320,
+      "onlyThreeSelectedTypes": true,
+      "readable": true,
+      "pauseResumeReset": true
+    },
+    {
+      "scene": "fistWarning",
+      "damage": 0,
+      "shield": 0,
+      "phase": "warning",
+      "projectiles": 0,
+      "casts": 0
+    },
+    {
+      "scene": "blinkHold",
+      "damage": 0,
+      "shield": 0,
+      "phase": "punch",
+      "projectiles": 0,
+      "casts": 1
+    },
+    {
+      "scene": "fistImpact",
+      "damage": 32,
+      "shield": 0,
+      "phase": "punchRecovery",
+      "projectiles": 0,
+      "casts": 1
+    },
+    {
+      "scene": "sonicWarning",
+      "damage": 0,
+      "shield": 0,
+      "phase": "warning",
+      "projectiles": 0,
+      "casts": 0
+    },
+    {
+      "scene": "sonicRush",
+      "damage": 0,
+      "shield": 0,
+      "phase": "rush",
+      "projectiles": 0,
+      "casts": 1
+    },
+    {
+      "scene": "sonicCone",
+      "damage": 0,
+      "shield": 0,
+      "phase": "sonicRecovery",
+      "projectiles": 0,
+      "casts": 0
+    },
+    {
+      "scene": "sonicShatter",
+      "damage": 32,
+      "shield": 0,
+      "phase": "sonicRecovery",
+      "projectiles": 0,
+      "casts": 0
+    },
+    {
+      "scene": "bloodWarning",
+      "damage": 0,
+      "shield": 0,
+      "phase": "warning",
+      "projectiles": 0,
+      "casts": 0
+    },
+    {
+      "scene": "bloodBlades",
+      "damage": 0,
+      "shield": 0,
+      "phase": "bloodRecovery",
+      "projectiles": 3,
+      "casts": 1
+    },
+    {
+      "scene": "bloodReturn",
+      "damage": 30,
+      "shield": 0,
+      "phase": "bloodRecovery",
+      "projectiles": 0,
+      "casts": 1
+    },
+    {
+      "audioRouting": {
+        "duck": true,
+        "priority": true,
+        "bounded": true,
+        "separateBuses": true,
+        "routes": true,
+        "stopClears": true
+      }
+    }
+  ],
+  "audioProfiles": 12,
+  "errors": []
+}
