@@ -6,7 +6,7 @@
   const timers=b=>({pursuit:b.role.nextPursuit||0,hunt:b.hunt?.nextCast||0,chain:b.awakening.nextCast,
     wave:b.arcana?.nextWave,trap:b.nextTrap,swap:b.mechanism?.nextSwap,spit:b.role.nextSpit,pool:b.nextPool,
     cooling:b.role.coolingUntil,jet:b.role.jetNext,blade:b.nextShot,shot:b.nextShot,reload:b.role.reloadUntil,
-    domain:b.temporal.nextDomain,clock:b.temporal.nextClock});
+    delete:b.temporal.nextDelete,domain:b.temporal.nextDomain,clock:b.temporal.nextClock});
   class CueState {
     constructor(e){this.engine=e;this.periods={};this.epoch=-1;this.observe();}
     observe(before=null){const e=this.engine,b=M.player(e);if(!b)return;
@@ -39,7 +39,7 @@
         add('L',awake?'近距交错斩':'投掷飞刃','blade');add('R',awake?'极限弹射':'逐刃追猎',awake?'blade':null);
         add('M','接刃重斩',null,c.catchUntil>e.time?(c.catchPower>=1.4?'双':'单'):'');
       }
-      if(b.type==='time'){add('L','飞行时钟','clock');add('R','时间领域','domain');}
+      if(b.type==='time'){add('L','飞行时钟','clock');add('R','时间领域','domain');add('M','时删·命运断章','delete');}
       const automatic=F.automatic(b),active=b.type==='venom'?!!u?.venom?.active:b.type==='time'?e.timeRewind?.active?.owner===b.id:G.Arcana.busy(b),ready=!automatic&&M.ultimate(e,true);
       const status=G.Arcana.status(b,e),unlocked=automatic?(b.type==='time'?!u?.used:!!u?.venom?.active):!!u&&!u.used&&(e.manual.armed||awake&&b.hp<=b.maxHp*G.Arcana.ratio);
       out.push({key:'ULT',label:automatic?'自':'ULT',name:(G.Arcana.defs[b.type]?.name||'奥义')+' · '+(status?.value||''),cooldown:null,meter:b.type==='normal'?{kind:'stacks',progress:clamp(b.charges/3)}:b.type==='vampire'?{kind:'resource',name:'血能',progress:clamp(r.blood/8)}:{kind:'none',progress:1},ready:!!ready,badge:b.type==='trapper'&&e.manual.armed&&!u?.used?'待':'',

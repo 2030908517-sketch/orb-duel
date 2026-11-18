@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-7,m);
 const make=types=>{const e=new G.Engine(types,'unified-boundary');e.start();e.balls.forEach((b,i)=>{b.x=90+i*160;b.y=170;b.vx=0;b.vy=b.speed;});return e;};

@@ -23,7 +23,7 @@ const roleHit=G.Roles.hit;G.Roles.hit=function(hit,e){const result=roleHit.call(
 const erosion=L.erosionMultiplier;L.erosionMultiplier=function(owner,b,e,at){return erosion.call(this,owner,b,e,at)*E.multiplier(owner,'erosion');};
 V.speedFactor=function(b){return G.Physics.armored(b)?1:Math.max(.6,1-E.paralysisWeight(b)*V.config.slowPerLayer);};
 const aim=V.aimControl;V.aimControl=function(b,e){const base=aim.call(this,b,e);if(G.Physics.armored(b)||G.World.absent(b,e))return base;return{rate:1-E.paralysisWeight(b,e)*V.config.aimReductionPerLayer,offset:base.offset*E.mistMultiplier(b,e)};};
-const contact=V.contactPacket;V.contactPacket=function(h,e){const packet=contact.call(this,h,e);return packet===h?packet:{...packet,raw:h.raw*(1-E.paralysisWeight(h.source,e)*V.config.contactReductionPerLayer)};};
+const contact=V.contactPacket;V.contactPacket=function(h,e){const packet=contact.call(this,h,e);return packet===h?packet:{...packet,raw:h.raw*Math.max(0,1-E.paralysisWeight(h.source,e)*V.paralysisDamageRate(h,e))};};
 const status=V.status;V.status=function(b,e){return status.call(this,b,e).map(v=>v.label==='侵蚀/跳'?{...v,value:((G.Awakening.active(b)?V.config.awakeErosionDamage:V.config.erosionDamage)*E.multiplier(b,'erosion')).toFixed(3)+'/层'}:v);};
 const collect=G.StatusPanel.collect;G.StatusPanel.collect=function(b,e){const entries=collect.call(this,b,e);if(b.hp>0&&b.type==='venom'&&(G.Awakening.active(b)||b.venomEvolution))entries.push('毒素进化 侵蚀+'+E.percent(b,'erosion')+'% / 麻痹+'+E.percent(b,'paralysis')+'%');return entries;};
 const reset=G.Engine.prototype.reset;G.Engine.prototype.reset=function(...args){const result=reset.apply(this,args);delete this.venomEvolutionVisits;delete this.venomEvolutionContacts;return result;};

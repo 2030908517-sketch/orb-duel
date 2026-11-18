@@ -1,4 +1,15 @@
+# 2026-11-03：第五轮调整（当前覆盖）
+
+普通时间领域不再延长普通盾存续期限，技能CD仍减速；完全失魂/强制静止仍冻结盾计时。王城专盾规则不改。
+
+[本轮规则与验证](../../balance/2026-11-03-adjustments-5.md)。下方旧参数按历史记录保留。
+
 # 护盾球 shield
+
+> **2026-10-29正式更新**：全期移除碰撞消压增伤，原定向压力波开放全期。觉醒盾被敌方攻击首次降至本次最大盾量50%以下时主动破盾，改放6基础伤、击退180的全屏传播环波，普通飞行物暂停0.22秒；未跌破则结束放原定向波。专盾仍24，首次低于16、8及耗尽时各放强化波，每程3.5基础伤/击退205/失魂0.24秒；去回程各一次命中与完整失魂，波前每部分仅折返一次，直接震碎接触到的敌方飞行物。王城首次缩至40.96%面积后继续收至21.16%，原时间节点与专盾优先级保留。初始参数未作平衡结论。详见[当前实现与验证](../../design/experiments/shield-resonance.md)。
+
+## 原始审计快照（以下旧压力盾击、仅觉醒发波、固定封锁区域和残盾转波描述已由上方更新取代）
+
 
 118HP/10.8身体基伤/225速度/质量1.1；独立奥义236HP。来源：[skills](../../../js/skills.js) `applyDamage/Recovery`、[roles](../../../js/roles.js) `shieldUpdate/shieldEnd/absorb/multiplier/prepareContacts`、[awakening](../../../js/awakening.js) `shieldOptions`、[arcana-defense](../../../js/arcana-defense.js)、[arcana-priority](../../../js/arcana-priority.js)。
 

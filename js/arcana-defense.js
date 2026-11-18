@@ -1,9 +1,10 @@
 (function(root){
   'use strict';const G=root.OrbDuel,C=G.Constants,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  Object.assign(G.Arcana.defs,{shield:{name:'王城·天垒封锁'},reflector:{name:'旧债·逆命清算',raw:18}});
+  Object.assign(G.Arcana.defs,{shield:{name:'王城·天垒封锁'},reflector:{name:'旧债·逆命清算',raw:22}});
   Object.assign(G.Arcana.health,{shield:236,reflector:250});
   const D=G.DefenseArcana={
-    debtCap:60,royalAmount:24,
+    debtCap:60,debtSpendCap:60,debtDamageCap:22,royalAmount:26,royalInset:.17,
+    debtTiming:{charge:1.5,speed:600,range:492,recovery:.85,impact:.95},
     handles(b){return !!b.arcana&&['shield','reflector'].includes(b.type);},
     event(b,e,stage,cue,p=b,extra={}){const eventId=(b.arcana.castId||'debt:'+b.id+':'+e.tick)+':'+stage;G.Arcana.effect(e,b,stage,p,{eventId,life:.65,...extra});if(cue){e.sound(cue,p.x);const s=e.soundEvents.at(-1);if(s?.kind===cue)s.presentationId=eventId;}G.Presentation?.note(e,'arcana.stage',{eventId,stage,actorId:b.id,cue:cue||null,x:p.x,y:p.y});},
     reset(e){if(e.mode!=='arcana'||!e.balls.some(b=>this.handles(b)))return;e.arcanaWorld.defense={fortress:null,bolts:[],returns:[]};for(const b of e.balls)if(this.handles(b))Object.assign(b.arcana,{debts:{},debt:0,scarDebt:0,royalGranted:false,royalShield:0,royalActive:false,royalUntil:0,predictUntil:0});},
@@ -11,15 +12,15 @@
       let f=e.arcanaWorld.defense.fortress;if(f){f.owners.push(b.id);}else{f={owners:[b.id],started:e.time,phase:'rise',bounds:{left:0,right:C.width,top:0,bottom:C.height},lastStage:'rise'};e.arcanaWorld.defense.fortress=f;}u.until=f.started+6.95;this.event(b,e,'royalRise','arcRoyalRise',b,{life:.8});
     },
     grantRoyal(b,e,f){const u=b.arcana;if(u.royalGranted||b.hp<=0)return;u.royalGranted=true;b.shield=0;b.shieldUntil=0;u.royalShield=this.royalAmount;u.royalActive=true;u.royalUntil=f.started+6.2;this.event(b,e,'royalGuardGrant',null,b,{life:.45});},
-    beginDebt(b,t,e){const u=b.arcana;G.Arcana.commit(b,e);u.phase='debtCharge';u.started=e.time;u.until=e.time+.9;u.target=t.id;u.returnAngle=Math.atan2(b.vy,b.vx);u.aim=G.World.aim(b,t,820,.9);u.debtSpend=Math.min(40,u.debt);b.vx=b.vy=0;b.inertia=0;this.event(b,e,'debtWake','arcDebtWake',b,{angle:u.aim,life:.9});},
+    beginDebt(b,t,e){const u=b.arcana;G.Arcana.commit(b,e);u.phase='debtCharge';u.started=e.time;u.until=e.time+this.debtTiming.charge;u.target=t.id;u.returnAngle=Math.atan2(b.vy,b.vx);u.aim=G.World.aim(b,t,this.debtTiming.speed,this.debtTiming.charge);u.debtSpend=Math.min(this.debtSpendCap,u.debt);b.vx=b.vy=0;b.inertia=0;this.event(b,e,'debtWake','arcDebtWake',b,{angle:u.aim,life:this.debtTiming.charge});},
     update(b,t,e,dt){const u=b.arcana;
       if(b.type==='shield'){
         if(u.royalActive&&(u.royalShield<=1e-9||e.time>=u.royalUntil))this.endRoyal(b,e);
         const f=e.arcanaWorld.defense.fortress;if(u.used){if(f?.owners.includes(b.id)){u.phase={rise:'royalRise',shrink:'royalShrink',hold:'royalHold',release:'royalRelease'}[f.phase];u.until=f.started+6.95;}else if(u.phase!=='idle'){u.phase='idle';u.target=null;}return;}
       }else if(u.phase==='debtCharge'){
         if(!t){this.finishDebt(b,e);return;}
-        if(e.time<u.until-.16)u.aim=G.World.aim(b,t,820,Math.max(0,u.until-e.time));
-        if(e.time+1e-9>=u.until){const spend=Math.min(u.debtSpend,u.debt);e.arcanaWorld.defense.bolts.push({...(e.demonWorld?{heat:1}:{}),id:e.nextWorldId++,owner:b.id,target:t.id,x:b.x,y:b.y,origin:{x:b.x,y:b.y},angle:u.aim,vx:Math.cos(u.aim)*820,vy:Math.sin(u.aim)*820,radius:10,raw:Math.min(18,6+spend*.28),spend,until:e.time+.6,history:[]});u.phase='debtRecovery';u.until=e.time+.55;this.event(b,e,'debtRelease','arcDebtRelease',b,{angle:u.aim,life:.55});b.vx=Math.cos(u.returnAngle)*b.speed*b.temporal.rate;b.vy=Math.sin(u.returnAngle)*b.speed*b.temporal.rate;}return;
+        if(e.time<u.until-.16)u.aim=G.World.aim(b,t,this.debtTiming.speed,Math.max(0,u.until-e.time));
+        if(e.time+1e-9>=u.until){const spend=Math.min(u.debtSpend,u.debt);e.arcanaWorld.defense.bolts.push({...(e.demonWorld?{heat:1}:{}),id:e.nextWorldId++,owner:b.id,target:t.id,x:b.x,y:b.y,origin:{x:b.x,y:b.y},angle:u.aim,vx:Math.cos(u.aim)*this.debtTiming.speed,vy:Math.sin(u.aim)*this.debtTiming.speed,radius:10,raw:Math.min(this.debtDamageCap,6+spend*.28),spend,until:e.time+this.debtTiming.range/this.debtTiming.speed,history:[]});u.phase='debtRecovery';u.until=e.time+this.debtTiming.recovery;this.event(b,e,'debtRelease','arcDebtRelease',b,{angle:u.aim,life:this.debtTiming.recovery});b.vx=Math.cos(u.returnAngle)*b.speed*b.temporal.rate;b.vy=Math.sin(u.returnAngle)*b.speed*b.temporal.rate;}return;
       }else if(u.phase==='debtRecovery'){if(e.time>=u.until)this.finishDebt(b,e);return;}
       if(u.used||b.hp>b.maxHp*G.Arcana.ratio||!G.Awakening.active(b)||!t)return;
       if(G.Awakening.dashing(b,e)||b.awakening.chargeUntil>e.time){u.waiting='等待当前动作';return;}
@@ -29,8 +30,8 @@
     finishDebt(b,e){if(b.arcana.phase==='debtCharge'){b.vx=Math.cos(b.arcana.returnAngle||0)*b.speed*b.temporal.rate;b.vy=Math.sin(b.arcana.returnAngle||0)*b.speed*b.temporal.rate;}b.arcana.phase='idle';b.arcana.target=null;},
     absorbRoyal(b,raw,e){const u=b.arcana;if(!this.handles(b)||b.type!=='shield'||!u.royalActive)return 0;const blocked=Math.min(u.royalShield,Math.max(0,raw));u.royalShield=Math.max(0,u.royalShield-blocked);return blocked;},
     afterAbsorb(b,e){if(b.arcana?.royalActive&&b.arcana.royalShield<=1e-9)this.endRoyal(b,e);},
-    queueShield(b,e,reserve){const r=b.role;if(!G.Awakening.active(b)||G.Temporal.silenced(b,e)){r.pressure=0;return;}const pressure=r.pressure;r.pressure=0;if(pressure<=0&&reserve<=0)return;
-      r.shieldReserve=(r.shieldReserve||0)+reserve;r.shieldRelease=Math.min(8,(r.shieldRelease||0)+pressure);
+    queueShield(b,e,reserve){const r=b.role;if(!G.Awakening.active(b)||G.Temporal.silenced(b,e)||reserve<=0)return;
+      r.shieldReserve=(r.shieldReserve||0)+reserve;
       if(!r.shieldFireAt||r.shieldFireAt<=e.time){const t=G.World.targetFor(b,e);r.shieldAngle=t?G.World.aim(b,t,390,.22):Math.atan2(b.vy,b.vx);r.shieldFireAt=e.time+.22;e.signal(b,'王城盾能 · 残盾汇流','pressureCharge');G.Roles.effect(b,e,'shieldGather',b,r.shieldAngle,.22);}b.awakening.pendingBurst=true;
     },
     endRoyal(b,e,shatter=false){const u=b.arcana;if(!u?.royalActive)return;const reserve=shatter?0:u.royalShield;u.royalActive=false;u.royalShield=0;this.queueShield(b,e,reserve);this.event(b,e,'royalGuardEnd',null,b,{life:.42});},
@@ -44,7 +45,7 @@
       for(const h of hits)if(h.source.type==='reflector'&&h.storedCounter&&h.actual>0)this.debtPay(h.source,h.target.id,h.actual);
     },
     hit(h,e){if(h.avoided||h.actual<=0){if(!h.avoided&&h.blocked>0&&h.target.arcana?.royalActive)G.Priority?.pull(h.source,h.target,e);return;}const b=h.source,u=b.arcana;if(!u)return;h.feedback={style:'debtImpact',cue:'arcDebtHit',push:0,stop:.065,power:2.4,presented:true};this.debtPay(b,h.target.id,h.debtSpend||0);u.hits++;b.stats.arcanaHits=(b.stats.arcanaHits||0)+1;u.predictUntil=e.time+4;
-      const list=e.arcanaWorld.defense.returns;if(G.Priority)G.Priority.pull(b,h.target,e);else list.push({owner:b.id,target:h.target.id,started:e.time,until:e.time+1.35,wallUntil:0});this.event(b,e,'debtImpact','arcDebtHit',h.target,{angle:h.angle,life:.65});G.Arcana.stop(e,.065);e.impact(h.target.x,h.target.y,b.def.color,2.4);G.Presentation?.note(e,'arcana.debtSettled',{actorId:b.id,targetId:h.target.id,actual:h.actual,spent:h.debtSpend,predictUntil:u.predictUntil});
+      const list=e.arcanaWorld.defense.returns;if(G.Priority)G.Priority.pull(b,h.target,e);else list.push({owner:b.id,target:h.target.id,started:e.time,until:e.time+1.35,wallUntil:0});this.event(b,e,'debtImpact','arcDebtHit',h.target,{angle:h.angle,life:this.debtTiming.impact});G.Arcana.stop(e,.065);e.impact(h.target.x,h.target.y,b.def.color,2.4);G.Presentation?.note(e,'arcana.debtSettled',{actorId:b.id,targetId:h.target.id,actual:h.actual,spent:h.debtSpend,predictUntil:u.predictUntil});
     },
     predictionReady(b,e){return !!b.arcana?.predictUntil&&b.arcana.predictUntil>e.time&&b.hp>0;},
     preempt(packets,e){if(!e.arcanaWorld?.defense)return;for(const b of e.balls){if(!this.predictionReady(b,e)||b.stance.phase==='active'||G.Arcana.immuneTarget(b,e))continue;const h=packets.find(h=>h.target===b&&h.source.hp>0&&h.raw>0&&G.World.enemy(h.source,b,e)&&h.damageOrigin!=='wall'&&h.kind!=='wallSlam'&&!(h.kind==='magneticWall'&&h.pullWall));if(h)G.Roles.reflectorOpen(b,e,'清算预判');}},
@@ -53,8 +54,8 @@
     prepare(e,dt){const w=e.arcanaWorld?.defense;if(!w)return;for(const b of e.balls)if(b.arcana?.predictionGuard&&!this.guardActive(b,e))b.arcana.predictionGuard=false;
       for(const b of e.balls)if(b.type==='reflector'&&b.arcana){const u=b.arcana,delta=u.debt-u.scarDebt;u.scarDebt+=clamp(delta,-90*dt,30*dt);}
       const f=w.fortress;if(f){const owners=f.owners.map(id=>e.balls.find(b=>b.id===id&&b.hp>0)).filter(Boolean);if(!owners.length){this.releaseBounds(e,true);w.fortress=null;}else{
-        const age=e.time-f.started;let amount=0,phase='rise';if(age>=.8&&age<2){phase='shrink';const p=clamp((age-.8)/1.2,0,1);amount=p*p*(3-2*p);}else if(age>=2&&age<6.2){phase='hold';amount=1;}else if(age>=6.2){phase='release';const p=clamp((age-6.2)/.75,0,1);amount=1-p*p*(3-2*p);}
-        f.phase=phase;if(phase==='hold')for(const b of owners)this.grantRoyal(b,e,f);f.bounds={left:C.width*.18*amount,right:C.width*(1-.18*amount),top:C.height*.18*amount,bottom:C.height*(1-.18*amount)};
+        const age=e.time-f.started;let amount=0,phase='rise';if(age>=.8&&age<2){phase='shrink';const p=clamp((age-.8)/1.2,0,1);amount=p*p*(3-2*p);}else if(age>=2&&age<6.2){phase='hold';amount=1+.5*clamp((age-2)/4.2,0,1);}else if(age>=6.2){phase='release';const p=clamp((age-6.2)/.75,0,1);amount=1.5*(1-p*p*(3-2*p));}
+        f.phase=phase;if(phase==='hold')for(const b of owners)this.grantRoyal(b,e,f);f.bounds={left:C.width*this.royalInset*amount,right:C.width*(1-this.royalInset*amount),top:C.height*this.royalInset*amount,bottom:C.height*(1-this.royalInset*amount)};
         if(phase!==f.lastStage){f.lastStage=phase;this.event(owners[0],e,phase==='shrink'?'royalClose':phase==='hold'?'royalLock':'royalOpen',phase==='shrink'?'arcRoyalSlide':phase==='hold'?'arcRoyalLock':'arcRoyalOpen',owners[0],{life:phase==='hold'?.45:.75});}
         for(const b of e.balls){b.combatBounds={...f.bounds};const was={x:b.x,y:b.y};G.Physics.constrain(b);if(was.x!==b.x||was.y!==b.y){b.previousX=b.x;b.previousY=b.y;}b.wallContact=null;}
         if(age>=6.95){this.event(owners[0],e,'royalDissolve','arcRoyalReturn',owners[0],{life:.65,bounds:{...f.bounds}});for(const b of owners){b.arcana.phase='idle';b.arcana.target=null;}this.releaseBounds(e);w.fortress=null;}
@@ -71,7 +72,7 @@
         if(e.tick%2===0){p.history.unshift({x:p.x,y:p.y});p.history.length=Math.min(14,p.history.length);}return (wall?.distance??Infinity)>Math.hypot(p.vx,p.vy)*dt&&p.x>=bounds.left&&p.x<=bounds.right&&p.y>=bounds.top&&p.y<=bounds.bottom;});
     },
     endCombat(e){const w=e.arcanaWorld?.defense;if(!w)return;if(w.fortress){const b=e.balls.find(b=>w.fortress.owners.includes(b.id));if(b)this.event(b,e,'royalDissolve',null,b,{life:.65,bounds:{...w.fortress.bounds}});}w.fortress=null;w.bolts=[];w.returns=[];this.releaseBounds(e);for(const b of e.balls)if(this.handles(b)){b.arcana.royalActive=false;b.arcana.royalShield=0;b.arcana.predictUntil=0;if(b.arcana.phase==='debtCharge')this.finishDebt(b,e);}},
-    copy(type){return type==='shield'?'立起盾墙并在1.2秒内收缩至约41%面积，维持4.2秒再展开；无挤压伤害。收缩完成后获得24专盾，替代普通盾、不可叠加，持续至封锁结束（最多4.2秒），吸收沿用压力，到期残盾只转波一次；普通盾冷却不重置。':'记录最多60点未实际返还的敌方生命伤害（墙伤除外）；0.9秒蓄势后发射实际传播的清算锋，最多消费40旧债、伤害最高18。实伤命中才消费旧债、施加1.35秒有限转向，并给4秒内一次等待威胁才开启的预判机会。落空、全盾、无敌无后续收益。';}
+    copy(type){return type==='shield'?'立起盾墙并在1.2秒内收缩至约44%面积，之后4.2秒继续收缩至约24%面积再展开；无挤压伤害。收缩完成后获得26专盾，替代普通盾、不可叠加，持续至封锁结束（最多4.2秒），专盾首次跌破2/3、1/3及耗尽时各释放一道可反弹一次的强化环波，去回程各可命中及失魂一次；普通盾冷却不重置。':'记录最多60点未实际返还的敌方生命伤害（墙伤除外）；1.5秒蓄势后以600速度发射实际传播的清算锋（最大路程492），最多消费60旧债、伤害最高22。实伤命中才消费旧债、施加1.35秒有限转向，并给4秒内一次等待威胁才开启的预判机会。该次预判反伤及其待发反伤弹不受普通沉默打断；普通姿态仍受沉默影响。落空、全盾、无敌无后续收益。';}
   };
   const reset=G.Arcana.reset,finish=G.Arcana.finish,status=G.Arcana.status,copy=G.Arcana.copy,snapshot=G.Arcana.snapshot;
   G.Arcana.reset=function(e){reset.call(this,e);D.reset(e);};
@@ -87,7 +88,7 @@
     return {label:D.predictionReady(b,e)?'债/判':'旧债',value:u.debt.toFixed(1)+'·'+(D.predictionReady(b,e)?(u.predictUntil-e.time).toFixed(1)+'s':u.phase==='debtCharge'?'蓄势':u.phase==='debtRecovery'?'清算':u.used?'已用':'待机')};
   };
   G.Arcana.snapshot=function(u){return {...snapshot.call(this,u),...(u.debts?{debts:{...u.debts}}:{})};};
-  const shieldEnd=G.Roles.shieldEnd;G.Roles.shieldEnd=function(b,e){if(b.arcana?.royalActive||D.handles(b)&&b.type==='shield'&&(b.role.shieldRelease||b.role.shieldReserve)){D.queueShield(b,e,b.shield);return;}shieldEnd.call(this,b,e);};
+  const shieldEnd=G.Roles.shieldEnd;G.Roles.shieldEnd=function(b,e){if(b.arcana?.royalActive||D.handles(b)&&b.type==='shield'&&b.role.shieldReserve){D.queueShield(b,e,b.shield);return;}shieldEnd.call(this,b,e);};
   const worldUpdate=G.World.update;G.World.update=function(e,dt){const bounds=e.arcanaWorld?.defense?.fortress?.bounds;for(const p of e.projectiles){if(bounds)p.combatBounds={...bounds};else delete p.combatBounds;}return worldUpdate.call(this,e,dt);};
   // Charge's perimeter coordinates remain continuous, but follow the temporary
   // rectangle while it exists. No mutation of global arena dimensions.

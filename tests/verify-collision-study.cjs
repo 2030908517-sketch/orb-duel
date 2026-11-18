@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..'),study=path.join(__dirname,'collision-study'),out=path.join(study,'evidence');fs.mkdirSync(out,{recursive:true});
-const context=vm.createContext({}),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','presentation','engine'];
+const context=vm.createContext({}),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','presentation','engine'];
 for(const n of modules)vm.runInContext(fs.readFileSync(path.join(root,'js',n+'.js'),'utf8'),context);
 for(const n of ['core','sound'])vm.runInContext(fs.readFileSync(path.join(study,n+'.js'),'utf8'),context);
 const G=context.OrbDuel,S=G.CollisionStudy,A=G.CollisionSound;let checks=0;const ok=(condition,message)=>{checks++;assert(condition,message);},runs=[];

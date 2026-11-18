@@ -19,7 +19,7 @@
         if(!s.active&&!b.arcana.used&&b.hp<=b.maxHp*.3+1e-9)this.activate(b,e);
         if(!Number.isFinite(s.nextTick))continue;
         // World time, never the actor's slowed clock; at most one pulse per half-second fixed tick.
-        while(e.time+1e-9>=s.nextTick&&b.hp>0){s.nextTick+=.5;if(s.pool<=0)continue;const due=this.amount(s.pool),actual=Math.min(b.hp,due);s.pool=Math.max(0,s.pool-due);s.paid+=due;b.hp=Math.max(0,b.hp-actual);s.lastPulse=e.time;b.flash=.07;
+        while(e.time+1e-9>=s.nextTick&&b.hp>0){s.nextTick+=.5;if(s.pool<=0)continue;const due=this.amount(s.pool),actual=e.timeDeleting||e.timeDeleteIntercept?0:Math.min(b.hp,due);s.pool=Math.max(0,s.pool-due);s.paid+=due;b.hp=Math.max(0,b.hp-actual);s.lastPulse=e.time;b.flash=.07;
           e.float(b.x,b.y-29,'−'+actual.toFixed(1),'#cbe99a');this.event(b,e,'pay',actual);
           if(!s.active&&!b.arcana.used&&b.hp>0&&b.hp<=b.maxHp*.3+1e-9)this.activate(b,e);
         }

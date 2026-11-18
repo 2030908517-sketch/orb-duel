@@ -4,39 +4,40 @@
   // Only the affected actor's skill clock slows. Debuffs and released objects use world time.
   const timers={mechanism:['nextSwap'],hunt:['nextCast','until'],
     ball:['nextShot','nextTrap','nextPool','nextLaser','nextShield','shieldUntil'],
-    role:['chainWarning','shieldFireAt','salvoFireAt','counterFireAt','reloadUntil','coolingUntil','disruptedUntil','nextSpit','sniperLockAt','sniperFireAt','nextPursuit','pursuitUntil','jetNext'],
+    role:['chainWarning','shieldFireAt','salvoFireAt','counterFireAt','counterLockAt','reloadUntil','coolingUntil','disruptedUntil','nextSpit','sniperLockAt','sniperFireAt','nextPursuit','pursuitUntil','jetNext'],
     character:['recoveryUntil','nextSpread','spreadFireAt'],
-    awakening:['nextCast','nextPulse','chargeUntil','dashUntil','chainUntil'],
-    demon:['nextClaw','nextGate'],holy:['triangleReady','nextJudgement','chargeUntil','nextWard'],stance:['next','until'],temporal:['nextDomain','nextClock','castAt'],magnetic:['nextPulse','nextOverload','until'],ghost:['nextPhase','until','nextLunge','chargeUntil','lungeUntil'],charge:['nextGain','nextDischarge','nextForm'],stellar:['nextNova','nextLaunch'],cosmic:['nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard','launchAt']
+    awakening:['nextCast','nextPulse','chargeUntil','aimLockAt','dashUntil','chainUntil'],
+    demon:['nextClaw','nextGate'],holy:['triangleReady','nextJudgement','chargeUntil'],stance:['next','until'],temporal:['nextDomain','nextClock','nextDelete','castAt','clockLockAt'],magnetic:['nextPulse','nextOverload','until'],ghost:['nextPhase','until','nextLunge','chargeUntil','lungeUntil'],charge:['nextGain','nextDischarge','nextForm'],stellar:['nextNova','nextLaunch']
   };
   G.Temporal={
     releaseControl(ball){if(['reflector','shield'].includes(ball.type))return;const rate=ball.temporal.rate||1;ball.vx/=rate;ball.vy/=rate;ball.temporal.rate=ball.temporal.cooldownRate=1;},
     controlImmune(ball,engine){return G.World.absent(ball,engine)||!!G.VenomArcana?.state(ball)?.active||!!G.Arcana?.busy(ball)&&!['reflector','shield'].includes(ball.type);},
-    silenced(ball,engine){return !this.controlImmune(ball,engine)&&(ball.temporal?.silenceUntil||0)>engine.time+1e-9;},
+    silenced(ball,engine){return !G.DefenseArcana?.guardActive(ball,engine)&&!this.controlImmune(ball,engine)&&(ball.temporal?.silenceUntil||0)>engine.time+1e-9;},
     domain(ball,engine,x,y,warning=.25,custom=null){
       const spec=custom||ball.def;
       const owned=engine.timeDomains.filter(d=>d.owner===ball.id);
       if(owned.length>=2)engine.timeDomains=engine.timeDomains.filter(d=>d!==owned[0]);
       engine.timeDomains.push({id:engine.nextWorldId++,owner:ball.id,x,y,radius:spec.domainRadius,rate:spec.timeRate,cooldownRate:spec.cooldownRate??spec.timeRate,armedAt:engine.time+warning,nextPulse:engine.time+warning+.5,expires:engine.time+warning+spec.domainDuration,color:ball.def.color,...(custom?{damage:custom.domainDamage,noReflect:true}:{})});
-      ball.stats.domainsCreated++;engine.sound('timeField',x);engine.log(engine.label(ball)+'展开时间领域 · 运动减速80% · CD减速30% / 持续侵蚀');
+      ball.stats.domainsCreated++;engine.sound('timeField',x);engine.log(engine.label(ball)+'展开时间领域 · 运动减速80% · CD减速20% / 持续侵蚀');
     },
     interrupt(ball,engine){
       const huntCasting=G.VampireHunt?.busy(ball);G.Adaptive?.interrupt(ball,engine);G.VampireHunt?.finish(ball,engine);const a=ball.awakening,r=ball.role,c=ball.character,t=ball.temporal;
       const demonCasting=ball.type==='demon'&&G.Demon?.interrupt(ball,engine);
       const arcanaCasting=G.Arcana?.interrupt(ball,engine,'silence');
       const stellarCasting=G.Stellar?.interrupt(ball,engine),chargeCasting=G.Charge?.flowing(ball);
-      const casting=!!(huntCasting||arcanaCasting||stellarCasting||chargeCasting||ball.cosmic&&(ball.cosmic.satellites.length||engine.cosmicWorld.strikes.some(v=>v.owner===ball.id)||engine.cosmicWorld.binary.some(v=>v.owner===ball.id))||demonCasting||ball.laser||r.pursuitUntil>engine.time||a.chargeUntil>engine.time||a.chainActive||r.chainWarning||r.salvoFireAt||r.sniperFireAt||r.shieldFireAt||r.counterRelease||c.spreadFireAt||t.castAt||ball.holy?.chargeUntil>engine.time||engine.holyWorld?.lights.some(l=>l.owner===ball.id&&l.kind==='judgement'&&!l.landed)||ball.ghost?.phase==='warning'||ball.magnetic?.phase!=='rest'||G.Awakening.dashing(ball,engine)||ball.stance.phase!=='rest'||engine.beams.some(b=>b.owner===ball.id));
+      const casting=!!(huntCasting||arcanaCasting||stellarCasting||chargeCasting||demonCasting||ball.laser||r.pursuitUntil>engine.time||a.chargeUntil>engine.time||a.chainActive||r.chainWarning||r.salvoFireAt||r.sniperFireAt||r.shieldFireAt||r.counterRelease||c.spreadFireAt||t.castAt||ball.holy?.chargeUntil>engine.time||engine.holyWorld?.lights.some(l=>l.owner===ball.id&&l.kind==='judgement'&&!l.landed)||ball.ghost?.phase==='warning'||ball.magnetic?.phase!=='rest'||G.Awakening.dashing(ball,engine)||ball.stance.phase!=='rest'||engine.beams.some(b=>b.owner===ball.id));
       // Consumed resources stay consumed; silence cannot create a free recast/refund.
-      if(ball.laser){ball.laser=null;r.capacitor=0;r.coolingUntil=Math.max(r.coolingUntil,engine.time+1.1);}
-      a.chargeUntil=0;a.chainActive=false;a.chainUntil=0;a.nextPulse=Infinity;r.chainWarning=0;
+      if(ball.type==='laser')G.Roles.laserDisrupt(ball,engine);
+      a.chargeUntil=0;a.aimLockAt=0;a.chainActive=false;a.chainUntil=0;a.nextPulse=Infinity;r.chainWarning=0;
       if(ball.motionSpeed&&!G.Arcana?.customMove(ball)&&ball.type==='accelerator'){G.Awakening.finishDash(ball,engine,true);}else if(ball.motionSpeed&&!G.Arcana?.customMove(ball)){ball.motionSpeed=0;a.dashUntil=engine.time;a.stopAfterContact=false;ball.inertia=0;G.Physics.normalizeSpeed(ball);}
       if(ball.type==='ranger')G.Ranger?.interrupt(ball,engine);
+      if(ball.type==='boomerang'&&!G.BladeDance?.active(ball)){c.catchUntil=0;if(c.bladeHunt)c.bladeHunt.swing=null;}
       if(r.salvoFireAt){r.salvoFireAt=0;r.overload=false;}
-      r.shieldRelease=0;r.shieldReserve=0;r.shieldFireAt=0;if(!G.DefenseArcana?.guardActive(ball,engine)){r.counterRelease=0;r.counterFireAt=0;}
+      r.shieldReserve=0;r.shieldFireAt=0;if(!G.DefenseArcana?.guardActive(ball,engine)){if(ball.type==='reflector'){r.counterRelease+=ball.stance.stored;ball.stance.stored=0;if(r.counterRelease>0){r.counterFireAt=Math.max(r.counterFireAt,(ball.temporal.silenceUntil||engine.time)+.18);r.counterLockAt=r.counterFireAt-.08;}}else{r.counterRelease=0;r.counterFireAt=0;r.counterLockAt=0;}}
       if(ball.stance.phase!=='rest'&&!G.DefenseArcana?.guardActive(ball,engine)){ball.stance.phase='rest';r.mirrors=0;ball.stance.stored=0;r.predictiveActive=false;}
-      c.spreadFireAt=0;if(t.castAt){t.castAt=0;t.nextClock=Math.max(t.nextClock,engine.time+(ball.def.clockPeriod||8.5));}
+      c.spreadFireAt=0;if(t.castAt){t.castAt=0;t.clockLockAt=0;t.nextClock=Math.max(t.nextClock,engine.time+(ball.def.clockPeriod||8.5));}
       if(ball.type==='magnet')G.Magnet.interrupt(ball,engine);
-      if(ball.type==='ghost')G.Ghost.interrupt(ball);G.Cosmic?.interrupt(ball,engine);if(chargeCasting)G.Charge.end(ball,engine,true);
+      if(ball.type==='ghost')G.Ghost.interrupt(ball);if(chargeCasting)G.Charge.end(ball,engine,true);
       if(ball.type==='holy')G.Holy.interrupt(ball,engine);if(ball.type==='normal')G.Pursuit?.interrupt(ball);
       engine.beams=engine.beams.filter(b=>b.owner!==ball.id);
       // Remove following cast telegraphs, but preserve impact visuals and detached weapons.
@@ -46,20 +47,20 @@
       return casting;
     },
     silence(ball,source,engine,duration=source.def.silenceDuration){
-      if(ball.hp<=0||this.controlImmune(ball,engine)||G.Awakening.dashing(ball,engine)||G.Ghost.phased(ball))return false;
+      if(ball.hp<=0||G.DefenseArcana?.guardActive(ball,engine)||this.controlImmune(ball,engine)||G.Awakening.dashing(ball,engine)||G.Ghost.phased(ball))return false;
       const waiting=this.waitingAttacks(ball,engine);
       ball.temporal.silenceUntil=Math.max(ball.temporal.silenceUntil,engine.time+duration);
       source.stats.silences++;this.interrupt(ball,engine);
-      for(const [state,key] of waiting){state[key]=Math.max(engine.time,state[key])+1;}
+      for(const [state,key] of waiting){state[key]=Math.max(engine.time,state[key])+.5;}
       if(ball.type==='laser'&&waiting.length)ball.nextLaser=ball.role.coolingUntil+(1-ball.role.capacitor)*(G.Awakening.active(ball)?3.6:4.2);
-      if(waiting.length){ball.stats.delaysAdded+=1;engine.float(ball.x,ball.y+36,'攻击延后 +1s','#ede5ff');}
+      if(waiting.length){ball.stats.delaysAdded+=.5;engine.float(ball.x,ball.y+36,'攻击延后 +0.5s','#ede5ff');}
       engine.sound('timeSilence',ball.x);engine.float(ball.x,ball.y-38,'沉默','#ede5ff');
       return true;
     },
     waitingAttacks(ball,engine){
       const t=engine.time,a=ball.awakening,r=ball.role,c=ball.character,s=ball.temporal,m=ball.magnetic,waiting=[];
       const add=(state,key,charging=false)=>{if(Number.isFinite(state[key])&&(state[key]>t+1e-9||charging))waiting.push([state,key]);};
-      if(ball.charge){add(ball.charge,'nextDischarge');add(ball.charge,'nextForm');}if(ball.stellar){add(ball.stellar,'nextNova',ball.stellar.phase!=='orbit');add(ball.stellar,'nextLaunch');}if(ball.cosmic){add(ball.cosmic,'nextStrike');add(ball.cosmic,'nextAwake');}if(ball.type==='demon'&&ball.demon)add(ball.demon,G.Awakening.active(ball)?'nextGate':'nextClaw');
+      if(ball.charge){add(ball.charge,'nextDischarge');add(ball.charge,'nextForm');}if(ball.stellar){add(ball.stellar,'nextNova',ball.stellar.phase!=='orbit');add(ball.stellar,'nextLaunch');}if(ball.type==='demon'&&ball.demon)add(ball.demon,G.Awakening.active(ball)?'nextGate':'nextClaw');
       if(ball.type==='normal')add(r,'nextPursuit',r.pursuitUntil>t);
       if(ball.type==='ranger'){add(ball,'nextShot',r.salvoFireAt>t||r.sniperFireAt>t);add(r,'reloadUntil');}
       if(ball.type==='boomerang')add(ball,'nextShot');
@@ -69,9 +70,9 @@
       if(ball.type==='vampire'||ball.type==='accelerator')add(a,'nextCast',a.chargeUntil>t||!!r.chainWarning);
       if(ball.type==='reflector')add(ball.stance,'next',ball.stance.phase==='warning'||r.counterRelease>0);
       if(ball.type==='shield')add(ball,'nextShield',r.shieldFireAt>t);
-      if(ball.type==='time'){add(s,'nextDomain');add(s,'nextClock',s.castAt>t);}
+      if(ball.type==='time'){add(s,'nextDelete');add(s,'nextDomain');add(s,'nextClock',s.castAt>t);}
       if(ball.type==='magnet'){add(m,'nextPulse',m.phase==='warning');add(m,'nextOverload',m.phase==='overloadWarning');}
-      if(ball.type==='holy'){add(ball.holy,'nextJudgement',ball.holy.chargeUntil>t);add(ball.holy,'nextWard');}
+      if(ball.type==='holy'){add(ball.holy,'nextJudgement',ball.holy.chargeUntil>t);}
       if(ball.type==='ghost')add(ball.ghost,'nextPhase',ball.ghost.phase==='warning');
       if(ball.type==='laser')add(r,'coolingUntil',!!ball.laser||r.capacitor>0||t>=r.coolingUntil);
       return waiting;
@@ -88,7 +89,7 @@
     },
     explode(clock,ball,engine){
       const spec=clock.castSpec||ball.def;this.domain(ball,engine,clock.x,clock.y,0,clock.castSpec||null);
-      if(engine.timeDomains.at(-1))engine.timeDomains.at(-1).adaptiveId=clock.adaptiveId;let hit=false;
+      if(engine.timeDomains.at(-1)){engine.timeDomains.at(-1).adaptiveId=clock.adaptiveId;engine.timeDomains.at(-1).visualSource='clock';}let hit=false;
       for(const target of engine.balls)if(G.World.enemy(ball,target,engine)&&G.World.targetable(target,engine)&&Math.hypot(target.x-clock.x,target.y-clock.y)<=spec.blastRadius+target.radius&&(!G.ArenaWalls||G.ArenaWalls.clear(clock,target,engine))){
         engine.pendingAttacks.push({source:ball,target,raw:clock.raw,heat:clock.heat,kind:'timeBlast',adaptiveId:clock.adaptiveId,point:{x:clock.x,y:clock.y},noReflect:!!clock.noReflect});
         if(this.silence(target,ball,engine,spec.silenceDuration)){ball.stats.clocksHit++;hit=true;}
@@ -124,9 +125,9 @@
       const lost=dt*(1-ball.temporal.rate),cdLost=dt*(1-(ball.temporal.cooldownRate??ball.temporal.rate));if(lost<=0&&cdLost<=0)return;
       for(const [group,keys] of Object.entries(timers)){
         const state=group==='ball'?ball:ball[group];if(!state)continue;
-        for(const key of keys)if(Number.isFinite(state[key])&&state[key]>0&&state[key]>engine.time-dt+1e-9)state[key]+=['jetNext','nextSwap','nextShot','nextTrap','nextPool','nextLaser','nextShield','reloadUntil','coolingUntil','nextSpit','nextPursuit','nextSpread','nextCast','nextClaw','nextGate','triangleReady','nextJudgement','nextWard','next','nextDomain','nextClock','nextPulse','nextOverload','nextPhase','nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard'].includes(key)&&!(group==='awakening'&&key==='nextPulse')?cdLost:lost;
+        for(const key of keys)if(!(group==='ball'&&key==='shieldUntil'&&!force)&&Number.isFinite(state[key])&&state[key]>0&&state[key]>engine.time-dt+1e-9)state[key]+=['jetNext','nextSwap','nextShot','nextTrap','nextPool','nextLaser','nextShield','reloadUntil','coolingUntil','nextSpit','nextPursuit','nextSpread','nextCast','nextClaw','nextGate','triangleReady','nextJudgement','next','nextDomain','nextClock','nextDelete','nextPulse','nextOverload','nextPhase','nextGain','nextDischarge','nextForm','nextNova','nextLaunch','nextStrike','nextOrbit','nextAwake','nextCharge','nextGuard'].includes(key)&&!(group==='awakening'&&key==='nextPulse')?cdLost:lost;
       }
-      G.VampireHunt?.slow(ball,lost);G.Demon?.slow(ball,engine,lost);G.Cosmic?.slow(ball,engine,lost);G.Stellar?.slow(ball,engine,lost);G.Arcana?.slow(ball,engine,lost);
+      G.VampireHunt?.slow(ball,lost);G.Demon?.slow(ball,engine,lost);G.Stellar?.slow(ball,engine,lost);G.Arcana?.slow(ball,engine,lost);
       if(ball.laser)for(const key of ['fireAt','trackUntil'])if(ball.laser[key]>engine.time-dt+1e-9)ball.laser[key]+=lost;
       if(ball.awakening.chainActive)ball.awakening.chainStartedAt+=lost;
       if(ball.motionSpeed)ball.awakening.dashStartedAt+=lost;
@@ -142,11 +143,11 @@
         if(rate!==old){ball.vx*=rate/old;ball.vy*=rate/old;ball.temporal.rate=rate;G.Physics.limit(ball);}
         if(rate<1)for(const d of engine.timeDomains)if(d.armedAt<=engine.time&&G.World.enemy(d.owner,ball,engine)&&Math.hypot(ball.x-d.x,ball.y-d.y)<=d.radius+ball.radius){const owner=engine.balls.find(b=>b.id===d.owner);if(owner)G.Adaptive?.good(owner,d.adaptiveId);}
         this.slowTimers(ball,engine,dt);
-        if(this.silenced(ball,engine)&&ball.shield>0&&engine.time>=ball.shieldUntil){ball.shield=0;ball.role.pressure=0;}
+        if(this.silenced(ball,engine)&&ball.shield>0&&engine.time>=ball.shieldUntil){ball.shield=0;}
       }
     },
     startDomain(ball,engine,domainAim){const s=ball.temporal,t=engine.time;const id=G.Adaptive?.begin(ball,'timeDomain',engine);this.domain(ball,engine,domainAim.x,domainAim.y);engine.timeDomains.at(-1).adaptiveId=id;G.Adaptive?.close(ball,id);s.nextDomain=t+ball.def.domainPeriod;},
-    startClock(ball,engine,tracked){const s=ball.temporal,t=engine.time;s.clockAdaptiveId=G.Adaptive?.begin(ball,'timeClock',engine);s.aim=tracked;s.castAt=t+.35;s.nextClock=t+ball.def.clockPeriod;engine.sound('clockCharge',ball.x);},
+    startClock(ball,engine,tracked){const s=ball.temporal,t=engine.time;s.clockAdaptiveId=G.Adaptive?.begin(ball,'timeClock',engine);s.aim=tracked;s.castAt=t+.35;s.clockLockAt=t+.27;s.nextClock=t+ball.def.clockPeriod;engine.sound('clockCharge',ball.x);},
     update(ball,dt,engine){
       if(engine.state!=='running'||this.silenced(ball,engine))return;
       const t=engine.time,s=ball.temporal,target=G.World.targetFor(ball,engine);if(!target)return;const domainAim=G.Aim.point(ball,target,engine,'domain',target,dt);
@@ -155,10 +156,10 @@
       const tracked=G.Aim.track(ball,target,engine,'clock',ball.def.clockSpeed,s.castAt?Math.max(0,s.castAt-t):0,6,dt);
       if(!Number.isFinite(s.nextClock))s.nextClock=t+.6;
       if(s.castAt){
-        if(t<s.castAt-.08)s.aim=tracked;
+        if(t<(s.clockLockAt||s.castAt-.08))s.aim=tracked;
         if(t+1e-9>=s.castAt){const nx=Math.cos(s.aim),ny=Math.sin(s.aim),offset=ball.radius+10;
           const bounds=ball.combatBounds;engine.timeClocks.push({id:engine.nextWorldId++,...(engine.demonWorld?{heat:engine.heatMultiplier}:{}),owner:ball.id,adaptiveId:s.clockAdaptiveId,x:Math.max((bounds?.left||0)+9,Math.min((bounds?.right??C.width)-9,ball.x+nx*offset)),y:Math.max((bounds?.top||0)+9,Math.min((bounds?.bottom??C.height)-9,ball.y+ny*offset)),radius:9,angle:s.aim,speed:ball.def.clockSpeed,range:ball.def.clockRange,travel:0,raw:G.Combat.rollAttack(ball,engine,ball.def.clockDamage,'timeBlast'),color:ball.def.color,started:t});
-          G.Adaptive?.close(ball,s.clockAdaptiveId);s.castAt=0;ball.stats.clocksThrown++;engine.sound('clockThrow',ball.x);engine.signal(ball,'零时禁令 · 时钟出手','miss');
+          G.Adaptive?.close(ball,s.clockAdaptiveId);s.castAt=0;s.clockLockAt=0;ball.stats.clocksThrown++;engine.sound('clockThrow',ball.x);engine.signal(ball,'零时禁令 · 时钟出手','miss');
         }
       }else if(!G.ManualRoles?.owns(ball,engine)&&t+1e-9>=s.nextClock&&!G.Adaptive?.wait(ball,target,engine,'timeClock')){this.startClock(ball,engine,tracked);}
     },

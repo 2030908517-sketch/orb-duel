@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
+for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m,eps=1e-6)=>ok(Math.abs(a-b)<eps,m+' '+a+' / '+b);
 const make=(type='laser')=>{const e=new G.Engine(['time',type],'time-boundary');e.start();const [a,b]=e.balls;a.x=60;a.y=40;a.speed=0;a.vx=a.vy=0;a.temporal.nextDomain=Infinity;b.x=110;b.y=240;b.speed=50;b.vx=50;b.vy=0;return e;};

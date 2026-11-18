@@ -1,0 +1,74 @@
+{
+  "runtime": {
+    "node": "v24.16.0",
+    "v8": "13.6.233.17-node.49",
+    "browser": "156.0.4314.58"
+  },
+  "report": {
+    "matches": 780,
+    "filter": 10,
+    "relations": 156,
+    "counts": {
+      "均势": 74,
+      "较大优势": 34,
+      "较大劣势": 34,
+      "明显劣势": 7,
+      "明显优势": 7
+    }
+  },
+  "replays": [
+    {
+      "matchId": 486,
+      "node": {
+        "winner": "time",
+        "label": "碾压",
+        "time": 79.73333333333333,
+        "hp": [
+          0,
+          35.87039275507449
+        ]
+      },
+      "browser": {
+        "state": "ended",
+        "winner": "time",
+        "label": "碾压",
+        "time": 79.73333333333333,
+        "hp": [
+          0,
+          35.87039275507449
+        ],
+        "finite": true
+      },
+      "exact": true,
+      "winnerMatches": true,
+      "labelMatches": true
+    },
+    {
+      "matchId": 746,
+      "node": {
+        "winner": "venom",
+        "label": "险胜",
+        "time": 56.520833333333336,
+        "hp": [
+          4.352813465815162,
+          0
+        ]
+      },
+      "browser": {
+        "state": "ended",
+        "winner": "venom",
+        "label": "险胜",
+        "time": 56.520833333333336,
+        "hp": [
+          4.352813465815162,
+          0
+        ],
+        "finite": true
+      },
+      "exact": true,
+      "winnerMatches": true,
+      "labelMatches": true
+    }
+  ],
+  "errors": []
+}

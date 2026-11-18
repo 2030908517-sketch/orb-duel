@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel,spectacle=G.Spectacle;
 const signatureTypes=new Set(),cues=new Set();let matches=0,peak=0;
 for(const a of Object.keys(G.Types))for(const b of Object.keys(G.Types))for(let seed=0;seed<3;seed++){

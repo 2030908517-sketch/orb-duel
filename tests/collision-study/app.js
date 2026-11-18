@@ -1,6 +1,6 @@
 (async function(){
   'use strict';const $=id=>document.getElementById(id);
-  const modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','presentation','engine','audio'];
+  const modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','presentation','engine','audio'];
   for(const file of [...modules.map(n=>'../../js/'+n+'.js'), 'core.js','sound.js','view.js'])await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=file;s.onload=resolve;s.onerror=()=>reject(Error('加载失败：'+file));document.head.append(s);});
   const G=OrbDuel,S=G.CollisionStudy,V=G.CollisionView,Audio=G.CollisionSound,canvases=Object.fromEntries(['A','B','C'].map(k=>[k,$('canvas-'+k)])),options=Object.fromEntries(['A','B','C'].map(k=>[k,S.tune()])),trace=[],costs={A:[],B:[],C:[]},intervals=[],urls=[],captures=[],painted=new Set();
   let clip,key='B',cursor=0,running=false,last=performance.now(),lastUI=0,round=0,recorder=null,recordStream=null,tap=null,stopPromise=null,recordTimer=null,renderState={};

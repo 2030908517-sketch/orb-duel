@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),context=vm.createContext({structuredClone}),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','presentation','engine','audio'];
+const root=path.resolve(__dirname,'..'),context=vm.createContext({structuredClone}),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','presentation','engine','audio'];
 for(const n of modules)vm.runInContext(fs.readFileSync(path.join(root,'js',n+'.js'),'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(__dirname,'arcana-lab/core.js'),'utf8'),context);
 const G=context.OrbDuel,S=G.ArcanaLab,runs=[];let checks=0;function ok(value,msg){checks++;assert(value,msg);}

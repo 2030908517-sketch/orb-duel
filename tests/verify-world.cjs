@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path');
-for(const file of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
+for(const file of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine'])require(path.resolve(__dirname,'../js',file+'.js'));
 const G=globalThis.OrbDuel;let checks=0;
 function ok(v,message){assert.ok(v,message);checks++;}
 function setup(types=['ranger','normal']){

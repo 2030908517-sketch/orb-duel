@@ -48,7 +48,7 @@
     update(ball,engine){if(ball.magneticMark&&ball.magneticMark.until<engine.time)ball.magneticMark=null;if(ball.stagger&&ball.stagger.until<engine.time)ball.stagger=null;if(ball.bladeMark&&ball.bladeMark.until<engine.time)ball.bladeMark=null;},
     wall(ball,engine){
       if(ball.type==='accelerator'&&!G.Overdrive?.active(ball)&&ball.wallContact&&ball.character.wallBoostTick!==engine.tick){ball.character.wallBoostTick=engine.tick;const old=ball.speed;ball.speed=Math.min(ball.def.maxSpeed,ball.speed+ball.def.wallBoost);if(!ball.motionSpeed)G.Physics.normalizeSpeed(ball);if(ball.speed>old)engine.burst(ball.x,ball.y,ball.def.color,3);}
-      G.Magnet.wall(ball,engine);G.Cosmic?.wall(ball,engine);G.Charge?.wall(ball,engine);
+      G.Magnet.wall(ball,engine);G.Charge?.wall(ball,engine);
       const s=ball.stagger,w=ball.wallContact;if(!s||s.until<engine.time||!w)return;
       // Consume even an absorbed wall hit; the same shove cannot farm a corner.
       ball.stagger=null;const source=engine.balls.find(b=>b.id===s.owner&&b.hp>0);
@@ -103,7 +103,7 @@
  'use strict';const G=root.OrbDuel,EPS=1e-8,TAU=Math.PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  // All V2 tuning lives here. Layer clocks use simulation time, never render time.
  const V=G.Venom={
-  config:{capacity:4,typeCap:3,applyInterval:1.1,erosionLife:6,concentratedLife:7.5,paralysisLife:5.5,pulsePeriod:.5,mistPulsePeriod:.5,mistDamage:.18,erosionDamage:.55,awakeErosionDamage:.65,replacementHits:2,replacementCooldown:2,slowPerLayer:.04,contactReductionPerLayer:.08,aimReductionPerLayer:.14,mistAimDegrees:5,poolPeriod:3.2,spitPeriod:9,spitFirstDelay:1.6,spitDamage:2.4,poolCap:4,poolGap:8,armDelay:.5,normalRadius:46,concentratedRadius:30,mistRadius:62,shotPoolRadius:36,normalTime:3.5,concentratedTime:3,mistTime:4.5,concentratedMinorEvery:2,mistExtend:1.5,mistMaxExtension:3},
+  config:{capacity:4,typeCap:3,applyInterval:1.1,erosionLife:6,concentratedLife:7.5,paralysisLife:5.5,pulsePeriod:.5,mistPulsePeriod:.5,mistDamage:.19,erosionDamage:.58,awakeErosionDamage:.68,erosionReplacementHits:1,replacementHits:2,replacementCooldown:2,slowPerLayer:.04,contactReductionPerLayer:.08,meleeReductionPerLayer:.04,aimReductionPerLayer:.14,mistAimDegrees:5,poolPeriod:3.2,spitPeriod:9,spitFirstDelay:1.6,spitDamage:2.4,poolCap:4,poolGap:8,armDelay:.5,normalRadius:46,concentratedRadius:30,mistRadius:62,shotPoolRadius:36,normalTime:3.5,concentratedTime:3,mistTime:4.5,mistFormTime:.8,residueFormTime:.35,concentratedMinorEvery:1,mistExtend:1.5,mistMaxExtension:3},
   colors:{erosion:'#b5ed71',paralysis:'#b5ed71'},
   layers(b,time=Infinity){return (b.poison?.layers||[]).filter(l=>time===Infinity||l.until>time+EPS);},
   count(b,type,time=Infinity){return this.layers(b,time).filter(l=>l.type===type).length;},
@@ -115,11 +115,13 @@
    const own=p.layers.filter(l=>l.type===type),other=p.layers.filter(l=>l.type!==type),shortest=xs=>xs.reduce((a,l)=>!a||l.until<a.until?l:a,null);
    const life=type==='paralysis'?c.paralysisLife:options.concentrated?c.concentratedLife:c.erosionLife;
    const fresh=()=>({...(e.demonWorld?{heat:e.heatMultiplier}:{}),type,owner:b.id,created:e.time,until:e.time+life,raw:(G.Awakening.active(b)?c.awakeErosionDamage:c.erosionDamage)*e.heatMultiplier,noReflect:!!options.noReflect});
-   if(own.length>=c.typeCap){const l=shortest(own);Object.assign(l,fresh());t.venomChange={at:e.time,type,kind:'refresh'};return 'refresh';}
+   const refresh=()=>{const l=shortest(own);if(!l)return false;Object.assign(l,fresh());t.venomChange={at:e.time,type,kind:'refresh'};return 'refresh';};
+   if(own.length>=c.typeCap)return refresh();
    if(p.layers.length<c.capacity){p.layers.push(fresh());p.progress={erosion:0,paralysis:0};t.venomChange={at:e.time,type,kind:'add'};return 'add';}
    if(!other.length)return false;
-   p.progress[type]=Math.min(c.replacementHits,p.progress[type]+1);
-   if(p.progress[type]<c.replacementHits||e.time+EPS<p.replaceAt)return 'progress';
+   if(type==='paralysis'&&own.length!==1){p.progress.paralysis=0;return refresh();}
+   const hits=type==='erosion'?c.erosionReplacementHits:c.replacementHits;p.progress[type]=Math.min(hits,p.progress[type]+1);
+   if(p.progress[type]<hits||e.time+EPS<p.replaceAt)return 'progress';
    const old=shortest(other);p.layers[p.layers.indexOf(old)]=fresh();p.progress={erosion:0,paralysis:0};p.replaceAt=clock.replaceAt=e.time+c.replacementCooldown;t.venomChange={at:e.time,type,kind:'replace'};return 'replace';
   },
   apply(b,t,e,source='erosion',options={}){
@@ -127,8 +129,8 @@
    // If damage clock survived a cleanse/empty interval, skip idle pulses without restarting its phase.
    if(!t.poison&&clock.nextPulse<=e.time+EPS)clock.nextPulse+=Math.floor((e.time-clock.nextPulse+EPS)/this.config.pulsePeriod+1)*this.config.pulsePeriod;
    this.sync(t,e);clock.ready[b.id]=e.time+this.config.applyInterval;
-   const type=source==='mist'||source==='paralysis'?'paralysis':'erosion',result=this.add(b,t,e,type,{...options,concentrated:source==='concentrated'});
-   if(source==='concentrated'){const n=clock.concentrated[b.id]=(clock.concentrated[b.id]||0)+1;if(n%this.config.concentratedMinorEvery===0)this.add(b,t,e,'paralysis',options);}
+   const type=source==='mist'||source==='paralysis'?'paralysis':'erosion';let result=this.add(b,t,e,type,{...options,concentrated:source==='concentrated'});
+   if(source==='concentrated'){const n=clock.concentrated[b.id]=(clock.concentrated[b.id]||0)+1;if(n%this.config.concentratedMinorEvery===0){const minor=this.add(b,t,e,'paralysis',options);if(!['add','refresh','replace'].includes(result)&&['add','refresh','replace'].includes(minor))result=minor;}}
    this.sync(t,e);return result;
   },
   poolSpot(b,e,point,scale,others){
@@ -142,25 +144,39 @@
    return best;
   },
   pool(b,e,point,options={}){
-   const c=this.config,owned=e.pools.filter(p=>p.owner===b.id&&p.expires>e.time),oldest=owned.length>=c.poolCap?owned.reduce((a,p)=>a.created<=p.created?a:p):null;
+   const c=this.config,owned=e.pools.filter(p=>p.owner===b.id&&!p.venomResidue&&!p.venomMistField&&p.expires>e.time),oldest=owned.length>=c.poolCap?owned.reduce((a,p)=>a.created<=p.created?a:p):null;
    const scale=(options.radius||c.normalRadius)/c.normalRadius,spot=this.poolSpot(b,e,point,scale,owned.filter(p=>p!==oldest));if(!spot)return false;
-   if(oldest)e.pools=e.pools.filter(p=>p!==oldest);
+   if(oldest)this.releasePool(oldest,e);
    const armed=e.time+c.armDelay;
    const p={id:e.nextWorldId++,owner:b.id,venomV2:true,created:e.time,x:spot.x,y:spot.y,radius:c.normalRadius*scale,scale,color:b.def.color,adaptiveId:options.adaptiveId,armedAt:armed,concentrateAt:armed+c.normalTime,mistAt:armed+c.normalTime+c.concentratedTime,expires:armed+c.normalTime+c.concentratedTime+c.mistTime,noReflect:!!options.noReflect,extension:0,touched:false,refundField:options.refund===false?null:'nextPool'};
    e.pools.push(p);b.stats.poolsPlaced++;e.sound('poison',p.x);return p;
   },
   stage(p,t){return t+EPS>=p.mistAt?'mist':t+EPS>=p.concentrateAt?'concentrated':'normal';},
-  radius(p,t){const c=this.config,s=this.stage(p,t);return (s==='mist'?c.mistRadius:s==='concentrated'?c.concentratedRadius:c.normalRadius)*p.scale;},
+  radius(p,t){if(p.venomResidue)return p.mistRadius*clamp((t-p.created)/this.config.residueFormTime,0,1);const c=this.config,s=this.stage(p,t);return (s==='mist'?c.mistRadius:s==='concentrated'?c.concentratedRadius:c.normalRadius)*p.scale;},
   clear(a,b,e){if(G.ArenaWalls&&!G.ArenaWalls.clear(a,b,e))return false;if(e.mode==='2v2'){const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);if(d&&G.Team.rayLimit(a.x,a.y,dx/d,dy/d,0,e.obstacles)<d-EPS)return false;}return true;},
-  contains(p,b,e){return e.time+EPS>=p.armedAt&&e.time<p.expires-EPS&&Math.hypot(b.x-p.x,b.y-p.y)<=this.radius(p,e.time)+b.radius*.55&&this.clear(p,b,e);},
+  releasePool(p,e){if(this.mistLinks(p,e).length){this.syncMist(e);p.venomMistField=true;p.refundField=null;}else e.pools=e.pools.filter(q=>q!==p);},
+  mistReady(p,t){return p.venomV2&&this.stage(p,t)==='mist'&&t>=p.armedAt&&t+EPS>=(p.venomResidue?p.created+this.config.residueFormTime:p.mistAt+this.config.mistFormTime)&&t<p.expires;},
+  mistAdjacent(p,q,e){if(q===p||q.owner!==p.owner||!this.mistReady(p,e.time)||!this.mistReady(q,e.time))return false;return Math.hypot(q.x-p.x,q.y-p.y)<=this.radius(p,e.time)+this.radius(q,e.time)+12&&this.clear(p,q,e);},
+  // Pair identity is persistent: obstruction or removal never permits a third partner.
+  syncMist(e){const ready=e.pools.filter(p=>this.mistReady(p,e.time)).sort((a,b)=>a.created-b.created||a.id-b.id);for(const p of ready){if(p.mistMate!==undefined)continue;const q=ready.filter(q=>q.mistMate===undefined&&this.mistAdjacent(p,q,e)).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)||a.id-b.id)[0];if(q){p.mistMate=q.id;q.mistMate=p.id;}}for(const p of ready){const link=this.mistLinks(p,e)[0];if(link){const expires=Math.max(p.expires,link.peer.expires);p.expires=link.peer.expires=expires;}}},
+  mistLinks(p,e){if(p.mistMate===undefined||!this.mistReady(p,e.time))return [];const q=e.pools.find(q=>q.id===p.mistMate);return q&&q.mistMate===p.id&&this.mistAdjacent(p,q,e)?[{peer:q,width:Math.min(24,this.radius(p,e.time)*.8,this.radius(q,e.time)*.8)}]:[];},
+  mistDistance(p,q,b){const dx=q.x-p.x,dy=q.y-p.y,len=dx*dx+dy*dy,u=clamp(len?((b.x-p.x)*dx+(b.y-p.y)*dy)/len:0,0,1),point={x:p.x+dx*u,y:p.y+dy*u};return{distance:Math.hypot(b.x-point.x,b.y-point.y),point};},
+  contains(p,b,e){if(e.time+EPS<p.armedAt||e.time>=p.expires-EPS)return false;if(Math.hypot(b.x-p.x,b.y-p.y)<=this.radius(p,e.time)+b.radius*.55&&this.clear(p,b,e))return true;return this.mistLinks(p,e).some(({peer,width})=>{const hit=this.mistDistance(p,peer,b);return hit.distance<=width+b.radius*.55&&this.clear(hit.point,b,e);});},
   inMist(b,e){return e.pools.some(p=>p.venomV2&&this.stage(p,e.time)==='mist'&&G.World.enemy(p.owner,b,e)&&e.balls.some(o=>o.id===p.owner&&o.hp>0)&&this.contains(p,b,e));},
   speedFactor(b){return G.Physics.armored(b)?1:Math.max(.6,1-this.count(b,'paralysis')*this.config.slowPerLayer);},
   aimControl(b,e){if(G.Physics.armored(b)||G.World.absent(b,e))return {rate:1,offset:0};const n=this.count(b,'paralysis',e.time),mist=this.inMist(b,e);return {rate:1-n*this.config.aimReductionPerLayer,offset:mist?this.config.mistAimDegrees*Math.PI/180*(Math.sin(e.time*6.3+b.id*1.7)*.65+Math.sin(e.time*11.1+b.id)*.35):0};},
   steer(b,e,angle,desired,dt){const control=this.aimControl(b,e);return control.rate===1&&control.offset===0?desired:G.Aim.turn(angle,desired+control.offset,8*control.rate*dt);},
+  paralysisDamageRate(h,e){
+   if(h.priority==='arcana'||G.Priority?.attackLevel(h,e)||/^arc[A-Z]/.test(h.kind||'')||h.dance||h.trueDamage||G.Arcana?.busy(h.source))return 0;
+   if(h.kind==='contact'){
+    const b=h.source,heavyNormal=b.type==='normal'&&b.charges>=3&&(!G.ManualRoles?.normalOwned(b)||G.ManualRoles.heavyReady(b));
+    const special=h.dash||h.heavyContact||heavyNormal||b.type==='boomerang'&&!G.BladeHunt&&b.character.catchUntil>e.time||b.type==='accelerator'&&h.impact?.closing>=430&&h.impact?.forward>=250||b.ghost?.lungeUntil>e.time;
+    return special?this.config.meleeReductionPerLayer:this.config.contactReductionPerLayer;
+   }
+   return ['bladeSlash','heatBlade','demonClaw','demonHellSlash','demonHellCounter','holySword','holySpear'].includes(h.kind)?this.config.meleeReductionPerLayer:0;
+  },
   contactPacket(h,e){
-   if(h.kind!=='contact'||h.dash||h.heavyContact||h.heavyShot||h.priority==='arcana'||G.Arcana?.busy(h.source))return h;
-   const b=h.source,t=e.time,special=b.type==='normal'&&b.charges>=3||b.type==='shield'&&(h.pressureSpent||b.role.pressure)>0||b.type==='boomerang'&&!G.BladeHunt&&b.character.catchUntil>t||b.type==='accelerator'&&h.impact?.closing>=430&&h.impact?.forward>=250||b.ghost?.lungeUntil>t;
-   if(special)return h;const n=this.count(b,'paralysis',t);return n?{...h,raw:h.raw*(1-n*this.config.contactReductionPerLayer)}:h;
+   const rate=this.paralysisDamageRate(h,e),n=rate?this.count(h.source,'paralysis',e.time):0;return n?{...h,raw:h.raw*Math.max(0,1-n*rate)}:h;
   },
   settle(b,e){
    const p=b.poison,clock=b.venomTiming;if(!p?.layers||!clock)return;
@@ -169,14 +185,15 @@
   },
   world(e){
    for(const b of e.balls)this.settle(b,e);
+   this.syncMist(e);
    e.pools=e.pools.filter(p=>{const owner=e.balls.find(o=>o.id===p.owner&&o.hp>0);if(!owner)return false;if(e.time+EPS>=p.expires){if(!p.touched&&p.refundField!==null)G.Recovery.refund(owner,e,'nextPool',.35,'毒液未接触');return false;}p.radius=this.radius(p,e.time);return true;});
    G.LivingVenom?.world(e);
 
   },
-  advance(p,e){const c=this.config,s=this.stage(p,e.time);p.transition={at:e.time,from:s,radius:this.radius(p,e.time)};if(s==='normal'){p.concentrateAt=e.time;p.mistAt=e.time+c.concentratedTime;p.expires=p.mistAt+c.mistTime;}else if(s==='concentrated'){p.mistAt=e.time;p.expires=e.time+c.mistTime;}else{const add=Math.min(c.mistExtend,c.mistMaxExtension-p.extension);p.extension+=add;p.expires+=add;}p.radius=this.radius(p,e.time);},
+  advance(p,e){const c=this.config,s=this.stage(p,e.time);p.transition={at:e.time,from:s,radius:this.radius(p,e.time)};if(s==='normal'){p.concentrateAt=e.time;p.mistAt=e.time+c.concentratedTime;p.expires=p.mistAt+c.mistTime;}else if(s==='concentrated'){p.mistAt=e.time;p.expires=e.time+c.mistTime;}else{const add=Math.min(c.mistExtend,c.mistMaxExtension-p.extension);p.extension+=add;p.expires+=add;}p.radius=this.radius(p,e.time);this.syncMist(e);},
   resonate(){},
   label(b,e){return '侵蚀 '+this.count(b,'erosion',e.time)+' · 麻痹 '+this.count(b,'paralysis',e.time)+' /4';},
-  status(b,e){const pools=e.pools.filter(p=>p.owner===b.id),n=s=>pools.filter(p=>this.stage(p,e.time)===s).length;return [{label:'双毒上限',value:'4槽 / 单毒3层'},{label:'侵蚀/跳',value:(G.Awakening.active(b)?this.config.awakeErosionDamage:this.config.erosionDamage).toFixed(2)+'/层'},{label:'施毒间隔',value:this.config.applyInterval+'s'},{label:'毒液三态',value:n('normal')+'/'+n('concentrated')+'/'+n('mist')},{label:'同巢共鸣',value:G.Awakening.active(b)?'体内外同毒触发':'未觉醒'},{label:'喷吐CD',value:Math.max(0,(b.role.nextSpit||0)-e.time).toFixed(1)+'s'}];},
+  status(b,e){const pools=e.pools.filter(p=>p.owner===b.id&&!p.venomResidue&&!p.venomMistField),residues=e.pools.filter(p=>p.owner===b.id&&p.venomResidue&&!p.venomMistField).length,n=s=>pools.filter(p=>this.stage(p,e.time)===s).length;return [{label:'双毒上限',value:'4槽 / 单毒3层'},{label:'侵蚀/跳',value:(G.Awakening.active(b)?this.config.awakeErosionDamage:this.config.erosionDamage).toFixed(2)+'/层'},{label:'施毒间隔',value:this.config.applyInterval+'s'},{label:'毒液三态',value:n('normal')+'/'+n('concentrated')+'/'+n('mist')},...(residues?[{label:'喷射残雾',value:residues}]:[]),{label:'同巢共鸣',value:G.Awakening.active(b)?'体内外同毒触发':'未觉醒'},{label:'喷吐CD',value:Math.max(0,(b.role.nextSpit||0)-e.time).toFixed(1)+'s'}];},
   inspect(b,e){return {layers:this.layers(b,e.time).map(l=>({type:l.type,owner:l.owner,remaining:+Math.max(0,l.until-e.time).toFixed(2)})),progress:{...b.poison?.progress},replacementCooldown:Math.max(0,(b.venomTiming?.replaceAt||0)-e.time),applyCooldown:{...b.venomTiming?.ready},nextPulse:b.venomTiming?.nextPulse};},
   drawPool(r,p,e){
    if(!p.venomV2)return;const c=r.ctx,t=e.time,s=this.stage(p,t),fog=s==='mist',con=s==='concentrated',color=fog?'#a77dde':'#93ca59',radius=this.radius(p,t),last=s==='mist'?p.mistAt:s==='concentrated'?p.concentrateAt:p.armedAt;

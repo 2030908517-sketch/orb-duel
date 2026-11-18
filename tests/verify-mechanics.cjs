@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
+for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine'])require(path.resolve(__dirname,'../js/'+n+'.js'));
 const G=globalThis.OrbDuel;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-8,m);
 function make(types){const e=new G.Engine(types,'mechanics-test');e.start();for(const [i,b]of e.balls.entries()){b.x=80+i*160;b.y=170;b.vx=0;b.vy=0;b.previousX=b.x;b.previousY=b.y;}return e;}

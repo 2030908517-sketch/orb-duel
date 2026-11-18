@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'];
+const root=path.resolve(__dirname,'..'),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'];
 for(const name of modules)require(path.join(root,'js',name+'.js'));require('./arcana-lab/core.js');
 const G=globalThis.OrbDuel;let checks=0;const ok=(a,m)=>{checks++;assert.ok(a,m);},eq=(a,b,m)=>{checks++;assert.deepEqual(a,b,m);};
 const setup=scene=>{const e=G.ArcanaLab.setup('ranger',scene||'hit');return{e,b:e.balls[0],t:e.balls[1]};};

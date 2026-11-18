@@ -1,8 +1,12 @@
 {
-  "checks": 118,
+  "checks": 149,
   "passed": true,
   "trigger": "15s or <=50% HP",
   "skills": [
+    "storm",
+    "charge",
+    "orbital",
+    "demon",
     "normal",
     "vampire",
     "accelerator",

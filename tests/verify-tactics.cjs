@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine','audio','spectacle'];
+const modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine','audio','spectacle'];
 function load(team=false){const c=vm.createContext({});for(const f of ['config',...(team?['team-maps']:[]),...modules.slice(1),...(team?['renderer','team-runtime','team-engine']:[])])vm.runInContext(fs.readFileSync(path.join(__dirname,'../js',f+'.js'),'utf8'),c);return c.OrbDuel;}
 const G=load(),T=load(true);let checks=0;const ok=(x,m)=>{checks++;assert.ok(x,m);},near=(a,b,m)=>ok(Math.abs(a-b)<1e-7,m+': '+a+'/'+b);
 function make(types=['normal','normal'],seed='tactics'){const e=new G.Engine(types,seed);e.start();e.balls.forEach((b,i)=>{b.x=b.previousX=70+i*180;b.y=b.previousY=170;b.vx=b.vy=0;});return e;}

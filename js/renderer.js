@@ -26,30 +26,32 @@
       for (const [x, y, sx, sy] of [[12, 12, 1, 1], [C.width - 12, 12, -1, 1], [12, C.height - 12, 1, -1], [C.width - 12, C.height - 12, -1, -1]]) { c.beginPath(); c.moveTo(x, y + 12 * sy); c.lineTo(x, y); c.lineTo(x + 12 * sx, y); c.stroke(); }
       if (engine.time >= C.heatStart) { c.strokeStyle = engine.time >= C.decayStart ? '#ce6c6b55' : '#f8c56c28'; c.lineWidth = 2; c.strokeRect(2, 2, C.width - 4, C.height - 4); }
       c.save();
-      G.LaserBladeView?.background(this,engine);
+      G.LaserBladeView?.background(this,engine);G.NormalArcanaView?.background(this,engine);
       const impulses=engine.effects.filter(e=>e.kind==='impact');
       G.Presentation?.camera(this,engine);
       const impulse=impulses.reduce((best,e)=>e.power*(1-e.age/e.life)>(best?.power||0)*(1-(best?.age||0)/(best?.life||1))?e:best,null);
       if(impulse && !this.reducedMotion){const strength=impulse.power*(1-impulse.age/impulse.life)*.9;c.translate(Math.sin(impulse.age*115)*strength,Math.cos(impulse.age*95)*strength);}
       const arcImpact=engine.effects.find(f=>f.kind==='arcana'&&['fistImpact','sonicImpact','bloodRupture','counterHit'].includes(f.style)&&f.age<.4);
-      if(arcImpact&&!this.reducedMotion){const strength=(arcImpact.style==='fistImpact'?5:3.5)*Math.exp(-arcImpact.age*11);c.translate(Math.sin(arcImpact.age*127)*strength,Math.cos(arcImpact.age*109)*strength);}
-      G.HolyView?.floor(this,engine);this.drawRoster(engine);this.drawWorld(engine);G.RangerView?.behind(this,engine);G.DemonView?.behind(this,engine);G.CosmicView?.behind(this,engine);G.ChargeView?.behind(this,engine);G.StellarView?.behind(this,engine);G.ArcanaView?.behind(this,engine);G.TrapperView?.behind(this,engine);this.drawTemporal(engine);this.drawMagnet(engine);this.drawGhost(engine);G.Spectacle?.behind(this,engine);
+      const rangerImpact=engine.effects.findLast(f=>f.kind==='arcana'&&['counterMuzzle','counterHit','counterWall'].includes(f.style)&&f.age<.4);
+      if(rangerImpact&&!this.reducedMotion){const age=Math.max(rangerImpact.age,(engine.presentationTime||0)-(rangerImpact.bornReal||0)),power={counterWall:7,counterHit:4.5,counterMuzzle:3.4}[rangerImpact.style],strength=power*Math.exp(-age*15);c.translate(Math.sin(age*127)*strength,Math.cos(age*109)*strength);}
+      else if(arcImpact&&!this.reducedMotion){const strength=(arcImpact.style==='fistImpact'?5:3.5)*Math.exp(-arcImpact.age*11);c.translate(Math.sin(arcImpact.age*127)*strength,Math.cos(arcImpact.age*109)*strength);}
+      G.HolyView?.floor(this,engine);this.drawRoster(engine);this.drawWorld(engine);G.RangerView?.behind(this,engine);G.DemonView?.behind(this,engine);G.ChargeView?.behind(this,engine);G.StellarView?.behind(this,engine);G.ArcanaView?.behind(this,engine);G.TrapperView?.behind(this,engine);this.drawTemporal(engine);this.drawMagnet(engine);this.drawGhost(engine);G.Spectacle?.behind(this,engine);
       this.drawAbilities(engine);
       this.drawSignals(engine);
       for (const ball of engine.balls) {
-        for (let i = ball.trail.length - 1; i >= 0; i--) { if(ball.arcana?.phase==='orbit'||G.BladeDance?.active(ball))break;const point = ball.trail[i]; c.globalAlpha = (1 - i / ball.trail.length) * (ball.type === 'accelerator' ? 0.19 : 0.10); c.fillStyle = ball.def.color; this.circle(point.x, point.y, ball.radius * (1 - i / (ball.trail.length + 3)) * 0.8); c.fill(); }
+        for (let i = ball.trail.length - 1; i >= 0; i--) { if(G.AcceleratorFeelView?.owns(ball)||G.LaserRegularView?.hideTrail(ball,engine)||G.VampireHunt?.hidden(ball)||ball.arcana?.phase==='orbit'||G.BladeDance?.active(ball)||G.NormalArcanaView?.hideTrail(ball))break;const point = ball.trail[i]; c.globalAlpha = (1 - i / ball.trail.length) * (ball.type === 'accelerator' ? 0.19 : 0.10)*(G.NormalRegularView?.trailMix(ball,engine)??1); c.fillStyle = ball.def.color; this.circle(point.x, point.y, ball.radius * (1 - i / (ball.trail.length + 3)) * 0.8); c.fill(); }
         c.globalAlpha = 1;
       }
-      for (const effect of engine.effects.filter(e => e.kind === 'ring' || e.kind === 'particle')) {
+      for (const effect of engine.effects.filter(e => !e.solarCut && !e.regularImpact && !e.regularVampireHeal && (e.kind === 'ring' || e.kind === 'particle'))) {
         const t = effect.age / effect.life; c.globalAlpha = Math.max(0, 1 - t);
         if (effect.kind === 'ring') { this.circle(effect.x, effect.y, 12 + effect.size * t); c.strokeStyle = effect.color; c.lineWidth = 2 * (1 - t) + 0.4; c.stroke(); }
         else { this.circle(effect.x, effect.y, 1.5 + (1 - t)); c.fillStyle = effect.color; c.fill(); }
       }
       c.globalAlpha = 1;
-      for (const ball of engine.balls) this.drawBall(ball, engine);G.HolyView?.front(this,engine);G.DemonView?.front(this,engine);G.CosmicView?.front(this,engine);G.ChargeView?.front(this,engine);G.StellarView?.front(this,engine);G.ArcanaView?.front(this,engine);G.TacticsView?.front(this,engine);G.TrapperView?.front(this,engine);G.Spectacle?.front(this,engine);this.drawRoleEffects(engine);this.drawRosterEffects(engine);this.drawTimeBursts(engine);G.LaserBladeView?.front(this,engine);
+      for (const ball of engine.balls) this.drawBall(ball, engine);G.HolyView?.front(this,engine);G.DemonView?.front(this,engine);G.ChargeView?.front(this,engine);G.StellarView?.front(this,engine);G.ArcanaView?.front(this,engine);G.TacticsView?.front(this,engine);G.TrapperView?.front(this,engine);G.Spectacle?.front(this,engine);G.RegularDuelView?.front(this,engine);G.LaserRegularView?.front(this,engine);this.drawRoleEffects(engine);this.drawRosterEffects(engine);this.drawTimeBursts(engine);G.LaserBladeView?.front(this,engine);
       G.OrbMarkers.draw(this,engine);
       c.font = '600 16px "Segoe UI", "Microsoft YaHei", sans-serif'; c.textAlign = 'center';
-      for(const effect of impulses){
+      for(const effect of impulses.filter(f=>!f.solarCut&&!f.regularImpact)){
         const t=effect.age/effect.life;c.save();c.globalAlpha=(1-t)*.85;c.translate(effect.x,effect.y);c.rotate(t*.4);c.strokeStyle=effect.color;c.lineWidth=2.5*(1-t)+.5;
         for(let i=0;i<8;i++){const angle=i*Math.PI/4,inner=5+16*t,outer=inner+(1-t)*13*effect.power;c.beginPath();c.moveTo(Math.cos(angle)*inner,Math.sin(angle)*inner);c.lineTo(Math.cos(angle)*outer,Math.sin(angle)*outer);c.stroke();}c.restore();
       }
@@ -133,14 +135,14 @@
         const a=ball.awakening;if(!a.active || ball.hp<=0)continue;
         const target=G.World.targetFor(ball,engine);
         if(ball.type==='vampire' && a.chainUntil>t && target){
-          this.lightning(ball.x,ball.y,target.x,target.y,t,'#ef86baaa',2.4);
+          if(G.RegularDuelView?.chain(this,ball,target,engine))continue;this.lightning(ball.x,ball.y,target.x,target.y,t,'#ef86baaa',2.4);
           for(let i=0;i<(target.type==='venom'?0:6);i++){const u=(t*1.2+i/6)%1;this.circle(target.x+(ball.x-target.x)*u,target.y+(ball.y-target.y)*u,2.5);c.fillStyle='#a6ffc9';c.fill();}
         }
-        if(ball.type==='accelerator' && a.chargeUntil>t){
+        if(ball.type==='accelerator' && a.chargeUntil>t&&!G.AcceleratorFeelView){
           c.save();c.strokeStyle='#fff0a488';c.lineWidth=2;c.setLineDash([6,6]);c.beginPath();c.moveTo(ball.x,ball.y);c.lineTo(ball.x+Math.cos(a.aim)*400,ball.y+Math.sin(a.aim)*400);c.stroke();c.restore();
           this.circle(ball.x,ball.y,ball.radius+7);c.strokeStyle='#fff3b6';c.lineWidth=2;c.stroke();
         }
-        if(G.Awakening.dashing(ball,engine)){
+        if(G.Awakening.dashing(ball,engine)&&!G.AcceleratorFeelView?.owns(ball)){
           const v=Math.hypot(ball.vx,ball.vy)||1;this.lightning(ball.x-ball.vx/v*90,ball.y-ball.vy/v*90,ball.x,ball.y,t,'#fff3a4',3);
           for(let i=1;i<=3;i++){this.circle(ball.x-ball.vx/v*i*17,ball.y-ball.vy/v*i*17,ball.radius);c.strokeStyle='#ffe484'+['66','44','22'][i-1];c.lineWidth=2;c.stroke();}
         }
@@ -152,7 +154,7 @@
       for(const ball of engine.balls){
         if(ball.hp<=0)continue;
         if(ball.pressure?.bonus>0){c.save();c.beginPath();c.arc(ball.x,ball.y,ball.radius+17,-Math.PI/2,-Math.PI/2+Math.PI*2*ball.pressure.bonus/ball.def.pressureCap);c.strokeStyle='#fff0a4aa';c.lineWidth=2;c.stroke();c.restore();}
-        if(ball.type==='reflector'){
+        if(ball.type==='reflector'&&!G.ReflectorView?.stance(this,ball,engine)){
           const s=ball.stance,active=s.phase==='active',warning=s.phase==='warning';
           c.save();c.translate(ball.x,ball.y);c.strokeStyle=active?'#decfff':warning?'#b39cff99':'#b39cff30';c.lineWidth=active?2.2:1;
           if(warning)c.setLineDash([2,4]);
@@ -160,9 +162,9 @@
           if(s.stored>0){c.beginPath();c.arc(0,0,ball.radius+14,-Math.PI/2,-Math.PI/2+Math.PI*2*s.stored/(8*engine.heatMultiplier));c.strokeStyle='#edddff';c.lineWidth=2.5;c.stroke();}c.restore();
         }
 
-        if(ball.laser){const ray=G.World.ray(ball,ball.laser.angle);c.save();c.strokeStyle=ball.def.color+'99';c.lineWidth=1;c.setLineDash([3,5]);c.beginPath();c.moveTo(ray.x,ray.y);c.lineTo(ray.endX,ray.endY);c.stroke();c.restore();}
+        if(ball.laser&&!G.LaserRegularView?.warning(this,ball,engine)){const ray=G.World.ray(ball,ball.laser.angle);c.save();c.strokeStyle=ball.def.color+'99';c.lineWidth=1;c.setLineDash([3,5]);c.beginPath();c.moveTo(ray.x,ray.y);c.lineTo(ray.endX,ray.endY);c.stroke();c.restore();}
       }
-      for(const e of engine.effects.filter(e=>e.kind==='beam'||e.kind==='link')){
+      for(const e of engine.effects.filter(e=>e.kind==='beam'||e.kind==='link')){if(e.kind==='beam'&&G.LaserRegularView?.shot(this,e,engine))continue;
         c.save();c.globalAlpha=Math.max(0,1-e.age/e.life);c.strokeStyle=e.color;c.lineWidth=e.kind==='beam'?e.width*2:1.5;c.lineCap='round';c.beginPath();c.moveTo(e.x,e.y);c.lineTo(e.endX,e.endY);c.stroke();
         if(e.kind==='beam'){c.strokeStyle='#fffce4';c.lineWidth=2;c.stroke();}c.restore();
       }
@@ -171,7 +173,7 @@
       const c=this.ctx;
       for(const pool of engine.pools)G.Venom.drawPool(this,pool,engine);
       for(const trap of engine.traps) {
-        if(trap.hub&&G.TrapperView){G.TrapperView.hub(this,trap,engine);continue;}
+        if(G.TrapperView){if(trap.hub)G.TrapperView.hub(this,trap,engine);else G.TrapperView.node(this,trap,engine);continue;}
         c.save(); const armed=engine.time>=trap.armedAt;
         c.globalAlpha=armed?0.9:0.4;c.strokeStyle=trap.color;c.fillStyle=trap.color+'20';c.lineWidth=1.5;
         this.circle(trap.x,trap.y,trap.radius);c.fill();c.setLineDash(armed?[]:[3,3]);c.stroke();c.setLineDash([]);
@@ -180,7 +182,7 @@
         this.circle(trap.x,trap.y,2);c.fillStyle=armed?'#ffe4e6':trap.color;c.fill();c.restore();
       }
       for(const shot of engine.projectiles) {if(['comet','arcBlood','arcPierce','holyLance'].includes(shot.mode))continue;
-        if(G.RangerView?.flyer(this,shot)||G.TacticsView?.flyer(this,shot,engine))continue;
+        if(G.ReflectorView?.flyer(this,shot)||G.RangerView?.flyer(this,shot)||G.TacticsView?.flyer(this,shot,engine))continue;
         if(shot.mode==='boomerang'){
           c.save();if(shot.history?.length){c.beginPath();c.moveTo(shot.x,shot.y);for(const p of shot.history)c.lineTo(p.x,p.y);c.strokeStyle=shot.returning?'#fff5b470':shot.color+'70';c.lineWidth=1.6;c.stroke();}c.translate(shot.x,shot.y);c.rotate(engine.time*20);c.strokeStyle=shot.returning?'#fff5b4':shot.color;c.lineWidth=3;c.lineCap='round';c.beginPath();c.moveTo(-7,4);c.lineTo(0,-4);c.lineTo(7,4);c.stroke();c.restore();continue;
         }
@@ -191,7 +193,7 @@
     }
     drawRoleEffects(engine){
       const c=this.ctx;
-      for(const e of engine.effects){if(e.kind!=='role')continue;const t=e.age/e.life,r=12+t*45;
+      for(const e of engine.effects){if(e.kind!=='role')continue;if(G.AcceleratorFeelView?.effect(this,e,engine))continue;const t=e.age/e.life,r=12+t*45;
         c.save();c.translate(e.x,e.y);c.rotate(e.angle);c.globalAlpha=1-t;c.shadowBlur=0;c.strokeStyle=e.color;c.lineWidth=2;
         if(e.style==='wallSlam'){c.beginPath();c.moveTo(0,-r);c.lineTo(0,r);c.stroke();for(let i=0;i<5;i++){const y=(i-2)*12;c.beginPath();c.moveTo(0,y);c.lineTo(14+t*25,y+(i%2?9:-9));c.lineTo(22+t*30,y);c.stroke();}c.strokeStyle='#fff1bb';c.lineWidth=4;c.beginPath();c.arc(0,0,r,-Math.PI/2,Math.PI/2);c.stroke();}
         else if(e.style==='toxinBurst'){c.beginPath();for(let i=0;i<=16;i++){const a=i*Math.PI/8,d=r*(i%2?.65:1);c.lineTo(Math.cos(a)*d,Math.sin(a)*d);}c.closePath();c.stroke();c.fillStyle=e.color+'30';c.fill();}
@@ -202,6 +204,8 @@
     drawRoster(engine){
       const c=this.ctx,t=engine.time;c.save();c.shadowBlur=0;
       for(const w of engine.waves){
+        if(w.kind==='pressureWave'&&G.ShieldDirectionalView){G.ShieldDirectionalView.wave(this,w,engine);continue;}
+        if(w.kind==='fistWave'&&G.RegularDuelView&&G.RegularDuelView.regular(engine.balls.find(b=>b.id===w.owner))){G.RegularDuelView.wave(this,w,engine);continue;}
         c.save();c.translate(w.x,w.y);c.rotate(w.angle);c.globalAlpha=.95-.55*w.travel/w.reach;
         if(w.kind==='pressureWave'){
           const fill=c.createLinearGradient(-42,0,12,0);fill.addColorStop(0,w.color+'00');fill.addColorStop(.75,w.color+'70');fill.addColorStop(1,'#defff9cc');c.fillStyle=fill;
@@ -211,18 +215,18 @@
         }else{c.strokeStyle=w.color;c.lineWidth=4;c.beginPath();c.ellipse(0,0,8,w.width,0,-Math.PI/2,Math.PI/2);c.stroke();c.strokeStyle='#fff4de';c.lineWidth=1.6;c.stroke();}
         c.restore();
       }
-      for(const b of engine.balls){const r=b.role;if(b.hp<=0)continue;
-        if(b.type==='vampire'){if(r.chainWarning){const enemy=G.World.targetFor(b,engine);if(enemy){c.strokeStyle=b.def.color+'80';c.lineWidth=1;c.setLineDash([2,5]);c.beginPath();c.moveTo(b.x,b.y);c.lineTo(enemy.x,enemy.y);c.stroke();c.setLineDash([]);}}}
-        if(b.type==='reflector'&&r.counterRelease>0){c.strokeStyle='#dbc8ff';c.lineWidth=1.5;for(const a of [r.counterAngle-.12,r.counterAngle+.12]){c.beginPath();c.moveTo(b.x+Math.cos(a)*26,b.y+Math.sin(a)*26);c.lineTo(b.x+Math.cos(a)*80,b.y+Math.sin(a)*80);c.stroke();}}
+      for(const b of engine.balls){const r=b.role;if(b.hp<=0)continue;const laserHandled=G.LaserRegularView?.state(this,b,engine);
+        if(b.type==='vampire'){if(r.chainWarning&&!G.RegularDuelView?.warning(this,b,engine)){const enemy=G.World.targetFor(b,engine);if(enemy){c.strokeStyle=b.def.color+'80';c.lineWidth=1;c.setLineDash([2,5]);c.beginPath();c.moveTo(b.x,b.y);c.lineTo(enemy.x,enemy.y);c.stroke();c.setLineDash([]);}}}
+        if(b.type==='reflector'&&r.counterRelease>0&&!G.ReflectorView?.aim(this,b,engine)){c.strokeStyle='#dbc8ff';c.lineWidth=1.5;for(const a of [r.counterAngle-.12,r.counterAngle+.12]){c.beginPath();c.moveTo(b.x+Math.cos(a)*26,b.y+Math.sin(a)*26);c.lineTo(b.x+Math.cos(a)*80,b.y+Math.sin(a)*80);c.stroke();}}
         if(b.type==='ranger'){if(r.calibration){c.strokeStyle='#ffd3ad';c.lineWidth=1;c.strokeRect(b.x-9,b.y-9,18,18);}}
-        if(b.type==='shield'&&(r.shieldRelease>0||r.shieldReserve>0)){c.save();c.translate(b.x,b.y);c.rotate(r.shieldAngle);c.fillStyle=b.def.color+'15';c.beginPath();c.moveTo(0,0);c.arc(0,0,110,-.32,.32);c.closePath();c.fill();c.strokeStyle='#b9fff0';c.lineWidth=2;c.beginPath();c.moveTo(32,0);c.lineTo(64,0);c.moveTo(54,-7);c.lineTo(64,0);c.lineTo(54,7);c.stroke();c.restore();}
+        if(b.type==='shield'&&r.shieldReserve>0){c.save();c.translate(b.x,b.y);c.rotate(r.shieldAngle);c.fillStyle=b.def.color+'15';c.beginPath();c.moveTo(0,0);c.arc(0,0,110,-.32,.32);c.closePath();c.fill();c.strokeStyle='#b9fff0';c.lineWidth=2;c.beginPath();c.moveTo(32,0);c.lineTo(64,0);c.moveTo(54,-7);c.lineTo(64,0);c.lineTo(54,7);c.stroke();c.restore();}
         if(b.type==='ranger'&&r.overload&&r.ammo>0&&!r.reloadUntil){c.save();c.translate(b.x,b.y);c.rotate(r.salvoAngle);const open=r.salvoFireAt>t?Math.max(0,1-(r.salvoFireAt-t)/.3):1;for(const side of [-1,1]){c.save();c.translate(6,side*(12+open*12));c.rotate(side*.22);c.fillStyle='#452e23';c.strokeStyle='#ffcc9d';c.lineWidth=2;c.fillRect(-6,-4,29,8);c.strokeRect(-6,-4,29,8);c.restore();}c.strokeStyle='#ffe6a1';c.lineWidth=1.5;c.beginPath();c.moveTo(22,-5);c.lineTo(37,0);c.lineTo(22,5);c.stroke();c.restore();}
-        if(b.type==='laser'&&b.laser?.awake){c.save();const angle=b.laser.angle;c.translate(b.x,b.y);c.rotate(angle);c.globalAlpha=b.laser.locked?.65:.3;c.fillStyle=b.def.color+'18';c.beginPath();c.moveTo(0,0);c.arc(0,0,210,-.3,.3);c.closePath();c.fill();c.strokeStyle='#ffe9a8';c.lineWidth=1;c.setLineDash([5,5]);for(const edge of [-.3,.3]){c.beginPath();c.moveTo(25*Math.cos(edge),25*Math.sin(edge));c.lineTo(210*Math.cos(edge),210*Math.sin(edge));c.stroke();}c.setLineDash([]);c.beginPath();c.arc(0,0,100,-.3,.3);c.stroke();c.restore();}
-        if(b.type==='laser'){c.beginPath();c.arc(b.x,b.y,b.radius+8,-Math.PI/2,-Math.PI/2+Math.PI*2*r.capacitor);c.strokeStyle=r.coolingUntil>t?'#947d49':b.def.color;c.lineWidth=2.5;c.stroke();}
+        if(b.type==='laser'&&b.laser?.awake&&!laserHandled){c.save();const angle=b.laser.angle;c.translate(b.x,b.y);c.rotate(angle);c.globalAlpha=b.laser.locked?.65:.3;c.fillStyle=b.def.color+'18';c.beginPath();c.moveTo(0,0);c.arc(0,0,210,-.3,.3);c.closePath();c.fill();c.strokeStyle='#ffe9a8';c.lineWidth=1;c.setLineDash([5,5]);for(const edge of [-.3,.3]){c.beginPath();c.moveTo(25*Math.cos(edge),25*Math.sin(edge));c.lineTo(210*Math.cos(edge),210*Math.sin(edge));c.stroke();}c.setLineDash([]);c.beginPath();c.arc(0,0,100,-.3,.3);c.stroke();c.restore();}
+        if(b.type==='laser'&&!laserHandled){c.beginPath();c.arc(b.x,b.y,b.radius+8,-Math.PI/2,-Math.PI/2+Math.PI*2*r.capacitor);c.strokeStyle=r.coolingUntil>t?'#947d49':b.def.color;c.lineWidth=2.5;c.stroke();}
       }
-      if(G.Roles.netLinks)for(const link of G.Roles.netLinks(engine)){c.strokeStyle=link.hub?'#f8be75aa':link.a.color+'65';c.lineWidth=link.dynamic?2.2:link.hub?1.5:1;c.setLineDash(link.dynamic?[6,4]:[3,4]);c.lineDashOffset=-engine.time*(link.dynamic?20:0);c.beginPath();c.moveTo(link.a.x,link.a.y);c.lineTo(link.b.x,link.b.y);c.stroke();c.setLineDash([]);}
+      if(G.Roles.netLinks)for(const link of G.Roles.netLinks(engine)){if(G.TrapperView?.link(this,link,engine))continue;c.strokeStyle=link.hub?'#f8be75aa':link.a.color+'65';c.lineWidth=link.dynamic?2.2:link.hub?1.5:1;c.setLineDash(link.dynamic?[6,4]:[3,4]);c.lineDashOffset=-engine.time*(link.dynamic?20:0);c.beginPath();c.moveTo(link.a.x,link.a.y);c.lineTo(link.b.x,link.b.y);c.stroke();c.setLineDash([]);}
       for(const beam of engine.beams){
-        const b=engine.balls.find(b=>b.id===beam.owner);if(!b)continue;const ray=G.World.ray(b,beam.angle),progress=(t-beam.started)/beam.duration;
+        if(G.LaserRegularView?.beam(this,beam,engine))continue;const b=engine.balls.find(b=>b.id===beam.owner);if(!b)continue;const ray=G.World.ray(b,beam.angle),progress=(t-beam.started)/beam.duration;
         c.save();c.lineCap='round';c.globalAlpha=Math.min(1,(1-progress)*8);
         for(const [width,color] of [[beam.width*3.5,b.def.color+'25'],[beam.width*1.8,b.def.color+'99'],[beam.width*.7,'#fff2b9'],[2.2,'#ffffff']]){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(ray.x,ray.y);c.lineTo(ray.endX,ray.endY);c.stroke();}
         c.save();c.translate(b.x,b.y);c.rotate(beam.angle);c.strokeStyle='#fff2bf';c.lineWidth=2;for(const side of [-1,1]){c.beginPath();c.moveTo(16,side*10);c.lineTo(35,side*18);c.lineTo(55,side*9);c.stroke();}c.restore();
@@ -232,7 +236,7 @@
     }
     drawRosterEffects(engine){
       const c=this.ctx;
-      for(const e of engine.effects){if(e.kind!=='roster'||['arcanaSonicContact','arcanaBloodContact','arcanaPierceContact'].includes(e.style))continue;const p=e.age/e.life,fade=1-p;c.save();c.translate(e.x,e.y);c.rotate(e.angle);c.globalAlpha=fade;c.shadowBlur=0;c.strokeStyle=e.color;c.lineWidth=2;
+      for(const e of engine.effects){if(e.kind!=='roster'||['arcanaSonicContact','arcanaBloodContact','arcanaPierceContact'].includes(e.style))continue;if(G.AcceleratorFeelView?.effect(this,e,engine)||G.ShieldDirectionalView?.effect(this,e)||G.LaserRegularView?.effect(this,e,engine)||G.ReflectorView?.effect(this,e)||G.RegularDuelView?.effect(this,e,engine))continue;const p=e.age/e.life,fade=1-p;c.save();c.translate(e.x,e.y);c.rotate(e.angle);c.globalAlpha=fade;c.shadowBlur=0;c.strokeStyle=e.color;c.lineWidth=2;
         if(e.style==='bloodFinish'||e.style==='bloodMark'){const radius=e.style==='bloodFinish'?35*(1-p)+4:9+p*12;for(let i=0;i<4;i++){const a=i*Math.PI/2+p;c.beginPath();c.moveTo(Math.cos(a)*radius,Math.sin(a)*radius);c.lineTo(Math.cos(a+.25)*(radius+8),Math.sin(a+.25)*(radius+8));c.stroke();}}
         else if(e.style==='fistWave'||e.style==='pressureWave'){const width=e.style==='pressureWave'?34:23,d=p*85;c.strokeStyle=e.color;c.lineWidth=5*fade+1;c.beginPath();c.ellipse(d,0,10,width*(.6+p*.5),0,-Math.PI/2,Math.PI/2);c.stroke();c.strokeStyle='#fff5d5';c.lineWidth=2*fade;c.stroke();for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(d-26,i*width*.28);c.lineTo(d-6,i*width*.4);c.stroke();}}
         else if(e.style==='cannon'){c.fillStyle='#fff6c3';c.beginPath();c.moveTo(18,-10*fade);c.lineTo(45+20*p,0);c.lineTo(18,10*fade);c.closePath();c.fill();c.strokeStyle=e.color;c.lineWidth=2;for(const side of [-1,1])for(let i=0;i<3;i++){c.beginPath();c.moveTo(-6-i*8,side*(8+i*5));c.lineTo(-25-p*40-i*8,side*(12+i*7));c.stroke();}}
@@ -253,6 +257,7 @@
           c.fillStyle=e.color+'25';c.beginPath();c.arc(0,0,radius,0,Math.PI*2);c.fill();c.strokeStyle='#daffac';c.lineWidth=4*fade+1;c.stroke();
           for(let i=0;i<8;i++){const a=i*Math.PI/4,d=radius*.7;c.fillStyle=e.color;c.beginPath();c.ellipse(Math.cos(a)*d,Math.sin(a)*d,2+fade*3,4+fade*4,a,0,Math.PI*2);c.fill();}c.strokeStyle=e.color;c.lineWidth=1.5;c.beginPath();c.arc(0,0,radius*.65,0,Math.PI*2);c.stroke();
         }
+        else if(e.style==='mineDeploy'&&G.TrapperView){G.TrapperView.deploy(c,e,p);}
         else if(e.style==='mineDeploy'){const dx=e.endX-e.x,dy=e.endY-e.y,x=dx*p,y=dy*p-Math.sin(p*Math.PI)*22;c.strokeStyle=e.color+'80';c.lineWidth=1;c.setLineDash([3,4]);c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(dx*.5,dy*.5-40,dx,dy);c.stroke();c.setLineDash([]);c.fillStyle='#ffd6ce';c.beginPath();c.arc(x,y,4,0,Math.PI*2);c.fill();}
         else if(e.style==='beamContact'){c.strokeStyle='#fff8db';c.lineWidth=2;for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(-25-p*12,i*8);c.lineTo(8+p*22,i*11);c.stroke();}}
         else if(e.style==='gunDeploy'){for(const side of [-1,1]){c.strokeStyle='#fff1ae';c.lineWidth=2;c.beginPath();c.moveTo(-12,side*(8+p*12));c.lineTo(18,side*(18+p*12));c.lineTo(35,side*14);c.stroke();}}
@@ -271,8 +276,8 @@
       c.save();
       if (ball.hp <= 0) c.globalAlpha = 0.3;else if(G.Ghost.phased(ball))c.globalAlpha=.36;
       if(ball.awakening.active&&ball.type!=='venom'){c.strokeStyle=def.color+'aa';c.lineWidth=1.5;c.setLineDash([7,5]);c.lineDashOffset=-engine.time*16;this.circle(x,y,r+5);c.stroke();c.setLineDash([]);}
-      if(G.Awakening.dashing(ball,engine)){this.circle(x,y,r+9);c.strokeStyle='#fff7cb';c.lineWidth=3;c.stroke();}
-      if(ball.temporal.rate<1){c.strokeStyle='#ddd0ff';c.lineWidth=1.7;c.setLineDash([2,5]);this.circle(x,y,r+8);c.stroke();c.setLineDash([]);}
+      if(G.Awakening.dashing(ball,engine)&&!G.AcceleratorFeelView?.owns(ball)){this.circle(x,y,r+9);c.strokeStyle='#fff7cb';c.lineWidth=3;c.stroke();}
+      if(ball.temporal.rate<1&&!G.TimeRegularView?.slowBody(this,ball,engine)){c.strokeStyle='#ddd0ff';c.lineWidth=1.7;c.setLineDash([2,5]);this.circle(x,y,r+8);c.stroke();c.setLineDash([]);}
       // Clean ball silhouette: no ambient halo. Existing motion trails remain.
       c.shadowBlur=0;
       if (ball.shield > 0) {
@@ -282,6 +287,7 @@
         c.beginPath(); c.arc(x, y, r + 9, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1,ball.shield/amount)); c.strokeStyle = holy?'#ffffff':'#a1ffeb'; c.lineWidth = 3; c.stroke();
       }
       c.save();
+      const punch=G.NormalRegularView?.punchPose(ball,engine);if(punch){c.translate(x,y);c.rotate(punch.angle);c.scale(1+punch.power,1-punch.power*.7);c.rotate(-punch.angle);c.translate(-x,-y);}
       const hit=ball.hitVisual;
       if(hit && hit.age<hit.life && !this.reducedMotion){const squash=Math.sin(Math.PI*(1-hit.age/hit.life))*.065*hit.power;c.translate(x,y);c.rotate(hit.angle);c.scale(1-squash,1+squash);c.rotate(-hit.angle);c.translate(-x,-y);}
       const fill = c.createRadialGradient(x - 7, y - 8, 2, x, y, r + 7);
@@ -296,7 +302,7 @@
       if (ball.type === 'ranger') { this.circle(x,y,7);c.stroke();for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){c.beginPath();c.moveTo(x+dx*4,y+dy*4);c.lineTo(x+dx*12,y+dy*12);c.stroke();} }
       if(ball.type==='boomerang'){if(G.BladeHuntView)G.BladeHuntView.icon(c,x,y,12,G.BladeDanceView?.pose(ball,engine)||0);else{c.save();c.translate(x,y);c.rotate(G.BladeDanceView?.pose(ball,engine)||0);c.beginPath();c.moveTo(-11,6);c.lineTo(0,-7);c.lineTo(11,6);c.stroke();c.restore();}}
       if(ball.type==='laser'){c.beginPath();c.moveTo(x-11,y);c.lineTo(x+11,y);c.moveTo(x-6,y-5);c.lineTo(x+6,y+5);c.moveTo(x-6,y+5);c.lineTo(x+6,y-5);c.stroke();}
-      if(ball.type==='storm')G.CosmicView?.icon(c,x,y,ball.type);if(ball.type==='orbital')G.StellarView?.icon(c,x,y);if(ball.type==='charge')G.ChargeView?.icon(c,x,y);if(ball.type==='demon')G.DemonView?.icon(c,x,y);
+      if(ball.type==='orbital')G.StellarView?.icon(c,x,y);if(ball.type==='charge')G.ChargeView?.icon(c,x,y);if(ball.type==='demon')G.DemonView?.icon(c,x,y);
       if(ball.type==='holy')G.HolyView?.icon(c,x,y);
       if(ball.type==='ghost'){c.beginPath();c.moveTo(x-10,y+10);c.lineTo(x-10,y-2);c.bezierCurveTo(x-10,y-15,x+10,y-15,x+10,y-2);c.lineTo(x+10,y+10);c.lineTo(x+5,y+6);c.lineTo(x,y+10);c.lineTo(x-5,y+6);c.closePath();c.fill();c.fillStyle='#eaffff';for(const side of [-1,1]){this.circle(x+side*4,y-2,2.2);c.fill();}}
       if(ball.type==='magnet'){c.lineWidth=4;c.beginPath();c.arc(x,y+1,8,0,Math.PI);c.moveTo(x-8,y+1);c.lineTo(x-8,y-10);c.moveTo(x+8,y+1);c.lineTo(x+8,y-10);c.stroke();c.fillStyle='#a8c8ff';c.fillRect(x-10,y-11,4,5);c.fillStyle='#ffc0cf';c.fillRect(x+6,y-11,4,5);}
@@ -313,14 +319,13 @@
  // One read-only HUD pass: equal-size badges, shared placement and no combat mutation.
  G.OrbMarkers={size:3.5,gap:11,offset:8,
   // Optical balance: filled circles need less extent than pointed or open symbols.
-  weights:{dot:.87,diamond:1.19,bloodGem:1,drop:1.07,bar:1.12,sniperRound:1.05,shield:.92,mirror:1.06,bolt:1.12,cross:1,chevron:1.12,crescentBlade:1.02,twinBlade:1.02,bladeSeal:1.12,brand:1.05,magnet:1.05},
+  weights:{dot:.87,diamond:1,bloodGem:1,drop:1.07,bar:1.12,sniperRound:1.05,shield:.92,mirror:1.06,bolt:1.12,cross:1,chevron:1.12,crescentBlade:1.02,twinBlade:1.02,bladeSeal:1.12,brand:1.05,magnet:1.05},
   visible(b,e){return b.hp>0&&!G.World.absent(b,e)&&!G.VampireHunt?.hidden(b)&&!G.Charge?.flowing(b)&&!['core','rebirth'].includes(b.stellar?.phase);},
   collect(b,e){const own=[],poison=[],marks=[],t=e.time,r=b.role;
    const add=(group,key,shape,color,active=true)=>group.push({owner:b.id,key,shape,color,active,alpha:G.Ghost.phased(b)?.4:1});
-   if(b.type==='normal')for(let i=0;i<3;i++)add(own,'fist'+i,'dot','#fff0a4',i<b.charges);
+   if(b.type==='normal')for(let i=0;i<3;i++){add(own,'fist'+i,'dot','#fff0a4',i<b.charges);own.at(-1).fillFraction=Math.max(0,Math.min(1,b.charges-i));}
    if(b.type==='vampire')for(let i=0;i<4;i++)add(own,'blood'+i,'bloodGem','#f385a9',r.blood>=2*(i+1));
    if(b.type==='ranger')for(const m of G.Ranger.ammoMarkers(b,e)){add(own,m.key,m.shape,r.overload?'#fff0a4':b.def.color,m.active);Object.assign(own.at(-1),{alpha:own.at(-1).alpha*m.alpha,scale:m.scale,degrees:m.degrees});}
-   if(b.type==='shield'&&(b.shield>0||b.arcana?.royalShield>0))for(let i=0;i<Math.ceil(r.pressure/2);i++)add(own,'pressure'+i,'shield','#c7fff3');
    if(b.type==='boomerang'&&b.character.catchUntil>t&&!b.character.bladeRemaining)add(own,'catch',b.character.catchPower>=1.4?'twinBlade':'crescentBlade','#d9faff');
    if(b.type==='magnet')for(let i=0;i<Math.round(b.magnetic.pullBonus/.12);i++)add(own,'pull'+i,'bar','#bcd3ff');
    const layers=G.Venom.layers(b,t);if(layers.length)for(let i=0;i<4;i++){const l=layers[i];add(poison,'poison'+i,l?.type==='paralysis'?'diamond':'dot',l?G.Venom.colors[l.type]:'#425166',!!l);if(b.venomChange)poison.at(-1).pulse=Math.max(0,1-(t-b.venomChange.at)/.35);}
@@ -329,7 +334,6 @@
    if(b.magneticMark?.until>=t)add(marks,'magneticMark','magnet',b.magneticMark.cause==='pull'?'#9bbaff':'#ff8fa8');
    if(G.Temporal.silenced(b,e))add(marks,'silence','cross','#ede5ff');
    const alive=id=>e.balls.some(v=>v.id===id&&v.hp>0);
-   for(const m of e.cosmicWorld?.marks||[])if(m.target===b.id&&m.until>t&&alive(m.owner))for(let i=0;i<m.stacks;i++)add(marks,'static'+m.owner+':'+i,'bolt','#c8ddff');
    for(const m of e.chargeWorld?.conductive||[])if(m.target===b.id&&m.until>t&&alive(m.owner))add(marks,'conductive'+m.owner,'bolt','#b1f4ff');
    for(const m of e.demonWorld?.marks||[])if(m.target===b.id&&m.until>=t&&alive(m.owner))add(marks,'demon'+m.owner,'brand','#ffc0a2');
    return {own,poison,marks};
@@ -364,7 +368,7 @@
     else{c.arc(0,0,3.1,0,TAU);}
     // Trace the actual silhouette for contrast; never wrap every icon in a circular badge.
     c.strokeStyle='#101721';c.lineWidth=2.5;c.stroke();c.strokeStyle=m.color;c.fillStyle=m.color;c.lineWidth=1.3;
-    if(m.active&&['dot','diamond','bloodGem','drop','bar','sniperRound','shield','crescentBlade','twinBlade','bladeSeal'].includes(m.shape))c.fill();else c.stroke();
+    if(m.shape==='dot'&&m.fillFraction>0&&m.fillFraction<1){c.stroke();c.save();c.beginPath();c.rect(-3.1,-3.1,6.2*m.fillFraction,6.2);c.clip();c.beginPath();c.arc(0,0,3.1,0,TAU);c.fill();c.restore();}else if(m.active&&['dot','diamond','bloodGem','drop','bar','sniperRound','shield','crescentBlade','twinBlade','bladeSeal'].includes(m.shape))c.fill();else c.stroke();
     if(m.shape==='bloodGem'&&m.active){c.fillStyle='#b3466e';c.beginPath();c.moveTo(0,-2.6);c.lineTo(-1.7,1.4);c.lineTo(0,2.2);c.closePath();c.fill();c.strokeStyle='#ffd3df';c.lineWidth=.75;c.beginPath();c.moveTo(.3,-1.4);c.lineTo(1.5,.8);c.stroke();}c.restore();
    }c.restore();
   }

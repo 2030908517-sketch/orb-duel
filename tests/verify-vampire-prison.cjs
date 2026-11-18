@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..');for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'])require(path.join(root,'js',n+'.js'));require('./arcana-lab/core.js');
+const root=path.resolve(__dirname,'..');for(const n of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'])require(path.join(root,'js',n+'.js'));require('./arcana-lab/core.js');
 const G=globalThis.OrbDuel;let checks=0;const ok=(v,m)=>{checks++;assert.ok(v,m);},eq=(a,b,m)=>{checks++;assert.deepEqual(a,b,m);};
 const setup=()=>{const e=G.ArcanaLab.setup('vampire'),[b,t]=e.balls;return{e,b,t};};
 function until(e,p){let i=0;while(!p()&&e.state==='running'&&i++<1400)e.step();ok(p(),'phase arrives in bound');}

@@ -32,8 +32,10 @@
       return bounced;
     },
     integrate(ball, dt) {
+      if(Game.RangerArcana?.pinMove(ball,dt,Game.Priority?.current))return false;
       this.normalizeSpeed(ball,dt);
       Game.Priority?.force(ball,dt);
+      Game.Wind?.applyBall(ball,dt,Game.ArenaWalls?.current);
       ball.x += ball.vx * dt; ball.y += ball.vy * dt;
       return this.constrain(ball);
     },

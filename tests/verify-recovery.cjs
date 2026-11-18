@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const name of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','engine'])require(path.resolve(__dirname,'../js/'+name+'.js'));
+for(const name of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','engine'])require(path.resolve(__dirname,'../js/'+name+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;
 const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-8,m);
 function make(types){const e=new G.Engine(types,'recovery-boundary');e.start();for(const [i,b]of e.balls.entries()){b.x=80+i*160;b.y=170;b.vx=b.vy=0;b.previousX=b.x;b.previousY=b.y;}return e;}

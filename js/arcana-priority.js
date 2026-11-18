@@ -22,7 +22,7 @@
   attackLevel(h,e){return e.mode==='arcana'&&(h.priority==='arcana'||/^arc[A-Z]/.test(h.kind||'')||h.prison)?1:0;},
   shieldPacket(h,e){const u=h.target.arcana;if(e.mode!=='arcana'||!u?.royalActive||u.royalShield<=0)return h;const rank=h.shatterShield?2:h.bypassShield?1:0;if(!rank)return h;const reduced=this.attackLevel(h,e)?rank-1:0;return {...h,bypassShield:reduced>=1,shatterShield:false};},
   protectedEntity(v,e){return e.mode==='arcana'&&(v.priority==='arcana'||!!v.hub);},
-  canRemove(v,e,cause={}){return !this.protectedEntity(v,e)||cause.priority==='arcana'||['end','reset','expiry','spent','ownerDeath','rewind'].includes(cause.reason);},
+  canRemove(v,e,cause={}){if(G.Mines?.canRemove(v,cause)===false)return false;return !this.protectedEntity(v,e)||cause.priority==='arcana'||['end','reset','expiry','spent','ownerDeath','rewind'].includes(cause.reason);},
   pull(owner,target,e){if(this.armored(target)||G.World.absent(target,e))return false;e.arcanaWorld.defense.returns.push({owner:owner.id,target:target.id,started:e.time,until:e.time+1.35,wallUntil:0});return true;},
   forced(b,e=this.current){if(!e||e.state!=='running'||e.ending||this.armored(b)||G.World.absent(b,e))return null;return e.arcanaWorld?.defense?.returns.find(v=>v.target===b.id&&v.until>e.time&&e.balls.some(a=>a.id===v.owner&&a.hp>0))||null;},
   force(b,dt){const e=this.current,v=this.forced(b,e);if(!v||dt<=0)return;const owner=e.balls.find(a=>a.id===v.owner),q=b.combatBounds||{left:0,right:G.Constants.width,top:0,bottom:G.Constants.height},r=b.radius;

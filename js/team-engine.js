@@ -12,7 +12,7 @@
     }
     label(b){return T.names[b.team??(b.id<2?0:1)]+(b.id%2+1)+'号·'+b.def.name;}
     retire(){
-      G.Demon?.cleanup(this);G.Cosmic?.cleanup(this);G.Charge?.cleanup(this);G.Stellar?.cleanup(this);G.Arcana?.cleanup(this);
+      G.Demon?.cleanup(this);G.Charge?.cleanup(this);G.Stellar?.cleanup(this);G.Arcana?.cleanup(this);
       for(const b of this.balls)if(b.hp<=1e-8&&!this.retired.has(b.id)){
         G.BladeHunt?.retire(b,this);G.Holy?.retire(b,this);G.VampireHunt?.finish(b,this,true);this.retired.add(b.id);b.hp=0;b.vx=b.vy=0;b.motionSpeed=b.inertia=b.impactDrag=0;b.shield=0;b.trail=[];b.poison=b.stagger=b.magneticMark=b.bladeMark=null;b.laser=null;
         b.ghost.phase='solid';b.ghost.lungeSpeed=b.ghost.chargeUntil=0;b.magnetic.phase='rest';b.magnetic.anchored=false;b.magnetic.pullAttempt=null;b.role.chainWarning=b.role.salvoFireAt=b.role.shieldFireAt=b.role.counterRelease=0;b.awakening.chainActive=false;b.awakening.dashUntil=b.awakening.chargeUntil=0;
@@ -94,7 +94,7 @@
         if (!overlap) break;
       }
       for (const ball of this.balls) if (ball.hp>0&&G.Physics.constrain(ball)){this.sound('wall', ball.x,{impactSpeed:ball.wallContact?.speed});G.Characters.wall(ball,this);}
-      G.Demon?.constrainHosts?.(this);G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Cosmic?.world(this);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
+      G.Demon?.constrainHosts?.(this);G.Trapper?.swapDue(this);G.Pursuit?.update(this);G.Ghost.contacts(this);G.Holy?.updateWorld(this,dt);G.Demon?.world(this,dt);G.Charge?.world(this,dt);G.Stellar?.world(this,dt);G.Arcana?.world(this,dt);G.World.update(this,dt);
       G.Combat.resolveBatch(this.pendingAttacks,this,this.contactPairs);G.Adaptive?.observe(this);
       this.checkEnd();if(this.ending||this.state==='ended')return;this.retire();
       if (this.time >= C.decayStart) for (const ball of this.balls) if(ball.hp>0)G.Combat.applyDamage(ball, C.decayPerSecond * dt, this, { bypassShield: true, bypassInvulnerability:true, silent: true });

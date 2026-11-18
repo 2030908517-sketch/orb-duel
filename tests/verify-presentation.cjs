@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const js=path.resolve(__dirname,'../js'),base=path.resolve(__dirname,'../../../work/feel-system-baseline/js');let checks=0;const ok=(v,m)=>{checks++;assert.ok(v,m);};
-const modules=['physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana'];
+const modules=['physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana'];
 function load({team=false,presentation=true,baseline=false}={}){const c=vm.createContext({});for(const f of ['config',...(team?['team-maps']:[]),...modules,...(presentation?['presentation']:[]),'engine','renderer',...(team?['team-runtime','team-engine']:[])])vm.runInContext(fs.readFileSync(path.join(baseline?base:js,f+'.js'),'utf8'),c);return c.OrbDuel;}
 function make(G,team=false){return team?new G.TeamEngine(['normal','accelerator','vampire','normal'],'feel-isolation','pillars'):new G.Engine(['normal','vampire'],'feel-isolation');}
 const hasBaseline=fs.existsSync(path.join(base,'engine.js'));let replayRuns=0;

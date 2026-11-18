@@ -46,6 +46,6 @@ node outputs/orb-duel/tools/capture-presentation.cjs
 
 报告采用分离字段：`objective`（工具结果）、`visualReview`（观察者和实际看过的素材）、`motionReview`、`audioReview`、`performance`、`remaining`。自动脚本将主观项初始化为 `not-reviewed`，开发者只能在实际完成对应观察/试听后更新。不要自动写“高品质”“很有力气”。
 
-先完成明确标准，再做约两轮有针对性的审美迭代；正确性失败继续修复，口味未定保留具体片段与待选项，不无限打磨或反复请求抽象批准。
+执行 [光刃与同化火焰完成度硬门槛](STYLE_ANCHORS.md#特效完成度硬门槛光刃与同化火焰2026-10-27)。已知造型、材质或动作不达标必须退回修改并重新观察，不设能豁免缺陷的迭代次数，不因耗时或成本降低门槛。只有达到标准后才停止可选打磨；确实未能观察时明确记录未完成验收，不以用户最终试玩替代制作代理自审。
 
 采集接口参考：[Canvas媒体流](https://developer.chrome.com/blog/capture-stream)、[MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API)、[音频输出媒体节点](https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamAudioDestinationNode)。

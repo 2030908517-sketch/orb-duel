@@ -6,10 +6,11 @@
   knockback(b,e=G.ArenaWalls?.current){return e&&this.active(b,e)&&!G.HolySeals?.defense(b,e)?b.def.hellKnockback:1;},
   post(b){return !!b?.arcana?.used&&!G.DemonArcana?.active(b);},
   gain(b,amount,e,event){const h=this.state(b);if(!h||b.demonServant||h.phase!=='idle'||b.hp<=0||e.ending||h.events.includes(event))return;h.events.push(event);if(h.events.length>32)h.events.shift();h.souls=Math.min(b.def.sacrificeCap,h.souls+amount);},
-  safe(b,e){return !G.DemonArcana?.active(b)&&!D.frozen(b,e)&&!G.Temporal.silenced(b,e)&&!G.Priority?.forced(b,e)&&!G.Arcana?.customMove(b)&&!e.timeRewind?.active&&!e.demonCinematic&&!e.balls.some(v=>v.type==='normal'&&['blink','punch'].includes(v.arcana?.phase));},
+  safe(b,e){return !G.HolySeals?.ordinary(b,e)&&!G.DemonArcana?.active(b)&&!D.frozen(b,e)&&!G.Priority?.forced(b,e)&&!G.Arcana?.customMove(b)&&!e.timeRewind?.active&&!e.demonCinematic&&!e.balls.some(v=>v.type==='normal'&&['blink','punch'].includes(v.arcana?.phase));},
   begin(b,e){const h=this.state(b);if(h.phase!=='idle'||h.souls<b.def.sacrificeCap||!this.safe(b,e))return false;h.souls=0;h.phase='enter';h.started=e.time;h.until=e.time+b.def.hellEnter;h.swing=h.guard=null;b.stats.hellForms=(b.stats.hellForms||0)+1;D.event(e,b,'sacrifice',b,'demonSacrifice',{life:b.def.hellEnter});return true;},
+  dispel(b,e){const h=this.state(b);if(!h||h.phase==='idle'||h.phase==='exit')return false;h.phase='exit';h.started=e.time;h.until=e.time+b.def.hellExit;h.swing=h.guard=null;e.sound('demonHellFade',b.x);return true;},
   clear(b){const h=this.state(b);if(!h)return;h.souls=0;h.phase='idle';h.swing=h.guard=null;h.nextHand=[0,0];h.nextAction=0;h.events=[];},
-  canAct(b,e){return this.active(b,e)&&b.hp>0&&!D.frozen(b,e)&&!G.Temporal.silenced(b,e)&&!G.World.absent(b,e)&&!G.DemonArcana?.active(b)&&!G.Priority?.forced(b,e);},
+  canAct(b,e){return this.active(b,e)&&!G.HolySeals?.ordinary(b,e)&&b.hp>0&&!D.frozen(b,e)&&!G.World.absent(b,e)&&!G.DemonArcana?.active(b)&&!G.Priority?.forced(b,e);},
   hand(b,e){const h=this.state(b);for(const k of [h.side,1-h.side])if(e.time>=h.nextHand[k])return k;return -1;},
   spend(b,e,side){const h=this.state(b);h.side=1-side;h.nextAction=e.time+b.def.hellCadence;h.nextHand[side]=e.time+b.def.hellHandCD;},
   guardReady(b,t,e){const h=this.state(b);return this.canAct(b,e)&&!h.swing&&e.time>=h.nextAction&&this.hand(b,e)>=0&&G.World.enemy(b,t,e)&&!G.Ghost.phased(t)&&!G.World.absent(t,e)&&!G.Arcana?.noContact(t);},
@@ -20,7 +21,7 @@
     else if(h.phase==='active'){h.phase='exit';h.started=e.time;h.until=e.time+b.def.hellExit;h.swing=h.guard=null;e.sound('demonHellFade',b.x);}
     else{h.phase='idle';h.swing=h.guard=null;}return;}
    if(h.phase!=='active')return;b.stats.hellUptime=(b.stats.hellUptime||0)+dt;
-   if(G.DemonArcana?.active(b)||G.Temporal.silenced(b,e)||G.World.absent(b,e)){h.swing=h.guard=null;return;}
+   if(G.DemonArcana?.active(b)||G.World.absent(b,e)){h.swing=h.guard=null;return;}
    if(h.guard&&e.time>h.guard.until)h.guard=null;
    if(h.swing){if(e.time-h.swing.started>b.def.hellWindup+b.def.hellSweep+b.def.hellRecovery)h.swing=null;return;}
    if(!this.canAct(b,e)||e.time<h.nextAction)return;const t=G.World.targetFor(b,e);if(!t||G.Arcana?.immuneTarget(t,e)||!D.clear(b,t,e,2))return;const d=Math.hypot(t.x-b.x,t.y-b.y),n=d||1,closing=((b.vx-t.vx)*(t.x-b.x)+(b.vy-t.vy)*(t.y-b.y))/n;

@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const base = path.resolve(__dirname, '..');
-for (const file of ['config', 'physics', 'skills', 'world','aim','flyers','mines','pursuit', 'characters', 'roles','ranger', 'awakening', 'temporal', 'magnet', 'ghost', 'holy', 'demon', 'cosmic', 'charge', 'stellar', 'adaptive','arcana','engine', 'spectacle']) require(path.join(base, 'js', file + '.js'));
+for (const file of ['config', 'physics', 'skills', 'world','aim','flyers','mines','pursuit', 'characters', 'roles','ranger', 'awakening', 'temporal', 'magnet', 'ghost', 'holy', 'demon', 'charge', 'stellar', 'adaptive','arcana','engine', 'spectacle']) require(path.join(base, 'js', file + '.js'));
 const G = globalThis.OrbDuel, C = G.Constants;
 let checks = 0;
 function ok(value, message) { assert.ok(value, message); checks++; }
@@ -29,7 +29,7 @@ for (const a of species) for (const b of species) {
     const e = new G.Engine([a, b], 'acceptance-' + i); e.start();
     while (e.state === 'running' && e.time < 205) { e.step(); valid(e); }
     ok(e.state === 'ended', 'match must terminate before 205 simulated seconds');
-    ok(e.collisions > 0 || e.balls.some(b=>b.stats.shotsHit>0 || b.stats.trapsTriggered>0 || b.stats.lasersHit>0 || b.stats.poisonHits>0 || b.stats.cosmicHits>0 || b.stats.cometsHit>0 || b.stats.chargeHits>0), 'effective attacks must occur');
+    ok(e.collisions > 0 || e.balls.some(b=>b.stats.shotsHit>0 || b.stats.trapsTriggered>0 || b.stats.lasersHit>0 || b.stats.poisonHits>0 || b.stats.cometsHit>0 || b.stats.chargeHits>0), 'effective attacks must occur');
     const before = state(e); for (let n = 0; n < 200; n++) e.step(); ok(state(e) === before, 'post-end simulation changed');
     r[e.winner === 'draw' ? 'draw' : e.winner === 0 ? 'left' : 'right']++;
     r.totalTime += e.time; maxTime = Math.max(maxTime, e.time); minTime = Math.min(minTime, e.time); matches++;

@@ -7,12 +7,11 @@
    normal:['拳势','蓄力','追击CD','追击','拳劲'],
    vampire:['血能','血契','追猎','汲取','链伤','返还CD','已回复'],
    accelerator:['动能','冲刺冷却','无敌','蓄力','速限','撞墙/敌','累计返速'],
-   storm:['电荷','引雷CD','雷暴CD','导电','雷伤','电解伤'],
    charge:['电荷','放电CD','雷化','电弧伤','短路伤','带电点'],
    orbital:['轨道能','超新星CD','星核','卫星','彗星伤','爆发伤'],
    demon:['献祭魂力','地狱降临','双爪CD','魔爪CD','双门CD','钉刑','扯魂伤','魔爪伤','契魂','烙印','魂线'],
    reflector:['蓄能','姿态CD','姿态','即时返还','反击命中'],
-   shield:['压力','护盾','充能','盾时','蓄力','波伤'],
+   shield:['护盾','充能','盾时','蓄力','波伤'],
    ranger:['校准','弹匣','装填','模式','散布','狙/重伤'],
    trapper:['节点','布置','置换','雷伤','捕获','扫线','返还CD'],
    boomerang:['接刃','投掷','武器','招式','刃伤','返还CD'],
@@ -20,7 +19,7 @@
    ghost:['虚化CD','虚化余时','魂影','形态','恐吓/跳','魂爆'],
    holy:['守护CD','裁决CD','阵径/余时','天使'],
    magnet:['吸力','脉冲CD','过载CD','极性','牵引命中','墙撞命中'],
-   time:['领域CD','时钟CD','沉默时','移/CD缓','侵蚀/跳','爆炸伤'],
+   time:['时删CD','领域CD','时钟CD','沉默时','移/CD缓','侵蚀/跳','爆炸伤'],
    venom:['侵蚀进化','麻痹进化','喷吐CD','毒池CD','双毒上限','侵蚀/跳','施毒间隔','同巢共鸣','毒液三态']
   },
   prioritize(b,rows,limit=Infinity){const order=this.priority[b.type]||[],rank=label=>{const i=order.indexOf(label);return i<0?order.length:i;};return rows.map((row,i)=>({row,i})).sort((a,c)=>rank(a.row.label)-rank(c.row.label)||a.i-c.i).slice(0,limit).map(v=>v.row);},
@@ -50,7 +49,6 @@
    const living=e.livingVenom;if(living){const binds=living.binds.filter(v=>v.target===b.id&&v.until>t&&e.balls.some(o=>o.id===v.owner&&o.hp>0));if(binds.length)timed('活体缠缚',Math.max(...binds.map(v=>v.until)));const swarms=living.swarms.filter(v=>v.target===b.id&&v.until>t&&e.balls.some(o=>o.id===v.owner&&o.hp>0));if(swarms.length)timed('附身毒群',Math.max(...swarms.map(v=>v.until)));if(living.attacks.some(v=>v.target===b.id&&v.phase==='cling'))add('毒液附着侵入');}
    if(G.Venom?.inMist(b,e)&&!G.Physics.armored(b)&&!G.World.absent(b,e))add('毒雾瞄准扰动');
    const conductive=effects(e.chargeWorld?.conductive||[]);if(conductive.length)timed('导电',Math.max(...conductive.map(v=>v.until)));
-   const staticMarks=effects(e.cosmicWorld?.marks||[]).filter(v=>v.stacks>0);if(staticMarks.length)add('电解印记 '+staticMarks.reduce((sum,v)=>sum+v.stacks,0)+' · '+(Math.max(...staticMarks.map(v=>v.until))-t).toFixed(1)+'s');
    const brands=effects(e.demonWorld?.marks||[]);if(brands.length)timed('地狱烙印',Math.max(...brands.map(v=>v.until)));const souls=(e.demonWorld?.souls||[]).filter(s=>s.target===b.id&&e.balls.some(o=>o.id===s.owner&&o.hp>0));for(const soul of souls){if(soul.loss>0)add('失魂 '+Math.round(soul.loss*100)+'% · 伤害−'+Math.round((1-G.Demon.outputFactor(b,e))*100)+'%');if(soul.state==='servant')timed('契魂追猎',soul.until);}
    add(G.Holy?.burnStatus(b,e));add(G.Adaptive?.status(b,e));
    const debt=G.VenomArcana?.state(b);if(debt?.active||debt?.pool>0){add('万毒缓蚀');add('伤害池 '+debt.pool.toFixed(1)+' · 下跳'+G.VenomArcana.amount(debt.pool).toFixed(1));if(debt.pool>=b.hp)add('缓蚀致死风险');}
@@ -61,7 +59,7 @@
    if(b.pressure?.bonus>0)add('攻击蓄力 +'+Math.round(b.pressure.bonus*100)+'%');
    if(b.type==='vampire'){if(r.chainWarning)timed('血契预备',r.chainWarning);if(a.chainActive)timed('血契汲取',a.chainUntil);if(G.VampireHunt?.busy(b))add('血影追猎 · '+G.VampireHunt.status(b,e));}
    if(b.type==='reflector'){if(b.stance.phase==='warning')timed('反伤预备',b.stance.until);if(b.stance.phase==='active')timed(r.predictiveActive?'预判反伤':'反伤姿态',b.stance.until);if(r.predictReady)add('预判反伤就绪');if(G.DefenseArcana?.predictionReady(b,e))timed('奥义预测反伤资格',b.arcana.predictUntil);if(G.DefenseArcana?.guardActive(b,e))add('奥义预测反伤');if(r.counterRelease>0)add('蓄能反击待发');}
-   if(b.type==='shield'&&(r.shieldRelease>0||r.shieldReserve>0))add('盾压震荡蓄势');
+   if(b.type==='shield'&&r.shieldReserve>0)add('残盾震荡蓄势');
    if(b.type==='ranger'){if(r.calibration>0&&active(r.calibrationUntil))add('校准 '+r.calibration+'/'+b.def.calibrationCap);if(active(r.reloadUntil))timed('装填',r.reloadUntil);if(['aim','locked'].includes(r.sniperPhase))add(r.sniperPhase==='locked'?'狙击锁定':'狙击预瞄');if(r.sniperHurt&&['aim','locked'].includes(r.sniperPhase))add('狙击受创偏移');if(r.fireMode==='scatter'&&!r.reloadUntil&&r.ammo>0)add('枪阵强化');}
    if(b.type==='boomerang'&&G.BladeHunt){const h=c.bladeHunt;if(h?.swing)timed(h.swing.count>=2?'双刃挥斩':'单刃挥斩',h.swing.at+G.BladeHunt.config.slashLife);if(h?.plan?.mode==='chase'&&(e.projectiles||[]).some(p=>p.owner===b.id&&p.castId===h.plan.id&&p.returning))add('逐刃追猎');}
    if(b.type==='boomerang'&&active(c.catchUntil)&&!c.bladeRemaining)timed(G.BladeHunt?(c.catchPower>=1.4?'双刃重斩':'单刃重斩'):'接刃重击强化',c.catchUntil);

@@ -113,7 +113,7 @@
         if(result.piercingRaw!==undefined){const n=hit.bypassShield?result.piercingRaw:result.ordinaryRaw,raw=hit.raw*(result.trueAware&&!hit.trueDamage?result.ordinaryScale:1);hit.actual=n>0?(hit.bypassShield?result.piercingActual:result.ordinaryActual)*raw/n:0;hit.blocked=hit.bypassShield||!n?0:result.blocked*raw/n;}else{hit.actual=result.actual*share;hit.blocked=result.blocked*share;}hit.avoided=(result.avoided||0)*share;
         hit.hpLoss=(result.hpLoss??result.actual)*(result.trueAware?(result.actual>0?hit.actual/result.actual:0):share);hit.heat??=engine.heatMultiplier;
         if(hit.soulProxy&&hit.point){const number=engine.effects.findLast(f=>f.kind==='text'&&f.damageTarget===hit.target.id&&f.age===0);if(number){number.x=hit.point.x;number.y=hit.point.y-18;}}
-        hit.source.stats.damage+=hit.actual;G.Magnet.hit(hit,engine);G.Ghost.hit(hit,engine);G.Holy?.hit(hit,engine);G.Roles.hit(hit,engine);G.Characters.hit(hit,engine);G.Demon?.hit(hit,engine);G.Cosmic?.hit(hit,engine);G.Charge?.hit(hit,engine);G.Stellar?.hit(hit,engine);G.Arcana?.hit(hit,engine);
+        hit.source.stats.damage+=hit.actual;G.Magnet.hit(hit,engine);G.Ghost.hit(hit,engine);G.Holy?.hit(hit,engine);G.Roles.hit(hit,engine);G.Characters.hit(hit,engine);G.Demon?.hit(hit,engine);G.Charge?.hit(hit,engine);G.Stellar?.hit(hit,engine);G.Arcana?.hit(hit,engine);
         const canReturn=!hit.noReflect&&hit.damageOrigin!=='wall'&&hit.kind!=='wallSlam'&&!(hit.kind==='magneticWall'&&hit.pullWall);
         if(canReturn)G.Skills[hit.target.type]?.onReceive?.(hit.target,hit,engine);
         const reflection=(canReturn?G.Skills[hit.target.type]?.reflection?.(hit.target,hit.actual,engine)||0:0)*(outputFactors.get(hit.target)??1);
@@ -124,7 +124,7 @@
         if(hit.kind==='laser'&&(hit.beamId===undefined||hit.source.role.lastBeamHit!==hit.beamId)){hit.source.stats.lasersHit++;hit.source.role.lastBeamHit=hit.beamId;}
         if(hit.kind==='poison')hit.source.stats.poisonHits++;
         if(hit.kind==='counter'||hit.mirrorReturn&&hit.actual+hit.blocked>0)hit.source.stats.countersHit++;
-        G.Recovery.hit(hit.source,hit,engine);G.Skills[hit.source.type]?.onHit?.(hit.source,hit,engine);
+        G.Recovery.hit(hit.source,hit,engine);G.Skills[hit.source.type]?.onHit?.(hit.source,hit,engine);G.RegularDuelView?.hit(hit.source,hit,engine);G.LaserRegularView?.hit(hit.source,hit,engine);
         if(hit.dash && hit.actual>0){hit.source.stats.dashHits++;hit.source.awakening.dashSuccess=true;engine.signal(hit.source,'冲刺命中','heavy',hit.target);}
         if(hit.kind==='poisonShot'&&hit.actual>0){engine.sound('toxinSplash',hit.target.x);engine.burst(hit.target.x,hit.target.y,hit.source.def.color,5);}if(hit.kind==='shard'&&hit.actual>0)engine.sound('shardHit',hit.target.x);if(hit.kind==='poison' && hit.actual>0)engine.sound('poisonHit',hit.target.x);
         if(hit.actual>0 && hit.actual<15 && !hit.feedback && !hit.dance && !hit.heavyShot && hit.beamId===undefined && ['shot','boomerang','counter','laser'].includes(hit.kind)){engine.sound(hit.kind==='laser'?'laserHit':hit.kind==='counter'?'counterHit':'shotHit',hit.target.x);engine.impact(hit.target.x,hit.target.y,hit.source.def.color,hit.kind==='laser'?1.6:.65);if(hit.kind==='laser')engine.signal(hit.source,'光束命中','laserHit',hit.target);if(hit.kind==='counter')engine.signal(hit.source,'蓄能反击命中','counterHit',hit.target);if(hit.kind==='boomerang' && hit.returning)engine.signal(hit.source,'回程命中','returnHit',hit.target);}
@@ -142,7 +142,7 @@
       let healed=0;
       for(const [ball,requested] of heals) if(ball.hp>0) {
         const heal=G.HolySeals?.canHeal(ball,engine)===false?0:Math.min(ball.maxHp-ball.hp,requested);
-        if(heal>0) {ball.hp+=heal;ball.stats.healing+=heal;healed+=heal;if(!(G.VampireArcana?.active(ball)&&hits.some(h=>h.source===ball&&h.kind==='arcTide'&&h.actual>0&&h.healRatio>0))){engine.float(ball.x,ball.y+5,'+'+heal.toFixed(1),'#88efb2');engine.burst(ball.x,ball.y,'#88efb2',10);engine.ring(ball.x,ball.y,'#88efb2',42);engine.sound('heal',ball.x);}G.Arcana?.healed?.(ball,heal,requested,hits,engine);}
+        if(heal>0) {ball.hp+=heal;ball.stats.healing+=heal;healed+=heal;if(!(G.VampireArcana?.active(ball)&&hits.some(h=>h.source===ball&&h.kind==='arcTide'&&h.actual>0&&h.healRatio>0))){engine.float(ball.x,ball.y+5,'+'+heal.toFixed(1),'#88efb2');const fxStart=engine.effects.length;engine.burst(ball.x,ball.y,'#88efb2',10);engine.ring(ball.x,ball.y,'#88efb2',42);const fxEnd=engine.effects.length;if(G.RegularDuelView?.healed(ball,heal,hits,engine))for(let i=fxStart;i<fxEnd;i++)engine.effects[i].regularVampireHeal=true;engine.sound('heal',ball.x);}G.Arcana?.healed?.(ball,heal,requested,hits,engine);}
       }
       for(const [a,b] of contacts) { if(!G.World.enemy(a,b,engine))continue; if(!G.Demon?.frozen?.(a,engine))G.Skills[a.type]?.onContact?.(a,engine); if(!G.Demon?.frozen?.(b,engine))G.Skills[b.type]?.onContact?.(b,engine); }
       // Keep impact-tick immunity through simultaneous damage and reflection.
@@ -156,10 +156,10 @@
       }
       // Keep combat-owned metadata for the lethal attack's bounded recovery.
       (engine.resolvedThisTick??=[]).push(...hits.filter(h=>h.actual>0).map(h=>({source:h.source.id,target:h.target.id,kind:h.kind,heavy:!!h.feedback,actual:h.actual})));
-      G.Demon?.afterBatch(engine,hits);G.Cosmic?.afterBatch(engine);G.Stellar?.afterBatch(engine);G.DefenseArcana?.afterBatch(hits,engine);
+      G.Demon?.afterBatch(engine,hits);G.Stellar?.afterBatch(engine);G.DefenseArcana?.afterBatch(hits,engine);
       G.Presentation?.observeHits(hits,engine);
       for(const hit of hits.filter(p=>p.kind!=='contact' && p.kind!=='chain')) {
-        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',bladeSlash:'接刃斩击',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holySword:'天使圣剑',holySpear:'天使圣枪',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',stormBolt:'落雷命中',staticShock:'导电电解',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
+        let message=`${engine.label(hit.source)}${({shot:'子弹命中',trap:'陷阱触发',counter:'蓄能反击',boomerang:'飞刃命中',bladeSlash:'接刃斩击',laser:'光束命中',poison:'腐蚀毒伤',poisonShot:'毒液直击',shard:'破片命中',toxinBurst:'满毒引爆',wallSlam:'撞墙追击',barrier:'破盾波命中',timeBlast:'时钟爆炸',holySword:'天使圣剑',holySpear:'天使圣枪',holyWater:'圣水灼烧',holyBurn:'神圣灼伤',holyTouch:'圣光触碰',holyLight:'圣阵落光',holyJudgement:'圣裁命中',fear:hit.echo?'魂影恐吓':'虚化恐吓',soulBurst:hit.echo?'魂影回爆':'退相魂爆',demonClaw:'魔爪命中',demonExecution:'灵魂处刑',demonDual:'双锁处刑',demonTerminal:'断链终结',timeErode:'时间侵蚀',magneticContact:'吸引动能撞击',magneticWall:'排斥动能墙撞',arcFist:'奥义轰拳',arcSonic:engine.mode==='arcana'?'压力环穿盾':'音爆破盾',arcPierce:'穿甲反击',arcBlood:engine.mode==='arcana'?'血刃绞杀':'血刃噬心',arcBite:'贴身噬心',arcCage:'收监爆破',arcTide:'血潮夺血',hunt:'蝙蝠追猎',comet:'彗星命中',orbitTouch:'卫星擦击',starSplash:'星爆波及',starResonance:'三星共振',supernova:'超新星命中',wallArc:'沿墙电击',grounding:'接地短路'})[hit.kind]||'技能命中'} · ${engine.mode==='2v2'?engine.label(hit.target):hit.target.id===0?'左':'右'} −${hit.actual.toFixed(1)}`;
         if(hit.avoided>0)message+=' · 无敌抵消';if(hit.blocked>0)message+=' · 盾 −'+hit.blocked.toFixed(1);if(hit.reflection>0)message+=' · 反伤';engine.log(message);
       }
     }

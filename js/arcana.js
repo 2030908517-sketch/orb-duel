@@ -3,7 +3,7 @@
   // These one-use bursts are gated by the actor's health and resources, never match time.
   G.Arcana={
     ratio:.3,
-    health:{normal:280,accelerator:220,vampire:198,ranger:224},
+    health:{normal:280,accelerator:220,vampire:198,ranger:236},
     orbitRadius:94,
     defs:{normal:{name:'瞬身·破阵轰拳',raw:32},accelerator:{name:'极境·环天压爆',raw:25},vampire:{name:'血月·绞刃回流',raw:10}},
     fresh(){return {phase:'idle',used:false,started:0,until:0,target:null,aim:0,anchor:null,travel:0,budget:0,healBudget:20,impactDone:false,history:[],waiting:'',casts:0,hits:0};},
@@ -21,14 +21,33 @@
     },
     cancel(b,e){const u=b.arcana;if(u.used){this.finish(b,e);return;}u.phase='idle';u.target=null;u.anchor=null;u.history=[];u.waiting='重新择机';e.signal(b,'奥义收势 · 保留机会','miss');},
     commit(b,e){G.Temporal.releaseControl(b);const u=b.arcana;u.used=true;u.casts++;u.castId='arcana:'+b.id+':'+e.tick;u.waiting='';b.stats.arcanaCasts=(b.stats.arcanaCasts||0)+1;e.log(e.label(b)+'释放奥义 · '+this.defs[b.type].name);this.effect(e,b,'subtitle',b,{title:this.defs[b.type].name,side:b.id,life:2.3});},
-    near(t,b,e){const base=Math.hypot(t.vx,t.vy)>5?Math.atan2(t.vy,t.vx)+Math.PI:Math.atan2(t.y-b.y,t.x-b.x);for(const gap of [7,24,42])for(let i=0;i<24;i++){const angle=base+(i%2?1:-1)*Math.ceil(i/2)*TAU/24,d=b.radius+t.radius+gap,p={x:t.x+Math.cos(angle)*d,y:t.y+Math.sin(angle)*d,radius:b.radius};
-        if((b.cageBounds||b.cageWalls?.length)&&G.Trapper&&!G.Trapper.legal(p,b.radius,e,b,false))continue;
-        if(p.x<p.radius+1||p.x>C.width-p.radius-1||p.y<p.radius+1||p.y>C.height-p.radius-1)continue;
+    inwardLanding:Object.freeze({maxDeviation:65*Math.PI/180,minSpace:160}),
+    strikeRoom(t,p,e){const dx=t.x-p.x,dy=t.y-p.y,d=Math.hypot(dx,dy)||1,nx=dx/d,ny=dy/d,margin=t.radius+1;let room=Infinity;
+      if(nx>1e-8)room=Math.min(room,(C.width-margin-t.x)/nx);else if(nx< -1e-8)room=Math.min(room,(margin-t.x)/nx);
+      if(ny>1e-8)room=Math.min(room,(C.height-margin-t.y)/ny);else if(ny< -1e-8)room=Math.min(room,(margin-t.y)/ny);
+      if(G.ArenaWalls)room=Math.min(room,G.ArenaWalls.hit(t.x,t.y,nx,ny,t.radius,e).distance);
+      if(e.mode==='2v2')room=Math.min(room,G.Team.rayLimit(t.x,t.y,nx,ny,t.radius,e.obstacles));return Math.max(0,room);
+    },
+    near(t,b,e){const ox=t.x-C.width/2,oy=t.y-C.height/2,radial=Math.hypot(ox,oy),base=radial>28?Math.atan2(oy,ox):0,phase=e.rng.between(-Math.PI/48,Math.PI/48),minDot=Math.cos(this.inwardLanding.maxDeviation);let best=null,bestScore=-Infinity,bestInward=-1;
+      for(const gap of [7,24,42]){const good=[];for(let i=0;i<48;i++){const angle=base+phase+(i-24)*TAU/48,d=b.radius+t.radius+gap,p={x:t.x+Math.cos(angle)*d,y:t.y+Math.sin(angle)*d,radius:b.radius};
+        if(G.Trapper&&!G.Trapper.legal(p,b.radius,e,b,false))continue;
+        if(p.x<b.radius+1||p.x>C.width-b.radius-1||p.y<b.radius+1||p.y>C.height-b.radius-1)continue;
         if(e.mode==='2v2'&&e.obstacles.some(o=>G.Team.overlaps(p,o,1)))continue;
-        if(e.balls.some(v=>v!==b&&v!==t&&v.hp>0&&!G.Ghost.phased(v)&&Math.hypot(p.x-v.x,p.y-v.y)<v.radius+p.radius+1))continue;return p;
-      }return null;},
-    blink(b,t,e){const p=this.near(t,b,e);if(!p)return false;const from={x:b.x,y:b.y};this.commit(b,e);b.arcana.returnAngle=Math.atan2(b.vy,b.vx);G.Demon?.relocated(b,e);b.x=b.previousX=p.x;b.y=b.previousY=p.y;b.arcana.aim=Math.atan2(t.y-b.y,t.x-b.x);b.arcana.phase='blink';b.arcana.until=e.time+.085;b.charges=0;G.Pursuit.interrupt(b);b.vx=b.vy=0;b.inertia=0;
-      this.effect(e,b,'blink',from,{endX:b.x,endY:b.y,angle:b.arcana.aim,life:1.25});e.sound('arcBlink',b.x);return true;
+        if(e.balls.some(v=>v!==b&&v!==t&&v.hp>0&&!G.Ghost.phased(v)&&Math.hypot(p.x-v.x,p.y-v.y)<v.radius+p.radius+1))continue;
+        if(G.ArenaWalls&&!G.ArenaWalls.clear(p,t,e,0))continue;
+        const inward=radial>28?(Math.cos(angle)*ox+Math.sin(angle)*oy)/radial:1,room=this.strikeRoom(t,p,e),score=inward*3+Math.min(room,300)/300;
+        if(score>bestScore){bestScore=score;best=p;bestInward=inward;}if(inward>=minDot&&room>=this.inwardLanding.minSpace)good.push(p);
+      }if(good.length)return good[Math.floor(e.rng.next()*good.length)];}return bestInward>.05?best:null;
+    },
+    stepDuration:.42,
+    stepRoute(b,p,e){const from={x:b.x,y:b.y},dx=p.x-b.x,dy=p.y-b.y,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len,margin=b.radius+2;
+      for(const side of [1,-1]){const gap=Math.min(46,len*.22),route=[from,{x:from.x+dx*.32+nx*gap*side,y:from.y+dy*.32+ny*gap*side},{x:from.x+dx*.68-nx*gap*.65*side,y:from.y+dy*.68-ny*gap*.65*side},{x:p.x,y:p.y}];if(route.every((q,i)=>q.x>=margin&&q.x<=C.width-margin&&q.y>=margin&&q.y<=C.height-margin&&(!i||G.ArenaWalls.clear(route[i-1],q,e,b.radius))&&(!i||G.Mines.freeLine(route[i-1],q,e))))return route;}
+      return [from,{x:p.x,y:p.y}];
+    },
+    stepPosition(route,p){const n=route.length-1,q=clamp(p,0,1)*n,i=Math.min(n-1,Math.floor(q)),f=q-i,k=1-(1-f)**3;return {x:route[i].x+(route[i+1].x-route[i].x)*k,y:route[i].y+(route[i+1].y-route[i].y)*k};},
+    blink(b,t,e){const p=this.near(t,b,e);if(!p)return false;const from={x:b.x,y:b.y};this.commit(b,e);b.arcana.returnAngle=Math.atan2(b.vy,b.vx);G.Demon?.relocated(b,e);Object.assign(b.arcana,{stepRoute:this.stepRoute(b,p,e),stepStarted:e.time,stepStartedReal:e.presentationTime||0,stepReached:0,aim:Math.atan2(t.y-p.y,t.x-p.x),phase:'blink',until:e.time+C.dt});b.charges=0;G.Pursuit.interrupt(b);b.vx=b.vy=0;b.inertia=0;
+      b.x=b.previousX=p.x;b.y=b.previousY=p.y;this.stop(e,this.stepDuration);
+      this.effect(e,b,'blink',from,{endX:p.x,endY:p.y,route:b.arcana.stepRoute.map(q=>({...q})),duration:this.stepDuration,angle:b.arcana.aim,life:1.25});e.sound('arcBlink',b.x);return true;
     },
     punch(b,t,e){const u=b.arcana;u.phase='punchRecovery';u.until=e.time+.13;
       // A punch is its own attack, with no reciprocal body contact or extra ordinary heavy hit.
@@ -49,6 +68,7 @@
       }this.effect(e,b,'bloodSeal',center,{life:1.5});e.sound('arcBloodRelease',center.x);
     },
     update(e,dt){if(e.state!=='running')return;for(const b of e.balls){const u=b.arcana;if(!u||b.hp<=0||G.Demon?.frozen?.(b,e)&&!G.Priority?.armoredArcana(b))continue;const t=u.target!==null?e.balls.find(t=>t.id===u.target&&G.World.targetable(t,e)&&G.World.enemy(b,t,e)):G.World.targetFor(b,e);
+        if(b.type==='wind'&&G.Wind){G.Wind.arcana(b,t,e,dt);continue;}
         if(b.type==='holy'&&G.HolySeals)continue;if(G.HolySeals?.canStart(b,e)===false&&!u.used)continue;
         if(G.ManualRoles?.arcanaUpdate(b,t,e,dt))continue;
         if(b.type==='demon'&&G.DemonArcana){G.DemonArcana.update(b,t,e,dt);continue;}
@@ -71,7 +91,7 @@
           if(e.time<u.until-.12){u.aim=G.World.aim(b,t,1050,Math.max(0,u.until-e.time)+.08);u.anchor=G.Awakening.predict(t,Math.max(0,u.until-e.time)+.13);}
           if(e.time+1e-9>=u.until){if(b.type==='normal'){if(!this.blink(b,t,e))this.cancel(b,e);}else if(b.type==='accelerator')this.rush(b,t,e);else this.blood(b,t,e);}continue;
         }
-        if(u.phase==='blink'&&e.time+1e-9>=u.until){u.phase='punch';u.until=e.time+C.dt;this.effect(e,b,'fistPose',b,{angle:u.aim,life:.55});e.sound('arcFistTension',b.x);this.stop(e,.6);}
+        if(u.phase==='blink'&&e.time+1e-9>=u.until){const p=u.stepRoute?.at(-1);if(p&&!G.Priority?.forced(b,e)&&(!G.Trapper||G.Trapper.legal(p,b.radius,e,b,false))){b.x=b.previousX=p.x;b.y=b.previousY=p.y;u.stepReached=u.stepRoute.length-1;}u.phase='punch';u.until=e.time+C.dt;this.effect(e,b,'fistPose',b,{angle:u.aim,life:.55});e.sound('arcFistTension',b.x);this.stop(e,.6);}
         else if(u.phase==='punch'&&e.time+1e-9>=u.until)this.punch(b,t,e);
         else if(u.phase==='orbit'&&e.time>=u.until)this.sonic(b,e);
         else if(['punchRecovery','sonicRecovery','bloodRecovery'].includes(u.phase)&&e.time>=u.until)this.finish(b,e);
@@ -116,9 +136,9 @@
     },
     hit(h,e){if(h.kind==='arcDebt'){G.DefenseArcana?.hit(h,e);return;}if(G.VampireArcana&&(h.prison||h.kind==='arcBite'||h.kind==='arcTide')){G.VampireArcana.hit(h,e);return;}if(h.kind==='arcPierce'){G.RangerArcana?.hit(h,e);return;}const b=h.source,u=b.arcana;if(!['arcFist','arcSonic','arcBlood'].includes(h.kind)||h.actual+h.blocked<=0||h.avoided)return;
       if(u){u.hits++;b.stats.arcanaHits=(b.stats.arcanaHits||0)+1;}
-      if(h.kind==='arcFist'){G.Roles.heavyImpact(b,h,e,'fistHit','arcFistHit',430,.075);this.effect(e,b,'fistImpact',h.target,{angle:h.angle,life:1.7});this.stop(e,.075);}
+      if(h.kind==='arcFist'){G.Roles.heavyImpact(b,h,e,'fistHit','arcFistHit',430,.075);this.effect(e,b,'fistImpact',h.target,{angle:h.angle,target:h.target.id,life:1.7});this.stop(e,.075);}
       if(h.kind==='arcSonic'){G.Roles.heavyImpact(b,h,e,'arcanaSonicContact','arcSonicHit',420,.06);this.effect(e,b,'sonicImpact',h.target,{angle:h.angle,centerX:h.waveOrigin?.x??h.target.x,centerY:h.waveOrigin?.y??h.target.y,life:.55});this.stop(e,.06);}
-      if(h.kind==='arcBlood'){if(h.actual>0)this.groupNumber(e,'blood:'+b.id+':'+h.target.id,e.effects.findLast(f=>f.kind==='text'&&f.damageTarget===h.target.id&&f.age===0),'−');this.effect(e,b,h.actual>0?'bloodHit':'bloodBlock',h.point||h.target,{angle:h.angle,life:.5});if(h.arcanaHeal&&u&&h.actual>0){const amount=Math.min(u.healBudget,h.actual*.8);u.healBudget-=amount;h.healRatio=amount/h.actual;}
+      if(h.kind==='arcBlood'){if(h.actual>0)this.groupNumber(e,'blood:'+b.id+':'+h.target.id,e.effects.findLast(f=>f.kind==='text'&&f.damageTarget===h.target.id&&f.age===0),'−');this.effect(e,b,h.actual>0?'bloodHit':'bloodBlock',h.point||h.target,{angle:h.angle,life:.5});if(h.arcanaHeal&&u&&h.actual>0){const amount=Math.min(u.healBudget,h.actual*b.def.arcanaHeal);u.healBudget-=amount;h.healRatio=amount/h.actual;}
         G.Roles.heavyImpact(b,h,e,'arcanaBloodContact',h.actual>0?'arcBloodHit':'guardHeavy',55,0);if(u&&!u.impactDone&&h.actual>0){u.impactDone=true;this.stop(e,.045);}
       }
     },
@@ -128,7 +148,7 @@
     cleanup(e){if(e.arcanaWorld)e.arcanaWorld.cones=e.arcanaWorld.cones.filter(w=>e.balls.some(b=>b.id===w.owner&&b.hp>0));},
     slow(b,e,lost){G.VampireArcana?.slow(b,e,lost);if(this.busy(b)){b.arcana.started+=lost;b.arcana.until+=lost;if(b.arcana.phase==='orbit')b.arcana.nextPass+=lost;if(b.arcana.phase==='counterCharge')b.arcana.lockAt+=lost;}},
     snapshot(v){return {...v,anchor:v.anchor?{...v.anchor}:null,history:v.history?.map(p=>({...p})),center:v.center?{...v.center}:undefined,...(v.waveBudget?{waveBudget:{...v.waveBudget}}:{}),entry:v.entry?{...v.entry}:undefined,threat:v.threat?{...v.threat}:undefined,control:v.control?{...v.control}:undefined,hitIds:v.hitIds?[...v.hitIds]:undefined};},
-    copy(type){const rules={normal:'满三格拳势；低于10%生命且只差拳势时补满，等待无敌/护盾/反伤结束，0.8秒预警后瞬身贴近；0.6秒到位蓄势、命中短顿帧，32基础伤害与强击退，清空拳势，不结算双方接触伤害。',accelerator:'速度≥245且距离≥100，等待无敌/反伤结束；预警后侧切入场后高速环行，前段有限跟随、后段锁定，期间无敌且不结算碰撞；闭环后压力环向内实际传播，单敌限一次25至32伤，穿盾但不碎盾。敌人可逃出范围或以无敌躲避，结束降速。',vampire:'3血能与自己的有效血印，等待无敌/护盾/反伤结束；1.05秒预警后三向巨型血刃显形，0.42/0.63/0.84秒错位出手，各自预瞄后以300速度绞切，每刃10基础伤害，实际扣血的80%回血、整招最多20，取代常规吸血；消耗血印与3血能。'};return '奥义 · '+this.defs[type].name+'：仅自身生命≤30%且觉醒后择机释放，每局一次、不设时间门槛。'+(type==='ranger'?G.RangerArcana.copy:type==='vampire'&&G.VampireArcana?G.VampireArcana.copy:rules[type]);},
+    copy(type){const rules={normal:'满三格拳势；低于10%生命且只差拳势时补满，等待无敌/护盾/反伤结束，0.8秒预警后瞬身贴近；0.6秒到位蓄势、命中短顿帧，32基础伤害与强击退，清空拳势，不结算双方接触伤害。',accelerator:'速度≥245且距离≥100，等待无敌/反伤结束；预警后侧切入场后高速环行，前段有限跟随、后段锁定，期间无敌且不结算碰撞；闭环后压力环向内实际传播，单敌限一次25至32伤，穿盾但不碎盾。敌人可逃出范围或以无敌躲避，结束降速。',vampire:'3血能与自己的有效血印，等待无敌/护盾/反伤结束；1.05秒预警后三向巨型血刃显形，0.42/0.63/0.84秒错位出手，各自预瞄后以300速度绞切，每刃10基础伤害，实际扣血的72%回血、整招最多20，取代常规吸血；消耗血印与3血能。'};return '奥义 · '+this.defs[type].name+'：仅自身生命≤30%且觉醒后择机释放，每局一次、不设时间门槛。'+(type==='ranger'?G.RangerArcana.copy:type==='vampire'&&G.VampireArcana?G.VampireArcana.copy:rules[type]);},
     status(b,e){const u=b.arcana;if(!u)return null;const phases={warning:'预警',blink:'瞬身到位',punch:'定格蓄拳',orbit:'环天疾行',punchRecovery:'轰拳',rush:'破音突进',sonicRecovery:'音爆',bloodRecovery:'错位绞切',bloodCage:'三刃血狱',bloodHunt:'收割择机',bloodMist:'化雾贴身',bloodBite:'贴身噬心',bloodReturn:'噬心回流',bloodLiquefy:'血肉崩解',bloodTide:'血潮猎杀',bloodReverse:'万血逆流',bloodRebirth:'猩红重生',bloodFinale:'重生收尾',counterStep:'极限闪避',counterCharge:'穿甲蓄力',counterRecovery:'反击收势'};return {label:'奥义',value:this.busy(b)?phases[u.phase]+(b.type==='ranger'?' '+Math.max(0,u.until-e.time).toFixed(1)+'s':''):u.used?'已使用':b.hp>b.maxHp*this.ratio?'≤30%解锁':u.waiting?(b.type==='ranger'?u.waiting:'择机'):'就绪'};}
   };
 })(typeof window!=='undefined'?window:globalThis);

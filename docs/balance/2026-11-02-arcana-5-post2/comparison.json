@@ -1,0 +1,1836 @@
+{
+  "baseline": "2026-11-02-arcana-5-post1",
+  "current": "2026-11-02-arcana-5-post2",
+  "sameSchedule": true,
+  "unchangedChecks": 50,
+  "changedOutcomes": 87,
+  "metrics": {
+    "before": {
+      "meanScoreDeviation": 0.25128205128205133,
+      "within40to60": 29,
+      "clearAdvantages": 22,
+      "largeAdvantages": 22,
+      "balanced": 34,
+      "draws": 22
+    },
+    "after": {
+      "meanScoreDeviation": 0.22948717948717962,
+      "within40to60": 32,
+      "clearAdvantages": 19,
+      "largeAdvantages": 25,
+      "balanced": 34,
+      "draws": 23
+    }
+  },
+  "summary": [
+    {
+      "type": "time",
+      "name": "时间球",
+      "previousWins": 39,
+      "wins": 36,
+      "losses": 22,
+      "draws": 2,
+      "previousRate": 0.65,
+      "rate": 0.6,
+      "change": -0.050000000000000044,
+      "crush": 15,
+      "close": 21
+    },
+    {
+      "type": "trapper",
+      "name": "陷阱球",
+      "previousWins": 15,
+      "wins": 36,
+      "losses": 23,
+      "draws": 1,
+      "previousRate": 0.25,
+      "rate": 0.6,
+      "change": 0.35,
+      "crush": 12,
+      "close": 24
+    },
+    {
+      "type": "laser",
+      "name": "激光球",
+      "previousWins": 21,
+      "wins": 34,
+      "losses": 23,
+      "draws": 3,
+      "previousRate": 0.35,
+      "rate": 0.5666666666666667,
+      "change": 0.21666666666666667,
+      "crush": 13,
+      "close": 21
+    },
+    {
+      "type": "holy",
+      "name": "神圣球",
+      "previousWins": 42,
+      "wins": 32,
+      "losses": 26,
+      "draws": 2,
+      "previousRate": 0.7,
+      "rate": 0.5333333333333333,
+      "change": -0.16666666666666663,
+      "crush": 14,
+      "close": 18
+    },
+    {
+      "type": "vampire",
+      "name": "吸血球",
+      "previousWins": 31,
+      "wins": 31,
+      "losses": 23,
+      "draws": 6,
+      "previousRate": 0.5166666666666667,
+      "rate": 0.5166666666666667,
+      "change": 0,
+      "crush": 12,
+      "close": 19
+    },
+    {
+      "type": "normal",
+      "name": "普通球",
+      "previousWins": 29,
+      "wins": 28,
+      "losses": 25,
+      "draws": 7,
+      "previousRate": 0.48333333333333334,
+      "rate": 0.4666666666666667,
+      "change": -0.016666666666666663,
+      "crush": 7,
+      "close": 21
+    },
+    {
+      "type": "boomerang",
+      "name": "回旋球",
+      "previousWins": 33,
+      "wins": 27,
+      "losses": 28,
+      "draws": 5,
+      "previousRate": 0.55,
+      "rate": 0.45,
+      "change": -0.10000000000000003,
+      "crush": 7,
+      "close": 20
+    },
+    {
+      "type": "shield",
+      "name": "护盾球",
+      "previousWins": 31,
+      "wins": 26,
+      "losses": 27,
+      "draws": 7,
+      "previousRate": 0.5166666666666667,
+      "rate": 0.43333333333333335,
+      "change": -0.08333333333333337,
+      "crush": 17,
+      "close": 9
+    },
+    {
+      "type": "demon",
+      "name": "恶魔球",
+      "previousWins": 33,
+      "wins": 26,
+      "losses": 31,
+      "draws": 3,
+      "previousRate": 0.55,
+      "rate": 0.43333333333333335,
+      "change": -0.1166666666666667,
+      "crush": 10,
+      "close": 16
+    },
+    {
+      "type": "accelerator",
+      "name": "加速球",
+      "previousWins": 29,
+      "wins": 24,
+      "losses": 31,
+      "draws": 5,
+      "previousRate": 0.48333333333333334,
+      "rate": 0.4,
+      "change": -0.08333333333333331,
+      "crush": 15,
+      "close": 9
+    },
+    {
+      "type": "ranger",
+      "name": "射手球",
+      "previousWins": 17,
+      "wins": 24,
+      "losses": 36,
+      "draws": 0,
+      "previousRate": 0.2833333333333333,
+      "rate": 0.4,
+      "change": 0.1166666666666667,
+      "crush": 8,
+      "close": 16
+    },
+    {
+      "type": "reflector",
+      "name": "反伤球",
+      "previousWins": 26,
+      "wins": 22,
+      "losses": 33,
+      "draws": 5,
+      "previousRate": 0.43333333333333335,
+      "rate": 0.36666666666666664,
+      "change": -0.06666666666666671,
+      "crush": 8,
+      "close": 14
+    },
+    {
+      "type": "venom",
+      "name": "毒液球",
+      "previousWins": 22,
+      "wins": 21,
+      "losses": 39,
+      "draws": 0,
+      "previousRate": 0.36666666666666664,
+      "rate": 0.35,
+      "change": -0.016666666666666663,
+      "crush": 10,
+      "close": 11
+    }
+  ],
+  "pairs": [
+    {
+      "a": "normal",
+      "b": "vampire",
+      "nameA": "普通球",
+      "nameB": "吸血球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "normal",
+      "b": "accelerator",
+      "nameA": "普通球",
+      "nameB": "加速球",
+      "old": [
+        4,
+        0,
+        1
+      ],
+      "current": [
+        4,
+        0,
+        1
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.4,
+      "deviation": 0.4
+    },
+    {
+      "a": "normal",
+      "b": "demon",
+      "nameA": "普通球",
+      "nameB": "恶魔球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "normal",
+      "b": "reflector",
+      "nameA": "普通球",
+      "nameB": "反伤球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0,
+      "deviation": 0
+    },
+    {
+      "a": "normal",
+      "b": "shield",
+      "nameA": "普通球",
+      "nameB": "护盾球",
+      "old": [
+        1,
+        2,
+        2
+      ],
+      "current": [
+        1,
+        2,
+        2
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "normal",
+      "b": "ranger",
+      "nameA": "普通球",
+      "nameB": "射手球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "明显劣势",
+      "change": -0.4,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "normal",
+      "b": "trapper",
+      "nameA": "普通球",
+      "nameB": "陷阱球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        5,
+        0,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "明显优势",
+      "change": 0.4,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.5
+    },
+    {
+      "a": "normal",
+      "b": "boomerang",
+      "nameA": "普通球",
+      "nameB": "回旋球",
+      "old": [
+        1,
+        2,
+        2
+      ],
+      "current": [
+        1,
+        2,
+        2
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "normal",
+      "b": "laser",
+      "nameA": "普通球",
+      "nameB": "激光球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        1,
+        3,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": -0.4,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.2
+    },
+    {
+      "a": "normal",
+      "b": "holy",
+      "nameA": "普通球",
+      "nameB": "神圣球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "normal",
+      "b": "time",
+      "nameA": "普通球",
+      "nameB": "时间球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "normal",
+      "b": "venom",
+      "nameA": "普通球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "vampire",
+      "b": "accelerator",
+      "nameA": "吸血球",
+      "nameB": "加速球",
+      "old": [
+        1,
+        3,
+        1
+      ],
+      "current": [
+        1,
+        3,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.2,
+      "deviation": 0.2
+    },
+    {
+      "a": "vampire",
+      "b": "demon",
+      "nameA": "吸血球",
+      "nameB": "恶魔球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "vampire",
+      "b": "reflector",
+      "nameA": "吸血球",
+      "nameB": "反伤球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0,
+      "deviation": 0
+    },
+    {
+      "a": "vampire",
+      "b": "shield",
+      "nameA": "吸血球",
+      "nameB": "护盾球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "vampire",
+      "b": "ranger",
+      "nameA": "吸血球",
+      "nameB": "射手球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大劣势",
+      "change": -0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.3
+    },
+    {
+      "a": "vampire",
+      "b": "trapper",
+      "nameA": "吸血球",
+      "nameB": "陷阱球",
+      "old": [
+        1,
+        3,
+        1
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.2,
+      "deviation": 0.3
+    },
+    {
+      "a": "vampire",
+      "b": "boomerang",
+      "nameA": "吸血球",
+      "nameB": "回旋球",
+      "old": [
+        3,
+        1,
+        1
+      ],
+      "current": [
+        3,
+        1,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.19999999999999996,
+      "deviation": 0.19999999999999996
+    },
+    {
+      "a": "vampire",
+      "b": "laser",
+      "nameA": "吸血球",
+      "nameB": "激光球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0
+    },
+    {
+      "a": "vampire",
+      "b": "holy",
+      "nameA": "吸血球",
+      "nameB": "神圣球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大优势",
+      "change": 0.4,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "vampire",
+      "b": "time",
+      "nameA": "吸血球",
+      "nameB": "时间球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        0,
+        3,
+        2
+      ],
+      "oldLevel": "较大劣势",
+      "level": "均势",
+      "change": -0.2,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "vampire",
+      "b": "venom",
+      "nameA": "吸血球",
+      "nameB": "毒液球",
+      "old": [
+        5,
+        0,
+        0
+      ],
+      "current": [
+        5,
+        0,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "明显优势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.5
+    },
+    {
+      "a": "accelerator",
+      "b": "demon",
+      "nameA": "加速球",
+      "nameB": "恶魔球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0,
+      "deviation": 0
+    },
+    {
+      "a": "accelerator",
+      "b": "reflector",
+      "nameA": "加速球",
+      "nameB": "反伤球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "accelerator",
+      "b": "shield",
+      "nameA": "加速球",
+      "nameB": "护盾球",
+      "old": [
+        0,
+        4,
+        1
+      ],
+      "current": [
+        0,
+        4,
+        1
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.4,
+      "deviation": 0.4
+    },
+    {
+      "a": "accelerator",
+      "b": "ranger",
+      "nameA": "加速球",
+      "nameB": "射手球",
+      "old": [
+        5,
+        0,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "明显优势",
+      "change": -0.2,
+      "oldDeviation": 0.5,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "accelerator",
+      "b": "trapper",
+      "nameA": "加速球",
+      "nameB": "陷阱球",
+      "old": [
+        4,
+        0,
+        1
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "明显劣势",
+      "change": -0.6,
+      "oldDeviation": 0.4,
+      "deviation": 0.3
+    },
+    {
+      "a": "accelerator",
+      "b": "boomerang",
+      "nameA": "加速球",
+      "nameB": "回旋球",
+      "old": [
+        1,
+        3,
+        1
+      ],
+      "current": [
+        1,
+        3,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.2,
+      "deviation": 0.2
+    },
+    {
+      "a": "accelerator",
+      "b": "laser",
+      "nameA": "加速球",
+      "nameB": "激光球",
+      "old": [
+        5,
+        0,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "均势",
+      "change": -0.4,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "accelerator",
+      "b": "holy",
+      "nameA": "加速球",
+      "nameB": "神圣球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "均势",
+      "change": 0.2,
+      "oldDeviation": 0.3,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "accelerator",
+      "b": "time",
+      "nameA": "加速球",
+      "nameB": "时间球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "明显优势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "accelerator",
+      "b": "venom",
+      "nameA": "加速球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "明显优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "demon",
+      "b": "reflector",
+      "nameA": "恶魔球",
+      "nameB": "反伤球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "demon",
+      "b": "shield",
+      "nameA": "恶魔球",
+      "nameB": "护盾球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0,
+      "deviation": 0
+    },
+    {
+      "a": "demon",
+      "b": "ranger",
+      "nameA": "恶魔球",
+      "nameB": "射手球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": -0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "demon",
+      "b": "trapper",
+      "nameA": "恶魔球",
+      "nameB": "陷阱球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "明显劣势",
+      "change": -0.6,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.5
+    },
+    {
+      "a": "demon",
+      "b": "boomerang",
+      "nameA": "恶魔球",
+      "nameB": "回旋球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "demon",
+      "b": "laser",
+      "nameA": "恶魔球",
+      "nameB": "激光球",
+      "old": [
+        5,
+        0,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "均势",
+      "change": -0.6,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "demon",
+      "b": "holy",
+      "nameA": "恶魔球",
+      "nameB": "神圣球",
+      "old": [
+        4,
+        0,
+        1
+      ],
+      "current": [
+        4,
+        0,
+        1
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.4,
+      "deviation": 0.4
+    },
+    {
+      "a": "demon",
+      "b": "time",
+      "nameA": "恶魔球",
+      "nameB": "时间球",
+      "old": [
+        1,
+        3,
+        1
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.2,
+      "deviation": 0.3
+    },
+    {
+      "a": "demon",
+      "b": "venom",
+      "nameA": "恶魔球",
+      "nameB": "毒液球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "reflector",
+      "b": "shield",
+      "nameA": "反伤球",
+      "nameB": "护盾球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        2,
+        2,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0,
+      "deviation": 0
+    },
+    {
+      "a": "reflector",
+      "b": "ranger",
+      "nameA": "反伤球",
+      "nameB": "射手球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大优势",
+      "change": 0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "reflector",
+      "b": "trapper",
+      "nameA": "反伤球",
+      "nameB": "陷阱球",
+      "old": [
+        4,
+        0,
+        1
+      ],
+      "current": [
+        1,
+        3,
+        1
+      ],
+      "oldLevel": "较大优势",
+      "level": "均势",
+      "change": -0.6,
+      "oldDeviation": 0.4,
+      "deviation": 0.2
+    },
+    {
+      "a": "reflector",
+      "b": "boomerang",
+      "nameA": "反伤球",
+      "nameB": "回旋球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.5
+    },
+    {
+      "a": "reflector",
+      "b": "laser",
+      "nameA": "反伤球",
+      "nameB": "激光球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        0,
+        4,
+        1
+      ],
+      "oldLevel": "均势",
+      "level": "较大劣势",
+      "change": -0.4,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.4
+    },
+    {
+      "a": "reflector",
+      "b": "holy",
+      "nameA": "反伤球",
+      "nameB": "神圣球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "reflector",
+      "b": "time",
+      "nameA": "反伤球",
+      "nameB": "时间球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.5
+    },
+    {
+      "a": "reflector",
+      "b": "venom",
+      "nameA": "反伤球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "shield",
+      "b": "ranger",
+      "nameA": "护盾球",
+      "nameB": "射手球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": -0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "shield",
+      "b": "trapper",
+      "nameA": "护盾球",
+      "nameB": "陷阱球",
+      "old": [
+        3,
+        1,
+        1
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大劣势",
+      "change": -0.4,
+      "oldDeviation": 0.19999999999999996,
+      "deviation": 0.3
+    },
+    {
+      "a": "shield",
+      "b": "boomerang",
+      "nameA": "护盾球",
+      "nameB": "回旋球",
+      "old": [
+        3,
+        1,
+        1
+      ],
+      "current": [
+        3,
+        1,
+        1
+      ],
+      "oldLevel": "明显优势",
+      "level": "明显优势",
+      "change": 0,
+      "oldDeviation": 0.19999999999999996,
+      "deviation": 0.19999999999999996
+    },
+    {
+      "a": "shield",
+      "b": "laser",
+      "nameA": "护盾球",
+      "nameB": "激光球",
+      "old": [
+        5,
+        0,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "均势",
+      "change": -0.6,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "shield",
+      "b": "holy",
+      "nameA": "护盾球",
+      "nameB": "神圣球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        0,
+        4,
+        1
+      ],
+      "oldLevel": "明显劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.4
+    },
+    {
+      "a": "shield",
+      "b": "time",
+      "nameA": "护盾球",
+      "nameB": "时间球",
+      "old": [
+        2,
+        2,
+        1
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "明显优势",
+      "change": 0.2,
+      "oldDeviation": 0,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "shield",
+      "b": "venom",
+      "nameA": "护盾球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "ranger",
+      "b": "trapper",
+      "nameA": "射手球",
+      "nameB": "陷阱球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大劣势",
+      "change": -0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.3
+    },
+    {
+      "a": "ranger",
+      "b": "boomerang",
+      "nameA": "射手球",
+      "nameB": "回旋球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "均势",
+      "change": 0.4,
+      "oldDeviation": 0.3,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "ranger",
+      "b": "laser",
+      "nameA": "射手球",
+      "nameB": "激光球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "ranger",
+      "b": "holy",
+      "nameA": "射手球",
+      "nameB": "神圣球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "均势",
+      "change": 0.4,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "ranger",
+      "b": "time",
+      "nameA": "射手球",
+      "nameB": "时间球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "较大劣势",
+      "change": 0.2,
+      "oldDeviation": 0.5,
+      "deviation": 0.3
+    },
+    {
+      "a": "ranger",
+      "b": "venom",
+      "nameA": "射手球",
+      "nameB": "毒液球",
+      "old": [
+        3,
+        2,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "较大劣势",
+      "change": -0.4,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.3
+    },
+    {
+      "a": "trapper",
+      "b": "boomerang",
+      "nameA": "陷阱球",
+      "nameB": "回旋球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "均势",
+      "change": 0.4,
+      "oldDeviation": 0.3,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "trapper",
+      "b": "laser",
+      "nameA": "陷阱球",
+      "nameB": "激光球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "trapper",
+      "b": "holy",
+      "nameA": "陷阱球",
+      "nameB": "神圣球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.5
+    },
+    {
+      "a": "trapper",
+      "b": "time",
+      "nameA": "陷阱球",
+      "nameB": "时间球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "均势",
+      "change": 0.6,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "trapper",
+      "b": "venom",
+      "nameA": "陷阱球",
+      "nameB": "毒液球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大优势",
+      "change": 0.6,
+      "oldDeviation": 0.3,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "boomerang",
+      "b": "laser",
+      "nameA": "回旋球",
+      "nameB": "激光球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": -0.2,
+      "oldDeviation": 0.3,
+      "deviation": 0.5
+    },
+    {
+      "a": "boomerang",
+      "b": "holy",
+      "nameA": "回旋球",
+      "nameB": "神圣球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "boomerang",
+      "b": "time",
+      "nameA": "回旋球",
+      "nameB": "时间球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "明显优势",
+      "change": -0.2,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "boomerang",
+      "b": "venom",
+      "nameA": "回旋球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        4,
+        1,
+        0
+      ],
+      "oldLevel": "较大优势",
+      "level": "较大优势",
+      "change": 0,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.30000000000000004
+    },
+    {
+      "a": "laser",
+      "b": "holy",
+      "nameA": "激光球",
+      "nameB": "神圣球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        2,
+        3,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "均势",
+      "change": 0.4,
+      "oldDeviation": 0.5,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "laser",
+      "b": "time",
+      "nameA": "激光球",
+      "nameB": "时间球",
+      "old": [
+        0,
+        5,
+        0
+      ],
+      "current": [
+        0,
+        5,
+        0
+      ],
+      "oldLevel": "明显劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.5,
+      "deviation": 0.5
+    },
+    {
+      "a": "laser",
+      "b": "venom",
+      "nameA": "激光球",
+      "nameB": "毒液球",
+      "old": [
+        2,
+        3,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "均势",
+      "level": "均势",
+      "change": 0.2,
+      "oldDeviation": 0.09999999999999998,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "holy",
+      "b": "time",
+      "nameA": "神圣球",
+      "nameB": "时间球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "明显劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    },
+    {
+      "a": "holy",
+      "b": "venom",
+      "nameA": "神圣球",
+      "nameB": "毒液球",
+      "old": [
+        4,
+        1,
+        0
+      ],
+      "current": [
+        3,
+        2,
+        0
+      ],
+      "oldLevel": "明显优势",
+      "level": "均势",
+      "change": -0.2,
+      "oldDeviation": 0.30000000000000004,
+      "deviation": 0.09999999999999998
+    },
+    {
+      "a": "time",
+      "b": "venom",
+      "nameA": "时间球",
+      "nameB": "毒液球",
+      "old": [
+        1,
+        4,
+        0
+      ],
+      "current": [
+        1,
+        4,
+        0
+      ],
+      "oldLevel": "较大劣势",
+      "level": "较大劣势",
+      "change": 0,
+      "oldDeviation": 0.3,
+      "deviation": 0.3
+    }
+  ]
+}

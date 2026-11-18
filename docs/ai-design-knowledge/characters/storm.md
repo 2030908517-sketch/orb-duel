@@ -1,8 +1,10 @@
+> 历史档案：雷霆球自2026-11-19起移除，以下仅描述移除前的实现；它与仍在阵容里的[电荷球](charge.md)不同。
+
 # 雷霆球 storm
 
 118HP/8.8身体基伤/220速度/质量1.05；所有模式相同生命，**没有独立奥义/手动玩家支持**。不是电荷球。
 
-来源：[cosmic.js](../../../js/cosmic.js) `reset/wall/strike/update/world/hit/afterBatch`；[awakening.js](../../../js/awakening.js)。
+来源：原 `js/cosmic.js` `reset/wall/strike/update/world/hit/afterBatch`；[awakening.js](../../../js/awakening.js)。
 
 | 能力 | 触发/效果 | 数值与限制 |
 | --- | --- | --- |

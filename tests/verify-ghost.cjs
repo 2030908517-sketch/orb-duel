@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
+for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-6,m+' '+a+' / '+b);
 function make(types=['ghost','normal']){const e=new G.Engine(types,'ghost-boundary');e.start();e.balls.forEach((b,i)=>{b.x=80+i*120;b.y=170;b.speed=0;b.vx=b.vy=0;b.ghost.nextPhase=Infinity;b.magnetic.nextPulse=Infinity;});return e;}
 function enter(e,index=0){G.Ghost.enter(e.balls[index],e);e.balls[index].ghost.nextPhase=e.time+6.4;}

@@ -1,6 +1,6 @@
 (function(root){
   'use strict';const G=root.OrbDuel,C=G.Constants;
-  const labels={ranger:'重新定位',reflector:'镜面延长',shield:'屏障延长',vampire:'择机血契',laser:'重炮择机',venom:'喷吐校正',timeDomain:'领域择机',timeClock:'时钟择机',ghost:'虚化错拍',holyZone:'落点调整',holyJudgement:'圣裁错拍',demon:'择机抓捕',magnetPush:'排斥择机',blade:'回刃补偿',storm:'引雷择机',stormAwake:'雷暴择机',stellarVolley:'彗星择机',supernova:'星核择机',chargeCast:'放电择机',chargeForm:'雷化择机'};
+  const labels={ranger:'重新定位',reflector:'镜面延长',shield:'屏障延长',vampire:'择机血契',laser:'重炮择机',venom:'喷吐校正',timeDomain:'领域择机',timeClock:'时钟择机',ghost:'虚化错拍',holyZone:'落点调整',holyJudgement:'圣裁错拍',demon:'择机抓捕',magnetPush:'排斥择机',blade:'回刃补偿',stellarVolley:'彗星择机',supernova:'星核择机',chargeCast:'放电择机',chargeForm:'雷化择机'};
   G.Adaptive={
     fresh(){return {sequence:0,levels:{},rounds:[],waiting:{},completed:0,misses:0};},
     reset(e){for(const b of e.balls)b.adaptive=this.fresh();},
@@ -37,7 +37,7 @@
     },
     snapshot(s){return {...s,levels:{...s.levels},rounds:s.rounds.map(r=>({...r})),waiting:Object.fromEntries(Object.entries(s.waiting).map(([k,v])=>[k,{...v}]))};},
     observe(e){if(e.state!=='running')return;
-      const objects=[...(e.cosmicWorld?.strikes||[]),...(e.cosmicWorld?.binary||[]),...(e.chargeWorld?.currents||[]),...(e.stellarWorld?.waves||[]),...e.projectiles,...e.waves,...e.beams,...e.pools,...e.timeClocks,...e.timeDomains,...e.ghostEchoes,...(e.holyWorld?.zones||[]),...(e.holyWorld?.lights||[]),...(e.demonWorld?.claws||[]),...(e.demonWorld?.souls||[])],live=new Set(objects.map(v=>v.adaptiveId).filter(Boolean));
+      const objects=[...(e.chargeWorld?.currents||[]),...(e.stellarWorld?.waves||[]),...e.projectiles,...e.waves,...e.beams,...e.pools,...e.timeClocks,...e.timeDomains,...e.ghostEchoes,...(e.holyWorld?.zones||[]),...(e.holyWorld?.lights||[]),...(e.demonWorld?.claws||[]),...(e.demonWorld?.souls||[])],live=new Set(objects.map(v=>v.adaptiveId).filter(Boolean));
       for(const b of e.balls){if(G.Charge?.flowing(b))live.add(b.charge.adaptiveId);if(b.stellar?.volley)live.add(b.stellar.volley.adaptiveId);const s=this.state(b);if(b.hp<=0){s.rounds=[];s.waiting={};continue;}
         // Credit actually occupied immune geometry, without consuming incoming weapons.
         if(G.Ghost.phased(b)){const close=o=>Math.hypot(b.x-o.x,b.y-o.y)<=b.radius+(o.radius||13);

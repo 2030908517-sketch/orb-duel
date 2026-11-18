@@ -58,9 +58,10 @@
     laser(ball,engine){
       return G.Roles.laserFire(ball,engine);
     },
-    clearTrap(trap,ball,engine){
+    clearTrap(trap,ball,engine,options={}){
+      if(G.Mines?.canRemove(trap,options)===false)return false;
       engine.traps=engine.traps.filter(t=>t.id!==trap.id);ball.stats.trapsCleared++;
-      engine.burst(trap.x,trap.y,'#b8c5d5',8);engine.signal(ball,'拆除陷阱','disarm');
+      engine.burst(trap.x,trap.y,'#b8c5d5',8);engine.effects.push({kind:'mechanism',style:'dismantle',x:trap.x,y:trap.y,age:0,life:.32});engine.signal(ball,'拆除陷阱','disarm');
     },
     // Entry time along relative swept paths, rather than just proximity at the end.
     sweep(shot,oldX,oldY,target){
@@ -75,7 +76,8 @@
     intersects(shot,oldX,oldY,target){return this.sweep(shot,oldX,oldY,target)!==Infinity;},
     update(engine,dt){
       const nextShots=[];
-      for(const shot of engine.projectiles){
+      for(const shot of (engine.projectiles.some(p=>p.mode==='arcPierce')?[...engine.projectiles].sort((a,b)=>Number(b.mode==='arcPierce')-Number(a.mode==='arcPierce')):engine.projectiles)){
+        if(shot.rangerShattered)continue;
         const owner=engine.balls.find(b=>b.id===shot.owner),mode=shot.mode||'shot';
         if(mode==='arcPierce'){const next=G.RangerArcana?.projectile(shot,engine,dt);if(next)nextShots.push(next);continue;}
         if(mode==='arcBlood'){const next=G.Arcana?.projectile(shot,engine,dt);if(next)nextShots.push(next);continue;}
@@ -110,7 +112,7 @@
         if(ended){if(mode==='venom')G.Flyers.spill(shot,owner,engine);continue;}
         nextShots.push(shot);
       }
-      engine.projectiles=nextShots;G.BladeHunt?.relay(engine);
+      engine.projectiles=nextShots.filter(p=>!p.rangerShattered);G.BladeHunt?.relay(engine);
       G.Roles.updateWaves(engine,dt);G.Roles.updateBeams(engine);this.updateTraps(engine);
       G.Venom.world(engine);
     },

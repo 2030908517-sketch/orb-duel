@@ -91,7 +91,7 @@
       if(u){u.hits++;b.stats.arcanaHits=(b.stats.arcanaHits||0)+1;}
       if(h.kind==='arcFist'){G.Roles.heavyImpact(b,h,e,'fistHit','arcFistHit',430,.075);this.effect(e,b,'fistImpact',h.target,{angle:h.angle,life:1.7});this.stop(e,.34);}
       if(h.kind==='arcSonic'){G.Roles.heavyImpact(b,h,e,'pressureHit','arcSonicHit',420,.075);this.effect(e,b,'sonicImpact',h.target,{angle:h.angle,life:1.35});this.stop(e,.22);}
-      if(h.kind==='arcBlood'){if(h.arcanaHeal&&u&&h.actual>0){const amount=Math.min(u.healBudget,h.actual*.8);u.healBudget-=amount;h.healRatio=amount/h.actual;this.effect(e,b,'returnBlood',h.target,{endX:b.x,endY:b.y,life:1});}
+      if(h.kind==='arcBlood'){if(h.arcanaHeal&&u&&h.actual>0){const amount=Math.min(u.healBudget,h.actual*b.def.arcanaHeal);u.healBudget-=amount;h.healRatio=amount/h.actual;this.effect(e,b,'returnBlood',h.target,{endX:b.x,endY:b.y,life:1});}
         G.Roles.heavyImpact(b,h,e,'bloodFinish','arcBloodHit',65,.06);if(u&&!u.impactDone){u.impactDone=true;this.stop(e,.22);this.effect(e,b,'bloodRupture',h.target,{life:1.45});}
       }
     },

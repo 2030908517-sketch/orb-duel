@@ -25,7 +25,7 @@ const H=G.BladeHunt={
    p.curve={start:{x:p.x,y:p.y},control:this.point(b,{x:(p.x+destination.x)/2-ny*side*clamp(distance*.3,24,58),y:(p.y+destination.y)/2+nx*side*clamp(distance*.3,24,58)},p.radius),end:{...destination},started:e.time,duration};
    p.turnAt=e.time+duration;p.relayUntil=e.time+duration+this.config.relayWait;
   }
-  G.Adaptive?.close(b,b.character.bladeAdaptiveId);e.sound('throw',b.x);b.nextShot=e.time+(awake?4.2:b.def.shotPeriod);
+  this.cue(e,b,'release',b,{angle,count:awake?2:1,life:.24});G.Adaptive?.close(b,b.character.bladeAdaptiveId);e.sound('throw',b.x);b.nextShot=e.time+(awake?4.2:b.def.shotPeriod);
  },
  // Only the relay rendezvous and the non-returning blade use a new mover.
  // Ordinary outbound and return arcs continue through Characters.moveBlade and wall sweeps.
@@ -55,17 +55,23 @@ const H=G.BladeHunt={
  },
  reward(b,e,count=Math.min(2,b.character.caughtInCast)){if(b.hp<=0||e.ending)return;b.character.catchPower=count>=2?1.4:1.2;b.character.catchUntil=e.time+this.config.rewardLife;e.signal(b,count>=2?'双刃重斩就绪':'单刃重斩就绪',G.BladeDance?.active(b)?'arcDanceCatch':'bladeCatch');this.cue(e,b,'catch',b,{count});},
  inArc(b,t,e,s){const dx=t.x-b.x,dy=t.y-b.y,d=Math.hypot(dx,dy),r=b.radius+this.config.slashReach;if(d>r+t.radius)return false;const delta=Math.abs(Math.atan2(Math.sin(Math.atan2(dy,dx)-s.angle),Math.cos(Math.atan2(dy,dx)-s.angle))),half=s.count>=2?this.config.doubleHalfAngle:this.config.singleHalfAngle;return delta<=half+Math.asin(Math.min(1,t.radius/(d||1)))&&this.clear(b,t,e);},
- startSwing(b,t,e,dance=false){const state=this.state(b);if(state.swing||b.character.catchUntil<=e.time)return false;state.swing={at:e.time,angle:Math.atan2(t.y-b.y,t.x-b.x),count:b.character.catchPower>=1.4?2:1,struck:false,dance};b.character.catchUntil=0;e.sound(dance?'arcDanceSlash':state.swing.count>=2?'bladeTwinWhoosh':'bladeSlashWhoosh',b.x);return true;},
+ startSwing(b,t,e,dance=false){const state=this.state(b);if(state.swing||b.character.catchUntil<=e.time)return false;state.swing={at:e.time,angle:Math.atan2(t.y-b.y,t.x-b.x),count:b.character.catchPower>=1.4?2:1,struck:false,dance,...(dance?{handAngle:Math.atan2(b.vy,b.vx)}:{}),wind:dance?G.BladeDance.config.slashWind:this.config.slashWind,life:dance?G.BladeDance.config.slashLife:this.config.slashLife};b.character.catchUntil=0;e.sound(dance?'arcDanceSlash':state.swing.count>=2?'bladeTwinWhoosh':'bladeSlashWhoosh',b.x);return true;},
  beforeMove(b,dt,e){
   if(b.type!=='boomerang')return;const state=this.state(b),c=this.config;
   if(b.hp<=0||e.ending||G.World.absent(b,e)){state.swing=null;state.plan=null;return;}
   const dance=!!G.BladeDance?.active(b);
   let s=state.swing;
   if(s){if(G.Temporal.silenced(b,e)&&!s.dance)state.swing=null;else{
-   if(!s.struck&&e.time+1e-9>=s.at+c.slashWind){s.struck=true;s.x=b.x;s.y=b.y;for(const t of e.balls)if(G.World.targetable(t,e)&&G.World.enemy(b,t,e)&&this.inArc(b,t,e,s))e.pendingAttacks.push({source:b,target:t,kind:'bladeSlash',damageOrigin:'weapon',raw:G.Combat.rollAttack(b,e,s.count>=2?c.doubleDamage:c.singleDamage,'bladeSlash'),angle:s.angle,slashCount:s.count,...(s.dance?{priority:'arcana'}:{})});}
-   if(e.time>=s.at+c.slashLife)state.swing=null;
+   if(!s.struck&&e.time+1e-9>=s.at+(s.wind??c.slashWind)){s.struck=true;s.x=b.x;s.y=b.y;for(const t of e.balls)if(G.World.targetable(t,e)&&G.World.enemy(b,t,e)&&this.inArc(b,t,e,s))e.pendingAttacks.push({source:b,target:t,kind:'bladeSlash',damageOrigin:'weapon',raw:G.Combat.rollAttack(b,e,s.count>=2?c.doubleDamage:c.singleDamage,'bladeSlash'),angle:s.angle,slashCount:s.count,...(s.dance?{priority:'arcana'}:{})});}
+   if(e.time>=s.at+(s.life??c.slashLife))state.swing=null;
   }}
-  if(dance)return;
+  if(dance){
+   const target=G.World.targetFor(b,e);
+   const future=target?G.Awakening.predict(target,G.BladeDance.config.slashWind):null,own=target?G.Awakening.predict(b,G.BladeDance.config.slashWind):null,reach=target?b.radius+target.radius+c.slashReach-2:0;
+   if(!state.swing&&b.character.catchUntil>e.time&&target&&(Math.hypot(target.x-b.x,target.y-b.y)<=reach||Math.hypot(future.x-own.x,future.y-own.y)<=reach-2)&&this.clear(b,target,e)){
+    if(this.startSwing(b,target,e,true)){const d=G.BladeDance.state(b);d.catchMask=0;d.strikeAt=e.time;d.strikes=(d.strikes||0)+1;G.BladeDance.event(b,e,'strike',{angle:state.swing.angle,count:state.swing.count});}
+   }return;
+  }
   if(!G.ManualRoles?.owns(b,e)&&!state.swing&&!G.Temporal.silenced(b,e)&&b.character.catchUntil>e.time&&!b.character.bladeRemaining){const t=G.World.targetFor(b,e);if(t&&Math.hypot(t.x-b.x,t.y-b.y)<=b.radius+t.radius+c.slashReach-5&&this.clear(b,t,e)){
    this.startSwing(b,t,e);
   }}
@@ -77,8 +83,9 @@ const H=G.BladeHunt={
  },
  hit(h,e){
   if(h.source.type!=='boomerang')return;
+  if(h.kind==='boomerang'&&!h.dance&&h.actual+h.blocked>0&&!h.avoided)this.cue(e,h.source,h.markBonus?'markCut':'cut',h.point||h.target,{angle:h.angle,blocked:!h.actual,slot:h.bladeSlot||0,life:.28});
   if(h.kind==='boomerang'&&h.bladeSling&&h.actual+h.blocked>0&&!h.avoided){G.Roles.heavyImpact(h.source,h,e,'bladeImpact','bladeHeavyHit',0,this.config.slingStop);this.cue(e,h.source,'slingHit',h.target,{angle:h.angle,blocked:!h.actual,life:.28});}
-  if(h.kind==='bladeSlash'&&h.actual+h.blocked>0&&!h.avoided){G.Roles.heavyImpact(h.source,h,e,'bladeImpact',G.BladeDance?.active(h.source)?'arcDanceCut':h.slashCount>=2?'bladeTwinHit':'bladeSlashHit',h.slashCount>=2?155:90,h.slashCount>=2?.06:.045);this.cue(e,h.source,'slashHit',h.target,{angle:h.angle,count:h.slashCount,blocked:!h.actual});}
+  if(h.kind==='bladeSlash'&&h.actual+h.blocked>0&&!h.avoided){const base=h.slashCount>=2?155:90,incoming=Math.max(0,-h.target.vx*Math.cos(h.angle)-h.target.vy*Math.sin(h.angle)),push=G.BladeDance?.active(h.source)&&h.actual>0?Math.max(base,(incoming+140-h.actual*5)/1.35):base;if(G.BladeDance?.active(h.source))G.BladeDance.event(h.source,e,'heavyHit',{x:h.target.x,y:h.target.y,angle:h.angle,count:h.slashCount,blocked:!h.actual});G.Roles.heavyImpact(h.source,h,e,'bladeImpact',G.BladeDance?.active(h.source)?'arcDanceCut':h.slashCount>=2?'bladeTwinHit':'bladeSlashHit',push,h.slashCount>=2?.06:.045);this.cue(e,h.source,'slashHit',h.target,{angle:h.angle,count:h.slashCount,blocked:!h.actual});}
   if(h.kind==='boomerang'&&h.bladeCross&&h.actual+h.blocked>0&&!h.avoided){const plan=h.source.character.bladeHunt?.plan;if(!plan||plan.id!==h.bladeCast||plan.crossDone)return;plan.crossHits=plan.crossHits.filter(v=>e.time-v.at<=this.config.crossWindow);const other=plan.crossHits.find(v=>v.slot!==h.bladeSlot&&v.target===h.target.id);if(other){plan.crossDone=true;this.cue(e,h.source,'cross',h.target,{angle:h.angle});}plan.crossHits.push({slot:h.bladeSlot,target:h.target.id,at:e.time});}
  },
  retire(b){if(b.type!=='boomerang')return;b.character.bladeRemaining=0;b.character.caughtInCast=0;b.character.catchUntil=0;const s=b.character.bladeHunt;if(s){s.plan=null;s.swing=null;}},

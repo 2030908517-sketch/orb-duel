@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','cosmic','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
+for(const f of ['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','engine','audio','spectacle'])require(path.resolve(__dirname,'../js/'+f+'.js'));
 const G=globalThis.OrbDuel,C=G.Constants;let checks=0;const ok=(v,m)=>{assert.ok(v,m);checks++;},near=(a,b,m)=>ok(Math.abs(a-b)<1e-7,m+' '+a+' '+b);
 function make(type='normal'){const e=new G.Engine(['magnet',type],'magnet-boundary');e.start();const [a,b]=e.balls;a.x=90;a.y=170;b.x=260;b.y=170;for(const ball of e.balls){ball.speed=0;ball.vx=ball.vy=0;}a.magnetic.nextPulse=Infinity;if(type==='time')b.temporal.nextDomain=Infinity;return e;}
 // True movement into a collision and into a wall, not merely marks/assigned constants.

@@ -33,7 +33,7 @@
         }return w.travel<w.reach&&w.x>=-60&&w.x<=C.width+60&&w.y>=-60&&w.y<=C.height+60;
       });},
     hit(h,e){if(h.kind!=='arcTide'||h.avoided||h.actual+h.blocked<=0)return;const b=h.source,u=b.arcana;u.hits++;b.stats.arcanaHits=(b.stats.arcanaHits||0)+1;h.target.role.bloodMark={owner:b.id,until:e.time+3};
-      if(h.actual>0){const heal=Math.min(4,u.healBudget,h.actual*.8);u.healBudget-=heal;u.pendingHeal+=heal;h.healRatio=0;}
+      if(h.actual>0){const heal=Math.min(4,u.healBudget,h.actual*b.def.arcanaHeal);u.healBudget-=heal;u.pendingHeal+=heal;h.healRatio=0;}
       this.event(b,e,h.actual>0?'seaHit':'seaBlock',h.actual>0?'arcSeaHit':'guardHeavy',h.target,{angle:h.angle,life:.5});G.Roles.heavyImpact(b,h,e,'arcanaBloodContact',h.actual>0?'arcSeaHit':'guardHeavy',65,0);h.feedback.presented=true;if(h.actual>0)G.Arcana.stop(e,h.actual>=15?.06:.035);
     },
     // Waves bank real HP-drain; only the visible rebirth applies the capped heal.
@@ -44,6 +44,6 @@
     cancel(b,e){if(e.arcanaWorld.tides)e.arcanaWorld.tides=e.arcanaWorld.tides.filter(w=>w.owner!==b.id);b.arcana.seaImmune=false;b.arcana.pendingHeal=0;G.Arcana.finish(b,e);},
     slow(b,e,lost){if(!this.active(b))return;const u=b.arcana;if(Number.isFinite(u.nextWave))u.nextWave+=lost;if(Number.isFinite(u.lastWaveEnds))u.lastWaveEnds+=lost;for(const w of e.arcanaWorld.tides||[])if(w.owner===b.id){w.formedAt+=lost;w.armAt+=lost;w.expires+=lost;if(w.launchedAt)w.launchedAt+=lost;}},
     endCombat(e){if(e.arcanaWorld.tides)e.arcanaWorld.tides=[];for(const b of e.balls)if(this.active(b)&&b.hp>0){const u=b.arcana;this.returnCenter(b);b.x=u.center.x;b.y=u.center.y;u.phase='bloodFinale';u.started=e.time;u.until=e.time+1.85;u.seaImmune=true;b.vx=b.vy=b.inertia=0;this.event(b,e,'seaFinale','arcSeaReverse',u.center,{amount:u.totalHealed,life:1.85});}},
-    copy:'血海重生：觉醒且生命≤30%，至少3血能；无需血印，仍等待敌方无敌/盾/反伤结束。消费全部整数血能，等量3～8道宽96、厚30血浪，0.3秒卷起预瞄后固定方向以200速度推进，不追踪；已有自己的血印可获得更完整的预瞄。每浪每敌最多一次、最高7基础伤；28基础伤预算按波数分摊；命中补3秒血印，按实际生命伤害80%吸血、每浪最多4、全招最多20。从液化开始至血柱启动显形前处于“离场”：不参与选中、受击和触发敌方锁定攻击，陷阱及毒池仍正常布置；显形后恢复受击。血浪只累计待回血量，显形展开双翼并出现总回血字时才统一恢复生命与血条。逆流0.85秒将血核收回竞技场中央（受现有边界约束），重生1.1秒，翼展随实际吸血变化。沉默不能取消或阻止奥义。'
+    copy:'血海重生：觉醒且生命≤30%，至少3血能；无需血印，仍等待敌方无敌/盾/反伤结束。消费全部整数血能，等量3～8道宽96、厚30血浪，0.3秒卷起预瞄后固定方向以200速度推进，不追踪；已有自己的血印可获得更完整的预瞄。每浪每敌最多一次、最高7基础伤；28基础伤预算按波数分摊；命中补3秒血印，按实际生命伤害72%吸血、每浪最多4、全招最多20。从液化开始至血柱启动显形前处于“离场”：不参与选中、受击和触发敌方锁定攻击，陷阱及毒池仍正常布置；显形后恢复受击。血浪只累计待回血量，显形展开双翼并出现总回血字时才统一恢复生命与血条。逆流0.85秒将血核收回竞技场中央（受现有边界约束），重生1.1秒，翼展随实际吸血变化。沉默不能取消或阻止奥义。'
   };
 })(typeof window!=='undefined'?window:globalThis);

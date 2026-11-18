@@ -1,5 +1,5 @@
 {
   "passed": true,
-  "checks": 861,
+  "checks": 869,
   "note": "Deterministic mechanisms and all-role reset audit; no balance batches."
 }

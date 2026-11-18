@@ -1,7 +1,7 @@
 /* Fullscreen presentation only. Windowed UI and all combat implementations stay intact. */
 (() => {
   'use strict';const G=window.OrbDuel,M=G.ManualControl||G.ManualRanger,Base=G.ManualUI;
-  const timerNames={nextShot:'射击 / 投掷间隔',nextTrap:'布雷冷却',nextPool:'毒池冷却',nextShield:'护盾充能',reloadUntil:'装填剩余',nextPursuit:'追击冷却',nextSpit:'喷吐冷却',nextSpread:'催化间隔',nextSwap:'机关置换冷却',nextDischarge:'沿墙放电冷却',nextForm:'雷化冷却',nextNova:'超新星冷却',nextLaunch:'彗星投射间隔',nextStrike:'落雷冷却',nextAwake:'连雷冷却',nextGate:'地狱之门冷却',nextClaw:'魔爪冷却',next:'反伤姿态冷却',nextDomain:'时间领域冷却',nextClock:'飞钟冷却',nextPulse:'磁力冷却',nextOverload:'过载冷却',nextJudgement:'圣裁冷却',nextWard:'神圣庇护冷却',nextPhase:'虚化冷却',coolingUntil:'主炮散热'};
+  const timerNames={nextShot:'射击 / 投掷间隔',nextTrap:'布雷冷却',nextPool:'毒池冷却',nextShield:'护盾充能',reloadUntil:'装填剩余',nextPursuit:'追击冷却',nextSpit:'喷吐冷却',nextSpread:'催化间隔',nextSwap:'机关置换冷却',nextDischarge:'沿墙放电冷却',nextForm:'雷化冷却',nextNova:'超新星冷却',nextLaunch:'彗星投射间隔',nextStrike:'落雷冷却',nextAwake:'连雷冷却',nextGate:'地狱之门冷却',nextClaw:'魔爪冷却',next:'反伤姿态冷却',nextDomain:'时间领域冷却',nextClock:'飞钟冷却',nextPulse:'磁力冷却',nextOverload:'过载冷却',nextJudgement:'圣裁冷却',nextPhase:'虚化冷却',coolingUntil:'主炮散热'};
   class FullscreenView {
     constructor(e,renderer){this.engine=e;this.root=document.documentElement;this.stage=document.querySelector('.battle-stage');this.enemy=document.getElementById('fighter-1');
       this.anchor=document.createComment('enemy windowed position');this.enemy.before(this.anchor);

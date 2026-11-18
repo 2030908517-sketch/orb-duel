@@ -2,7 +2,7 @@
  'use strict';const G=root.OrbDuel,H=G.Holy,C=G.Constants,TAU=Math.PI*2,EPS=1e-8;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
  const A=G.HolyAngel={
-  config:Object.freeze({formation:.65,figureScale:.52,swordLength:.56,spearLength:.95,swordWrist:.55,spearTip:.65,minInside:.5,areaSamples:256,swordDamage:3,spearDamage:4.2,swordWind:.26,swordSwing:.16,spearWind:.30,spearLock:.08,spearThrust:.11,recovery:.22,gap:.32,swordArc:2.6,guardCD:6.5,guardLife:1.15,guardRelease:.12,guardOpen:.75,guardLead:.12,guardReduction:.30,waveSpeed:440,waveWidth:9,push:175,healPerSecond:1.1}),
+  config:Object.freeze({formation:.65,figureScale:.52,swordLength:.56,spearLength:.95,swordWrist:.55,spearTip:.65,minInside:.5,areaSamples:256,swordDamage:3,spearDamage:4.2,swordWind:.26,swordSwing:.16,spearWind:.30,spearLock:.08,spearThrust:.11,recovery:.22,gap:.44,swordArc:2.6,guardCD:10,guardLife:1.15,guardRelease:.12,guardOpen:.75,guardLead:.12,guardReduction:.30,waveSpeed:440,waveWidth:9,push:175,healPerSecond:1.1}),
   formed(z,e){return e.time+EPS>=z.started+this.config.formation;},
   size(z){return G.HolyAngelMotion.size(z);},
   state(z){return z.angel||(z.angel={phase:'idle',next:'sword',elapsed:0,cooldown:0,guardCD:0,angle:0,hitIds:[],blessed:0,swings:0,thrusts:0,hits:0,facing:0});},
@@ -10,7 +10,7 @@
   inside(z,b){return distance(z,b)<=z.radius+EPS;},
   insideArea(z){const n=this.config.areaSamples,left=Math.max(0,z.x-z.radius),right=Math.min(C.width,z.x+z.radius);if(right<=left||z.radius<=0)return 0;let sum=0;for(let i=0;i<n;i++){const x=left+(i+.5)*(right-left)/n,h=Math.sqrt(Math.max(0,z.radius*z.radius-(x-z.x)**2));sum+=Math.max(0,Math.min(C.height,z.y+h)-Math.max(0,z.y-h));}return sum*(right-left)/n/(Math.PI*z.radius*z.radius);},
   event(b,z,e,style,cue,p=z,extra={}){const id=e.nextWorldId++;e.effects.push({kind:'holyAngel',style,id,owner:b.id,x:p.x,y:p.y,color:b.def.color,age:0,life:.36,...extra});if(cue){e.sound(cue,p.x);const s=e.soundEvents.at(-1);if(s)s.presentationId='angel:'+id;}G.Presentation?.note(e,'holy.angel.'+style,{castId:extra.castId??id,actorId:b.id,zone:z.id,x:p.x,y:p.y});},
-  burn(b,t,e){const w=e.holyWorld;let burn=w.burns.find(v=>v.owner===b.id&&v.target===t.id&&v.until>e.time);if(burn)burn.until=Math.max(burn.until,e.time+b.def.burnLife);else w.burns.push({owner:b.id,target:t.id,until:e.time+b.def.burnLife,nextTick:e.time+b.def.burnInterval,nextExtendFx:0});},
+  burn(b,t,e){const w=e.holyWorld;if(!w.burns.some(v=>v.owner===b.id&&v.target===t.id&&v.until>e.time))w.burns.push({owner:b.id,target:t.id,until:e.time+b.def.burnLife,nextTick:e.time+b.def.burnInterval,nextExtendFx:0});},
   guard(b,e){if(G.HolySeals?.defense(b,e))return false;if(!b?.holy||b.hp<=0||e.ending||e.state!=='running'||G.World.absent(b,e)||G.Demon?.frozen(b,e)||G.Temporal.silenced(b,e))return false;
    const z=e.holyWorld?.zones.find(v=>v.owner===b.id&&v.expires>e.time&&this.inside(v,b)&&this.clear(v,b,e));if(!z||!this.formed(z,e))return false;const s=this.state(z);if((b.holy.angelGuardCD||0)>EPS||s.phase==='guard')return false;
    b.holy.angelGuardCD=this.config.guardCD;
@@ -51,12 +51,11 @@
   },
   wave(e,w,dt){const b=e.balls.find(b=>b.id===w.owner&&b.hp>0),z=e.holyWorld.zones.find(z=>z.id===w.zone);if(!b||!z)return false;w.previousRadius=w.radius;w.radius+=this.config.waveSpeed*dt;
    const touches=(p,r=0)=>{const d=distance(w,p);return d+r>=w.previousRadius-this.config.waveWidth&&d-r<=w.radius+this.config.waveWidth&&distance(z,p)<=z.radius+r&&this.clear(w,p,e);};
-   for(const field of ['projectiles','timeClocks','traps']){const removed=[];e[field]=e[field].filter(p=>{if(!G.World.enemy(b,p.owner,e)||!touches(p,p.radius||5)||G.Priority&&!G.Priority.canRemove(p,e,{reason:'holyGuard'}))return true;removed.push(p);return false;});for(const p of removed){if(field==='traps')b.stats.trapsCleared++;else{G.Aim?.result(p,e,false);G.Stellar?.detach(p,e);if(p.mode==='boomerang')G.Characters.bladeRemoved(p,e.balls.find(v=>v.id===p.owner),e,false);}this.event(b,z,e,'purify','angelPurify',p,{life:.24});}}
+   for(const field of ['projectiles','timeClocks','traps']){const removed=[];e[field]=e[field].filter(p=>{if(!G.World.enemy(b,p.owner,e)||!touches(p,p.radius||5)||!G.Mines.canRemove(p)||G.Priority&&!G.Priority.canRemove(p,e,{reason:'holyGuard'}))return true;removed.push(p);return false;});for(const p of removed){if(field==='traps')b.stats.trapsCleared++;else{G.Aim?.result(p,e,false);G.Stellar?.detach(p,e);if(p.mode==='boomerang')G.Characters.bladeRemoved(p,e.balls.find(v=>v.id===p.owner),e,false);}this.event(b,z,e,'purify','angelPurify',p,{life:.24});}}
    for(const t of e.balls){if(w.hitIds.includes(t.id)||!G.World.enemy(b,t,e)||!G.World.targetable(t,e)||G.Ghost.phased(t)||G.Awakening.dashing(t,e)||G.Arcana?.immune(t)||G.VampireArcana?.immune(t)||!touches(t,t.radius))continue;w.hitIds.push(t.id);this.burn(b,t,e);G.Roles.shove(t,Math.atan2(t.y-w.y,t.x-w.x),this.config.push,.6);this.event(b,z,e,'expel','angelExpel',t,{angle:Math.atan2(t.y-w.y,t.x-w.x),life:.28});}
    return w.radius<w.maxRadius+this.config.waveWidth;
   },
   hit(h,e){if(!['holySword','holySpear'].includes(h.kind)||h.actual+h.blocked<=0||h.avoided)return;const b=h.source,z=e.holyWorld?.zones.find(z=>z.id===h.angelZone);if(!z)return;this.state(z).hits++;b.holy.lightHits++;
-   for(const burn of e.holyWorld.burns)if(burn.target===h.target.id&&burn.until>e.time){burn.until+=2;if(e.time>=burn.nextExtendFx){burn.nextExtendFx=e.time+.8;e.float(h.target.x,h.target.y-35,'灼伤 +2s',b.def.color);}}
    const solid=h.actual>0;this.event(b,z,e,solid?'hit':'blocked',solid?(h.kind==='holySword'?'angelSwordHit':'angelSpearHit'):null,h.point,{angle:h.angle,weapon:h.kind,life:.34,castId:h.angelCast});if(solid){if(b.holy.angelStopTick!==e.tick){e.hitStop(h.kind==='holySpear'?.035:.025);b.holy.angelStopTick=e.tick;}e.impact(h.point.x,h.point.y,b.def.color,h.kind==='holySpear'?1.05:.8);G.Roles.shove(h.target,h.angle,h.kind==='holySpear'?58:38,.25);}
   }
  };

@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'];
+const root=path.resolve(__dirname,'..'),modules=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','arcana-vampire','arcana-ranger','presentation','engine'];
 for(const n of modules)require(path.join(root,'js',n+'.js'));
 const G=globalThis.OrbDuel;let checks=0;const ok=(v,m)=>{checks++;assert.ok(v,m);},eq=(a,b,m)=>{checks++;assert.deepEqual(a,b,m);};
 function setup(types=['normal','normal']){const e=new G.Engine(types,'lethal-recovery',{mode:'arcana'});e.start();const[b,t]=e.balls;Object.assign(b,{x:80,y:170,vx:0,vy:0,speed:0});Object.assign(t,{x:200,y:170,vx:0,vy:0,speed:0});return{e,b,t};}

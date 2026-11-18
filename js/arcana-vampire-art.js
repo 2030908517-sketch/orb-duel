@@ -5,62 +5,112 @@
   function smoothBlob(c,points,color){path(c,p=>{const first=points[0],last=points.at(-1);p.moveTo((last.x+first.x)/2,(last.y+first.y)/2);for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length];p.quadraticCurveTo(a.x,a.y,(a.x+b.x)/2,(a.y+b.y)/2);}p.closePath();},color);}
   const C=G.Constants,ease=x=>{x=clamp(x);return x*x*(3-2*x);};
   function polygon(c,points,color){path(c,p=>{points.forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y));p.closePath();},color);}
-  function pool(c,b,e,age,drain=0){const center=b.arcana.center,spread=ease(age/.56),reach=Math.max(...[[0,0],[C.width,0],[0,C.height],[C.width,C.height]].map(([x,y])=>Math.hypot(x-center.x,y-center.y)))*1.15;
-    c.save();c.beginPath();c.rect(0,0,C.width,C.height);c.clip();
-    // A connected flood grows from the dissolved body, reaching every corner.
-    const boundary=[];for(let i=0;i<48;i++){const a=i*TAU/48,r=reach/(1+.15*ease(drain/.12))*spread*(1-ease(drain))*(.95+.045*Math.sin(i*1.7+e.time*2)+.025*Math.sin(i*.7-e.time*3));boundary.push({x:center.x+Math.cos(a)*r,y:center.y+Math.sin(a)*r});}
-    path(c,p=>{boundary.forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y));p.closePath();},'#360b20');c.clip();
-    c.globalAlpha=.8;const prey=G.World.targetFor(b,e)||center,t=e.time;
-    // Broad, low-contrast currents steer the eye towards the prey without fake hit areas.
-    for(let j=0;j<11;j++){const y=j*39-20+Math.sin(t*.8+j)*7,x=-30+(j%3)*12,end={x:C.width+40,y:y+Math.sin(j*1.9)*26};ribbon(c,{x,y},end,9+j%3*6,j%2?'#4b0c24':'#591229',Math.sin(j*2+t*.6)*21);}
-    for(let side=-1;side<=1;side+=2){for(let j=0;j<3;j++){const y=prey.y+side*(45+j*25),x=prey.x-side*(60+j*11);path(c,p=>{p.moveTo(x,y+side*18);p.bezierCurveTo(prey.x-side*105,y,prey.x+side*76,prey.y+side*72,prey.x+side*42,prey.y+side*22);},null,j?'#711730':'#9c253c',j?1.4:2.3);}}
-    for(let i=0;i<18;i++){const x=(i*83+33)%C.width,y=(i*57+21)%C.height,k=(t*.32+i*.13)%1,dx=prey.x-x,dy=prey.y-y;
-      path(c,p=>{p.moveTo(x+dx*k*.22,y+dy*k*.22);p.quadraticCurveTo(x+18+dx*k*.22,y-3+dy*k*.22,x+31+dx*k*.22,y+2+dy*k*.22);},null,i%4?'#7d1a32':'#b83b4d',i%4?1:1.5);}
-    c.restore();
+  // Surface and weapons share wet crimson facets; speculars follow the flow.
+  function pool(c,b,e,age,drain=0){const center=b.arcana.center,spread=ease(age/.56),q=clamp(drain),t=e.time,R=Math.hypot(C.width,C.height)*1.05;
+    // The sea stays subordinate to attack waves; recovered blood gains light.
+    const returnLight=ease(q/.72),tone=(dark,lit)=>{const a=parseInt(dark.slice(1),16),z=parseInt(lit.slice(1),16);return 'rgb('+[16,8,0].map(k=>Math.round(((a>>k)&255)*(1-returnLight)+((z>>k)&255)*returnLight)).join(',')+')';};
+    // Every surface element follows the same accelerating radial/tangential flow.
+    const flow=(x,y)=>{const dx=x-center.x,dy=y-center.y,r=Math.hypot(dx,dy),pull=R*q**1.8*1.01,rr=Math.max(0,r-pull),a=Math.atan2(dy,dx)+q*q*2.8*(1-clamp(r/R));return{x:center.x+Math.cos(a)*rr,y:center.y+Math.sin(a)*rr};};
+    const boundary=[];for(let i=0;i<64;i++){const a=i*TAU/64,r=R*spread*(1+.004*Math.sin(a*3+t*1.3)+.003*Math.sin(a*5-t*2));boundary.push(flow(center.x+Math.cos(a)*r,center.y+Math.sin(a)*r));}if(q>=.995)return;c.save();c.beginPath();c.rect(0,0,C.width,C.height);c.clip();const depth=c.createRadialGradient(center.x,center.y,2,center.x,center.y,R);depth.addColorStop(0,tone('#210b17','#310b1c'));depth.addColorStop(.4,tone('#301020','#490f27'));depth.addColorStop(1,tone('#45152a','#62152d'));smoothBlob(c,boundary,depth);c.clip();
+    for(let j=0;j<8;j++){const x0=(j*137+41)%C.width+Math.sin(t*.93+j*1.7)*24,y0=(j*83+27)%C.height+Math.cos(t*1.13+j*2.3)*18,rx=62+j%3*28,ry=17+j%4*7+Math.sin(t*1.4+j)*4,a0=Math.sin(t*.65+j)*.48,points=[];for(let i=0;i<36;i++){const a=i*TAU/36,xx=Math.cos(a)*rx*(1+.13*Math.sin(a*3+j+t)),yy=Math.sin(a)*ry;points.push(flow(x0+xx*Math.cos(a0)-yy*Math.sin(a0),y0+xx*Math.sin(a0)+yy*Math.cos(a0)));}const ys=points.map(v=>v.y),lo=Math.min(...ys),hi=Math.max(...ys),film=c.createLinearGradient(0,lo,0,Math.max(lo+.01,hi));film.addColorStop(0,'#c9415900');film.addColorStop(.42,'#69304455');film.addColorStop(.63,'#451c343c');film.addColorStop(1,'#c9415900');c.save();c.globalAlpha=.48;smoothBlob(c,points,film);c.restore();}
+    // Broad moving swells carry dark troughs and thin wet crests together.
+    // Their phases/widths differ, so the sea churns without a repeated stripe grid.
+    for(let j=0;j<9;j++){const phase=t*(.62+j%3*.14)+j*2.17,fade=(1-q)*(.48+.18*Math.sin(phase)),x=(j*109+29)%C.width+Math.sin(phase*.7)*29,y=(j*71+43)%C.height+Math.cos(phase)*32,len=52+j%4*18,crest=[],trough=[],shine=[];
+      for(let k=0;k<=28;k++){const u=k/28,xx=x+(u-.5)*len,yy=y+Math.sin(u*4.8+phase)*10+Math.sin(u*8-phase*.6)*3,thick=Math.sin(Math.PI*u)**.8*(7+j%3*3);crest.push(flow(xx,yy-thick));trough.push(flow(xx,yy+thick*.6));shine.push(flow(xx,yy-thick*.8));}
+      const swell=c.createLinearGradient(x,y-20,x,y+17);swell.addColorStop(0,tone('#70223a','#bc3553'));swell.addColorStop(.38,tone('#46152b','#8b1d3b'));swell.addColorStop(1,tone('#230d1b','#320d21'));c.save();c.globalAlpha=fade;smoothBlob(c,[...crest,...trough.reverse()],swell);c.globalAlpha=fade*(.42+returnLight*.22);c.lineCap='round';path(c,p=>shine.slice(5,20+j%3).forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,tone('#854054','#d85d72'),.9);c.restore();}
+    for(let j=0;j<23;j++){const pts=[],x=(j*97+33)%C.width,y=(j*67+29)%C.height,len=23+j%4*12;for(let i=0;i<=16;i++){const u=i/16;pts.push(flow(x+u*len,y+Math.sin(u*Math.PI+j+t*.7)*4));}if(Math.hypot(pts[0].x-center.x,pts[0].y-center.y)<8&&q>0)continue;c.save();c.globalAlpha=.16+j%3*.065;c.lineCap='round';path(c,p=>pts.forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,j%3?tone('#713449','#d96577'):tone('#a16977','#f1a1a0'),j%4===0?1.4:.65);c.restore();}
+    for(const w of e.arcanaWorld?.tides||[]){if(w.owner!==b.id||!w.history?.length)continue;const tail=w.history.at(-1),nx=Math.cos(w.angle),ny=Math.sin(w.angle),wide=w.width*.38;const g=c.createLinearGradient(tail.x,tail.y,w.x,w.y);g.addColorStop(0,'#8f294300');g.addColorStop(1,'#8f29435c');smoothBlob(c,[{x:w.x-ny*wide,y:w.y+nx*wide},{x:tail.x-ny*wide*.5,y:tail.y+nx*wide*.5},{x:tail.x+ny*wide*.5,y:tail.y-nx*wide*.5},{x:w.x+ny*wide,y:w.y-nx*wide}],g);}
+    if(q>0){const remaining=Math.max(2,R*(1-q**1.8));for(let j=0;j<6;j++){const outer=[],inner=[],a0=j*2.399+q*q*2.8;for(let i=0;i<=36;i++){const u=i/36,r=remaining*(1-u)**1.28,a=a0+u*1.8,w=(4+j%3*2)*(1-u)*Math.sin(u*Math.PI)**.4;outer.push({x:center.x+Math.cos(a)*(r+w),y:center.y+Math.sin(a)*(r+w)});inner.push({x:center.x+Math.cos(a)*Math.max(0,r-w),y:center.y+Math.sin(a)*Math.max(0,r-w)});}c.save();c.globalAlpha=.28*(1-ease((q-.9)/.1));smoothBlob(c,[...outer,...inner.reverse()],j%2?'#ad304b':'#7e1934');c.restore();}}
+    // Inward-moving packets make the recovered volume visible all the way to the throat.
+    if(q>0)for(let j=0;j<11;j++){const a=j*2.399,r=R*(.28+.72*(j+.5)/11),pts=[];for(let i=0;i<24;i++){const u=i/23,v=flow(center.x+Math.cos(a+u*.4)*r*(1-u*.33),center.y+Math.sin(a+u*.4)*r*(1-u*.33));pts.push(v);}c.save();c.globalAlpha=.32*(1-q);path(c,p=>pts.forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,j%3?'#a42c48':'#f08e95',1+j%3);c.restore();}c.restore();
   }
-  function wave(c,w,time){const form=ease((time-w.formedAt)/.3),fly=w.launched?Math.max(0,time-w.launchedAt):0,crash=ease((fly-.36)/.34),curl=ease((time-w.formedAt-.11)/.34),h=(57+Math.sin(w.slot*2)*5)*form*(1-crash*.85),nx=Math.cos(w.angle),ny=Math.sin(w.angle),fade=clamp((w.expires-time)/.24);
-    const project=(x,side,height)=>({x:w.x+nx*x-ny*side,y:w.y+ny*x+nx*side-height*.83}),span=w.width*(.58+.42*form),at=(j,x,height)=>{const side=(j/16-.5)*span,edge=Math.sin(j/16*Math.PI),ripple=Math.sin(j*.8+w.slot*1.7+time*5);return project(x+Math.sin(j*.7+w.slot+time*3)*4,side,height*(.22+.78*edge**.7+.07*Math.sin(j*.8+time*4))+ripple*form*.7);};
+  // Stable visual-only randomness: never advance combat/FX RNG or mutate waves.
+  function waveLook(w){let key=(Math.imul(w.id+1,374761393)^Math.round(w.formedAt*1000)^Math.round((w.origin?.x||0)*31+(w.origin?.y||0)*71))>>>0;key=Math.imul(key^(key>>>13),1274126177)>>>0;key=(key^(key>>>16))>>>0;
+    const kind=key%4,mirror=key&16?-1:1,variation=((key>>>8)&255)/255;
+    return{kind,mirror,height:[.98,1.04,1.06,.94][kind],roll:[1,.84,.92,1.14][kind],lean:mirror*([0,5,10,6][kind]),variation};
+  }
+  function wave(c,w,time){const look=waveLook(w),form=ease((time-w.formedAt)/.3),fly=w.launched?Math.max(0,time-w.launchedAt):0,crash=ease((fly-.36)/.34),curl=ease((time-w.formedAt-.11)/.34)*look.roll,h=(90+Math.sin(w.slot*2)*7)*look.height*form*(1-crash*.64),nx=Math.cos(w.angle),ny=Math.sin(w.angle),fade=clamp((w.expires-time)/.10);
+    const project=(x,side,height)=>({x:w.x+nx*x-ny*side,y:w.y+ny*x+nx*side-height*.83}),span=w.width*(.58+.42*form),at=(j,x,height)=>{const u=j/16,side=(u-.5)*span,edge=Math.max(0,Math.sin(u*Math.PI)),v=look.mirror>0?u:1-u;
+      // A broad breaker, split crown, raised shoulder and tightly folded roller.
+      const silhouette=look.kind===0?edge**.38:look.kind===1?edge**.52*(.76-.24*Math.cos((u-.5)*Math.PI*4)):look.kind===2?edge**.68*(.68+.48*Math.exp(-(((v-.32)/.23)**2))):edge**.6*(.88+.15*Math.sin(v*5.8+.5));
+      const ripple=Math.sin(j*.8+w.slot*1.7+time*5+look.variation*3);
+      return project(x+Math.sin(j*.7+w.slot+time*3)*4+look.lean*height/Math.max(h,1),side,height*(.22+.78*silhouette+.05*Math.sin(j*.8+time*4))+ripple*form*.7);};
     c.save();c.globalAlpha=fade;
+    // Local contact shadow separates the moving crest from the blood surface.
+    c.save();c.translate(w.x,w.y+4);c.rotate(w.angle+Math.PI/2);const shadow=c.createRadialGradient(0,0,2,0,0,span*.65);shadow.addColorStop(0,'rgba(13,3,16,.68)');shadow.addColorStop(.55,'rgba(20,4,19,.38)');shadow.addColorStop(1,'rgba(20,4,19,0)');c.scale(1,.47);c.fillStyle=shadow;c.beginPath();c.arc(0,0,span*.65,0,TAU);c.fill();c.restore();
     // The foot is the real moving attack; the lifted sheet arches above it.
     const foot=[];for(let i=0;i<=16;i++)foot.push(at(i,-30-crash*14,0));for(let i=16;i>=0;i--)foot.push(at(i,12+crash*15,0));polygon(c,foot,'#64132d');
-    const profile=[[-36,0],[-23,h*.18],[-17,h*.6],[-10,h*.94],[4+curl*7,h],[9+curl*29,h*(1-curl*.18)],[9+curl*25,h*(1-curl*.7)]],colors=['#65132d','#83172f','#ad233d','#bc2a43','#dc4056','#ea6572'];
-    for(let k=0;k<profile.length-1;k++){const points=[];for(let j=0;j<=16;j++)points.push(at(j,...profile[k]));for(let j=16;j>=0;j--)points.push(at(j,...profile[k+1]));smoothBlob(c,points,colors[k]);}
+    // One continuous blood wall, with a darker rear and a rounded forward face.
+    // All vertices derive from the same real wave position and projected span.
+    const back=[],face=[];for(let j=0;j<=16;j++)back.push(at(j,-34,0));for(let j=16;j>=0;j--)back.push(ny<0?at(j,9+curl*29,h*(1-curl*.13)):at(j,-14,h*.78));
+    const towardBack=clamp(-ny),dark=c.createLinearGradient(w.x,w.y-h,w.x,w.y+22);dark.addColorStop(0,towardBack>.2?'#fa4962':'#d62c49');dark.addColorStop(.52,towardBack>.2?'#cf183b':'#9d1937');dark.addColorStop(1,'#7a102d');if(ny>=0)smoothBlob(c,back,dark);
+    for(let j=0;j<=16;j++)face.push(at(j,-13,h*.78));for(let j=16;j>=0;j--)face.push(at(j,19+crash*14,0));
+    const blood=c.createLinearGradient(w.x,w.y-h,w.x,w.y+25);blood.addColorStop(0,'#ff9b9c');blood.addColorStop(.20,'#ff4b60');blood.addColorStop(.67,'#e51b40');blood.addColorStop(1,'#b51337');smoothBlob(c,face,blood);
+    // Broad, uneven specular patches belong to the curved skin, never ladder ribs.
+    for(const [start,span0,level] of [[1.5,4.6,.62],[9.4,3.1,.48]]){const patch=[];for(let k=0;k<=16;k++){const u=k/16,j=start+u*span0,v=at(j,-10+u*4,h*(level-.09*Math.sin(u*Math.PI)));patch.push(v);}for(let k=16;k>=0;k--){const u=k/16,j=start+u*span0,v=at(j,-7+u*5,h*(level-.17-.06*Math.sin(u*Math.PI)));patch.push(v);}c.save();c.globalAlpha=fade*form*.26;smoothBlob(c,patch,'#f39093');c.restore();}
     // The turned-over lip exposes a dark inner chamber, bordered by a thick falling rim.
     if(curl>.1){const hollow=[],lip=[];for(let j=1;j<=15;j++)hollow.push(at(j,18+curl*9,h*.72));for(let j=15;j>=1;j--)hollow.push(at(j,18+curl*11,h*(.77-curl*.43)));smoothBlob(c,hollow,'#591027');
-      for(let j=0;j<=16;j++)lip.push(at(j,9+curl*29,h*(1-curl*.18)));for(let j=16;j>=0;j--)lip.push(at(j,14+curl*25,h*(1-curl*.35)));smoothBlob(c,lip,'#e14a5c');}
+      for(let j=0;j<=16;j++)lip.push(at(j,9+curl*29,h*(1-curl*.18)));for(let j=16;j>=0;j--)lip.push(at(j,14+curl*25,h*(1-curl*.35)));smoothBlob(c,lip,'#ec6a7b');}
+    // Uneven moving wet highlights cling to the actual curling lip.
+    for(const [start,span,weight]of [[1,3,1.0],[6,2,.7],[10,3,1.2]]){const phase=(fly*1.7+w.slot*.37+start*.19)%1,first=start+phase*.65;c.save();c.globalAlpha=fade*form*(.30+curl*.42);path(c,p=>{for(let j=0;j<=18;j++){const k=first+span*j/18,v=at(k,9+curl*29,h*(1-curl*.16));j?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y);}},null,'#ffd0bb',weight);c.restore();}
     // A lobed liquid crown folds over the hollow; short droplets hang from the falling edge.
-    const crown=[];for(let j=0;j<=32;j++){const jj=j/2,v=at(jj,7+curl*28,h*(1-curl*.13));crown.push({x:v.x,y:v.y-2-Math.sin(j*.85)**2*3});}for(let j=32;j>=0;j--){const v=at(j/2,13+curl*28,h*(1-curl*.32));crown.push(v);}smoothBlob(c,crown,'#df4a5c');
-    for(const [start,end]of [[3,6],[9,12]])path(c,p=>{for(let j=start;j<=end;j++){const v=at(j,9+curl*29,h*(1-curl*.16));j===start?p.moveTo(v.x,v.y):p.lineTo(v.x,v.y);}},null,'#fba393',1.9);
-    for(const j of [3,7,12]){const v=at(j,12+curl*28,h*(1-curl*.35)),hang=(5+Math.sin(j+fly*5)**2*13)*curl*(1-crash);path(c,p=>{p.moveTo(v.x-2,v.y-3);p.bezierCurveTo(v.x-3,v.y+hang*.6,v.x+5,v.y+hang,v.x+2,v.y+hang+2);p.quadraticCurveTo(v.x+10,v.y+hang*.4,v.x+4,v.y-2);},'#eb6c78');}
-    // A lower lip peels forward then falls, spreading into a flat rushing splash.
-    if(crash>0){for(let j=0;j<7;j++){const side=(j-3)*span/8,splash=Math.sin(crash*Math.PI)*24,v=project(15+crash*25,side,splash*(.35+j%3*.2));ribbon(c,project(-18,side,1),v,3+(j%3),'#c73851',j%2?4:-4);}}
+    const crown=[];for(let j=0;j<=32;j++){const jj=j/2,v=at(jj,7+curl*28,h*(1-curl*.13));crown.push({x:v.x,y:v.y-2-(Math.sin(j*.62+w.slot)+Math.sin(j*1.21+time*2))*.85});}for(let j=32;j>=0;j--){const v=at(j/2,13+curl*28,h*(1-curl*.32));crown.push(v);}smoothBlob(c,crown,'#ed6c7b');
+    for(const [start,end]of [[3,6],[9,12]])path(c,p=>{for(let j=start;j<=end;j++){const v=at(j,9+curl*29,h*(1-curl*.16));j===start?p.moveTo(v.x,v.y):p.lineTo(v.x,v.y);}},null,'#fba393',1.0);
+    for(const j of (look.kind===1?[3,6,11,14]:look.kind===2?[4,10]:look.kind===3?[2,8,13]:[3,7,12])){const v=at(j,12+curl*28,h*(1-curl*.35)),hang=(4+look.variation*4+Math.sin(j+fly*5)**2*(look.kind===3?18:11)+Math.min(12,fly*fly*44))*curl*(1-crash);path(c,p=>{p.moveTo(v.x-2,v.y-3);p.bezierCurveTo(v.x-3,v.y+hang*.6,v.x+5,v.y+hang,v.x+2,v.y+hang+2);p.quadraticCurveTo(v.x+10,v.y+hang*.4,v.x+4,v.y-2);},'#eb6c78');}
+    // When travelling away, the rear skin is nearest the viewer: it occludes
+    // the far face instead of allowing far-side shine to read as transparency.
+    if(ny<0){smoothBlob(c,back,dark);
+      const rearAt=(j,t)=>at(j,-34+(43+curl*29)*t,h*(1-curl*.13)*t);
+      for(const [j,width,phase]of [[3,1.0,.2],[8,.65,1.7],[13,.8,3.1]]){const left=[],right=[];for(let k=0;k<=20;k++){const u=k/20,t=.18+u*.71,bend=Math.sin(u*4+time*1.8+phase)*.55,taper=Math.sin(u*Math.PI)**.7*width;left.push(rearAt(j+bend-taper,t));right.push(rearAt(j+bend+taper,t));}c.save();c.globalAlpha=fade*.24;smoothBlob(c,[...left,...right.reverse()],'#ff8291');c.restore();}
+      const ridge=[];for(let j=0;j<=32;j++)ridge.push(at(j/2,9+curl*29,h*(1-curl*.13)));c.save();c.globalAlpha=fade*.75;path(c,p=>ridge.forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,'#ff8a90',2.4);c.restore();}
+    // The falling lip breaks into three unequal sheets, not evenly spaced spokes.
+    if(crash>0){for(const [offset,length,width,lift] of [[-.32,32,8,12],[.08,43,5,18],[.39,24,6,9]]){const side=offset*span,splash=Math.sin(crash*Math.PI)*lift,v=project(13+crash*length,side+Math.sin(w.slot+offset)*crash*8,splash);ribbon(c,project(-13,side,1),v,width*(1-crash*.55),'#b9334d',offset*14);}}
     if(w.launched){for(let i=0;i<10;i++){const dt=fly-(.3+(i%4)*.035);if(dt<0||dt>.5)continue;const side=(i/9-.5)*span,d=dt*(35+i%3*22),v=project(8+d-dt*w.speed,side+(i%2?1:-1)*dt*22,Math.max(0,19+dt*(100+i%3*25)-dt*dt*270));c.globalAlpha=fade*clamp((.5-dt)/.13);path(c,p=>p.ellipse(v.x,v.y,1.8+i%3,3+i%2,.3,0,TAU),i%3?'#c9344e':'#f4928a');}}
     c.restore();}
-  function vortex(c,center,age,life=.85,amount=0){const q=clamp(age/life),spin=age*(3.5+q*3),radius=155-139*ease(q),squash=.73;c.save();c.translate(center.x,center.y);c.globalAlpha=ease(age/.1);
-    path(c,p=>p.ellipse(0,7,radius+9,(radius+9)*squash,0,0,TAU),'#55102a');
-    // Continuous ribbons spiral down into a deep throat, while their widths and radii contract.
-    for(let j=0;j<2;j++){const outer=[],inner=[],light=[];for(let i=0;i<=64;i++){const t=i/64,r=7+radius*(1-t)**1.14,a=j*Math.PI+spin+t*9.1+.16*Math.sin(t*13+j),width=(5+17*(1-t))*(.78+.22*Math.sin(t*19+j))*Math.sin(t*Math.PI)**.35;
-      outer.push({x:Math.cos(a)*(r+width),y:Math.sin(a)*(r+width)*squash+t*t*9});inner.push({x:Math.cos(a)*Math.max(2,r-width),y:Math.sin(a)*Math.max(2,r-width)*squash+t*t*9});light.push({x:Math.cos(a)*(r+width*.55),y:Math.sin(a)*(r+width*.55)*squash+t*t*9});}
-      smoothBlob(c,[...outer,...inner.reverse()],j%2?'#a72741':'#7b1731');path(c,p=>light.slice(5,57).forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,j%2?'#c63e55':'#a82c45',3.5);
-      if(j<1+Math.ceil(amount/7))path(c,p=>light.slice(17+j*5,33+j*5).forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,'#f4958b',1.1);}
-    path(c,p=>p.ellipse(0,9,13+q*4,8+q*3,0,0,TAU),'#120b18');
-    // Surface splinters follow the same converging spiral, with no radial starburst.
-    for(let i=0;i<15;i++){const t=(age*1.25+i*.17)%1,a=i*2.399+spin+t*3,r=(1-t)*(radius+45),v={x:Math.cos(a)*r,y:Math.sin(a)*r*squash};ribbon(c,v,{x:v.x+Math.cos(a+1.2)*11*(1-t),y:v.y+Math.sin(a+1.2)*7*(1-t)},1.5+t*2,'#be3850',3);}
-    c.restore();}
-  function wings(c,b,age,amount){const open=clamp(age/.5),fade=clamp((1.1-age)/.2),size=.68+.34*clamp(amount/20),bounds=b.combatBounds||{left:0,right:G.Constants.width,top:0,bottom:G.Constants.height};c.save();c.translate(b.x,b.y-8);c.globalAlpha=.9*fade;
-    for(const side of [-1,1]){c.save();const room=side<0?b.x-bounds.left-3:bounds.right-b.x-3;c.scale(side*Math.min(size,Math.max(.15,room/116)),Math.min(size,Math.max(.18,(b.y-bounds.top-3)/80)));const elbow=26+open*27,tip=54+open*58,up=-18-open*42;
-      path(c,p=>{p.moveTo(9,-4);p.quadraticCurveTo(17,-30,elbow,up);p.lineTo(tip,up-18);p.quadraticCurveTo(tip-20,up+1,tip-16,-10);p.quadraticCurveTo(tip-43,-28,elbow+13,8);p.quadraticCurveTo(elbow-1,-5,36,25);p.quadraticCurveTo(22,6,9,16);p.closePath();},'#481026');
-      path(c,p=>{p.moveTo(13,-6);p.quadraticCurveTo(22,-28,elbow,up+7);p.lineTo(tip-6,up-13);p.quadraticCurveTo(tip-37,up+18,tip-25,-14);p.quadraticCurveTo(elbow+25,-15,elbow+11,0);p.quadraticCurveTo(35,-6,35,15);p.quadraticCurveTo(20,3,13,9);},'#a92540');
-      path(c,p=>{p.moveTo(10,-5);p.quadraticCurveTo(19,-29,elbow,up);p.lineTo(tip,up-18);p.moveTo(elbow,up+5);p.quadraticCurveTo(elbow+17,-23,tip-16,-10);p.moveTo(elbow,up+5);p.quadraticCurveTo(43,-1,36,25);},null,'#ed7b7c',1.6);c.restore();}c.restore();}
-  function rebirth(c,b,age,amount){const rise=ease(age/.17),burst=ease((age-.24)/.26),fade=clamp((.78-age)/.3),h=Math.min(172,b.y+28)*rise;c.save();c.translate(b.x,b.y);c.globalAlpha=fade;
-    path(c,p=>p.ellipse(0,7,48-16*burst,19-5*burst,0,0,TAU),'#4b0c24','#b62c48',2);
-    // A thick twisting column grows out of the vortex throat; its crown tears apart after the burst.
-    const half=18+13*Math.sin(clamp(age/.55)*Math.PI);
-    path(c,p=>{p.moveTo(-half,8);p.bezierCurveTo(-half-12,-h*.24,-9,-h*.66,-22,-h);p.quadraticCurveTo(-10,-h+14,-4,-h-12);p.quadraticCurveTo(10,-h+8,22,-h-4);p.bezierCurveTo(10,-h*.6,half+14,-h*.3,half,8);p.quadraticCurveTo(0,26,-half,8);},'#7c1630');
-    path(c,p=>{p.moveTo(-12,8);p.bezierCurveTo(-24,-h*.3,11,-h*.55,-8,-h+6);p.quadraticCurveTo(1,-h+14,10,-h+3);p.bezierCurveTo(27,-h*.6,-3,-h*.32,17,8);p.quadraticCurveTo(0,20,-12,8);},'#cd304b');
-    path(c,p=>{p.moveTo(-5,7);p.bezierCurveTo(-15,-h*.28,17,-h*.56,2,-h+9);},null,'#f4787d',5);
-    for(let i=0;i<9;i++){const side=i%2?1:-1,t=clamp((age-.19-i%3*.025)/.58),x=side*(17+t*(34+i%4*10)),y=-h*(.76+i%3*.09)+t*t*140;ribbon(c,{x:x-side*8,y:y-18*(1-t)},{x:x+side*6,y:y+7},3+i%3,'#c9334e',side*7);}
-    c.restore();if(age>=0){wings(c,b,age,amount);if(amount>0){const t=age;c.save();c.globalAlpha=clamp((1.1-t)/.18);c.textAlign='center';c.font='bold 18px system-ui';c.lineWidth=3;c.strokeStyle='#102319';c.strokeText('+'+amount.toFixed(1),b.x,b.y-39-t*20);c.fillStyle='#88efb2';c.fillText('+'+amount.toFixed(1),b.x,b.y-39-t*20);c.restore();}}}
+  function vortex(c,center,age,life=.85,amount=0){const q=clamp(age/life),radius=166*(1-q*q) + 10,spin=age*2.5+q*q*2.5,squash=.48,fade=ease(age/.09);c.save();c.translate(center.x,center.y);c.globalAlpha=fade;
+    const bowl=c.createRadialGradient(0,7,3,0,0,radius);bowl.addColorStop(0,'#110911');bowl.addColorStop(.16,'#290a1a');bowl.addColorStop(.44,'#5b102b');bowl.addColorStop(.79,'#9d233e');bowl.addColorStop(1,'#5b102b00');path(c,p=>p.ellipse(0,4,radius,radius*squash,0,0,TAU),bowl);
+    // Keep the liquid geometry within the same elliptical basin as its base.
+    c.save();c.beginPath();c.ellipse(0,4,radius-1,(radius-1)*squash,0,0,TAU);c.clip();
+    // Nested, tapering liquid sheets turn down into the same throat.
+    for(let j=0;j<3;j++){const outer=[],inner=[],shine=[];for(let i=0;i<=64;i++){const u=i/64,a=spin+j*TAU/3+u*3.65+.09*Math.sin(u*14+j*2),r=6+(radius-14)*(1-u)**1.25,width=Math.min(Math.max(0,radius-5-r),(4+radius*.10)*(1-u)**.65*Math.sin(u*Math.PI)**.65*(.76+.24*Math.sin(u*10+j*2)));outer.push({x:Math.cos(a)*(r+width),y:Math.sin(a)*(r+width)*squash+4+u*u*Math.min(14,radius*.10)});inner.push({x:Math.cos(a)*Math.max(2,r-width*.6),y:Math.sin(a)*Math.max(2,r-width*.6)*squash+4+u*u*Math.min(14,radius*.10)});shine.push({x:Math.cos(a)*(r+width*.65),y:Math.sin(a)*(r+width*.65)*squash+4+u*u*Math.min(14,radius*.10)});}
+      const sheet=c.createLinearGradient(-radius,-radius*.6,radius,radius*.5);sheet.addColorStop(0,j%2?'#a52a43':'#71132d');sheet.addColorStop(.48,j%2?'#bf3a51':'#91213a');sheet.addColorStop(1,'#350c20');smoothBlob(c,[...outer,...inner.reverse()],sheet);c.save();c.lineCap='round';c.globalAlpha=.36;path(c,p=>shine.slice(10+j*2,27+j*3).forEach((v,i)=>i?p.lineTo(v.x,v.y):p.moveTo(v.x,v.y)),null,'#fa9b9b',1.1+j%2*.5);c.restore();}
+    // Wet beads are carried inward by the flow; no radial particle explosion.
+    for(let j=0;j<12;j++){const u=(age*1.65+j*.173)%1,a=j*2.399+spin+u*3.4,r=(1-u)*(radius-7),x=Math.cos(a)*r,y=4+Math.sin(a)*r*squash+u*u*Math.min(9,radius*.07);c.save();c.translate(x,y);c.rotate(a+1.3);c.globalAlpha=(1-u)*.7;path(c,p=>p.ellipse(0,0,2+u*2,1.1,0,0,TAU),j%3?'#b93b54':'#f4a097');c.restore();}
+    c.restore();
+    // The deepest blood is a soft, irregular recess beneath the pouring lip,
+    // not a black disk composited over the front wall. It shrinks with the flow.
+    const deepWidth=Math.min(23,5+radius*.13),deepHeight=deepWidth*.56,throat=c.createRadialGradient(-2,18,1,0,19,deepWidth*1.35);throat.addColorStop(0,'#390e21');throat.addColorStop(.38,'#4b1229');throat.addColorStop(.72,'#62172f88');throat.addColorStop(1,'#701b3500');path(c,p=>{p.moveTo(-deepWidth,18);p.bezierCurveTo(-deepWidth*.8,18-deepHeight,deepWidth*.5,17-deepHeight,deepWidth,17);p.bezierCurveTo(deepWidth*.8,20+deepHeight,-deepWidth*.5,21+deepHeight,-deepWidth,18);p.closePath();},throat);
+    // The front wall masks the lower throat: a genuine depression, with a wet rim.
+    const wall=c.createLinearGradient(0,3,0,28+radius*.1);wall.addColorStop(0,'#2c0b1b');wall.addColorStop(.50,'#79152f');wall.addColorStop(1,'#a52d44');path(c,p=>{p.moveTo(-radius*.35,9);p.bezierCurveTo(-radius*.18,25,radius*.17,29,radius*.39,7);p.bezierCurveTo(radius*.20,37,-radius*.22,34,-radius*.35,9);},wall);c.save();c.globalAlpha=.42;path(c,p=>{p.moveTo(-radius*.30,12);p.bezierCurveTo(-radius*.12,26,radius*.14,28,radius*.28,15);},null,'#e77d87',1.3);c.restore();
+    c.restore();
+  }
+  function wings(c,b,age,amount){const open=ease((age-.06)/.32),slack=(1-ease((age-.18)/.31))*13,fade=1-ease((age-.81)/.29),size=.78+.27*clamp(amount/20);if(fade<=0)return;const bounds=b.combatBounds||{left:0,right:C.width,top:0,bottom:C.height};c.save();c.translate(b.x,b.y-4);c.globalAlpha=fade;
+    for(const side of [-1,1]){c.save();const room=side<0?b.x-bounds.left-3:bounds.right-b.x-3,scale=Math.min(size,Math.max(.2,room/133));c.scale(side*scale,Math.min(size,Math.max(.25,(b.y-bounds.top-3)/91)));const wrist={x:25+open*32,y:-24-open*27},tip={x:40+open*93,y:-35-open*47},finger1={x:29+open*78,y:-3-open*5},finger2={x:20+open*55,y:14+open*18},finger3={x:13+open*26,y:20+open*20};
+      const membrane=c.createLinearGradient(20,-55,85,37);membrane.addColorStop(0,'#b52b48');membrane.addColorStop(.28,'#80132e');membrane.addColorStop(.65,'#4b1026');membrane.addColorStop(1,'#a72a44');
+      path(c,p=>{p.moveTo(9,-5);p.quadraticCurveTo(21,-29,wrist.x,wrist.y);p.quadraticCurveTo(wrist.x+22,-67*open,tip.x,tip.y);p.quadraticCurveTo(tip.x-29,tip.y+30,finger1.x,finger1.y);p.quadraticCurveTo(finger1.x-20,finger1.y-15+slack,finger2.x,finger2.y);p.quadraticCurveTo(finger2.x-15,finger2.y-24+slack,finger3.x,finger3.y);p.quadraticCurveTo(24,8,9,17);p.closePath();},membrane,'#2e0b20',2.4);
+      // Finger-supported panels carry broad light, with darker folds at the roots.
+      path(c,p=>{p.moveTo(wrist.x,wrist.y);p.quadraticCurveTo(wrist.x+22,-66*open,tip.x-4,tip.y+4);p.quadraticCurveTo(tip.x-30,tip.y+28,finger1.x-2,finger1.y-3);p.quadraticCurveTo(wrist.x+19,-20,wrist.x,wrist.y);},'#d7465a66');
+      path(c,p=>{p.moveTo(wrist.x,wrist.y+5);p.quadraticCurveTo(wrist.x+28,-11,finger1.x-3,finger1.y-3);p.quadraticCurveTo(finger1.x-23,finger1.y-11,finger2.x-1,finger2.y-4);p.quadraticCurveTo(wrist.x+4,-12,wrist.x,wrist.y+5);},'#b92e493d');
+      const bone=(draw,w=2.4)=>{path(c,draw,null,'#4d1026',w+2.3);path(c,draw,null,'#ee8190',w);path(c,draw,null,'#ffd2c4',.65);};
+      bone(p=>{p.moveTo(9,-5);p.quadraticCurveTo(21,-30,wrist.x,wrist.y);p.quadraticCurveTo(wrist.x+26,-66*open,tip.x,tip.y);},2.7);
+      for(const f of [finger1,finger2,finger3])bone(p=>{p.moveTo(wrist.x,wrist.y+3);p.quadraticCurveTo((wrist.x+f.x)*.5+10,(wrist.y+f.y)*.5-6,f.x,f.y);},1.8);
+      // Small thumb claw and branching membrane veins, subordinate to wing bones.
+      path(c,p=>{p.moveTo(wrist.x-3,wrist.y);p.quadraticCurveTo(wrist.x-7,wrist.y-12,wrist.x+3,wrist.y-17);p.lineTo(wrist.x+1,wrist.y-6);},'#f4a4a2');
+      c.globalAlpha=fade*.27;for(let j=0;j<4;j++){const k=(j+1)/5,x=wrist.x+(finger1.x-wrist.x)*k,y=wrist.y+(finger1.y-wrist.y)*k;path(c,p=>{p.moveTo(x,y);p.quadraticCurveTo(x-3,y+9,x-10,y+14);},null,'#d55c73',.65);}c.restore();}
+    c.restore();
+    if(age>.76){c.save();c.globalAlpha=(1-ease((age-.76)/.34))*.35;for(let j=0;j<10;j++){const side=j%2?1:-1,u=clamp((age-.76)/.34),x=b.x+side*(45+(j%5)*15+u*20),y=b.y-20-j%3*17-u*14;ribbon(c,{x,y},{x:x+side*12,y:y-12-u*9},2.3,'#a63553',side*7);}c.restore();}
+  }
+  function rebirth(c,b,age,amount){const rise=ease(age/.18),burst=ease((age-.21)/.31),fade=1-ease((age-.42)/.39),h=248*rise*(1-ease((age-.40)/.38)*.68);if(fade>0){c.save();c.translate(b.x,b.y);c.globalAlpha=fade;
+    const well=c.createRadialGradient(0,6,2,0,5,64);well.addColorStop(0,'#db4966');well.addColorStop(.45,'#8f1c39');well.addColorStop(1,'#490e2800');path(c,p=>p.ellipse(0,7,66,27,0,0,TAU),well);
+    const half=(23+Math.sin(clamp(age/.61)*Math.PI)*15)*(1-ease((age-.42)/.35)*.5),cap=17+burst*36,body=c.createLinearGradient(-half,0,half,0);body.addColorStop(0,'#480c23');body.addColorStop(.24,'#8b1835');body.addColorStop(.48,'#d4425b');body.addColorStop(.63,'#a32442');body.addColorStop(1,'#500e26');
+    path(c,p=>{p.moveTo(-half,9);p.bezierCurveTo(-half-15,-h*.26,-14-burst*16,-h*.67,-cap,-h+8);p.quadraticCurveTo(-cap-10,-h-11,-cap+7,-h-18);p.quadraticCurveTo(-9,-h+8,-3,-h-11);p.quadraticCurveTo(12,-h+7,cap-3,-h-12);p.quadraticCurveTo(cap+13,-h+2,cap,-h+17);p.bezierCurveTo(14+burst*20,-h*.63,half+18,-h*.25,half,9);p.quadraticCurveTo(0,29,-half,9);},body);
+    // Broad helical wet planes rise through the column rather than static stripes.
+    for(let j=0;j<3;j++){const shift=Math.sin(age*12+j*2)*8,points=[];for(let i=0;i<=24;i++){const u=i/24,x=Math.sin(u*6.3-age*8+j*2)*half*.38+shift,y=9-u*h;points.push({x,y});}const a=points.map((p,i)=>({x:p.x-3-j,y:p.y})),z=points.map((p,i)=>({x:p.x+4+j,y:p.y})).reverse();const g=c.createLinearGradient(-15,0,20,-h);g.addColorStop(0,'#b72d4800');g.addColorStop(.35,'#f17683');g.addColorStop(.72,'#b83050');g.addColorStop(1,'#ffb0a0');c.save();c.globalAlpha=.45*(1-ease((age-.40)/.25));smoothBlob(c,[...a,...z],g);c.restore();}
+    // The crown tears into weighted sheets; each has its own delayed flight.
+    for(let j=0;j<10;j++){const side=j%2?1:-1,u=clamp((age-.19-j%3*.025)/.55),x=side*(16+u*(34+j%4*12)),y=-h*(.82+j%3*.065)+u*u*155;c.save();c.globalAlpha=fade*(1-u*.7);ribbon(c,{x:x-side*8,y:y-17*(1-u)},{x:x+side*7,y:y+9},4+j%3,'#bf3652',side*9);path(c,p=>p.ellipse(x+side*4,y+12,1.5,2.6,side*.4,0,TAU),'#f39291');c.restore();}
+    c.restore();}wings(c,b,Math.max(0,(age-.08)*1.08),amount);
+    if(amount>0){c.save();c.globalAlpha=clamp((1.1-age)/.18);c.textAlign='center';c.font='bold 18px system-ui';c.lineWidth=3;c.strokeStyle='#102319';c.strokeText('+'+amount.toFixed(1),b.x,b.y-39-age*20);c.fillStyle='#88efb2';c.fillText('+'+amount.toFixed(1),b.x,b.y-39-age*20);c.restore();}
+  }
   G.VampireArcanaView={};const behind=A.behind,front=A.front;
   A.behind=function(r,e){behind.call(this,r,e);const c=r.ctx;for(const b of e.balls){if(b.type!=='vampire'||!b.arcana||b.hp<=0)continue;const u=b.arcana,age=e.time-u.started;
       if(['bloodLiquefy','bloodTide'].includes(u.phase)){pool(c,b,e,u.phase==='bloodLiquefy'?age:.6);}
@@ -69,9 +119,15 @@
       if(u.phase==='bloodFinale'){if(age<.85){pool(c,b,e,.6,clamp(age/.85));vortex(c,u.center,age,.85,(u.pendingHeal||0)+u.totalHealed);}else rebirth(c,b,age-.85,u.totalHealed);}
     }};
   A.front=function(r,e){front.call(this,r,e);const c=r.ctx;for(const w of e.arcanaWorld?.tides||[])wave(c,w,e.time);
-    for(const b of e.balls){const u=b.arcana;if(b.type!=='vampire'||u?.phase!=='warning')continue;const p=clamp((e.time-u.started)/(u.until-u.started));c.save();c.translate(b.x,b.y);for(let i=0;i<5;i++){const a=i*TAU/5+.1;c.save();c.rotate(a);path(c,x=>{x.moveTo(2,-1);x.lineTo(8,1);x.lineTo(11,-3);x.lineTo(23*p,-1);},null,'#ed7480',1.8);c.restore();}c.restore();}
+    // The already damageable body stays at its true position; a liquid shell
+    // opens over it visually, connecting the rising column to the normal orb.
+    for(const b of e.balls){const u=b.arcana;if(b.type!=='vampire'||b.hp<=0)continue;const age=u?.phase==='bloodRebirth'?e.time-u.started:u?.phase==='bloodFinale'?e.time-u.started-.85:-1;if(age<0||age>.42)continue;const q=ease((age-.07)/.30),rr=b.radius+5;c.save();c.translate(b.x,b.y);c.globalAlpha=1-ease((age-.31)/.11);const skin=c.createLinearGradient(-rr,0,rr,0);skin.addColorStop(0,'#58112a');skin.addColorStop(.4,'#d84c69');skin.addColorStop(.67,'#a82c4c');skin.addColorStop(1,'#4b0e26');c.beginPath();c.ellipse(0,0,rr,rr+4*(1-q),0,0,TAU);c.moveTo(q*(rr+3),0);c.arc(0,0,Math.max(.01,q*(rr+3)),0,TAU,true);c.fillStyle=skin;c.fill('evenodd');for(const side of [-1,1]){const x=side*(b.radius*(.65+.35*q)),y=3+q*15;ribbon(c,{x,y:-8+q*4},{x:x+side*4,y:y+9},3*(1-q),'#e47887',side*4);}c.restore();}
+    for(const b of e.balls){const u=b.arcana;if(b.type!=='vampire'||u?.phase!=='warning')continue;const p=clamp((e.time-u.started)/(u.until-u.started)),r=b.radius;c.save();c.translate(b.x,b.y);c.beginPath();c.arc(0,0,r,0,TAU);c.clip();c.globalAlpha=ease(p)*(.7+.3*Math.sin(p*13)**2);for(const [a,branch] of [[-.5,1],[1.7,-1],[3.5,1]]){c.save();c.rotate(a);path(c,x=>{x.moveTo(r,-2);x.lineTo(r*.63,1);x.lineTo(r*.48,-3);x.lineTo(r*.13,2);x.moveTo(r*.63,1);x.lineTo(r*.53,branch*8);},null,'#5c102d',3.6);path(c,x=>{x.moveTo(r,-2);x.lineTo(r*.63,1);x.lineTo(r*.48,-3);x.lineTo(r*.13,2);},null,'#ffb3c1',1);c.restore();}c.restore();}
     for(const f of e.effects){if(f.kind!=='arcana')continue;const age=f.age;
-      if(f.style==='seaBreak'&&age<.6){c.save();c.translate(f.x,f.y);c.globalAlpha=1-age/.6;for(let i=0;i<9;i++){const a=i*TAU/9,d=12+age*(75+i%3*18);ribbon(c,{x:Math.cos(a)*d,y:Math.sin(a)*d*.7},{x:Math.cos(a)*(d+13),y:Math.sin(a)*(d+13)*.7},4,'#bf2e4b',6);}c.restore();}
-      if(['seaHit','seaBlock'].includes(f.style)&&age<.5){const p=clamp(age/.5);c.save();c.translate(f.x,f.y);c.rotate(f.angle);c.globalAlpha=(1-p)**1.5;for(let i=0;i<7;i++){const a=(i-3)*.36,d=12+70*(1-Math.exp(-age*12));ribbon(c,{x:Math.cos(a)*9,y:Math.sin(a)*9},{x:Math.cos(a)*d,y:Math.sin(a)*d},i%2?2:5,f.style==='seaBlock'?'#a4cbd0':i%2?'#a82743':'#f38a8a',5);}c.restore();}
+      if(f.style==='seaBreak'&&age<.6){c.save();c.translate(f.x,f.y);const collapse=ease(age/.19);if(age<.19){const actor=e.balls.find(b=>b.id===f.actor)||e.balls.find(b=>b.type==='vampire'),rr=actor?.radius||20,skin=c.createLinearGradient(-rr,-rr,rr,rr);skin.addColorStop(0,'#f28baf');skin.addColorStop(.45,'#a42e58');skin.addColorStop(1,'#4b102c');c.globalAlpha=1-collapse;path(c,p=>p.ellipse(0,rr*collapse*.5,rr*(1+collapse*.65),rr*(1-collapse*.84),0,0,TAU),skin);c.save();c.scale(1+collapse*.65,Math.max(.05,1-collapse*.84));c.fillStyle='#2a0e22';c.font='bold '+(rr*1.2)+'px system-ui';c.textAlign='center';c.textBaseline='middle';c.fillText('♥',0,1);c.restore();}
+        for(const [a,delay,speed,width,bend]of [[.08,.01,116,10,10],[1.36,.03,84,7,-8],[2.55,.06,105,12,5],[3.62,.02,123,8,-7],[5.22,.05,99,9,8]]){const t=age-delay;if(t<=0)continue;const q=clamp(t/.52),d=12+speed*ease(q),from={x:Math.cos(a)*8,y:Math.sin(a)*4+6},to={x:Math.cos(a)*d,y:Math.sin(a)*d*.54+8};c.globalAlpha=(1-q)**1.4;ribbon(c,from,to,width*(1-q*.6),'#7e1732',bend);c.globalAlpha=(1-q)**1.7*.65;ribbon(c,{x:from.x+3,y:from.y},{x:to.x*.82,y:to.y*.82},width*.20*(1-q),'#e67180',bend*.7);}c.restore();}
+      if(['seaHit','seaBlock'].includes(f.style)&&age<.5){const q=clamp(age/.5),hit=f.style==='seaHit';c.save();c.translate(f.x,f.y);c.rotate(f.angle);c.globalAlpha=(1-q)**1.5;
+        const spread=1-Math.exp(-age*17),height=14+spread*35,color=hit?'#b72b49':'#84b2c4';path(c,p=>{p.moveTo(-7,-height);p.bezierCurveTo(12,-height*.65,28,3,11,height);p.quadraticCurveTo(17,4,-7,-height);},color);path(c,p=>{p.moveTo(-7,-height);p.bezierCurveTo(12,-height*.65,28,3,11,height);},null,hit?'#ffb2a9':'#e6faff',1.2);
+        if(hit)for(const [a,v,delay,size]of [[-.9,109,.0,3],[-.23,158,.015,2.4],[.51,127,.03,3.8],[1.14,87,.0,2.1],[-1.42,70,.05,2.6]]){const t=Math.max(0,age-delay),x=12+Math.cos(a)*v*t,y=Math.sin(a)*v*t+t*t*82;c.save();c.translate(x,y);c.rotate(a+t*2);c.globalAlpha=(1-q)**1.7;path(c,p=>p.ellipse(0,0,size*(1-q*.4),size*.65,0,0,TAU),color);c.restore();}c.restore();}
     }};
 })(typeof window!=='undefined'?window:globalThis);

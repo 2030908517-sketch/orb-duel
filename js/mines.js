@@ -1,6 +1,7 @@
 (function(root){
   'use strict';const G=root.OrbDuel;
   G.Mines={
+    canRemove(m,cause={}){return !m.bodyLinked||['end','reset','expiry','spent','ownerDeath','rewind'].includes(cause.reason);},
     freeLine(a,b,e){const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);return e.mode!=='2v2'||!d||G.Team.rayLimit(a.x,a.y,dx/d,dy/d,0,e.obstacles)>=d;},
     valid(m,e){return m.expires>=e.time&&!Number.isFinite(m.detonateAt);},
     enemyInBlast(m,owner,e){return e.balls.some(target=>G.World.enemy(owner,target,e)&&G.World.targetable(target,e)&&Math.hypot(target.x-m.x,target.y-m.y)<=target.radius+m.blastRadius);},
@@ -12,7 +13,9 @@
     // Fixed-step contact baselines prevent a newly created or teleported wire from sweeping.
     crossed(target,line,e,previous,record){const inside=G.World.distanceToRay({x:line.a.x,y:line.a.y,endX:line.b.x,endY:line.b.y},target)<=target.radius+2,old=previous?.targets[target.id],rewired=line.a.rewiredTick===e.tick||line.b.rewiredTick===e.tick||line.b.mechanism?.rewiredTick===e.tick;
       record.targets[target.id]={inside,blocked:!old||rewired?inside:old.blocked&&inside};if(!old||rewired||old.blocked||old.inside&&inside)return false;
-      for(let i=0;i<=8;i++){const u=i/8,mix=(a,b)=>a+(b-a)*u,ray={x:mix(previous.a.x,line.a.x),y:mix(previous.a.y,line.a.y),endX:mix(previous.b.x,line.b.x),endY:mix(previous.b.y,line.b.y)},p={x:mix(target.previousX??target.x,target.x),y:mix(target.previousY??target.y,target.y)};if(G.World.distanceToRay(ray,p)<=target.radius+2)return true;}return false;
+      const hauling=line.a.gatherMovedTick===e.tick||line.b.gatherMovedTick===e.tick;
+      if(hauling&&Math.hypot(target.x-(target.previousX??target.x),target.y-(target.previousY??target.y))<.001){record.targets[target.id].blocked=inside;return false;}
+      for(let i=0;i<=8;i++){const u=i/8,mix=(a,b)=>a+(b-a)*u,ray=hauling?{x:line.a.x,y:line.a.y,endX:line.b.x,endY:line.b.y}:{x:mix(previous.a.x,line.a.x),y:mix(previous.a.y,line.a.y),endX:mix(previous.b.x,line.b.x),endY:mix(previous.b.y,line.b.y)},p={x:mix(target.previousX??target.x,target.x),y:mix(target.previousY??target.y,target.y)};if(hauling&&i===0&&G.World.distanceToRay(ray,p)<=target.radius+2){record.targets[target.id].blocked=inside;return false;}if(G.World.distanceToRay(ray,p)<=target.radius+2)return true;}return false;
     },
     capture(m,target,owner,e){if(m.captureUntil||(m.captureBlockedUntil||0)>e.time||!this.valid(m,e))return;m.captureTarget=target.id;m.captureStarted=e.time;m.captureUntil=e.time+.3+Math.min(.1,(m.captureMisses||0)*.05);owner.role.netTriggers++;e.signal(owner,'捕获锁定 · 拉索收紧','mineCatch');e.effects.push({kind:'tactic',style:'catch',x:target.x,y:target.y,color:m.color,age:0,life:.18});},
     burst(m,owner,e){if(!e.traps.includes(m))return;let chain=e.trapChains.find(c=>c.id===m.chainId&&c.until>=e.time)||e.trapChains.find(c=>c.kind==='network'&&c.owner===owner.id&&c.until>=e.time);if(!chain){chain={id:e.nextWorldId++,kind:'network',owner:owner.id,until:e.time+.8,hitCounts:{},damage:{}};e.trapChains.push(chain);}chain.hitCounts??={};chain.damage??={};const secondary=Number.isFinite(m.detonateAt);e.traps=e.traps.filter(v=>v.id!==m.id);
@@ -29,7 +32,7 @@
         const target=e.balls.find(b=>b.id===m.captureTarget&&b.hp>0);if(!G.World.targetable(target,e)||G.Ghost.phased(target)||G.Awakening.dashing(target,e)||G.Physics.armored(target))continue;const dx=m.x-target.x,dy=m.y-target.y,d=Math.hypot(dx,dy)||1,force=2500/target.mass*G.Constants.dt;target.vx+=dx/d*force;target.vy+=dy/d*force;target.inertia=Math.max(target.inertia,.4);G.Physics.limit(target);
       }
       if(!e.balls.some(b=>b.type==='trapper'))return;const world=e.trapperWorld??={cages:[],lines:{}},old=world.lines,next={};
-      for(const link of this.links(e)){const key=link.a.owner+':'+link.a.id+':'+(link.dynamic?'body':link.b.id),record={a:{x:link.a.x,y:link.a.y},b:{x:link.b.x,y:link.b.y},targets:{}};next[key]=record;for(const target of e.balls){if(!G.World.enemy(link.a.owner,target,e)||!G.World.targetable(target,e))continue;const crossed=this.crossed(target,link,e,old[key],record);if(!crossed||G.Ghost.phased(target)||G.Awakening.dashing(target,e)||e.traps.some(m=>m.owner===link.a.owner&&m.captureTarget===target.id&&m.captureUntil>e.time))continue;
+      for(const link of this.links(e)){if(link.dynamic)link.a.bodyLinked=true;const key=link.a.owner+':'+link.a.id+':'+(link.dynamic?'body':link.b.id),record={a:{x:link.a.x,y:link.a.y},b:{x:link.b.x,y:link.b.y},targets:{}};next[key]=record;for(const target of e.balls){if(!G.World.enemy(link.a.owner,target,e)||!G.World.targetable(target,e))continue;const crossed=this.crossed(target,link,e,old[key],record);if(!crossed||G.Ghost.phased(target)||G.Awakening.dashing(target,e)||e.traps.some(m=>m.owner===link.a.owner&&m.captureTarget===target.id&&m.captureUntil>e.time))continue;
         const mine=link.dynamic?link.a:Math.hypot(target.x-link.a.x,target.y-link.a.y)<=Math.hypot(target.x-link.b.x,target.y-link.b.y)?link.a:link.b,owner=e.balls.find(b=>b.id===mine.owner);if(e.traps.includes(mine)&&!mine.captureUntil)this.capture(mine,target,owner,e);
       }}world.lines=next;
     }

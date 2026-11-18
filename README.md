@@ -1,4 +1,32 @@
+2026-11-19: Thunderstorm (`storm`) was removed from the live roster. Charge, Orbital and Wind are separate characters and remain playable. Older release notes and test results below describe historical versions.
+
+2026-11-03当前调整：[回血、护盾存续、近战麻痹与减速跟瞄](docs/balance/2026-11-03-adjustments-5.md)。本轮已做定点与相关回归，未重跑胜率；下方780局为本轮改前统计。
+
+2026-11-03最新复测：[第四轮调整后780局（平局不计胜率）](docs/balance/2026-11-03-arcana-10-post4/index.html)。13角色、78对阵、每组10局；胜率=胜÷（胜＋负）。旧报告保持原口径；本轮含同种子、统一新口径的改前比较。
+
+2026-11-03当前调整：[守护10秒、血契300、光刃耗电与回溯净化](docs/balance/2026-11-03-adjustments-4.md)。下方780局属于本轮调整前版本；本轮仅做定点与相关回归。
+
+2026-11-03：[最新10局复测](docs/balance/2026-11-03-arcana-10/index.html)，13角色、78对阵、780局，包含最新常规伤害与清算保护调整；完整比分、险胜/碾压与五档关系见报告。
+
+2026-11-03当前调整：[常规技能伤害与清算反伤保护](docs/balance/2026-11-03-adjustments-3.md)。本次调整后的780局复测见上方链接。
+
+2026-11-02：[第二轮390局复测已完成](docs/balance/2026-11-02-arcana-5-post2/index.html)，包含整批控制/血量调整及激光奥义22伤；旧轮次保留，浏览器复现边界见报告。
+
+2026-11-02第二轮：[控制与小幅强度调整](docs/balance/2026-11-02-adjustments-2.md)。定点检查：`node tests/verify-balance-pass2.cjs`。现有390局报告仍为本轮调整前数据。
+
+2026-11-02：[首轮强度调整](docs/balance/2026-11-02-adjustments.md)。同步常规机制与模式边界，标记陷阱免疫外部拆除。新增定点检查：`node tests/verify-balance-nov02.cjs`；原390局数据保留为调整前基线。
+
+## Time Orb — Fate Cut (2026-10-29)
+
+2026-10-31：新增[驭风球](docs/ai-design-knowledge/characters/wind.md)，经典/团队基础与觉醒、独立奥义及手动自动敌方已接入。专项检查：`node tests/verify-wind.cjs`；演出与验证记录见[wind-orb](docs/design/experiments/wind-orb.md)。
+
+
+Flying-clock cooldown delay is 0.5s. Time Orb can skip one second by running 240 real damage-immune steps; first ready at 6s, then a 12s cooldown starts after each skip. Automatic: imminent direct/body damage only; traps and DOT excluded. Manual: middle mouse during an incoming threat. [Implementation and verification](docs/design/experiments/time-delete.md). Run `node tests/verify-time-delete.cjs`.
+
 ## Demon: Soul Devour (2026-10-22)
+
+Shield update (2026-10-29): directional shield waves are available before and after awakening; body contacts no longer consume shield pressure or gain its damage bonus. Awakened shields break below half to release a travelling radial wave. Royal shield thresholds emit three once-reflecting waves, with independent outbound/return damage and full stasis; the fortress keeps shrinking after its initial closure. Existing royal shield priority and HP remain. [Mechanics, presentation and validation](docs/design/experiments/shield-resonance.md). Focused check: `node tests/verify-shield-resonance.cjs`.
+
 
 The Demon extracts a translucent host-coloured soul orb. Branded souls bind the host within a maximum-75 tether; reaching its limit causes tangential circling rather than repeated reflection. Soul Loss means complete actor/CD stasis, never damage reduction. Once Arcana is ready, the next normal gate cycle guarantees shield-piercing extraction followed by a body-piercing 3s stasis, then hellfire assimilation; the world keeps running. Enemies prefer the real Demon over its servants. A servant's death causes its former host 3s stasis; servant HP, basic skills and rebirth remain unchanged. See [gate-04](docs/ai-design-knowledge/DEMON_GATE04_UPDATE.md). Run `node tests/verify-demon-gate04.cjs`; prior tests/results are historical.
 
@@ -318,7 +346,6 @@ The Ghost orb periodically phases through bodies and physical attacks while immu
 | Normal | Builds fist momentum from health damage and partial shield contact; three charges arm the next effective collision as a heavy strike. A collision drought builds a capped damage bonus; a close near miss can trigger a short turn-and-chase. | Heals up to 8 HP, gains permanent collision damage, and heavy strikes add knockback, a brief impact stop, and a short directional fist wave. |
 | Vampire | Restores 38% of actual attack damage, leaves a five-second blood mark, and stores blood energy from effective contacts. | Waits for range before spending blood energy on a seven-pulse tether; a complete channel consumes the mark for a finisher, while distance hysteresis and a short grace period prevent edge flicker. An interrupted chain refunds up to 1.2 seconds; a captured mark survives expiration during a complete channel. |
 | Accelerator | Builds cruise speed over time, +5 per wall and +18 per enemy, capped at 365; strong impacts transfer momentum and cause a follow-up wall hit. | Invulnerable, decaying ricochet dash; ends on enemy contact, then cruise falls to 82%, capped at 285, before rebuilding; an empty natural dash returns up to 10 lost cruise speed, with a 2-second refund of the next dash cooldown. |
-| Thunderstorm | Wall charge strengthens predictive lightning; actual contact and bolt hits build conductive marks with a finite third-hit discharge. | Three separately warned relay strikes, finite tracking and final locks. |
 | Charge | Wall charge, traveling perimeter currents, conductive contact marks and fixed grounding discharge. | The body turns into finite wall-following lightning, arcs to nearby enemies, then reforms inward. |
 | Stellar | Three persistent, energy-building satellites launch actual bouncing comets, resonate on distinct hits, then return. | Recall, spiral collapse, compressed core, expanding supernova ring and three rebirth comets. |
 | Demon | Contact brands, telegraphed extending claws and 3.2-second physical chains; a separate follow-up executes once while preserving the original restraint deadline. | Opposing gates; two captures tighten for one second and execute once, with shared cast damage and control limits. |
@@ -476,3 +503,8 @@ Targeted checks: `node tests/verify-laser-jet.cjs`, `node tests/verify-laser-bla
 ### Boomerang hunt / twin-blade cooperation
 
 The ordinary Boomerang kit now uses single-blade return pursuit before awakening, crossing twin returns at close range after awakening, and a real blade rendezvous launching one non-returning blade at long range. Actual catches grant an 8-second single/twin weapon slash rather than a body-contact multiplier. Tuning is centralized in `js/boomerang-hunt.js`; see [mechanics and review](docs/design/experiments/boomerang-hunt.md). All three production entries share this ordinary kit; Arcana dance remains separate. Focused check: `node tests/verify-boomerang-hunt.cjs`.
+
+
+### Wind awakening / ultimate update — 2026-11-01
+
+Wind now uses a roaming capture/orbit/tangential-fling cyclone and a moving **Confluence Tide** storm front. Existing fronts, main wind and lanes remain unchanged. Classic/team receive the awakening; standalone Arcana and automatic manual enemies receive the new ultimate. No additional manually playable role. Current rules and parameters: [Wind](docs/ai-design-knowledge/characters/wind.md), [review record](docs/design/experiments/wind-tide.md). Focused checks: `node tests/verify-wind.cjs`, `node tests/verify-wind-tempest.cjs`, `node tests/verify-audio-policy.cjs`. Historical tornado records do not validate the new implementation.

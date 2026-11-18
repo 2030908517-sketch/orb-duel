@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),files=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','cosmic','charge','stellar','adaptive','arcana','arcana-vampire','presentation','engine'];
+const root=path.resolve(__dirname,'..'),files=['config','physics','skills','world','aim','flyers','mines','pursuit','characters','roles','ranger','awakening','temporal','magnet','ghost','holy','demon','charge','stellar','adaptive','arcana','arcana-vampire','presentation','engine'];
 for(const f of files)require(path.join(root,'js',f+'.js'));
 const G=globalThis.OrbDuel,types=['normal','accelerator','vampire'];let checks=0;const ok=(v,m)=>{checks++;assert.ok(v,m);},eq=(a,b,m)=>{checks++;assert.deepEqual(a,b,m);};
 function setup(type='normal',scene='hit'){

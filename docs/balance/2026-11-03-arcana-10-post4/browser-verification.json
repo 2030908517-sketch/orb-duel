@@ -1,0 +1,74 @@
+{
+  "runtime": {
+    "node": "v24.16.0",
+    "v8": "13.6.233.17-node.49",
+    "browser": "156.0.4314.58"
+  },
+  "report": {
+    "matches": 780,
+    "filter": 10,
+    "relations": 156,
+    "counts": {
+      "明显劣势": 11,
+      "较大优势": 30,
+      "均势": 74,
+      "较大劣势": 30,
+      "明显优势": 11
+    }
+  },
+  "replays": [
+    {
+      "matchId": 206,
+      "node": {
+        "winner": "vampire",
+        "label": "碾压",
+        "time": 63.175,
+        "hp": [
+          37.3715923159455,
+          0
+        ]
+      },
+      "browser": {
+        "state": "ended",
+        "winner": "vampire",
+        "label": "碾压",
+        "time": 63.175,
+        "hp": [
+          37.3715923159455,
+          0
+        ],
+        "finite": true
+      },
+      "exact": true,
+      "winnerMatches": true,
+      "labelMatches": true
+    },
+    {
+      "matchId": 736,
+      "node": {
+        "winner": "time",
+        "label": "碾压",
+        "time": 73.15416666666667,
+        "hp": [
+          37.542065564787066,
+          0
+        ]
+      },
+      "browser": {
+        "state": "ended",
+        "winner": "time",
+        "label": "碾压",
+        "time": 73.15416666666667,
+        "hp": [
+          37.542065564787066,
+          0
+        ],
+        "finite": true
+      },
+      "exact": true,
+      "winnerMatches": true,
+      "labelMatches": true
+    }
+  ],
+  "errors": []
+}
